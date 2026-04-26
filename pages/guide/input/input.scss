@@ -1,0 +1,180 @@
+.InputGuidePage {
+  padding: $spacing-lg;
+  max-width: 100%;
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $text-strong;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    background-color: $bg-accent-sky-blue;
+    color: $color-primary;
+  }
+
+  &__desc {
+    font-size: $font-size-body3;
+    color: $text-secondary;
+    line-height: $line-height-base;
+  }
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__sectionTitle {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-bold;
+    color: $text-strong;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $border-default;
+  }
+
+  &__group {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__groupTitle {
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    width: 100%;
+  }
+
+  &__itemLabel {
+    font-size: $font-size-caption1;
+    color: $text-tertiary;
+    font-weight: $font-weight-medium;
+  }
+
+  &__code {
+    background-color: $bg-tertiary;
+    border: 1px solid $border-default;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    font-size: 1.1rem;
+    color: $text-secondary;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: $line-height-base;
+  }
+
+  &__note {
+    margin-top: $spacing-sm;
+    font-size: $font-size-caption1;
+    color: $text-tertiary;
+    line-height: $line-height-base;
+  }
+
+  &__tableTitle {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-bold;
+    color: $text-strong;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__propsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-body3;
+
+    th, td {
+      border: 1px solid $border-default;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: $bg-secondary;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
+      white-space: nowrap;
+    }
+
+    td {
+      color: $text-strong;
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+      white-space: nowrap;
+    }
+  }
+
+  &__tooltipBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: $text-tertiary;
+    padding: 0;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px $border-focus;
+      border-radius: $radius-sm;
+    }
+  }
+
+  &__delegationNote {
+    margin-top: $spacing-lg;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-left: 3px solid $color-primary;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-secondary;
+    line-height: $line-height-base;
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+}

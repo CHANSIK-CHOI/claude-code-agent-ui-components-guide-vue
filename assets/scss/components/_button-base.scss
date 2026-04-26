@@ -1,0 +1,243 @@
+@use '../abstracts/variables' as *;
+
+// button-base($b) — Button·ButtonLink 공유 mixin
+// 호출 예: @include button-base('ButtonRoot')
+@mixin button-base($b) {
+  .#{$b} {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+    font-family: $font-family-base;
+    font-weight: $font-weight-medium;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+    transition:
+      background-color $duration-fast ease,
+      border-color $duration-fast ease,
+      color $duration-fast ease,
+      opacity $duration-fast ease,
+      box-shadow $duration-fast ease;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px $border-focus;
+    }
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.4em;
+      height: 1.4em;
+    }
+
+    &__label {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // ── Size ──────────────────────────────────────
+  .#{$b}--lg {
+    height: 5.6rem;
+    padding: 0 $spacing-lg;
+    font-size: $font-size-body1;
+  }
+
+  .#{$b}--md {
+    height: 4.4rem;
+    padding: 0 2rem;
+    font-size: $font-size-body3;
+  }
+
+  .#{$b}--sm {
+    height: 3.2rem;
+    padding: 0 1.4rem;
+    font-size: $font-size-caption1;
+  }
+
+  // ── Round ─────────────────────────────────────
+  .#{$b}--round {
+    border-radius: $radius-full;
+  }
+
+  // ── Shape: solid ──────────────────────────────
+  .#{$b}--solid.#{$b}--primary {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    color: $text-on-primary;
+
+    &:hover:not(.#{$b}--disabled) {
+      background-color: $color-primary-hover;
+      border-color: $color-primary-hover;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      background-color: $color-primary-hover;
+      border-color: $color-primary-hover;
+      filter: brightness(0.92);
+    }
+  }
+
+  .#{$b}--solid.#{$b}--secondary {
+    background-color: $bg-secondary;
+    border-color: $bg-secondary;
+    color: $text-default;
+
+    &:hover:not(.#{$b}--disabled) {
+      background-color: $bg-tertiary;
+      border-color: $bg-tertiary;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      background-color: $bg-tertiary;
+      filter: brightness(0.95);
+    }
+  }
+
+  .#{$b}--solid.#{$b}--black {
+    background-color: $text-strong;
+    border-color: $text-strong;
+    color: $text-on-primary;
+
+    &:hover:not(.#{$b}--disabled) {
+      opacity: 0.84;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      opacity: 0.72;
+    }
+  }
+
+  // ── Shape: line ───────────────────────────────
+  .#{$b}--line.#{$b}--primary {
+    background-color: transparent;
+    border-color: $color-primary;
+    color: $color-primary;
+
+    &:hover:not(.#{$b}--disabled) {
+      background-color: rgba($color-primary, 0.08);
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      background-color: rgba($color-primary, 0.16);
+    }
+  }
+
+  .#{$b}--line.#{$b}--secondary {
+    background-color: transparent;
+    border-color: $border-default;
+    color: $text-default;
+
+    &:hover:not(.#{$b}--disabled) {
+      background-color: $bg-secondary;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      background-color: $bg-tertiary;
+    }
+  }
+
+  .#{$b}--line.#{$b}--black {
+    background-color: transparent;
+    border-color: $text-strong;
+    color: $text-strong;
+
+    &:hover:not(.#{$b}--disabled) {
+      background-color: $bg-secondary;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      background-color: $bg-tertiary;
+    }
+  }
+
+  // ── Shape: text (예외 레이아웃) ────────────────
+  // text는 인라인 보조 액션으로 콘텐츠 너비만큼만 차지
+  .#{$b}--text {
+    display: inline-flex;
+    width: fit-content;
+    height: 3rem;
+    background-color: transparent;
+    border-color: transparent;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    .#{$b}__label {
+      display: block;
+      text-decoration: underline;
+    }
+  }
+
+  .#{$b}--text.#{$b}--primary {
+    color: $color-primary;
+
+    &:hover:not(.#{$b}--disabled) {
+      color: $color-primary-hover;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      opacity: 0.72;
+    }
+  }
+
+  .#{$b}--text.#{$b}--secondary {
+    color: $text-secondary;
+
+    &:hover:not(.#{$b}--disabled) {
+      color: $text-default;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      opacity: 0.72;
+    }
+  }
+
+  .#{$b}--text.#{$b}--black {
+    color: $text-strong;
+
+    &:hover:not(.#{$b}--disabled) {
+      opacity: 0.72;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      opacity: 0.56;
+    }
+  }
+
+  // ── Disabled (shape별 flat selectors — 파일 최하단)
+  // 같은 specificity(0,2,0)에서 소스 순서로 override → !important 미사용
+  .#{$b}--solid.#{$b}--disabled {
+    background-color: $bg-disabled;
+    border-color: $bg-disabled;
+    color: $text-disabled;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: none;
+    opacity: 1;
+  }
+
+  .#{$b}--line.#{$b}--disabled {
+    background-color: transparent;
+    border-color: $border-disabled;
+    color: $text-disabled;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .#{$b}--text.#{$b}--disabled {
+    background-color: transparent;
+    border-color: transparent;
+    color: $text-disabled;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}

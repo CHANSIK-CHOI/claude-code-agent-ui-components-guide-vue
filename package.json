@@ -1,0 +1,24 @@
+{
+  "name": "vue-ui-components-guide",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxi typecheck"
+  },
+  "dependencies": {
+    "@vuepic/vue-datepicker": "^11",
+    "nuxt": "3.10.3",
+    "radix-vue": "latest",
+    "vue": "3.4.19"
+  },
+  "devDependencies": {
+    "sass": "latest",
+    "typescript": "latest",
+    "vue-tsc": "latest"
+  }
+}

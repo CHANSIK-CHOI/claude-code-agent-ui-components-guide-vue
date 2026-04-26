@@ -1,0 +1,101 @@
+{
+  "color": {
+    "primary": {
+      "main": { "value": "#0CB5E2", "type": "color" },
+      "dark": { "value": "#00ADDB", "type": "color" },
+      "light": { "value": "#8AD9EE", "type": "color" }
+    },
+    "gray": {
+      "100": { "value": "#F6F7F9", "type": "color" },
+      "200": { "value": "#F5F5F5", "type": "color" },
+      "300": { "value": "#C0C0C0", "type": "color" },
+      "400": { "value": "#838B92", "type": "color" },
+      "500": { "value": "#777777", "type": "color" },
+      "600": { "value": "#666666", "type": "color" },
+      "700": { "value": "#535E66", "type": "color" },
+      "800": { "value": "#333333", "type": "color" },
+      "900": { "value": "#111111", "type": "color" }
+    },
+    "line": {
+      "100": { "value": "#C4CDD7", "type": "color" },
+      "200": { "value": "#DDDDDD", "type": "color" },
+      "300": { "value": "#E9EBEB", "type": "color" }
+    },
+    "accent": {
+      "red": { "value": "#FF5146", "type": "color" },
+      "yellow": { "value": "#FFCC33", "type": "color" },
+      "green": { "value": "#34C691", "type": "color" },
+      "light-gray": { "value": "#BECCD2", "type": "color" },
+      "purple": { "value": "#F1EEFF", "type": "color" },
+      "sky-blue": { "value": "#DFF6FF", "type": "color" },
+      "light-blue": { "value": "#E9F9FF", "type": "color" },
+      "orange": { "value": "#FFEFE0", "type": "color" },
+      "light-pink": { "value": "#F2CFCD", "type": "color" },
+      "beige": { "value": "#F8E2DF", "type": "color" },
+      "pink": { "value": "#FFF0F0", "type": "color" }
+    }
+  },
+  "typography": {
+    "font-family": {
+      "base": { "value": "Pretendard", "type": "fontFamilies" }
+    },
+    "heading": {
+      "h1": {
+        "font-size": { "value": "26px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      },
+      "h2": {
+        "font-size": { "value": "22px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      },
+      "h3": {
+        "font-size": { "value": "20px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      },
+      "h4": {
+        "font-size": { "value": "18px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      },
+      "h5": {
+        "font-size": { "value": "16px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      }
+    },
+    "body": {
+      "body1": {
+        "font-size": { "value": "16px", "type": "dimension" },
+        "font-weight": { "value": "400", "type": "fontWeight" }
+      },
+      "body2": {
+        "font-size": { "value": "15px", "type": "dimension" },
+        "font-weight": { "value": "500", "type": "fontWeight" }
+      },
+      "body3": {
+        "font-size": { "value": "14px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      },
+      "body4": {
+        "font-size": { "value": "14px", "type": "dimension" },
+        "font-weight": { "value": "400", "type": "fontWeight" }
+      },
+      "body5": {
+        "font-size": { "value": "13px", "type": "dimension" },
+        "font-weight": { "value": "500", "type": "fontWeight" }
+      }
+    },
+    "caption": {
+      "caption1": {
+        "font-size": { "value": "12px", "type": "dimension" },
+        "font-weight": { "value": "700", "type": "fontWeight" }
+      },
+      "caption2": {
+        "font-size": { "value": "12px", "type": "dimension" },
+        "font-weight": { "value": "400", "type": "fontWeight" }
+      },
+      "caption3": {
+        "font-size": { "value": "11px", "type": "dimension" },
+        "font-weight": { "value": "400", "type": "fontWeight" }
+      }
+    }
+  }
+}
