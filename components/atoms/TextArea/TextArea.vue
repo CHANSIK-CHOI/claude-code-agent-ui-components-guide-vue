@@ -103,7 +103,7 @@ $b: "TextAreaRoot";
     outline: none;
     appearance: none;
     box-sizing: border-box;
-    overscroll-behavior: contain;
+    // overscroll-behavior: contain;
 
     &:focus {
       border-color: $border-input-focus;
