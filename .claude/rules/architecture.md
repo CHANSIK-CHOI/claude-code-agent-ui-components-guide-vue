@@ -126,6 +126,27 @@ types/
 - 2개 이상 컴포넌트가 공유하는 타입은 `components/types.ts`로 이동
 - API 응답·도메인 타입은 `types/`에 위치 (컴포넌트 타입과 분리)
 
+**컴포넌트 전용 타입의 공개(public) export 규칙**
+
+`.vue` 안에 정의된 타입이라도 외부(pages, layouts 등)에서 사용해야 한다면 카테고리 `index.ts`에서 re-export한다. `components/types.ts`로 옮기지 않는다 — 공유 타입(2개 이상 컴포넌트 사용)과 섞이지 않도록 역할을 분리한다.
+
+```ts
+// organisms/index.ts
+export { default as Tab } from './Tab.vue'
+export type { TabItem, TabVariant, ViewType } from './Tab.vue'  // ✅ .vue에서 직접 re-export
+```
+
+```ts
+// 사용 측 (pages, layouts)
+import type { TabItem } from '~/components/organisms'  // ✅ 카테고리 경유
+```
+
+| 타입 종류 | 정의 위치 | export 방법 |
+|-----------|----------|------------|
+| 단일 컴포넌트 전용, 외부 미사용 | `.vue` 인라인 | 없음 |
+| 단일 컴포넌트 전용, 외부 사용 | `.vue` 인라인 | 카테고리 `index.ts`에서 re-export |
+| 2개 이상 컴포넌트 공유 | `components/types.ts` | `types.ts`에서 직접 import |
+
 ### Composables 위치
 
 | 종류 | 위치 | import 방식 |
