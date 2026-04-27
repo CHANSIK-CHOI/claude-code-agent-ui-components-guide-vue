@@ -191,12 +191,12 @@ $b: "SelectRoot";
     width: 100%;
     height: 4.6rem; // 46px — Figma 명세 고정 높이
     padding: 0 $spacing-input-x;
-    border: 1px solid $border-default;
+    border: 1px solid $line-200;
     border-radius: $radius-md;
     background-color: $bg-primary;
     font-size: $font-size-body1;
     font-weight: $font-weight-regular;
-    color: $text-strong;
+    color: $text-900;
     cursor: pointer;
     outline: none;
 
@@ -214,7 +214,7 @@ $b: "SelectRoot";
     width: 1.6rem;
     height: 1.6rem;
     flex-shrink: 0;
-    color: $text-strong;
+    color: $text-900;
     transform: rotate(180deg); // 기본(닫힌 상태) → 아래(↓) 방향
     transition: transform $duration-fast ease;
   }
@@ -237,17 +237,17 @@ $b: "SelectRoot";
 // Trigger disabled modifier
 .#{$b}__trigger--disabled {
   background-color: $bg-disabled;
-  color: $text-disabled;
+  color: $text-300;
   cursor: not-allowed;
 
   .#{$b}__icon {
-    color: $text-disabled;
+    color: $text-300;
   }
 }
 
 // SelectValue placeholder 상태 — Radix Vue가 data-placeholder 속성 추가
 .#{$b}__value[data-placeholder] {
-  color: $text-secondary;
+  color: $text-600;
 }
 
 // ── SelectPortal 내부 요소 (:deep) ──────────────────────────────────
@@ -258,7 +258,7 @@ $b: "SelectRoot";
 // $z-sticky(200): $z-dropdown(100)으로는 가이드 페이지 stacking context보다 낮을 수 있음
 :deep(.#{$b}__content) {
   background-color: $bg-primary;
-  border: 1px solid $border-default;
+  border: 1px solid $line-200;
   border-radius: $radius-md;
   overflow: hidden;
   width: var(--radix-select-trigger-width);
@@ -277,25 +277,25 @@ $b: "SelectRoot";
   padding: 0 $spacing-input-x;
   font-size: $font-size-body1;
   font-weight: $font-weight-regular;
-  color: $text-secondary;
+  color: $text-600;
   cursor: pointer;
   outline: none;
   user-select: none;
 
   &[data-highlighted] {
     background-color: $bg-secondary;
-    color: $text-strong;
+    color: $text-900;
     outline: none;
   }
 
   &[data-state="checked"] {
     background-color: $bg-disabled;
-    color: $text-strong;
+    color: $text-900;
   }
 
   &[data-disabled] {
     background-color: $bg-disabled;
-    color: $text-disabled;
+    color: $text-300;
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -310,7 +310,7 @@ $b: "SelectRoot";
   align-items: center;
   justify-content: center;
   height: 2.4rem;
-  color: $text-secondary;
+  color: $text-600;
   cursor: default;
 }
 </style>

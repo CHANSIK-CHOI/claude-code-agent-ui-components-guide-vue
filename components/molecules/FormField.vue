@@ -82,7 +82,7 @@ $b: 'FormFieldRoot';
     font-size: $font-size-sm;
     font-weight: $font-weight-regular;
     line-height: $line-height-snug;
-    color: $text-label;
+    color: $text-500;
   }
 
   &__required {
@@ -99,7 +99,7 @@ $b: 'FormFieldRoot';
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     line-height: $line-height-snug;
-    color: $text-helper;
+    color: $text-500;
   }
 }
 

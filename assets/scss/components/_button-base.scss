@@ -73,7 +73,7 @@
   .#{$b}--solid.#{$b}--primary {
     background-color: $color-primary;
     border-color: $color-primary;
-    color: $text-on-primary;
+    color: $text-white;
 
     &:hover:not(.#{$b}--disabled) {
       background-color: $color-primary-hover;
@@ -90,7 +90,7 @@
   .#{$b}--solid.#{$b}--secondary {
     background-color: $bg-secondary;
     border-color: $bg-secondary;
-    color: $text-default;
+    color: $text-800;
 
     &:hover:not(.#{$b}--disabled) {
       background-color: $bg-tertiary;
@@ -104,9 +104,9 @@
   }
 
   .#{$b}--solid.#{$b}--black {
-    background-color: $text-strong;
-    border-color: $text-strong;
-    color: $text-on-primary;
+    background-color: $text-900;
+    border-color: $text-900;
+    color: $text-white;
 
     &:hover:not(.#{$b}--disabled) {
       opacity: 0.84;
@@ -134,8 +134,8 @@
 
   .#{$b}--line.#{$b}--secondary {
     background-color: transparent;
-    border-color: $border-default;
-    color: $text-default;
+    border-color: $line-200;
+    color: $text-800;
 
     &:hover:not(.#{$b}--disabled) {
       background-color: $bg-secondary;
@@ -148,8 +148,8 @@
 
   .#{$b}--line.#{$b}--black {
     background-color: transparent;
-    border-color: $text-strong;
-    color: $text-strong;
+    border-color: $text-900;
+    color: $text-900;
 
     &:hover:not(.#{$b}--disabled) {
       background-color: $bg-secondary;
@@ -190,10 +190,10 @@
   }
 
   .#{$b}--text.#{$b}--secondary {
-    color: $text-secondary;
+    color: $text-600;
 
     &:hover:not(.#{$b}--disabled) {
-      color: $text-default;
+      color: $text-800;
     }
 
     &:active:not(.#{$b}--disabled) {
@@ -202,7 +202,7 @@
   }
 
   .#{$b}--text.#{$b}--black {
-    color: $text-strong;
+    color: $text-900;
 
     &:hover:not(.#{$b}--disabled) {
       opacity: 0.72;
@@ -218,7 +218,7 @@
   .#{$b}--solid.#{$b}--disabled {
     background-color: $bg-disabled;
     border-color: $bg-disabled;
-    color: $text-disabled;
+    color: $text-300;
     cursor: not-allowed;
     pointer-events: none;
     filter: none;
@@ -228,7 +228,7 @@
   .#{$b}--line.#{$b}--disabled {
     background-color: transparent;
     border-color: $border-disabled;
-    color: $text-disabled;
+    color: $text-300;
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -236,7 +236,7 @@
   .#{$b}--text.#{$b}--disabled {
     background-color: transparent;
     border-color: transparent;
-    color: $text-disabled;
+    color: $text-300;
     cursor: not-allowed;
     pointer-events: none;
   }

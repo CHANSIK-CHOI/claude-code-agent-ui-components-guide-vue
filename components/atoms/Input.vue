@@ -63,13 +63,13 @@ $b: 'InputRoot';
   &__field {
     height: 4.6rem; // 46px — Figma 명세 고정 높이
     padding: 0 $spacing-input-x;
-    border: 1px solid $border-default;
+    border: 1px solid $line-200;
     border-radius: $radius-md;
     background-color: $bg-primary;
     font-size: $font-size-body1;
     font-weight: $font-weight-regular;
     line-height: $line-height-snug;
-    color: $text-strong;
+    color: $text-900;
     outline: none;
     appearance: none;
     width: 100%;
@@ -85,7 +85,7 @@ $b: 'InputRoot';
 
     &:disabled {
       background-color: $bg-disabled;
-      color: $text-disabled;
+      color: $text-300;
       cursor: not-allowed;
     }
   }
@@ -93,10 +93,10 @@ $b: 'InputRoot';
 
 // ::placeholder는 Vue scoped 호환을 위해 flat 선언 (중첩 시 일부 환경에서 미적용)
 .#{$b}__field::placeholder {
-  color: $text-secondary;
+  color: $text-600;
 }
 
 .#{$b}__field:disabled::placeholder {
-  color: $text-disabled;
+  color: $text-300;
 }
 </style>

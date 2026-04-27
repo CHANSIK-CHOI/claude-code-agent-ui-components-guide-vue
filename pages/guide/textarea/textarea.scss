@@ -9,7 +9,7 @@
   &__title {
     font-size: $font-size-h2;
     font-weight: $font-weight-bold;
-    color: $text-strong;
+    color: $text-900;
     margin-bottom: $spacing-sm;
   }
 
@@ -33,7 +33,7 @@
 
   &__desc {
     font-size: $font-size-body3;
-    color: $text-secondary;
+    color: $text-600;
     line-height: $line-height-base;
   }
 
@@ -44,10 +44,10 @@
   &__sectionTitle {
     font-size: $font-size-h4;
     font-weight: $font-weight-bold;
-    color: $text-strong;
+    color: $text-900;
     margin-bottom: $spacing-md;
     padding-bottom: $spacing-sm;
-    border-bottom: 1px solid $border-default;
+    border-bottom: 1px solid $line-200;
   }
 
   &__group {
@@ -57,7 +57,7 @@
   &__groupTitle {
     font-size: $font-size-body3;
     font-weight: $font-weight-medium;
-    color: $text-secondary;
+    color: $text-600;
     margin-bottom: $spacing-sm;
   }
 
@@ -78,17 +78,17 @@
 
   &__itemLabel {
     font-size: $font-size-caption1;
-    color: $text-tertiary;
+    color: $text-400;
     font-weight: $font-weight-medium;
   }
 
   &__code {
     background-color: $bg-tertiary;
-    border: 1px solid $border-default;
+    border: 1px solid $line-200;
     border-radius: $radius-sm;
     padding: $spacing-sm $spacing-md;
     font-size: 1.1rem;
-    color: $text-secondary;
+    color: $text-600;
     overflow-x: auto;
     white-space: pre;
     line-height: $line-height-base;
@@ -97,14 +97,14 @@
   &__note {
     margin-top: $spacing-sm;
     font-size: $font-size-caption1;
-    color: $text-tertiary;
+    color: $text-400;
     line-height: $line-height-base;
   }
 
   &__tableTitle {
     font-size: $font-size-body2;
     font-weight: $font-weight-bold;
-    color: $text-strong;
+    color: $text-900;
     margin-top: $spacing-lg;
     margin-bottom: $spacing-sm;
   }
@@ -115,7 +115,7 @@
     font-size: $font-size-body3;
 
     th, td {
-      border: 1px solid $border-default;
+      border: 1px solid $line-200;
       padding: $spacing-sm $spacing-md;
       text-align: left;
       vertical-align: top;
@@ -124,12 +124,12 @@
     th {
       background-color: $bg-secondary;
       font-weight: $font-weight-medium;
-      color: $text-secondary;
+      color: $text-600;
       white-space: nowrap;
     }
 
     td {
-      color: $text-strong;
+      color: $text-900;
     }
 
     code {
@@ -148,7 +148,7 @@
     border-left: 3px solid $color-primary;
     border-radius: $radius-sm;
     font-size: $font-size-body3;
-    color: $text-secondary;
+    color: $text-600;
     line-height: $line-height-base;
 
     code {

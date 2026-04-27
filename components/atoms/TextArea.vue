@@ -93,13 +93,13 @@ $b: "TextAreaRoot";
     width: 100%;
     min-height: 19.6rem; // 120px
     padding: $spacing-input-x;
-    border: 1px solid $border-default;
+    border: 1px solid $line-200;
     border-radius: $radius-md;
     background-color: $bg-primary;
     font-size: $font-size-body1;
     font-weight: $font-weight-regular;
     line-height: $line-height-snug;
-    color: $text-strong;
+    color: $text-900;
     outline: none;
     appearance: none;
     box-sizing: border-box;
@@ -116,7 +116,7 @@ $b: "TextAreaRoot";
 
     &:disabled {
       background-color: $bg-disabled;
-      color: $text-disabled;
+      color: $text-300;
       cursor: not-allowed;
     }
 
@@ -126,7 +126,7 @@ $b: "TextAreaRoot";
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: $border-strong;
+      background-color: $line-100;
       border-radius: $radius-sm;
       border: 2px solid transparent;
       background-clip: padding-box;
@@ -148,18 +148,18 @@ $b: "TextAreaRoot";
   &__counter {
     font-size: $font-size-caption2;
     font-weight: $font-weight-regular;
-    color: $text-tertiary;
+    color: $text-400;
     line-height: $line-height-snug;
   }
 }
 
 // ::placeholder — Vue scoped 호환을 위해 flat 선언 (중첩 시 일부 환경에서 미적용)
 .#{$b}__field::placeholder {
-  color: $text-secondary;
+  color: $text-600;
 }
 
 .#{$b}__field:disabled::placeholder {
-  color: $text-disabled;
+  color: $text-300;
 }
 
 // modifier — block 밖에 flat 선언
@@ -173,7 +173,7 @@ $b: "TextAreaRoot";
 .#{$b}--disabled {
   .#{$b}__field {
     background-color: $bg-disabled;
-    color: $text-disabled;
+    color: $text-300;
     cursor: not-allowed;
   }
 }
