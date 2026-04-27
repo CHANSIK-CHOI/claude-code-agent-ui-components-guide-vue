@@ -24,7 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import type { ButtonShape, ButtonColor, ButtonSize } from '~/types/components'
+import type { ButtonShape, ButtonColor, ButtonSize } from '~/components/types'
+import { useButtonVariant } from './useButtonVariant'
 
 type ButtonType = 'button' | 'submit'
 

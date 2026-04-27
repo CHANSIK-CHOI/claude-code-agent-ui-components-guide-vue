@@ -1,6 +1,5 @@
-// atoms barrel export
-export * from './Button'
-export * from './ButtonLink'
-export * from './Input'
-export * from './Select'
-export * from './TextArea'
+export { default as Button } from './Button.vue'
+export { default as ButtonLink } from './ButtonLink.vue'
+export { default as Input } from './Input.vue'
+export { default as Select } from './Select.vue'
+export { default as TextArea } from './TextArea.vue'

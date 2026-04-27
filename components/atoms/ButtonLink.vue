@@ -23,7 +23,8 @@
 
 <script setup lang="ts">
 import { computed, useAttrs, resolveComponent } from 'vue'
-import type { ButtonShape, ButtonColor, ButtonSize } from '~/types/components'
+import type { ButtonShape, ButtonColor, ButtonSize } from '~/components/types'
+import { useButtonVariant } from './useButtonVariant'
 
 defineOptions({ inheritAttrs: false })
 

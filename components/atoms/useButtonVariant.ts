@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import type { ButtonShape, ButtonColor, ButtonSize } from '~/types/components'
+import type { ButtonShape, ButtonColor, ButtonSize } from '~/components/types'
 
 interface ButtonVariantProps {
   shape: ButtonShape

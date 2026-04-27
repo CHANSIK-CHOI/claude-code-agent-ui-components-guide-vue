@@ -1,3 +1,1 @@
-// molecules barrel export
-export * from './FormField'
-// export * from './ButtonGroup'
+export { default as FormField } from './FormField.vue'

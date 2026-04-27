@@ -1,3 +1,1 @@
-// organisms barrel export
-export * from './GuideHeader'
-export * from './GuideSidebar'
+export { default as ProductHead } from './ProductHead.vue'
