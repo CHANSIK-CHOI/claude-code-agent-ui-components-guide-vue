@@ -88,6 +88,20 @@
   }
 
   .#{$b}--solid.#{$b}--secondary {
+    background-color: $bg-accent-sky-blue;
+    border-color: $bg-accent-sky-blue;
+    color: $color-primary-hover;
+
+    &:hover:not(.#{$b}--disabled) {
+      filter: brightness(0.96);
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      filter: brightness(0.92);
+    }
+  }
+
+  .#{$b}--solid.#{$b}--gray {
     background-color: $bg-secondary;
     border-color: $bg-secondary;
     color: $text-800;
@@ -133,6 +147,21 @@
   }
 
   .#{$b}--line.#{$b}--secondary {
+    background-color: transparent;
+    border-color: $color-primary-hover;
+    color: $color-primary-hover;
+
+    &:hover:not(.#{$b}--disabled) {
+      background-color: $bg-accent-sky-blue;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      background-color: $bg-accent-sky-blue;
+      filter: brightness(0.96);
+    }
+  }
+
+  .#{$b}--line.#{$b}--gray {
     background-color: transparent;
     border-color: $line-200;
     color: $text-800;
@@ -190,6 +219,18 @@
   }
 
   .#{$b}--text.#{$b}--secondary {
+    color: $color-primary;
+
+    &:hover:not(.#{$b}--disabled) {
+      color: $color-primary-hover;
+    }
+
+    &:active:not(.#{$b}--disabled) {
+      opacity: 0.72;
+    }
+  }
+
+  .#{$b}--text.#{$b}--gray {
     color: $text-600;
 
     &:hover:not(.#{$b}--disabled) {

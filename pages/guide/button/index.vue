@@ -9,7 +9,7 @@
       <p class="ButtonGuidePage__desc">
         사용자의 주요/보조 액션을 유도하는 클릭 가능한 인터랙티브 요소.<br />
         <code>shape</code> × <code>color</code> × <code>size</code> 조합으로
-        18가지 variant 지원.
+        24가지 variant 지원.
       </p>
     </header>
 
@@ -241,9 +241,9 @@
           </tr>
           <tr>
             <td><code>color</code></td>
-            <td><code>'primary' | 'secondary' | 'black'</code></td>
+            <td><code>'primary' | 'secondary' | 'black' | 'gray'</code></td>
             <td><code>'primary'</code></td>
-            <td>버튼 색상. :shape="text"일 때 black 불가</td>
+            <td>버튼 색상. secondary = sky-blue 계열, gray = 중성 회색 계열</td>
           </tr>
           <tr>
             <td><code>size</code></td>
@@ -334,14 +334,14 @@
 definePageMeta({ layout: "guide" });
 
 type ButtonShape = "solid" | "line" | "text";
-type ButtonColor = "primary" | "secondary" | "black";
+type ButtonColor = "primary" | "secondary" | "black" | "gray";
 
 const shapes: ButtonShape[] = ["solid", "line", "text"];
 const roundableShapes: ButtonShape[] = ["solid", "line"];
 const sizes = ["lg", "md", "sm"] as const;
 
 function getColors(shape: ButtonShape): ButtonColor[] {
-  return ["primary", "secondary", "black"];
+  return ["primary", "secondary", "gray", "black"];
 }
 </script>
 
