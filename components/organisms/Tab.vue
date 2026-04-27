@@ -251,11 +251,11 @@ $b: "TabRoot";
     content: "";
     position: absolute;
     right: 4.4rem;
-    top: -50%;
+    top: -1.5rem;
     bottom: 0;
     width: 4rem;
-    height: calc(100% + 1rem);
-    background: linear-gradient(to right, transparent, $bg-primary);
+    height: calc(100% + 2rem);
+    background: linear-gradient(to right, transparent, #ffffff);
     pointer-events: none;
   }
 }

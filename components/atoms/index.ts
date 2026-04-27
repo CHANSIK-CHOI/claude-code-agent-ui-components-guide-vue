@@ -1,5 +1,7 @@
 export { default as Button } from './Button.vue'
 export { default as ButtonLink } from './ButtonLink.vue'
+export { default as Checkbox } from './Checkbox.vue'
 export { default as Input } from './Input.vue'
 export { default as Select } from './Select.vue'
+export { default as Stepper } from './Stepper.vue'
 export { default as TextArea } from './TextArea.vue'

@@ -3,6 +3,7 @@
     "allow": [
       "mcp__figma",
       "mcp__plugin_figma_figma",
+      "mcp__playwright",
       "mcp__context7",
       "Bash(git *)",
       "Bash(npm *)",

@@ -89,36 +89,13 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 
 ## 3. 컴포넌트 파일 구조
 
-모든 카테고리는 **flat 구조** — 컴포넌트별 하위 폴더 없이 `.vue` 파일을 카테고리 폴더에 직접 둔다. barrel은 카테고리 단일 `index.ts`만 사용한다. **루트 `components/index.ts`는 사용하지 않는다.**
+모든 카테고리는 **flat 구조** — 컴포넌트별 하위 폴더 없이 `.vue` 파일을 카테고리 폴더에 직접 둔다. barrel은 카테고리 단일 `index.ts`만 사용하며 **루트 `components/index.ts`는 사용하지 않는다**.
 
-```
-components/atoms|molecules|organisms|guide/
-├── ComponentName.vue        ← Base 또는 단일 컴포넌트
-├── ComponentNameSub.vue     ← Wrapper / 종속 컴포넌트 (필요 시 같은 카테고리에 평탄 배치)
-├── useComponentName.ts      ← 카테고리 내 공유 composable (필요 시)
-└── index.ts                 ← 카테고리 barrel (.vue 직접 named export)
-```
+**컴포넌트 추가 시 작업**: 새 `.vue` 파일을 해당 카테고리 폴더에 추가 + 카테고리 `index.ts`에 `export { default as Name } from './Name.vue'` 한 줄 추가. 그 외 작업 없음.
 
-**카테고리 `index.ts`:**
-```ts
-// components/atoms/index.ts
-export { default as ComponentName } from './ComponentName.vue'
-export { default as ComponentNameSearch } from './ComponentNameSearch.vue'
-```
+**사용처 import**: 카테고리 단위만 허용 (`~/components/atoms`, `~/components/molecules` 등). 루트 barrel·개별 `.vue` 직접 import 금지. `<template>` 안에서는 Nuxt auto-import로 import 없이 사용 가능.
 
-**컴포넌트 추가 시 작업**: 새 `.vue` 파일을 해당 카테고리 폴더에 추가 + 카테고리 `index.ts`에 `export { default as Name } from './Name.vue'` 한 줄 추가. 그 외 추가 작업 없음.
-
-**사용처 import** — 카테고리 단위만 허용:
-```ts
-import { Button, Input } from '~/components/atoms'      // ✅
-import { FormField } from '~/components/molecules'      // ✅
-import { Button } from '~/components'                   // ❌ 루트 barrel 미존재
-import Button from '~/components/atoms/Button.vue'      // ❌ 카테고리 barrel 우회 금지
-```
-
-> Nuxt auto-import: `<template>` 안에서는 `components/` 하위 `.vue`가 자동 전역 등록됨. 위 barrel은 `<script>`에서 명시적으로 import할 때만 필요.
-
-상세는 `rules/architecture.md` 참조.
+폴더 구조·import 예시·co-located composable 위치 상세는 `rules/architecture.md` 참조.
 
 ---
 
@@ -163,22 +140,12 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 
 코드 예시: `rules/components.md` §"Radix Vue 활용 패턴".
 
-> **Radix Vue 래핑 컴포넌트 attrs 위임 — 3단계 전략 (필수)**
+> **Radix Vue 래핑 — attrs 3단계 위임**: 단일 `v-bind="$attrs"` 대신 Root(상태/폼 props) / Trigger(HTML attr + 인터랙티브) / Content(포지셔닝)에 분배한다. 표·코드 패턴은 `rules/components.md` §"Radix Vue 래핑 컴포넌트 attrs 위임 전략" 참조.
 >
-> 직접 만든 컴포넌트와 달리 Radix Vue 래핑은 단일 `v-bind="$attrs"` 대신 서브 컴포넌트별로 attrs를 배분한다.
->
-> | 단계 | 위임 대상 | 예시 | 처리 방법 |
-> |------|---------|------|---------|
-> | 1단계 — Root 전용 props | 상태/폼 관련 props | `name`, `required`, `dir`, `open`, `defaultOpen` | `useAttrs()`로 명시적 리스트 분리 → Root에 `v-bind` |
-> | 2단계 — 인터랙티브 attrs | HTML attr + Trigger props | `aria-*`, `tabindex`, `data-*` | 1단계 제외 나머지 전부 → Trigger에 `v-bind` |
-> | 3단계 — Content 포지셔닝 | 포지셔닝 props | `sideOffset`, `align` | 필요한 것만 명시적 prop으로 추가 |
->
-> ⚠️ **"HTML attr 제외" 금지**: `aria-label`, `aria-describedby` 같은 HTML 접근성 속성은 2단계(Trigger)로 반드시 전달해야 한다. HTML attr과 Radix props를 출처로 구분하지 않는다.
->
-> ⚠️ **Content 과잉 설계 금지**: `avoidCollisions`, `collisionPadding` 등 고급 포지셔닝은 하드코딩 default로 충분하다. 실제로 조정이 필요한 것만 명시적 prop으로 노출한다.
->
-> 구현 전 **Context7 MCP로 해당 Radix 컴포넌트의 Root props 목록을 확인**하고 1단계 리스트를 구성한다.
-> 패턴 코드: `rules/components.md` §"Radix Vue 래핑 컴포넌트 attrs 위임 전략".
+> 자주 빠뜨리는 안티패턴:
+> - ❌ "HTML attr이라 제외" — `aria-label`, `aria-describedby`는 반드시 2단계(Trigger)로 전달. HTML attr과 Radix props를 출처로 구분하지 않는다.
+> - ❌ Content 포지셔닝 props 전체 노출 — `avoidCollisions`, `collisionPadding` 등은 하드코딩 default로. `sideOffset` 등 실제 조정이 필요한 것만 명시적 prop으로.
+> - 1단계(Root 전용 props) 리스트는 **구현 전 Context7 MCP로 확인** 후 작성.
 
 ### 4-6. 스타일
 
@@ -274,160 +241,16 @@ const emit = defineEmits<{
 
 ## 7. 가이드 페이지 구성 규칙
 
-`pages/guide/[componentName]/index.vue` 작성 시 **Props 섹션(마지막 섹션)은 반드시 HTML `<table>` 형태**로 구현. `<pre>` 코드 블록 금지.
+**사용자가 가이드 페이지 작성을 명시적으로 요청한 경우에만** `pages/guide/[componentName]/index.vue`를 작성한다 (컴포넌트 구현 후 자동 생성 금지 — §9 행동 원칙 참조).
 
-### 테이블 컬럼
+작성 시 `.claude/rules/guide-page.md`를 읽고 그 규칙을 따른다. 핵심 의무:
 
-- **Props**: 이름 / 타입 / 기본값 / 설명
-- **Slots**: 이름 / 필수 / 설명
-- **Events**: 이름 / 페이로드 / 설명
+- Props/Slots/Events 섹션은 HTML `<table>`로 작성 (`<pre>` 코드 블록 금지)
+- `v-bind="$attrs"` 사용 컴포넌트는 `__delegationNote` 단락 추가 (단순/복합 컴포넌트 케이스 분기)
+- Radix Vue 기반 컴포넌트는 `__radixNote` 단락 추가
+- FormField 사용 컴포넌트는 Props/Slots 표 중복 작성 금지 (Input 가이드 페이지 참조 안내문만)
 
-### 마크업 구조
-
-```html
-<section class="[ComponentName]GuidePage__section">
-  <h2 class="[ComponentName]GuidePage__sectionTitle">⑥ Props</h2>
-
-  <h3 class="[ComponentName]GuidePage__tableTitle">Props</h3>
-  <table class="[ComponentName]GuidePage__propsTable">
-    <thead>
-      <tr><th>이름</th><th>타입</th><th>기본값</th><th>설명</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>shape</code></td>
-        <td><code>'solid' | 'line' | 'text'</code></td>
-        <td><code>'solid'</code></td>
-        <td>버튼 외형 스타일</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3 class="[ComponentName]GuidePage__tableTitle">Slots</h3>
-  <!-- Slots 테이블 -->
-
-  <h3 class="[ComponentName]GuidePage__tableTitle">Events</h3>
-  <!-- Events 테이블 -->
-</section>
-```
-
-### 페이지 SCSS
-
-```scss
-&__tableTitle {
-  font-size: $font-size-body2;
-  font-weight: $font-weight-bold;
-  color: $text-strong;
-  margin-top: $spacing-lg;
-  margin-bottom: $spacing-sm;
-}
-
-&__propsTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: $font-size-body3;
-
-  th, td {
-    border: 1px solid $border-default;
-    padding: $spacing-sm $spacing-md;
-    text-align: left;
-    vertical-align: top;
-  }
-
-  th {
-    background-color: $bg-secondary;
-    font-weight: $font-weight-medium;
-    color: $text-secondary;
-    white-space: nowrap;
-  }
-
-  td { color: $text-strong; }
-
-  code {
-    background-color: $bg-tertiary;
-    padding: 0.1rem 0.4rem;
-    border-radius: $radius-sm;
-    font-size: $font-size-caption1;
-    white-space: nowrap;
-  }
-}
-```
-
-### Props 위임 안내 — `v-bind="$attrs"` 사용 시 필수
-
-테이블 아래에 위임 안내 추가:
-
-| 컴포넌트 | 위임 대상 | 예시 속성 |
-|---|---|---|
-| Button | `<button>` | `aria-label`, `autofocus`, `tabindex`, `data-*` |
-| Input | `<input>` | `maxlength`, `pattern`, `autocomplete`, `inputmode`, `data-*` |
-| Select (Radix Vue) | `SelectTrigger` (2단계) + `SelectRoot` (1단계 분리) | `aria-label`, `aria-describedby`, `tabindex`, `name`, `required` |
-
-```html
-<p class="[ComponentName]GuidePage__delegationNote">
-  <strong>네이티브 속성 위임</strong>: 이 컴포넌트는 <code>v-bind="$attrs"</code>를 사용하므로
-  위 Props 외에도 <code>&lt;button&gt;</code> 요소의 모든 네이티브 HTML 속성
-  (<code>aria-label</code>, <code>autofocus</code>, <code>tabindex</code>, <code>data-*</code> 등)을
-  그대로 전달할 수 있습니다.<br />
-  React의 <code>{...rest}</code> props spreading과 동일한 동작입니다.
-</p>
-```
-
-```scss
-&__delegationNote {
-  margin-top: $spacing-lg;
-  padding: $spacing-sm $spacing-md;
-  background-color: $bg-accent-light-blue;
-  border-left: 3px solid $color-primary;
-  border-radius: $radius-sm;
-  font-size: $font-size-body3;
-  color: $text-secondary;
-  line-height: $line-height-base;
-
-  code {
-    background-color: $bg-tertiary;
-    padding: 0.1rem 0.4rem;
-    border-radius: $radius-sm;
-    font-size: $font-size-caption1;
-  }
-}
-```
-
-### Radix Vue 기반 컴포넌트 추가 API 안내 (필수)
-
-Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 이 가이드에서 다루는 props 외에 Radix Vue가 지원하는 추가 props를 사용하려면 공식 API 문서를 확인하라는 안내 문구를 **반드시** 추가한다.
-
-```html
-<p class="[ComponentName]GuidePage__radixNote">
-  이 컴포넌트는 <strong>Radix Vue</strong>를 기반으로 합니다.
-  위 Props 외에도 Radix Vue가 지원하는 추가 props를 사용할 수 있습니다.
-  전체 API는
-  <a href="https://www.radix-vue.com" target="_blank" rel="noopener noreferrer">radix-vue.com 공식 문서</a>
-  또는 Context7 MCP(<code>mcp__context7__query-docs</code>)를 통해 확인하세요.
-</p>
-```
-
-```scss
-&__radixNote {
-  margin-top: $spacing-md;
-  padding: $spacing-sm $spacing-md;
-  background-color: $bg-secondary;
-  border-left: 3px solid $border-default;
-  border-radius: $radius-sm;
-  font-size: $font-size-body3;
-  color: $text-secondary;
-  line-height: $line-height-base;
-
-  a { color: $color-primary; }
-
-  code {
-    background-color: $bg-tertiary;
-    padding: 0.1rem 0.4rem;
-    border-radius: $radius-sm;
-    font-size: $font-size-caption1;
-  }
-}
-```
+마크업·SCSS 코드 패턴은 `rules/guide-page.md`에 모두 정리되어 있다.
 
 ---
 
@@ -460,12 +283,6 @@ Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 이 가이드�
   가이드 페이지 작업이 필요합니다:
   - pages/guide/[componentName]/index.vue — 신규 제작 필요 (또는: 현행화 필요)
   진행할까요?
-  ```
-- **FormField 상세 설명(Props/Slots 표)은 `pages/guide/input/index.vue` 한 곳에만 작성**. Select·DatePicker 등 FormField를 사용하는 다른 가이드 페이지는 Props/Slots 표를 중복 작성하지 않고 아래 안내문만 추가:
-  ```html
-  <p class="[ComponentName]GuidePage__note">
-    FormField Props/Slots 상세 설명은 <a href="/guide/input">Input 가이드 페이지</a>를 참조하세요.
-  </p>
   ```
 - 구현 완료 후 안내: "구현이 명세(`.claude/specs/[ComponentName].md`)와 일치하는지 사용자가 직접 확인해주세요. 명세 변경이 필요하면 `@uiux-planner-agents`로 명세를 먼저 갱신해야 합니다."
 

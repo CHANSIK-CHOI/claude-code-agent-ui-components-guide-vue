@@ -124,10 +124,8 @@ TypeScript 타입 표기 금지 — 의미 중심의 한국어로 서술.
 | 비활성 여부 | 켜면 클릭 불가, 시각적으로 흐려짐 | 끔 |
 | 로딩 여부 | 켜면 스피너 표시, 클릭 불가 | 끔 |
 
-> **Radix Vue 래핑 컴포넌트의 경우**: 단일 `v-bind="$attrs"` 대신 3단계 위임 전략을 명세에 명시한다. 퍼블리셔가 올바른 구조로 구현할 수 있도록 아래 세 항목을 포함한다:
-> - **1단계 — Root 전용 props**: 해당 Root 컴포넌트의 상태/폼 관련 props(`name`, `required`, `dir`, `open` 등)를 외부에서 전달할 수 있도록 위임 설계 명시
-> - **2단계 — 인터랙티브 attrs**: `aria-*`, `tabindex`, `data-*` 등 HTML 접근성 속성은 핵심 인터랙티브 요소(Trigger)에 전달되어야 함을 명시. "HTML attr이므로 제외"는 금지 — Trigger가 내부에서 HTML 요소를 렌더링하기 때문
-> - **3단계 — Content 포지셔닝**: 포지셔닝 props(`sideOffset`, `align` 등)는 퍼블리셔가 실제로 필요하다고 판단할 때만 명시적 prop으로 추가. 전체 노출은 과잉 설계
+> **Radix Vue 래핑 컴포넌트의 경우**: 명세 Props 목록에 3단계 위임(Root/Trigger/Content)을 명시한다. 1단계(Root 전용 props) 목록은 **Context7 MCP로 해당 Radix 컴포넌트 API를 조회하여 작성**한다. 표·코드 패턴은 `rules/components.md` §"Radix Vue 래핑 컴포넌트 attrs 위임 전략" 참조.
+> 안티패턴 가드: ❌ "HTML attr이므로 제외" 금지(`aria-*`는 2단계 Trigger로 전달) / ❌ Content 포지셔닝 props 전체 노출 금지(필요한 것만).
 
 ---
 
@@ -216,22 +214,19 @@ size, type 등 다른 축의 variant가 있으면 별도 표로 분리한다.
 
 ### 구현 복잡도 신호
 
-이 프로젝트에서 직접 구현보다 정해진 패턴/라이브러리 사용이 권장되는 경우 명시한다:
+이 프로젝트에서 직접 구현보다 정해진 패턴/라이브러리 사용이 권장되는 경우, 명세 작성 시 카테고리별로 다음 가이드를 따른다:
 
-| 컴포넌트 유형 | 이유 | 권장 방식 |
-|-------------|------|---------|
-| Dialog / Modal / Drawer | 접근성, 포커스 트랩, 키보드 탐색 복잡 | Radix Vue **Stable** 래핑 패턴 |
-| Dropdown / Popover / Tooltip | 포지셔닝, 키보드 탐색 복잡 | Radix Vue **Stable** 래핑 패턴 |
-| Select (단일/다중선택) | 가상 스크롤, 키보드 탐색 구현 복잡 | Radix Vue **Stable** `Select` 래핑 |
-| Combobox (검색형 Select) | Radix Vue Combobox는 **Alpha** | Stable Select + 검색 자체 추가 또는 사용자와 라이브러리 협의 |
-| DatePicker / DateRangePicker | Radix Vue Calendar/DatePicker는 **Alpha** | `@vuepic/vue-datepicker` 래핑 |
-| Pagination / Stepper / PinInput / TagsInput / Tree / Editable / NumberField | Radix Vue 해당 컴포넌트는 **Alpha** | 자체 구현 (마크업 단순) — `rules/libraries.md` §2 대체 전략 참조 |
-| Rich Text Editor | 커서 제어, 붙여넣기 처리 복잡 | 프론트엔드 담당자와 라이브러리 협의 |
-| Drag & Drop | 터치 이벤트, 스크롤 처리 복잡 | 프론트엔드 담당자와 라이브러리 협의 |
-| Virtual List | 대용량 데이터 렌더링 최적화 필요 | 프론트엔드 담당자와 라이브러리 협의 |
+| 카테고리 | 명세 작성 가이드 |
+|---------|------------------|
+| Radix Vue **Stable** 대응 (Dialog, Dropdown, Tooltip, Select, Tabs, Popover 등) | "Radix Vue 래핑 권장" + 3단계 위임 설계 명시 |
+| Radix Vue **Alpha** 대응 (Combobox, Pagination, Stepper, PinInput, TagsInput, Tree, Editable, NumberField 등) | `rules/libraries.md` §2 대체 전략에 따라 자체 구현 또는 사용자와 협의 |
+| 날짜 선택 (DatePicker, DateRangePicker) | `@vuepic/vue-datepicker` 래핑 (Radix Vue Calendar/DatePicker는 Alpha) |
+| 고난도 컴포넌트 (Rich Text Editor, Drag & Drop, Virtual List) | 프론트엔드 담당자와 라이브러리 협의 |
 
 → Radix Vue / @vuepic/vue-datepicker 해당 유형이면 명세 하단에 아래 문구 추가:
 "⚠️ [라이브러리명] 래핑 패턴 적용 — 프론트엔드 담당자와 구현 방식 협의"
+
+> 컴포넌트별 stability(Stable/Alpha) 사실 매트릭스는 `rules/libraries.md` §2 참조. 본 표는 명세 작성 시점의 판단 가이드이며, stability 정보 자체는 libraries.md를 단일 출처로 한다.
 
 > **Radix Vue 래핑 컴포넌트 명세 작성 시 추가 지침**
 > 1. **Stability 사전 점검 필수**: `.claude/rules/libraries.md` 매트릭스에서 해당 컴포넌트가 **Stable** 인지 확인한다. **Alpha** 컴포넌트는 명세 작성을 중단하고 사용자에게 대체안(같은 문서의 §2 대체 전략 표)을 안내한 뒤 결정 후 진행한다.

@@ -1,0 +1,378 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "드시모네몰 퍼블리싱 가이드" [level=1] [ref=e5]
+  - generic [ref=e6]:
+    - complementary [ref=e7]:
+      - navigation "가이드 네비게이션" [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: ATOMS
+          - list [ref=e11]:
+            - listitem [ref=e12]:
+              - link "Button" [ref=e13] [cursor=pointer]:
+                - /url: /guide/button
+            - listitem [ref=e14]:
+              - link "ButtonLink" [ref=e15] [cursor=pointer]:
+                - /url: /guide/button-link
+            - listitem [ref=e16]:
+              - link "Input" [ref=e17] [cursor=pointer]:
+                - /url: /guide/input
+            - listitem [ref=e18]:
+              - link "Select" [ref=e19] [cursor=pointer]:
+                - /url: /guide/select
+            - listitem [ref=e20]:
+              - link "TextArea" [ref=e21] [cursor=pointer]:
+                - /url: /guide/textarea
+            - listitem [ref=e22]:
+              - link "Stepper" [ref=e23] [cursor=pointer]:
+                - /url: /guide/stepper
+            - listitem [ref=e24]:
+              - link "Checkbox" [ref=e25] [cursor=pointer]:
+                - /url: /guide/checkbox
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: ORGANISMS
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Tab" [ref=e30] [cursor=pointer]:
+                - /url: /guide/tab
+        - generic [ref=e31]:
+          - paragraph [ref=e32]: POLICY
+          - list [ref=e33]:
+            - listitem [ref=e34]:
+              - link "외부 라이브러리 정책" [ref=e35] [cursor=pointer]:
+                - /url: /guide/libraries
+    - main:
+      - generic [ref=e36]:
+        - generic:
+          - generic [ref=e37]: atoms
+          - heading "Checkbox" [level=1]
+          - paragraph:
+            - text: 단일 참/거짓(boolean) 선택을 위한 체크박스 컴포넌트입니다.
+            - code [ref=e38]: box
+            - text: 타입은 테두리가 있는 박스 형태,
+            - code [ref=e39]: check
+            - text: 타입은 체크 아이콘만 표시하는 라인 없는 형태입니다.
+            - text: 레이블 텍스트는 기본 슬롯으로 전달하며, 슬롯 미사용 시 체크박스 단독으로 표시됩니다.
+            - text: 내부적으로
+            - strong [ref=e40]: Radix Vue
+            - text: 를 사용해 키보드 탐색, 포커스, ARIA 처리를 자동으로 지원합니다.
+        - generic:
+          - heading "① 개요" [level=2]
+          - paragraph:
+            - code [ref=e41]: v-model
+            - text: 로 체크 상태(boolean)를 바인딩합니다.
+            - code [ref=e42]: type
+            - text: "prop으로 시각적 스타일을 선택합니다:"
+            - code [ref=e43]: box
+            - text: (기본) /
+            - code [ref=e44]: check
+            - text: .
+            - text: 레이블은 슬롯으로 전달합니다. 레이블 없이 사용 시
+            - code [ref=e45]: aria-label
+            - text: 을 직접 전달하세요.
+          - generic [ref=e46]:
+            - generic [ref=e47] [cursor=pointer]:
+              - checkbox "box 타입 체크박스" [ref=e48]
+              - checkbox
+              - generic [ref=e49]: box 타입 체크박스
+            - code [ref=e51]: <Checkbox v-model="checked">box 타입 체크박스</Checkbox>
+        - generic:
+          - heading "② type Variant" [level=2]
+          - paragraph:
+            - code [ref=e52]: type="box"
+            - text: 는 테두리 박스 안에 체크 아이콘이 나타나는 형태입니다.
+            - code [ref=e53]: type="check"
+            - text: 는 박스 없이 체크 아이콘 색상만 바뀌는 형태로, 항상 아이콘이 표시됩니다.
+          - generic:
+            - paragraph: 레이블 없는 버전
+            - generic:
+              - generic [ref=e54]:
+                - generic [ref=e55] [cursor=pointer]:
+                  - checkbox "box 타입 미체크" [ref=e56]
+                  - checkbox
+                - generic [ref=e57]: box (미체크)
+              - generic [ref=e58]:
+                - generic [ref=e59] [cursor=pointer]:
+                  - checkbox "box 타입 체크됨" [checked] [ref=e60]:
+                    - generic:
+                      - img
+                  - checkbox [checked]
+                - generic [ref=e61]: box (체크됨)
+              - generic [ref=e62]:
+                - generic [ref=e63] [cursor=pointer]:
+                  - checkbox "check 타입 미체크" [ref=e64]:
+                    - img [ref=e65]
+                  - checkbox
+                - generic [ref=e67]: check (미체크)
+              - generic [ref=e68]:
+                - generic [ref=e69] [cursor=pointer]:
+                  - checkbox "check 타입 체크됨" [checked] [ref=e70]:
+                    - img [ref=e71]
+                  - checkbox [checked]
+                - generic [ref=e73]: check (체크됨)
+            - code [ref=e75]: <!-- box 타입 (기본) --> <Checkbox v-model="checked" aria-label="동의" /> <!-- check 타입 --> <Checkbox v-model="checked" type="check" aria-label="동의" />
+          - generic:
+            - paragraph: 레이블 있는 버전
+            - generic:
+              - generic [ref=e77] [cursor=pointer]:
+                - checkbox "box 미체크" [ref=e78]
+                - checkbox
+                - generic [ref=e79]: box 미체크
+              - generic [ref=e81] [cursor=pointer]:
+                - checkbox "box 체크됨" [checked] [ref=e82]:
+                  - generic:
+                    - img
+                - checkbox [checked]
+                - generic [ref=e83]: box 체크됨
+              - generic [ref=e85] [cursor=pointer]:
+                - checkbox "check 미체크" [ref=e86]:
+                  - img [ref=e87]
+                - checkbox
+                - generic [ref=e89]: check 미체크
+              - generic [ref=e91] [cursor=pointer]:
+                - checkbox "check 체크됨" [checked] [ref=e92]:
+                  - img [ref=e93]
+                - checkbox [checked]
+                - generic [ref=e95]: check 체크됨
+            - code [ref=e97]: <!-- box 타입 (기본) --> <Checkbox v-model="checked">레이블 텍스트</Checkbox> <!-- check 타입 --> <Checkbox v-model="checked" type="check">레이블 텍스트</Checkbox>
+        - generic:
+          - heading "③ 상태(State)" [level=2]
+          - paragraph:
+            - text: 미체크 / 체크됨 / disabled(비활성) 세 가지 상태를 지원합니다.
+            - code [ref=e98]: disabled
+            - text: 상태에서는 클릭이 차단되고, 시각적으로 흐리게 표시됩니다.
+          - generic:
+            - paragraph: box 타입
+            - generic:
+              - generic [ref=e99]:
+                - generic [ref=e100] [cursor=pointer]:
+                  - checkbox "미체크" [ref=e101]
+                  - checkbox
+                  - generic [ref=e102]: 미체크
+                - generic [ref=e103]: unchecked
+              - generic [ref=e104]:
+                - generic [ref=e105] [cursor=pointer]:
+                  - checkbox "체크됨" [checked] [ref=e106]:
+                    - generic:
+                      - img
+                  - checkbox [checked]
+                  - generic [ref=e107]: 체크됨
+                - generic [ref=e108]: checked
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - checkbox "미체크 비활성" [disabled] [ref=e111]
+                  - checkbox [disabled]
+                  - generic [ref=e112]: 미체크 비활성
+                - generic [ref=e113]: disabled unchecked
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - checkbox "체크됨 비활성" [checked] [disabled] [ref=e116]:
+                    - generic:
+                      - img
+                  - checkbox [checked] [disabled]
+                  - generic [ref=e117]: 체크됨 비활성
+                - generic [ref=e118]: disabled checked
+          - generic:
+            - paragraph: check 타입
+            - generic:
+              - generic [ref=e119]:
+                - generic [ref=e120] [cursor=pointer]:
+                  - checkbox "미체크" [ref=e121]:
+                    - img [ref=e122]
+                  - checkbox
+                  - generic [ref=e124]: 미체크
+                - generic [ref=e125]: unchecked
+              - generic [ref=e126]:
+                - generic [ref=e127] [cursor=pointer]:
+                  - checkbox "체크됨" [checked] [ref=e128]:
+                    - img [ref=e129]
+                  - checkbox [checked]
+                  - generic [ref=e131]: 체크됨
+                - generic [ref=e132]: checked
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - checkbox "미체크 비활성" [disabled] [ref=e135]:
+                    - img [ref=e136]
+                  - checkbox [disabled]
+                  - generic [ref=e138]: 미체크 비활성
+                - generic [ref=e139]: disabled unchecked
+              - generic [ref=e140]:
+                - generic [ref=e141]:
+                  - checkbox "체크됨 비활성" [checked] [disabled] [ref=e142]:
+                    - img [ref=e143]
+                  - checkbox [checked] [disabled]
+                  - generic [ref=e145]: 체크됨 비활성
+                - generic [ref=e146]: disabled checked
+          - code [ref=e148]: <!-- disabled --> <Checkbox v-model="checked" :disabled="true">비활성 체크박스</Checkbox>
+        - generic:
+          - heading "④ 레이블 조합" [level=2]
+          - paragraph:
+            - text: 기본 슬롯에 텍스트를 넣으면 체크박스 오른쪽에 레이블이 표시됩니다.
+            - text: 슬롯을 사용하지 않으면 체크박스 단독으로 표시됩니다. 이 경우
+            - code [ref=e149]: aria-label
+            - text: 을 반드시 전달하세요.
+          - generic:
+            - paragraph: 레이블 텍스트 슬롯 사용
+            - generic:
+              - generic [ref=e151] [cursor=pointer]:
+                - checkbox "이용약관에 동의합니다." [ref=e152]
+                - checkbox
+                - generic [ref=e153]: 이용약관에 동의합니다.
+              - generic [ref=e155] [cursor=pointer]:
+                - checkbox "SMS 광고 수신에 동의합니다." [checked] [ref=e156]:
+                  - img [ref=e157]
+                - checkbox [checked]
+                - generic [ref=e159]: SMS 광고 수신에 동의합니다.
+            - code [ref=e161]: <!-- 기본 슬롯으로 레이블 전달 --> <Checkbox v-model="checked">이용약관에 동의합니다.</Checkbox> <!-- check 타입 + 슬롯 --> <Checkbox v-model="checked" type="check">SMS 광고 수신에 동의합니다.</Checkbox>
+          - generic:
+            - paragraph: 레이블 없는 단독 사용 — aria-label 필수
+            - generic [ref=e163] [cursor=pointer]:
+              - checkbox "전체 선택" [ref=e164]
+              - checkbox
+            - code [ref=e166]: <!-- 슬롯 없이 단독 사용 시 aria-label 필수 --> <Checkbox v-model="checked" aria-label="전체 선택" />
+        - generic:
+          - heading "⑤ 실사용 예시" [level=2]
+          - paragraph:
+            - text: 폼에서
+            - code [ref=e167]: v-model
+            - text: 로 체크 여부를 토글하는 예시입니다.
+            - text: 체크박스를 클릭하면 상태가 즉시 반영됩니다.
+          - generic:
+            - paragraph: 동의 항목 폼 예시
+            - generic [ref=e168]:
+              - generic [ref=e169] [cursor=pointer]:
+                - checkbox "이용약관 동의 (필수) — 미동의" [ref=e170]
+                - checkbox
+                - generic [ref=e171]: 이용약관 동의 (필수) — 미동의
+              - generic [ref=e172] [cursor=pointer]:
+                - checkbox "SMS 광고 수신 동의 (선택) — 동의함" [checked] [ref=e173]:
+                  - img [ref=e174]
+                - checkbox [checked]
+                - generic [ref=e176]: SMS 광고 수신 동의 (선택) — 동의함
+            - code [ref=e178]: <script setup lang="ts"> const agreeChecked = ref(false) const smsChecked = ref(true) </script> <template> <Checkbox v-model="agreeChecked">이용약관 동의 (필수)</Checkbox> <Checkbox v-model="smsChecked" type="check">SMS 광고 수신 동의 (선택)</Checkbox> </template>
+        - generic:
+          - heading "⑥ Props" [level=2]
+          - heading "Props" [level=3]
+          - table [ref=e179]:
+            - rowgroup [ref=e180]:
+              - row "이름 타입 기본값 설명" [ref=e181]:
+                - columnheader "이름" [ref=e182]
+                - columnheader "타입" [ref=e183]
+                - columnheader "기본값" [ref=e184]
+                - columnheader "설명" [ref=e185]
+            - rowgroup [ref=e186]:
+              - row "modelValue boolean false 체크 여부 (v-model 연동)" [ref=e187]:
+                - cell "modelValue" [ref=e188]:
+                  - code [ref=e189]: modelValue
+                - cell "boolean" [ref=e190]:
+                  - code [ref=e191]: boolean
+                - cell "false" [ref=e192]:
+                  - code [ref=e193]: "false"
+                - cell "체크 여부 (v-model 연동)" [ref=e194]
+              - row "type 'box' | 'check' 'box' 시각적 타입. box — 테두리 박스 + 체크 아이콘. check — 박스 없이 아이콘 색상으로만 상태 표현" [ref=e195]:
+                - cell "type" [ref=e196]:
+                  - code [ref=e197]: type
+                - cell "'box' | 'check'" [ref=e198]:
+                  - code [ref=e199]: "'box' | 'check'"
+                - cell "'box'" [ref=e200]:
+                  - code [ref=e201]: "'box'"
+                - cell "시각적 타입. box — 테두리 박스 + 체크 아이콘. check — 박스 없이 아이콘 색상으로만 상태 표현" [ref=e202]:
+                  - text: 시각적 타입.
+                  - code [ref=e203]: box
+                  - text: — 테두리 박스 + 체크 아이콘.
+                  - code [ref=e204]: check
+                  - text: — 박스 없이 아이콘 색상으로만 상태 표현
+              - row "disabled boolean false 비활성 상태. 클릭 차단, 시각적으로 흐리게 표시" [ref=e205]:
+                - cell "disabled" [ref=e206]:
+                  - code [ref=e207]: disabled
+                - cell "boolean" [ref=e208]:
+                  - code [ref=e209]: boolean
+                - cell "false" [ref=e210]:
+                  - code [ref=e211]: "false"
+                - cell "비활성 상태. 클릭 차단, 시각적으로 흐리게 표시" [ref=e212]
+              - row "id string 자동생성 label 연결용 고유 식별자. 미전달 시 내부에서 자동 생성" [ref=e213]:
+                - cell "id" [ref=e214]:
+                  - code [ref=e215]: id
+                - cell "string" [ref=e216]:
+                  - code [ref=e217]: string
+                - cell "자동생성" [ref=e218]
+                - cell "label 연결용 고유 식별자. 미전달 시 내부에서 자동 생성" [ref=e219]
+              - row "name string — HTML form 전송 시 필드명" [ref=e220]:
+                - cell "name" [ref=e221]:
+                  - code [ref=e222]: name
+                - cell "string" [ref=e223]:
+                  - code [ref=e224]: string
+                - cell "—" [ref=e225]
+                - cell "HTML form 전송 시 필드명" [ref=e226]
+              - row "required boolean false HTML form 필수 여부" [ref=e227]:
+                - cell "required" [ref=e228]:
+                  - code [ref=e229]: required
+                - cell "boolean" [ref=e230]:
+                  - code [ref=e231]: boolean
+                - cell "false" [ref=e232]:
+                  - code [ref=e233]: "false"
+                - cell "HTML form 필수 여부" [ref=e234]
+              - row "value string 'on' HTML form 전송 시 체크됐을 때 전송되는 값" [ref=e235]:
+                - cell "value" [ref=e236]:
+                  - code [ref=e237]: value
+                - cell "string" [ref=e238]:
+                  - code [ref=e239]: string
+                - cell "'on'" [ref=e240]:
+                  - code [ref=e241]: "'on'"
+                - cell "HTML form 전송 시 체크됐을 때 전송되는 값" [ref=e242]
+          - heading "Slots" [level=3]
+          - table [ref=e243]:
+            - rowgroup [ref=e244]:
+              - row "이름 필수 설명" [ref=e245]:
+                - columnheader "이름" [ref=e246]
+                - columnheader "필수" [ref=e247]
+                - columnheader "설명" [ref=e248]
+            - rowgroup [ref=e249]:
+              - row "default 아니오 레이블 텍스트. 미사용 시 체크박스만 표시. 미사용 시 aria-label 필수" [ref=e250]:
+                - cell "default" [ref=e251]:
+                  - code [ref=e252]: default
+                - cell "아니오" [ref=e253]
+                - cell "레이블 텍스트. 미사용 시 체크박스만 표시. 미사용 시 aria-label 필수" [ref=e254]:
+                  - text: 레이블 텍스트. 미사용 시 체크박스만 표시. 미사용 시
+                  - code [ref=e255]: aria-label
+                  - text: 필수
+          - heading "Events" [level=3]
+          - table [ref=e256]:
+            - rowgroup [ref=e257]:
+              - row "이름 페이로드 설명" [ref=e258]:
+                - columnheader "이름" [ref=e259]
+                - columnheader "페이로드" [ref=e260]
+                - columnheader "설명" [ref=e261]
+            - rowgroup [ref=e262]:
+              - row "update:modelValue boolean 체크/언체크 토글 시 발생. v-model이 이 이벤트를 수신해 상태 업데이트" [ref=e263]:
+                - cell "update:modelValue" [ref=e264]:
+                  - code [ref=e265]: update:modelValue
+                - cell "boolean" [ref=e266]:
+                  - code [ref=e267]: boolean
+                - cell "체크/언체크 토글 시 발생. v-model이 이 이벤트를 수신해 상태 업데이트" [ref=e268]
+          - paragraph [ref=e269]:
+            - strong [ref=e270]: 네이티브 속성 위임
+            - text: ": 이 컴포넌트는"
+            - code [ref=e271]: v-bind="$attrs"
+            - text: 를 사용하므로 위 Props 외에도
+            - code [ref=e272]: <CheckboxRoot>
+            - text: (Radix Vue 버튼 요소)의 모든 네이티브 HTML 속성 (
+            - code [ref=e273]: aria-label
+            - text: ","
+            - code [ref=e274]: aria-describedby
+            - text: ","
+            - code [ref=e275]: tabindex
+            - text: ","
+            - code [ref=e276]: data-*
+            - text: 등)을 그대로 전달할 수 있습니다.
+            - text: React의
+            - code [ref=e277]: "{...rest}"
+            - text: props spreading과 동일한 동작입니다.
+          - paragraph [ref=e278]:
+            - text: 이 컴포넌트는
+            - strong [ref=e279]: Radix Vue
+            - text: 를 기반으로 합니다. 위 Props 외에도 Radix Vue가 지원하는 추가 props를 사용할 수 있습니다. 전체 API는
+            - link "radix-vue.com 공식 문서" [ref=e280] [cursor=pointer]:
+              - /url: https://www.radix-vue.com/components/checkbox.html
+            - text: 또는 Context7 MCP(
+            - code [ref=e281]: mcp__context7__query-docs
+            - text: )를 통해 확인하세요.
