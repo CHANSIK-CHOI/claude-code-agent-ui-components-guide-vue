@@ -1,6 +1,7 @@
 # Select 컴포넌트 명세
 
 > Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004346:13465`
+> filter variant: `40004271:6839`
 > (fileKey는 `.claude/CLAUDE.md` "프로젝트 외부 리소스 → Figma" 단일 출처 참조)
 
 ---
@@ -28,7 +29,9 @@ Trigger 영역은 Input과 동일한 외형을 가지며, 클릭 시 드롭다�
 #### Trigger 영역 (닫힌 상태)
 
 - ① **선택값 / Placeholder (SelectValue)** — 선택된 옵션의 텍스트를 표시. 미선택 시 placeholder 표시 / 필수
-- ② **Chevron 아이콘 (SelectIcon)** — 우측 끝에 위치하는 방향 표시 아이콘. SVG 경로 자체는 위를 향하는 형태(∧). 닫힌 상태: CSS `rotate(180deg)` 적용 → 아래 방향(↓) / 열린 상태: `rotate(0deg)` → 위 방향(↑). 크기는 부모 요소(`.SelectRoot__icon`)가 제어 / 필수
+- ② **Chevron 아이콘 (SelectIcon)** — 우측 끝에 위치하는 방향 표시 아이콘. 크기는 부모 요소(`.SelectRoot__icon`)가 제어 / 필수
+  - `default` variant: SVG 경로 자체는 위를 향하는 형태(∧). 닫힌 상태: CSS `rotate(180deg)` → 아래(↓) / 열린 상태: `rotate(0deg)` → 위(↑)
+  - `filter` variant: SVG 경로 자체는 아래를 향하는 형태(↓). 닫힌 상태: CSS `rotate(0deg)` → 아래(↓) / 열린 상태: `rotate(180deg)` → 위(↑). 아이콘 색상 `$text-600`(#666666)
 
 #### 드롭다운 패널 영역 (열린 상태)
 
@@ -53,6 +56,7 @@ Trigger 영역은 Input과 동일한 외형을 가지며, 클릭 시 드롭다�
 | 비활성 여부 | 켜면 Trigger 클릭 불가, 드롭다운 열리지 않음, 시각적으로 흐려짐 | 끔 |
 | 에러 여부 | 켜면 에러 상태로 표시 (`aria-invalid="true"` 자동 적용). 에러 메시지 텍스트는 FormField 담당 | 끔 |
 | id | 외부 `<label>`과 연결하는 고유 식별자. FormField 연동 시 필수. 미전달 시 내부 자동 생성 | 미설정 (자동 생성) |
+| Variant | `'default'` — 폼용 Select (46px 고정 높이, 너비 100%). `'filter'` — 인라인 필터용 compact Select (padding 기반 높이, fit-content 너비) | `'default'` |
 
 > **Radix Vue 래핑 컴포넌트 attrs 위임 — 3단계 전략 적용** (자세한 규칙은 `.claude/rules/components.md` "Radix Vue 래핑 컴포넌트 attrs 위임 전략" 참조)
 >
@@ -79,7 +83,12 @@ Trigger 영역은 Input과 동일한 외형을 가지며, 클릭 시 드롭다�
 
 ### 3. Variant 목록
 
-Select 컴포넌트는 별도의 시각적 variant가 없으며, 상태(State)에 따라 외관이 변합니다.
+| Variant | 용도 | 특징 |
+|---------|------|------|
+| `default` | 폼 내 단일 값 선택 (FormField 조합) | 높이 46px 고정, 너비 100%, 좌우 13px 패딩 |
+| `filter` | 상품 목록 등 인라인 필터 | padding 기반 높이(상하 6px), fit-content 너비, 좌 10px / 우 8px 패딩 |
+
+> Figma 노드: filter variant — `40004271:6839`
 
 ---
 
@@ -103,6 +112,9 @@ Select 컴포넌트는 별도의 시각적 variant가 없으며, 상태(State)�
 | hover 아이템 | 배경 살짝 어둡게 | 해당 아이템 선택 예고 |
 | selected 아이템 | 배경 회색(`$bg-disabled`) 강조, 텍스트 동일 | 선택된 값임을 시각적으로 구분 |
 | disabled 아이템 | 배경 회색(`$bg-disabled`), 텍스트 흐리게(`$text-disabled`), 커서 `not-allowed` | 클릭 차단 |
+
+> filter variant는 위 상태(default / filled / open / disabled / error) 모두를 동일하게 지원합니다.
+> 시각 차이: trigger 높이(padding 기반), 너비(fit-content), border-radius(`0.6rem`, 6px) 세 가지만 다릅니다.
 
 ---
 
@@ -220,6 +232,27 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 | 각 아이템 높이 | 44px | — (고정 높이) |
 | 아이템 좌우 패딩 | 12px | `$spacing-sm` + 소폭 보정 (0.4rem 차이) |
 
+#### filter Trigger 형태 및 내부 여백 (Figma `40004271:6839`)
+
+| 속성 | 수치 | 매핑 토큰 |
+|-----|------|---------|
+| Trigger 너비 | fit-content | — (content 기준, filter variant 전용 예외) |
+| Trigger 높이 | 자동 (padding 결정) | — (고정 height 없음) |
+| Trigger 상하 패딩 | 6px | `0.6rem` (직접 사용, 토큰 없음) |
+| Trigger 좌측 패딩 | 10px | `1.0rem` (직접 사용, 토큰 없음) |
+| Trigger 우측 패딩 | 8px | `$spacing-sm` (0.8rem) |
+| Trigger border-radius | 6px | `0.6rem` (직접 사용, `$radius-sm`=4px 토큰 불일치) |
+
+#### filter Dropdown 형태 및 아이템 여백
+
+| 속성 | 수치 | 매핑 토큰 |
+|-----|------|---------|
+| 패널 border-radius | 6px | `0.6rem` (직접 사용, `$radius-sm`=4px 토큰 불일치) |
+| 패널 min-width | fit-content | `min-width: max-content` (아이템 텍스트가 trigger보다 길 경우 확장) |
+| 각 아이템 높이 | 36px | `3.6rem` (직접 사용) |
+| 아이템 좌우 패딩 | 10px | `1.0rem` (직접 사용) |
+| 아이템 font-size | 14px | `$font-size-body4` |
+
 #### 타이포그래피 (Input과 동일)
 
 | 적용 위치 | 크기 | 굵기 | 매핑 토큰 |
@@ -236,6 +269,17 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 | 닫힌 상태 방향 | 아래(↓) | CSS `rotate(180deg)` 적용 |
 | 열린 상태 방향 | 위(↑) | CSS `rotate(0deg)` (회전 없음) |
 | stroke 색상 | `#666666` | `$text-secondary` |
+
+#### filter variant Chevron 아이콘 (Figma `40004271:6839`)
+
+| 속성 | 값 | 비고 |
+|-----|-----|------|
+| SVG 경로 | `M4 6.66699L8 10.667L12 6.66699` | 기본 아래(↓) 방향 — default와 다른 별도 SVG |
+| stroke-width | 1.49847 | default(2)와 다름 |
+| 아이콘 크기 | 16×16px (`1.6rem × 1.6rem`) | default와 동일 |
+| 아이콘 색상 | `#666666` | `$text-600` |
+| 닫힌 상태 방향 | 아래(↓) | CSS `rotate(0deg)` — SVG 자체가 아래 방향 |
+| 열린 상태 방향 | 위(↑) | CSS `rotate(180deg)` |
 
 ---
 
@@ -263,3 +307,6 @@ Radix Vue 구성요소 사용 목록:
 | 아이템 그룹화 (SelectGroup / SelectLabel) | 현재 미구현. 추후 필요 시 별도 확장 예정 |
 | disabled 아이템 시각적 표현 | Trigger disabled 상태와 동일 — 배경 `$bg-disabled`, 텍스트 `$text-disabled`, 커서 `not-allowed` |
 | Chevron 아이콘 stroke 색상 | `#666666` → `$text-secondary`. SVG 경로는 위를 향하는 형태(∧), CSS rotate로 방향 전환 |
+| filter variant border-radius | `0.6rem` (6px) — `$radius-sm`(4px) 토큰 불일치로 직접 수치 사용. trigger · dropdown 패널 모두 동일 적용 |
+| filter dropdown 너비 | `var(--radix-select-trigger-width)` + `min-width: max-content` (아이템 텍스트가 더 길면 자동 확장) |
+| filter width 규칙 예외 | Figma `40004271:6839` 기준 fit-content 요구 — `style.md` 일반 규칙 예외, SCSS 주석으로 추적 관리 |

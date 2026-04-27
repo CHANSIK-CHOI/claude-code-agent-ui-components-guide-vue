@@ -217,6 +217,13 @@
     }
   }
 
+  &__filterRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    align-items: center;
+  }
+
   &__radixNote {
     margin-top: $spacing-md;
     padding: $spacing-sm $spacing-md;

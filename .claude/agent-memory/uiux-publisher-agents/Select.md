@@ -20,7 +20,15 @@ type: project
   - `proxyValue` computed를 통한 v-model 연동 (modelValue 기본값 undefined → get에서 '' 폴백)
   - `selectId` 자동 생성 패턴 (Input.vue와 동일)
 - **개발자 핸드오프**: 없음 (options prop은 정적 배열로 전달, API 연동 필요 시 options를 동적 데이터로 교체)
-- **가이드 페이지**: pages/guide/select/index.vue + selectGuidePage.scss (2026-04-26 신규 제작)
+- **filter variant 추가 (2026-04-27 업데이트)**:
+  - `variant?: 'default' | 'filter'` prop 신규 도입 (기본값 `'default'`)
+  - `SelectTrigger`: `SelectRoot__trigger--filter` modifier 추가
+  - `SelectContent`: `:class` 동적 바인딩으로 `SelectRoot__content--filter` 조건부 적용
+  - `SelectItem`: `:class` 동적 바인딩으로 `SelectRoot__item--filter` 조건부 적용
+  - filter SCSS 예외 처리: `width: fit-content` (style.md 일반 규칙 예외 — Figma `40004271:6839`), `height: auto`, padding `0.6rem $spacing-sm 0.6rem 1.0rem`, `border-radius: $radius-sm`
+  - filter content: `border-radius: $radius-sm`, `min-width: max-content`
+  - filter item: `height: 3.6rem`, `padding: 0 1.0rem`, `font-size: $font-size-body4`
+- **가이드 페이지**: pages/guide/select/index.vue + selectGuidePage.scss (2026-04-26 신규 제작 / 2026-04-27 filter variant 섹션 추가, ⑦→⑧ 번호 변경, Props 테이블 variant 행 추가, filterRow SCSS 추가)
 - **스타일 통합 (2026-04-26 업데이트)**: non-scoped 블록 제거, `<style lang="scss" scoped>` 단일 블록으로 통합.
   - **원인 분석**: Portal(Teleport)이 body에 마운트되어도 `data-v-xxxxx`는 Vue 런타임이 slotScopeIds로 전달하므로 붙음. 실제 원인은 Radix Vue 컴포넌트(SelectContent 등)가 **자기 자신의 template** 에서 루트 DOM을 렌더링하므로 부모 scoped 선택자가 매칭되지 않는 것.
   - **해결**: Portal 내부 요소에 `:deep(.SelectRoot__xxx)` 사용. 컴파일 시 `[data-v-xxxxx] .SelectRoot__xxx` 로 변환되어 동작.

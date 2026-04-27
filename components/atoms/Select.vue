@@ -12,13 +12,34 @@
       :class="{
         'SelectRoot__trigger--disabled': disabled,
         'SelectRoot__trigger--error': error,
+        'SelectRoot__trigger--filter': variant === 'filter',
       }"
       :aria-invalid="error ? 'true' : undefined"
     >
       <SelectValue class="SelectRoot__value" :placeholder="placeholder" />
       <SelectIcon as-child>
         <span class="SelectRoot__icon">
+          <!-- filter variant — 기본 아래(↓) 방향 SVG, 열린 상태에서 rotate(180deg)로 위(↑) -->
           <svg
+            v-if="variant === 'filter'"
+            class="SelectRoot__iconSvg"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4 6.66699L8 10.667L12 6.66699"
+              stroke="currentColor"
+              stroke-width="1.49847"
+              stroke-linecap="round"
+            />
+          </svg>
+          <!-- default variant — 기본 위(∧) 방향 SVG, rotate(180deg)로 아래(↓) -->
+          <svg
+            v-else
             class="SelectRoot__iconSvg"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -38,9 +59,13 @@
 
     <SelectPortal>
       <SelectContent
-        class="SelectRoot__content"
+        :class="[
+          'SelectRoot__content',
+          { 'SelectRoot__content--filter': variant === 'filter' },
+        ]"
         position="popper"
         :side-offset="4"
+        :body-lock="false"
       >
         <SelectScrollUpButton
           class="SelectRoot__scrollBtn SelectRoot__scrollBtn--up"
@@ -66,7 +91,10 @@
           <SelectItem
             v-for="option in options"
             :key="option.value"
-            class="SelectRoot__item"
+            :class="[
+              'SelectRoot__item',
+              { 'SelectRoot__item--filter': variant === 'filter' },
+            ]"
             :value="option.value"
             :disabled="option.disabled"
           >
@@ -104,6 +132,8 @@
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false });
 
+type SelectVariant = "default" | "filter";
+
 interface SelectOption {
   value: string;
   label: string;
@@ -117,12 +147,14 @@ const props = withDefaults(
     placeholder?: string;
     disabled?: boolean;
     error?: boolean;
+    variant?: SelectVariant;
   }>(),
   {
     modelValue: undefined,
     placeholder: "",
     disabled: false,
     error: false,
+    variant: "default",
   },
 );
 
@@ -312,5 +344,45 @@ $b: "SelectRoot";
   height: 2.4rem;
   color: $text-600;
   cursor: default;
+}
+
+// ── filter variant ─────────────────────────────────────────────────
+// filter variant 전용 예외 — Figma 40004271:6839
+// 인라인 필터 컨트롤로 content 너비 기준이 디자인 의도 (style.md 일반 너비 규칙 예외)
+.#{$b}__trigger--filter {
+  width: fit-content; // style.md 일반 너비 규칙 예외 — filter variant 디자인 의도 (Figma 40004271:6839)
+  height: auto;
+  padding: 0.6rem $spacing-sm 0.6rem 1rem; // 상하 6px / 우 8px($spacing-sm) / 좌 10px
+  border-radius: 0.6rem; // 6px — $radius-sm(4px) 토큰 불일치, 직접 사용
+  font-size: $font-size-body4; // 14px — Figma 40004271:6839
+  gap: 0.4rem; // 4px — 텍스트·아이콘 사이 간격
+  justify-content: flex-start; // space-between override — fit-content 너비에서 gap으로 제어
+  color: $text-400;
+  height: 3rem;
+
+  .#{$b}__icon {
+    color: $text-600; // #666666 — Figma 40004271:6839
+    transform: rotate(0deg); // filter SVG는 기본 아래(↓) 방향
+  }
+  &:disabled {
+    color: $text-300;
+  }
+}
+
+.#{$b}__trigger--filter[data-state="open"] {
+  .#{$b}__icon {
+    transform: rotate(180deg); // 열린 상태 → 위(↑) 방향
+  }
+}
+
+:deep(.#{$b}__content--filter) {
+  border-radius: $radius-sm;
+  min-width: max-content; // 아이템 텍스트가 trigger보다 길 경우 자동 확장
+}
+
+:deep(.#{$b}__item--filter) {
+  height: 3.6rem; // 36px — filter variant 아이템 높이
+  padding: 0 1rem; // 좌우 10px
+  font-size: $font-size-body4;
 }
 </style>
