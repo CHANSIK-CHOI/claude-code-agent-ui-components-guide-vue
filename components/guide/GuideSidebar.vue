@@ -52,6 +52,12 @@ const navigation: GuideNavGroup[] = [
     ],
   },
   {
+    label: 'ORGANISMS',
+    items: [
+      { label: 'Tab', to: '/guide/tab' },
+    ],
+  },
+  {
     label: 'POLICY',
     items: [
       { label: '외부 라이브러리 정책', to: '/guide/libraries' },

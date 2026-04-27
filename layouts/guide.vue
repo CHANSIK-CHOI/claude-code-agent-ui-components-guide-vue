@@ -48,6 +48,7 @@ $sidebar-width: 24rem;
   &__main {
     flex: 1;
     min-width: 0;
+    overflow-x: auto;
   }
 }
 </style>
