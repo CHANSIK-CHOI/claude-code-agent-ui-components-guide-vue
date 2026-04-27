@@ -8,7 +8,7 @@
 ### 0. Atomic 계층 & 파일 배치
 
 - **계층**: atoms — 외부 컴포넌트를 조합하지 않는 단일 폼 선택 요소. Input, TextArea와 동급의 폼 입력 atom
-- **배치 경로**: `components/atoms/Select/`
+- **배치 경로**: `components/atoms/Select.vue`
 - **Base/Wrapper 분리**: Base만 구성. Wrapper 변형(멀티셀렉트, 검색형 등)은 별도 컴포넌트로 분리 예정이며 현재 명세 범위에 포함되지 않음
 
 계층 판단 근거: 단일 값 선택이라는 명확한 단일 역할. 내부적으로 Radix Vue 구성요소를 조합하나 외부에서 보면 단일 폼 컨트롤이므로 atoms 분류.

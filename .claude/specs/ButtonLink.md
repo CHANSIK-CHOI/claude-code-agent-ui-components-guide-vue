@@ -5,8 +5,8 @@
 | 항목 | 내용 |
 |------|------|
 | 계층 | atoms |
-| 위치 | `components/atoms/ButtonLink/` |
-| 파일 | `ButtonLink.vue`, `index.ts` |
+| 위치 | `components/atoms/ButtonLink.vue` |
+| 카테고리 barrel | `components/atoms/index.ts` |
 | 목적 | 링크(`<a>` / `<NuxtLink>`) 기반의 버튼 스타일 컴포넌트 |
 
 ### Button vs ButtonLink 사용 기준
@@ -26,9 +26,9 @@ Button과 ButtonLink는 다음 세 가지를 공유한다. 디자인 변경 시 
 
 | 레이어 | 파일 | 내용 |
 |--------|------|------|
-| 타입 | `types/components.ts` | `ButtonShape`, `ButtonColor`, `ButtonSize` |
+| 타입 | `components/types.ts` | `ButtonShape`, `ButtonColor`, `ButtonSize` |
 | SCSS mixin | `assets/scss/components/_button-base.scss` | 공통 시각 스타일 (`button-base` mixin) |
-| 클래스 로직 | `composables/useButtonVariant.ts` | `:class` 배열 계산 (`useButtonVariant`) |
+| 클래스 로직 | `components/atoms/useButtonVariant.ts` | `:class` 배열 계산 (`useButtonVariant`) |
 
 ---
 

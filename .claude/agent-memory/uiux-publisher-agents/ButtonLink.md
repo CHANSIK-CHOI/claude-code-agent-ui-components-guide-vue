@@ -1,6 +1,6 @@
 # ButtonLink — 구현 메모
 
-- **파일 경로**: components/atoms/ButtonLink/
+- **파일 경로**: components/atoms/ButtonLink.vue
 - **계층**: atoms
 - **구현 완료일**: 2026-04-25
 - **비표준 구현**:
@@ -10,7 +10,7 @@
   - `target="_blank"` 시 rel에 noopener noreferrer 자동 보완 (computedRel)
   - `<a>`는 네이티브 disabled 없음 → `aria-disabled="true"` + `tabindex="-1"` 조합
   - Button과 SCSS mixin 공유 (`assets/scss/components/_button-base.scss`)
-  - composable 공유 (`composables/useButtonVariant.ts`)
-  - 타입 공유 (`types/components.ts` — ButtonShape, ButtonColor, ButtonSize)
+  - composable 공유 (`components/atoms/useButtonVariant.ts`)
+  - 타입 공유 (`components/types.ts` — ButtonShape, ButtonColor, ButtonSize)
 - **개발자 핸드오프**: 없음 (순수 UI 컴포넌트)
 - **가이드 페이지**: `pages/guide/button-link/index.vue` + `button-link.scss`

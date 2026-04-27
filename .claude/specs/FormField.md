@@ -5,7 +5,7 @@
 ### 0. Atomic 계층 & 파일 배치
 
 - **계층**: molecules — Input, Select, DatePicker 등 atoms를 감싸는 form layout 래퍼
-- **배치 경로**: `components/molecules/FormField/`
+- **배치 경로**: `components/molecules/FormField.vue`
 - **구조**: Base 컴포넌트만 구성. 내부에 특정 입력 컴포넌트를 주입하는 slot 기반 구조.
 
 ---

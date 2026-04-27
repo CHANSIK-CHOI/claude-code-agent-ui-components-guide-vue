@@ -21,7 +21,9 @@
 - 컴포넌트 패턴: Atomic Design (atoms / molecules / organisms)
 - TypeScript 전면 사용 (`any` 금지)
 - Vuetify 사용 금지 — 자체 디자인 시스템으로 대체
-- 복잡한 UI (Dialog, Dropdown 등): Radix Vue 기반으로 래핑
+- 복잡한 UI (Dialog, Dropdown 등): Radix Vue **Stable** 컴포넌트만 래핑
+- DatePicker: `@vuepic/vue-datepicker` 유지 — Radix Vue Calendar/DatePicker는 Alpha
+- Radix Vue 컴포넌트 stability 매트릭스 및 외부 라이브러리 정책: `rules/libraries.md` 참조
 
 ## 에이전트 카탈로그
 
@@ -39,6 +41,7 @@
 - `style.md` — SCSS 규칙, BEM, 단위, 중첩, 변수 주입
 - `a11y.md` — 접근성 기준 (aria, 키보드, 시맨틱 HTML)
 - `tokens.md` — 디자인 토큰 네이밍 및 구조
+- `libraries.md` — 외부 라이브러리(Radix Vue 등) stability 매트릭스 및 사용 정책
 
 ## 프로젝트 외부 리소스
 

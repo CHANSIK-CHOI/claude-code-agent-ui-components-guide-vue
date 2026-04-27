@@ -1,6 +1,6 @@
 # TextArea — 구현 메모
 
-- **파일 경로**: components/atoms/TextArea/
+- **파일 경로**: components/atoms/TextArea.vue
 - **계층**: atoms
 - **구현 완료일**: 2026-04-25
 - **비표준 구현**:

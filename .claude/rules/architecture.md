@@ -20,89 +20,77 @@ components/
 
 ### 컴포넌트 파일 구조
 
+모든 카테고리는 **flat 구조**로 통일한다. 컴포넌트별 하위 폴더를 만들지 않고, `.vue` 파일을 카테고리 폴더에 직접 둔다. barrel export는 **카테고리 단일 `index.ts`** 한 곳에서만 관리한다.
+
 ```
 components/
 ├── atoms/
-│   ├── Button/
-│   │   ├── Button.vue    ← Base 컴포넌트
-│   │   └── index.ts
-│   ├── Input/
-│   │   ├── Input.vue         ← Base 컴포넌트 (공통 로직)
-│   │   ├── InputSearch.vue   ← Wrapper (Input + 검색 버튼) ← co-locate
-│   │   ├── InputPassword.vue ← Wrapper (Input + 토글 버튼) ← co-locate
-│   │   └── index.ts
-│   └── index.ts          ← atoms 계층 barrel export
+│   ├── Button.vue
+│   ├── ButtonLink.vue
+│   ├── Input.vue
+│   ├── InputSearch.vue       ← Wrapper도 같은 카테고리에 평탄 배치
+│   ├── InputPassword.vue     ← Wrapper도 같은 카테고리에 평탄 배치
+│   ├── useButtonVariant.ts   ← co-located composable (필요 시 카테고리 내 평탄 배치)
+│   └── index.ts              ← atoms 카테고리 barrel
 ├── molecules/
-│   ├── ButtonGroup/
-│   │   ├── ButtonGroup.vue      ← 레이아웃 담당
-│   │   ├── ButtonGroupItem.vue  ← 종속 컴포넌트 ← co-locate
-│   │   └── index.ts
-│   ├── FormField/
-│   │   ├── FormField.vue
-│   │   └── index.ts
-│   └── index.ts          ← molecules 계층 barrel export
+│   ├── FormField.vue
+│   └── index.ts              ← molecules 카테고리 barrel
 ├── organisms/
-│   ├── Header/
-│   │   ├── Header.vue
-│   │   └── index.ts
-│   └── index.ts          ← organisms 계층 barrel export
-└── index.ts              ← 전체 barrel export
+│   ├── Header.vue
+│   └── index.ts              ← organisms 카테고리 barrel
+├── guide/                    ← 가이드 페이지 전용 컴포넌트 (atomic 계층 외)
+│   ├── GuideHeader.vue
+│   ├── GuideSidebar.vue
+│   └── index.ts
+└── types.ts                  ← 컴포넌트 공용 타입
 ```
 
-**co-locate 기준**: 단독으로 쓰이지 않고 특정 컴포넌트에 항상 종속되는 경우 같은 폴더에 둔다.
+> **루트 `components/index.ts`는 사용하지 않는다.** 카테고리 단위 import만 허용하여 사용처가 어떤 계층의 컴포넌트인지 명시되도록 강제한다.
 
-**각 컴포넌트 `index.ts`** — 개별 컴포넌트 export (co-located 포함)
-```ts
-// components/atoms/Input/index.ts
-export { default as Input } from './Input.vue'
-export { default as InputSearch } from './InputSearch.vue'
-export { default as InputPassword } from './InputPassword.vue'
+**카테고리 `index.ts`** — `.vue` 파일을 직접 named export
 
-// components/molecules/ButtonGroup/index.ts
-export { default as ButtonGroup } from './ButtonGroup.vue'
-export { default as ButtonGroupItem } from './ButtonGroupItem.vue'
-```
-
-**계층별 `index.ts`** — 해당 계층 전체 re-export
 ```ts
 // components/atoms/index.ts
-export * from './Button'
-export * from './Input'
-export * from './Icon'
+export { default as Button } from './Button.vue'
+export { default as ButtonLink } from './ButtonLink.vue'
+export { default as Input } from './Input.vue'
+export { default as InputSearch } from './InputSearch.vue'
+
+// components/molecules/index.ts
+export { default as FormField } from './FormField.vue'
 ```
 
-**루트 `index.ts`** — 전체 한 번에 re-export
-```ts
-// components/index.ts
-export * from './atoms'
-export * from './molecules'
-export * from './organisms'
-```
+**사용 방법** — 반드시 카테고리 단위로 import
 
-**사용 방법**
 ```ts
-// 계층별 import
+// ✅ 카테고리 단위 import
 import { Button, Input } from '~/components/atoms'
 import { FormField } from '~/components/molecules'
+import { GuideHeader, GuideSidebar } from '~/components/guide'
 
-// 전체에서 한 번에 import
-import { Button, FormField, Header } from '~/components'
+// ❌ 루트 단일 import 금지 — components/index.ts 미존재
+import { Button, FormField } from '~/components'
+
+// ❌ 개별 .vue 직접 import 지양 — 카테고리 barrel 우회 금지
+import Button from '~/components/atoms/Button.vue'
 ```
 
 > **Nuxt auto-import 참고**: `<template>` 안에서는 Nuxt가 `components/` 하위 `.vue` 파일을 자동 전역 등록하므로 import 없이 `<Button />`을 바로 쓸 수 있습니다. 위 barrel export는 `<script>` 블록에서 명시적으로 import할 때 사용합니다.
 
 ### Base / Wrapper 컴포넌트 패턴
 
-같은 폴더 안에서 Base와 Wrapper를 분리한다.
+같은 카테고리 폴더 안에서 Base와 Wrapper를 분리한다 (별도 하위 폴더를 만들지 않는다).
 
 ```
-Input.vue           ← Base: v-model, disabled, error 등 공통 로직
-InputSearch.vue     ← Wrapper: Input을 내부에서 사용 + 검색 버튼 추가
-InputPassword.vue   ← Wrapper: Input을 내부에서 사용 + 토글 버튼 추가
+components/atoms/
+├── Input.vue           ← Base: v-model, disabled, error 등 공통 로직
+├── InputSearch.vue     ← Wrapper: Input을 내부에서 사용 + 검색 버튼 추가
+└── InputPassword.vue   ← Wrapper: Input을 내부에서 사용 + 토글 버튼 추가
 ```
 
 - Base는 공통 로직과 마크업만 담당
-- Wrapper는 Base를 import해서 추가 기능만 구현
+- Wrapper는 Base를 import해서 추가 기능만 구현 (`import Input from './Input.vue'`)
+- 카테고리 `index.ts`에 Base와 Wrapper 모두 명시적으로 export
 - 코드 패턴은 `rules/components.md` 참조
 
 ### Pages 폴더 구조
@@ -123,14 +111,32 @@ pages/
 ### TypeScript 타입 위치
 
 ```
+components/
+├── types.ts        ← 컴포넌트 공용 타입 (Variant, Size, ButtonShape 등)
+├── atoms/
+├── molecules/
+└── organisms/
+
 types/
-├── components.ts   ← 공용 컴포넌트 타입 (Variant, Size 등)
-├── api.ts          ← API 응답 타입
-└── index.ts        ← re-export
+├── api.ts          ← API 응답 타입 (향후)
+└── ...             ← 앱 전역 도메인 타입
 ```
 
 - 한 컴포넌트에서만 쓰는 타입은 해당 `.vue` 파일 안에 인라인 선언
-- 2개 이상 공유되는 타입은 `types/components.ts`로 이동
+- 2개 이상 컴포넌트가 공유하는 타입은 `components/types.ts`로 이동
+- API 응답·도메인 타입은 `types/`에 위치 (컴포넌트 타입과 분리)
+
+### Composables 위치
+
+| 종류 | 위치 | import 방식 |
+|------|------|------------|
+| 카테고리 내 공유 (특정 카테고리의 일부 컴포넌트만 사용) | `components/{layer}/use*.ts` | 명시적 import (상대 경로) |
+| 앱 전역 (어디서나 호출) | `composables/use*.ts` | Nuxt auto-import |
+
+- 카테고리 내 공유 composable은 해당 카테고리 폴더에 평탄 배치한다 — 예: `useButtonVariant`는 atoms 내 Button/ButtonLink가 공유하므로 `components/atoms/useButtonVariant.ts`에 위치
+- 같은 카테고리 안의 .vue에서는 상대 경로로 명시적 import — `import { useButtonVariant } from './useButtonVariant'`
+- co-locate한 composable은 Nuxt auto-import 대상이 아니므로 사용처에서 명시적 `import`가 필요하다
+- `composables/`는 인증·카트·전역 상태 등 앱 어디서나 호출되는 composable 전용
 
 ### Nuxt 라우팅 규칙
 

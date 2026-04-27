@@ -30,7 +30,7 @@
 
 ```vue
 <script setup lang="ts">
-// 공용 타입은 types/components.ts에서 import
+// 공용 타입은 ~/components/types에서 import
 type Variant = 'primary' | 'secondary' | 'ghost'
 type Size = 'sm' | 'md' | 'lg'
 

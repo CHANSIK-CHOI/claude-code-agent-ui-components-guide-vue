@@ -3,7 +3,8 @@
 ## 0. Atomic 계층 & 파일 배치
 
 - **계층**: atoms — 외부 컴포넌트 의존 없음, 단일 역할
-- **배치 경로**: `components/atoms/Button/`
+- **배치 경로**: `components/atoms/Button.vue`
+- **카테고리 barrel**: `components/atoms/index.ts`
 - **Base/Wrapper 분리**: Base만 (`Button.vue`)
 
 ---

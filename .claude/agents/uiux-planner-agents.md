@@ -36,6 +36,7 @@ UI 컴포넌트가 **무엇을 하는지**, **어떤 상태를 갖는지**, **�
 - `.claude/rules/components.md` — Base/Wrapper 패턴, Props/Emit 설계, Slot 패턴
 - `.claude/rules/a11y.md` — 접근성 최소 기준 (aria, 키보드, 시맨틱 HTML)
 - `.claude/rules/tokens.md` — 디자인 토큰 네이밍 구조 (카테고리 목록 참조)
+- `.claude/rules/libraries.md` — 외부 라이브러리 stability 매트릭스 (Radix Vue Stable/Alpha, 대체안)
 
 ---
 
@@ -219,10 +220,12 @@ size, type 등 다른 축의 variant가 있으면 별도 표로 분리한다.
 
 | 컴포넌트 유형 | 이유 | 권장 방식 |
 |-------------|------|---------|
-| Dialog / Modal / Drawer | 접근성, 포커스 트랩, 키보드 탐색 복잡 | Radix Vue 래핑 패턴 |
-| Dropdown / Popover / Tooltip | 포지셔닝, 키보드 탐색 복잡 | Radix Vue 래핑 패턴 |
-| Select (검색, 다중선택) | 가상 스크롤, 키보드 탐색 구현 복잡 | Radix Vue 래핑 패턴 |
-| DatePicker / DateRangePicker | 달력 렌더링, 로케일, 범위 선택 복잡 | @vuepic/vue-datepicker 래핑 |
+| Dialog / Modal / Drawer | 접근성, 포커스 트랩, 키보드 탐색 복잡 | Radix Vue **Stable** 래핑 패턴 |
+| Dropdown / Popover / Tooltip | 포지셔닝, 키보드 탐색 복잡 | Radix Vue **Stable** 래핑 패턴 |
+| Select (단일/다중선택) | 가상 스크롤, 키보드 탐색 구현 복잡 | Radix Vue **Stable** `Select` 래핑 |
+| Combobox (검색형 Select) | Radix Vue Combobox는 **Alpha** | Stable Select + 검색 자체 추가 또는 사용자와 라이브러리 협의 |
+| DatePicker / DateRangePicker | Radix Vue Calendar/DatePicker는 **Alpha** | `@vuepic/vue-datepicker` 래핑 |
+| Pagination / Stepper / PinInput / TagsInput / Tree / Editable / NumberField | Radix Vue 해당 컴포넌트는 **Alpha** | 자체 구현 (마크업 단순) — `rules/libraries.md` §2 대체 전략 참조 |
 | Rich Text Editor | 커서 제어, 붙여넣기 처리 복잡 | 프론트엔드 담당자와 라이브러리 협의 |
 | Drag & Drop | 터치 이벤트, 스크롤 처리 복잡 | 프론트엔드 담당자와 라이브러리 협의 |
 | Virtual List | 대용량 데이터 렌더링 최적화 필요 | 프론트엔드 담당자와 라이브러리 협의 |
@@ -231,8 +234,9 @@ size, type 등 다른 축의 variant가 있으면 별도 표로 분리한다.
 "⚠️ [라이브러리명] 래핑 패턴 적용 — 프론트엔드 담당자와 구현 방식 협의"
 
 > **Radix Vue 래핑 컴포넌트 명세 작성 시 추가 지침**
-> 1. **Context7 MCP 필수 확인**: Context7 MCP로 해당 Radix 컴포넌트의 props/events/slots를 먼저 조회하여 명세에 반영 가능한 항목을 파악한다.
-> 2. **props 위임 설계 명시**: 명세의 Props 목록에 "해당 Radix Root 컴포넌트의 모든 props를 외부에서 전달할 수 있도록 위임 설계 필요"를 반드시 포함한다. 퍼블리셔가 확장성 있는 구조로 구현할 수 있도록 설계 방향을 명세에 명시하는 것이 기획 에이전트의 책임이다.
+> 1. **Stability 사전 점검 필수**: `.claude/rules/libraries.md` 매트릭스에서 해당 컴포넌트가 **Stable** 인지 확인한다. **Alpha** 컴포넌트는 명세 작성을 중단하고 사용자에게 대체안(같은 문서의 §2 대체 전략 표)을 안내한 뒤 결정 후 진행한다.
+> 2. **Context7 MCP 필수 확인**: stability 확인 후, Context7 MCP로 해당 Radix 컴포넌트의 props/events/slots를 먼저 조회하여 명세에 반영 가능한 항목을 파악한다. `libraries.md`의 확인일자가 3개월 이상 경과한 경우 Context7 MCP로 stability를 재확인한다.
+> 3. **props 위임 설계 명시**: 명세의 Props 목록에 "해당 Radix Root 컴포넌트의 모든 props를 외부에서 전달할 수 있도록 위임 설계 필요"를 반드시 포함한다. 퍼블리셔가 확장성 있는 구조로 구현할 수 있도록 설계 방향을 명세에 명시하는 것이 기획 에이전트의 책임이다.
 
 ---
 

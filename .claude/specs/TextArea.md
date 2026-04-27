@@ -8,7 +8,7 @@
 ### 0. Atomic 계층 & 파일 배치
 
 - **계층**: atoms — `<textarea>` 단일 엘리먼트 기반, 외부 컴포넌트 의존 없이 장문 텍스트 입력 역할을 수행하는 최소 단위
-- **배치 경로**: `components/atoms/TextArea/`
+- **배치 경로**: `components/atoms/TextArea.vue`
 - **Base/Wrapper 분리**: Base만 구성. 특수 Wrapper 변형(검색, 비밀번호 토글 등)이 없으므로 분리하지 않는다.
 
 계층 판단 근거: Input과 동급의 폼 입력 atom. `<textarea>` 특성(높이, 리사이즈, 카운터)이 추가될 뿐 다른 컴포넌트를 조합하지 않는다.

@@ -6,7 +6,7 @@ type: project
 
 # Select — 구현 메모
 
-- **파일 경로**: components/atoms/Select/
+- **파일 경로**: components/atoms/Select.vue
 - **계층**: atoms
 - **구현 완료일**: 2026-04-26
 - **비표준 구현**:

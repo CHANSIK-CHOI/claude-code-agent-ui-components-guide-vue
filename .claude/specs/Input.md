@@ -5,7 +5,7 @@
 ### 0. Atomic 계층 & 파일 배치
 
 - **계층**: atoms — 외부 컴포넌트 의존 없이 단일 텍스트 입력 역할을 수행하는 최소 단위
-- **배치 경로**: `components/atoms/Input/`
+- **배치 경로**: `components/atoms/Input.vue`
 - **구조**: Base 컴포넌트만 구성. `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"`를 핵심 `<input>` 요소에 적용.
 - **form layout 관심사** (라벨, 툴팁, 도움말 텍스트)는 `FormField` (molecules)가 담당. Input은 순수 입력만 담당.
 

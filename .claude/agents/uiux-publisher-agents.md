@@ -66,8 +66,11 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 - `.claude/rules/style.md` — `<style scoped>`, BEM, `$b` 변수, rem, 2뎁스 중첩, 너비 100% 원칙
 - `.claude/rules/tokens.md` — 토큰 카테고리, 2단계 구조 (시맨틱만 참조)
 - `.claude/rules/a11y.md` — 시맨틱 HTML, disabled/aria, label, focus-visible
+- `.claude/rules/libraries.md` — 외부 라이브러리 stability 매트릭스 (Radix Vue Stable/Alpha, 대체안)
 
-> **외부 라이브러리(Radix Vue, @vuepic/vue-datepicker 등) 컴포넌트 작업 시 Context7 MCP로 해당 컴포넌트의 API(props, events, slots)를 반드시 먼저 확인한다.** 라이브러리 API 정확도가 구현에 결정적이기 때문이다. 단, Vue 3 / Nuxt 3 자체 문법은 학습 데이터로 충분하므로 호출하지 않는다.
+> **Radix Vue 래핑 구현 시 stability 사전 점검 (필수)**: 구현 직전 `.claude/rules/libraries.md` 매트릭스에서 해당 컴포넌트가 **Stable** 인지 확인한다. **Alpha** 컴포넌트(Calendar, DatePicker, Combobox, Pagination, Stepper, PinInput, TagsInput, Tree, Editable, NumberField, Splitter, Listbox 등)는 구현 중단 후 사용자에게 대체안(같은 문서 §2)을 안내하고 결정 후 진행한다. `libraries.md`의 확인일자가 3개월 이상 경과한 경우 Context7 MCP로 stability를 재확인한다.
+
+> **외부 라이브러리(Radix Vue Stable, @vuepic/vue-datepicker 등) 컴포넌트 작업 시 Context7 MCP로 해당 컴포넌트의 API(props, events, slots)를 반드시 먼저 확인한다.** 라이브러리 API 정확도가 구현에 결정적이기 때문이다. 단, Vue 3 / Nuxt 3 자체 문법은 학습 데이터로 충분하므로 호출하지 않는다.
 
 ---
 
@@ -78,7 +81,7 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 추가 사항:
 - Radix Vue: `radix-vue/nuxt`로 auto-import 설정됨 → `import` 없이 바로 사용 가능
 - @vuepic/vue-datepicker: `.client.ts` 플러그인 등록됨
-- 아이콘: `components/atoms/Icon/` 하위 SVG 컴포넌트. 해당 아이콘이 없으면 슬롯(`name="iconLeading"` 등)만 정의하고 사용 측에서 SVG 주입
+- 아이콘: `components/atoms/Icon*.vue` SVG 컴포넌트(평탄 배치). 해당 아이콘이 없으면 슬롯(`name="iconLeading"` 등)만 정의하고 사용 측에서 SVG 주입
 
 상세 코드 패턴은 `rules/components.md`, `rules/style.md` 참조.
 
@@ -86,21 +89,32 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 
 ## 3. 컴포넌트 파일 구조
 
+모든 카테고리는 **flat 구조** — 컴포넌트별 하위 폴더 없이 `.vue` 파일을 카테고리 폴더에 직접 둔다. barrel은 카테고리 단일 `index.ts`만 사용한다. **루트 `components/index.ts`는 사용하지 않는다.**
+
 ```
-components/atoms|molecules|organisms/
-└── ComponentName/
-    ├── ComponentName.vue        ← Base 또는 단일 컴포넌트
-    ├── ComponentNameSub.vue     ← Wrapper / 종속 컴포넌트 (필요 시 co-locate)
-    └── index.ts                 ← named export 배럴
+components/atoms|molecules|organisms|guide/
+├── ComponentName.vue        ← Base 또는 단일 컴포넌트
+├── ComponentNameSub.vue     ← Wrapper / 종속 컴포넌트 (필요 시 같은 카테고리에 평탄 배치)
+├── useComponentName.ts      ← 카테고리 내 공유 composable (필요 시)
+└── index.ts                 ← 카테고리 barrel (.vue 직접 named export)
 ```
 
-**`index.ts`:**
+**카테고리 `index.ts`:**
 ```ts
-export { default as ComponentName } from "./ComponentName.vue";
-export { default as ComponentNameSearch } from "./ComponentNameSearch.vue";
+// components/atoms/index.ts
+export { default as ComponentName } from './ComponentName.vue'
+export { default as ComponentNameSearch } from './ComponentNameSearch.vue'
 ```
 
-**계층별 `index.ts` 업데이트** — 컴포넌트 추가 시 `components/atoms/index.ts`(또는 molecules/organisms)에 `export * from "./ComponentName";` 추가.
+**컴포넌트 추가 시 작업**: 새 `.vue` 파일을 해당 카테고리 폴더에 추가 + 카테고리 `index.ts`에 `export { default as Name } from './Name.vue'` 한 줄 추가. 그 외 추가 작업 없음.
+
+**사용처 import** — 카테고리 단위만 허용:
+```ts
+import { Button, Input } from '~/components/atoms'      // ✅
+import { FormField } from '~/components/molecules'      // ✅
+import { Button } from '~/components'                   // ❌ 루트 barrel 미존재
+import Button from '~/components/atoms/Button.vue'      // ❌ 카테고리 barrel 우회 금지
+```
 
 > Nuxt auto-import: `<template>` 안에서는 `components/` 하위 `.vue`가 자동 전역 등록됨. 위 barrel은 `<script>`에서 명시적으로 import할 때만 필요.
 
@@ -126,7 +140,7 @@ defineOptions({ inheritAttrs: false })
 
 ### 4-2. Props / Emit
 
-`withDefaults` + 제네릭 `defineProps`/`defineEmits` 사용. 한 컴포넌트에서만 쓰는 타입은 인라인, 2개 이상 공유면 `types/components.ts`. 코드 예시는 `rules/components.md` §"Props / Emit 설계" 참조.
+`withDefaults` + 제네릭 `defineProps`/`defineEmits` 사용. 한 컴포넌트에서만 쓰는 타입은 인라인, 2개 이상 공유면 `components/types.ts`. 코드 예시는 `rules/components.md` §"Props / Emit 설계" 참조.
 
 ### 4-3. Variant — `:class` 배열 바인딩
 
@@ -134,7 +148,7 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 
 ### 4-4. Base / Wrapper
 
-같은 폴더 안에서 분리. Base는 공통 로직, Wrapper는 Base를 import해 추가 기능만 구현. 두 컴포넌트 모두 `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` 적용. 예시: `rules/components.md` §"Base / Wrapper 분리 패턴".
+같은 카테고리 폴더 안에 평탄 배치(별도 하위 폴더 없음). Base는 공통 로직, Wrapper는 Base를 상대 경로(`./Base.vue`)로 import해 추가 기능만 구현. 두 컴포넌트 모두 `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` 적용. 카테고리 `index.ts`에는 Base와 Wrapper 모두 명시적으로 export. 예시: `rules/components.md` §"Base / Wrapper 분리 패턴".
 
 ### 4-5. Radix Vue 래핑
 
@@ -249,9 +263,9 @@ const emit = defineEmits<{
 컴포넌트 작성 시 이 순서로 출력:
 
 1. **파일 구조 트리**
-2. **ComponentName.vue** — 경로 명시 (`components/atoms/ComponentName/ComponentName.vue`), `<template>` → `<script setup lang="ts">` → `<style lang="scss" scoped>` 순
-3. **index.ts** — barrel export
-4. **types/components.ts 수정 내용** — 공용 타입 추가 시
+2. **ComponentName.vue** — 경로 명시 (`components/atoms/ComponentName.vue`), `<template>` → `<script setup lang="ts">` → `<style lang="scss" scoped>` 순
+3. **카테고리 `index.ts` 갱신 내역** — 추가될 export 한 줄 (예: `export { default as ComponentName } from './ComponentName.vue'`)
+4. **components/types.ts 수정 내용** — 공용 타입 추가 시
 5. **개발자 핸드오프 테이블**
 
 설명은 간결하게 — 코드 우선, 주석 최소화.
@@ -462,8 +476,8 @@ Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 이 가이드�
 ```markdown
 # [ComponentName] — 구현 메모
 
-- **파일 경로**: components/[계층]/[ComponentName]/
-- **계층**: atoms / molecules / organisms
+- **파일 경로**: components/[계층]/[ComponentName].vue
+- **계층**: atoms / molecules / organisms / guide
 - **구현 완료일**: YYYY-MM-DD
 - **비표준 구현**: (예: Radix Vue DialogRoot 래핑, defineExpose 사용 등 / 없으면 "없음")
 - **개발자 핸드오프**: (예: items prop — API 연동 필요 / 없으면 "없음")
