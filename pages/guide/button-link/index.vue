@@ -256,6 +256,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "guide" });
 </script>
 
 <style lang="scss" scoped src="./button-link.scss"></style>

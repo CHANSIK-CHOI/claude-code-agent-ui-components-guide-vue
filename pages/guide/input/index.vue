@@ -503,6 +503,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "guide" });
+
 const demo1 = ref("");
 const demo2 = ref("");
 const demo3 = ref("");

@@ -523,6 +523,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "guide" });
+
 // [연동] 개발자가 API 응답으로 교체
 const categoryOptions = [
   { value: 'top', label: '상의' },

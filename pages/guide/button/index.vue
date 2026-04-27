@@ -331,6 +331,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "guide" });
+
 type ButtonShape = "solid" | "line" | "text";
 type ButtonColor = "primary" | "secondary" | "black";
 
