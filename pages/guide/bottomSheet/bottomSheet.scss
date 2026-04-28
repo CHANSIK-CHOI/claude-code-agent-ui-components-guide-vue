@@ -1,0 +1,258 @@
+$b: 'bottomSheetGuidePage';
+
+.#{$b} {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: $spacing-lg;
+}
+
+.#{$b}__header {
+  margin-bottom: $spacing-xl;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid $line-300;
+}
+
+.#{$b}__meta { margin-bottom: $spacing-sm; }
+
+.#{$b}__badge {
+  display: inline-block;
+  padding: 0.2rem $spacing-sm;
+  background-color: $bg-accent-light-blue;
+  color: $color-primary;
+  font-size: $font-size-caption1;
+  font-weight: $font-weight-bold;
+  border-radius: $radius-sm;
+}
+
+.#{$b}__title {
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
+  color: $text-900;
+  margin-bottom: $spacing-sm;
+}
+
+.#{$b}__desc {
+  font-size: $font-size-body3;
+  color: $text-700;
+  line-height: $line-height-base;
+
+  code {
+    background-color: $bg-tertiary;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+  }
+}
+
+.#{$b}__section {
+  margin-bottom: $spacing-xl;
+  padding-bottom: $spacing-xl;
+  border-bottom: 1px solid $line-300;
+
+  &:last-child { border-bottom: none; }
+}
+
+.#{$b}__sectionTitle {
+  font-size: $font-size-h4;
+  font-weight: $font-weight-bold;
+  color: $text-900;
+  margin-bottom: $spacing-lg;
+}
+
+.#{$b}__group { margin-bottom: $spacing-lg; }
+
+.#{$b}__note {
+  font-size: $font-size-body3;
+  color: $text-600;
+  margin-bottom: $spacing-sm;
+  line-height: $line-height-base;
+
+  code {
+    background-color: $bg-tertiary;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+  }
+}
+
+.#{$b}__phoneFrame {
+  max-width: 36rem;
+  padding: $spacing-md;
+  border: 1px solid $line-200;
+  border-radius: $radius-lg;
+  background-color: $bg-secondary;
+}
+
+.#{$b}__demoBtn {
+  width: 100%;
+  height: 4.4rem;
+  background-color: $color-primary;
+  color: $text-white;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-body3;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+
+  &:hover { background-color: $color-primary-hover; }
+}
+
+.#{$b}__result {
+  margin-top: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background-color: $bg-secondary;
+  border-radius: $radius-md;
+  font-size: $font-size-body3;
+  color: $text-700;
+}
+
+.#{$b}__optionList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.#{$b}__optionItem {
+  border-bottom: 1px solid $line-300;
+
+  &:last-child { border-bottom: none; }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: $spacing-md 0;
+    border: none;
+    background: transparent;
+    font-size: $font-size-body3;
+    color: $text-700;
+    cursor: pointer;
+    text-align: left;
+
+    &:hover { color: $text-900; }
+  }
+}
+
+.#{$b}__check { color: $color-primary; font-weight: $font-weight-bold; }
+
+.#{$b}__longList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.#{$b}__longListItem {
+  padding: $spacing-sm 0;
+  border-bottom: 1px solid $line-300;
+  font-size: $font-size-body3;
+  color: $text-700;
+}
+
+.#{$b}__filterGroup { padding-bottom: $spacing-sm; }
+
+.#{$b}__filterLabel {
+  font-size: $font-size-body3;
+  font-weight: $font-weight-bold;
+  color: $text-900;
+  margin-bottom: $spacing-sm;
+}
+
+.#{$b}__radio {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs 0;
+  font-size: $font-size-body3;
+  color: $text-700;
+  cursor: pointer;
+}
+
+.#{$b}__footerBtn {
+  flex: 1;
+  height: 4.8rem;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-body3;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+}
+
+.#{$b}__footerBtn--reset {
+  background-color: $bg-secondary;
+  color: $text-700;
+}
+
+.#{$b}__footerBtn--apply {
+  background-color: $color-primary;
+  color: $text-white;
+}
+
+.#{$b}__tableTitle {
+  font-size: $font-size-body2;
+  font-weight: $font-weight-bold;
+  color: $text-900;
+  margin-top: $spacing-lg;
+  margin-bottom: $spacing-sm;
+}
+
+.#{$b}__propsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-body3;
+
+  th, td {
+    border: 1px solid $line-300;
+    padding: $spacing-sm $spacing-md;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: $bg-secondary;
+    font-weight: $font-weight-medium;
+    color: $text-700;
+    white-space: nowrap;
+  }
+
+  td { color: $text-900; }
+
+  code {
+    background-color: $bg-tertiary;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    white-space: nowrap;
+  }
+}
+
+.#{$b}__delegationNote {
+  margin-top: $spacing-lg;
+  padding: $spacing-sm $spacing-md;
+  background-color: $bg-accent-light-blue;
+  border-left: 3px solid $color-primary;
+  border-radius: $radius-sm;
+  font-size: $font-size-body3;
+  color: $text-700;
+  line-height: $line-height-base;
+}
+
+.#{$b}__radixNote {
+  margin-top: $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  background-color: $bg-secondary;
+  border-left: 3px solid $line-200;
+  border-radius: $radius-sm;
+  font-size: $font-size-body3;
+  color: $text-700;
+  line-height: $line-height-base;
+
+  a { color: $color-primary; }
+
+  code {
+    background-color: $bg-tertiary;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+  }
+}

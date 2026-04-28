@@ -70,6 +70,11 @@ const navigation: GuideNavGroup[] = [
     label: 'ORGANISMS',
     items: [
       { label: 'Tab', to: '/guide/tab' },
+      { label: 'Alert', to: '/guide/alert' },
+      { label: 'Confirm', to: '/guide/confirm' },
+      { label: 'LayerPopup', to: '/guide/layerPopup' },
+      { label: 'BottomSheet', to: '/guide/bottomSheet' },
+      { label: 'FullPopup', to: '/guide/fullPopup' },
     ],
   },
   {
