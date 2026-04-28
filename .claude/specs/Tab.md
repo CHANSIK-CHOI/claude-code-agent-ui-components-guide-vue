@@ -43,18 +43,18 @@
 ### 2. 영역 구성 (Area Map)
 
 ```
-TabRoot (TabsRoot)
-└── TabRoot__header (position: relative 래퍼)
-    ├── TabRoot__list (TabsList, overflow-x: auto)
-    │   └── TabRoot__trigger (TabsTrigger × items.length)   ← 필수
-    │       ├── TabRoot__label                               ← 필수 (탭 텍스트)
-    │       └── TabRoot__badge                               ← 조건부 (badge prop 있을 때만)
-    └── TabRoot__view-toggle                                 ← 조건부 (showViewToggle=true, pill 전용)
-        └── TabRoot__view-btn (단일 버튼: viewType='grid'이면 목록 아이콘, 'list'이면 격자 아이콘)
+tab (TabsRoot)
+└── tab__header (position: relative 래퍼)
+    ├── tab__list (TabsList, overflow-x: auto)
+    │   └── tab__trigger (TabsTrigger × items.length)   ← 필수
+    │       ├── tab__label                               ← 필수 (탭 텍스트)
+    │       └── tab__badge                               ← 조건부 (badge prop 있을 때만)
+    └── tab__view-toggle                                 ← 조건부 (showViewToggle=true, pill 전용)
+        └── tab__view-btn (단일 버튼: viewType='grid'이면 목록 아이콘, 'list'이면 격자 아이콘)
 ```
 
-- `TabRoot__badge`: badge prop이 있을 때만 렌더링. 의미 있는 텍스트이므로 `aria-hidden` 미적용.
-- `TabRoot__view-toggle`: `showViewToggle=true`이고 `variant="pill"`일 때만 렌더링.
+- `tab__badge`: badge prop이 있을 때만 렌더링. 의미 있는 텍스트이므로 `aria-hidden` 미적용.
+- `tab__view-toggle`: `showViewToggle=true`이고 `variant="pill"`일 때만 렌더링.
 
 ---
 

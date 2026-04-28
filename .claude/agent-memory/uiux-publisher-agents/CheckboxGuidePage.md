@@ -10,7 +10,7 @@ type: project
 - **계층**: guide
 - **구현 완료일**: 2026-04-27
 - **비표준 구현**:
-  - `.CheckboxRoot__wrapper`에 `display: inline-flex` 적용 — Checkbox/Radio는 style.md `inline-flex 금지` 규칙 예외로 확정. 콘텐츠 너비만큼만 차지해야 하기 때문.
+  - `.checkbox__wrapper`에 `display: inline-flex` 적용 — Checkbox/Radio는 style.md `inline-flex 금지` 규칙 예외로 확정. 콘텐츠 너비만큼만 차지해야 하기 때문.
 - **가이드 섹션**: ① 개요 / ② type Variant (box·check, 레이블 없는 버전·있는 버전) / ③ 상태(State) / ④ 레이블 조합 / ⑤ 실사용 예시(v-model) / ⑥ Props 테이블
 - **delegationNote**: 단순 컴포넌트 버전 — CheckboxRoot 버튼 요소에 $attrs 위임
 - **radixNote**: 추가됨 (Radix Vue CheckboxRoot 기반)

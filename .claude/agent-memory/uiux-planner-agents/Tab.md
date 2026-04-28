@@ -4,7 +4,7 @@
 - **작성일**: 2026-04-27
 - **주요 결정**:
   - Radix Vue Tabs 래핑 (`TabsRoot` / `TabsList` / `TabsTrigger`). `TabsContent` 미사용 (Navigation only 설계).
-  - overflowIndicator (`TabRoot__overflow-indicator`) 제거 확정 — 디자인에 없는 요소.
+  - overflowIndicator (`tab__overflow-indicator`) 제거 확정 — 디자인에 없는 요소.
   - viewToggle 렌더링 방식: `v-if`/`v-else`로 단일 버튼 렌더링. 현재 viewType의 반대 상태 버튼만 DOM에 존재.
     - `viewType === 'grid'` → 목록 보기 버튼(list 아이콘)만 표시
     - `viewType === 'list'` → 격자 보기 버튼(grid 아이콘)만 표시

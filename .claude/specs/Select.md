@@ -29,7 +29,7 @@ Trigger 영역은 Input과 동일한 외형을 가지며, 클릭 시 드롭다�
 #### Trigger 영역 (닫힌 상태)
 
 - ① **선택값 / Placeholder (SelectValue)** — 선택된 옵션의 텍스트를 표시. 미선택 시 placeholder 표시 / 필수
-- ② **Chevron 아이콘 (SelectIcon)** — 우측 끝에 위치하는 방향 표시 아이콘. 크기는 부모 요소(`.SelectRoot__icon`)가 제어 / 필수
+- ② **Chevron 아이콘 (SelectIcon)** — 우측 끝에 위치하는 방향 표시 아이콘. 크기는 부모 요소(`.select__icon`)가 제어 / 필수
   - `default` variant: SVG 경로 자체는 위를 향하는 형태(∧). 닫힌 상태: CSS `rotate(180deg)` → 아래(↓) / 열린 상태: `rotate(0deg)` → 위(↑)
   - `filter` variant: SVG 경로 자체는 아래를 향하는 형태(↓). 닫힌 상태: CSS `rotate(0deg)` → 아래(↓) / 열린 상태: `rotate(180deg)` → 위(↑). 아이콘 색상 `$text-600`(#666666)
 
@@ -264,7 +264,7 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 
 | 속성 | 값 | 비고 |
 |-----|-----|------|
-| 아이콘 크기 | 16×16px (`1.6rem × 1.6rem`) | 부모 요소(`.SelectRoot__icon`)가 크기 제어. SVG `width/height` 속성 제거 |
+| 아이콘 크기 | 16×16px (`1.6rem × 1.6rem`) | 부모 요소(`.select__icon`)가 크기 제어. SVG `width/height` 속성 제거 |
 | SVG 방향 | 위를 향하는 경로(∧) | SVG 자체의 기본 형태 |
 | 닫힌 상태 방향 | 아래(↓) | CSS `rotate(180deg)` 적용 |
 | 열린 상태 방향 | 위(↑) | CSS `rotate(0deg)` (회전 없음) |

@@ -17,11 +17,11 @@
 #### 마크업 구조
 
 ```html
-<section class="[ComponentName]GuidePage__section">
-  <h2 class="[ComponentName]GuidePage__sectionTitle">⑥ Props</h2>
+<section class="[componentName]GuidePage__section">
+  <h2 class="[componentName]GuidePage__sectionTitle">⑥ Props</h2>
 
-  <h3 class="[ComponentName]GuidePage__tableTitle">Props</h3>
-  <table class="[ComponentName]GuidePage__propsTable">
+  <h3 class="[componentName]GuidePage__tableTitle">Props</h3>
+  <table class="[componentName]GuidePage__propsTable">
     <thead>
       <tr><th>이름</th><th>타입</th><th>기본값</th><th>설명</th></tr>
     </thead>
@@ -35,10 +35,10 @@
     </tbody>
   </table>
 
-  <h3 class="[ComponentName]GuidePage__tableTitle">Slots</h3>
+  <h3 class="[componentName]GuidePage__tableTitle">Slots</h3>
   <!-- Slots 테이블 -->
 
-  <h3 class="[ComponentName]GuidePage__tableTitle">Events</h3>
+  <h3 class="[componentName]GuidePage__tableTitle">Events</h3>
   <!-- Events 테이블 -->
 </section>
 ```
@@ -105,7 +105,7 @@
 #### 단순 컴포넌트 (Button, Input 등)
 
 ```html
-<p class="[ComponentName]GuidePage__delegationNote">
+<p class="[componentName]GuidePage__delegationNote">
   <strong>네이티브 속성 위임</strong>: 이 컴포넌트는 <code>v-bind="$attrs"</code>를 사용하므로
   위 Props 외에도 <code>&lt;[핵심요소]&gt;</code> 요소의 모든 네이티브 HTML 속성
   (<code>aria-label</code>, <code>autofocus</code>, <code>tabindex</code>, <code>data-*</code> 등)을
@@ -117,7 +117,7 @@
 #### 복합 컴포넌트 (Stepper 등 — `$attrs` 목적지가 여러 요소로 분산)
 
 ```html
-<p class="[ComponentName]GuidePage__delegationNote">
+<p class="[componentName]GuidePage__delegationNote">
   <strong>네이티브 속성 위임</strong>: 이 컴포넌트는 <code>v-bind="$attrs"</code>를 사용하므로
   위 Props 외에도 <code>&lt;input&gt;</code> 요소의 모든 네이티브 HTML 속성
   (<code>id</code>, <code>name</code>, <code>aria-label</code>, <code>aria-describedby</code>, <code>data-*</code> 등)을
@@ -156,7 +156,7 @@
 Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 본 가이드에서 다루는 props 외에 Radix Vue가 지원하는 추가 props를 사용하려면 공식 API 문서를 확인하라는 안내 문구를 **반드시** 추가한다.
 
 ```html
-<p class="[ComponentName]GuidePage__radixNote">
+<p class="[componentName]GuidePage__radixNote">
   이 컴포넌트는 <strong>Radix Vue</strong>를 기반으로 합니다.
   위 Props 외에도 Radix Vue가 지원하는 추가 props를 사용할 수 있습니다.
   전체 API는
@@ -196,7 +196,7 @@ Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 본 가이드�
 **FormField 상세 설명(Props/Slots 표)은 `pages/guide/input/index.vue` 한 곳에만 작성**한다. Select·DatePicker 등 FormField를 사용하는 다른 가이드 페이지는 Props/Slots 표를 중복 작성하지 않고 아래 안내문만 추가한다.
 
 ```html
-<p class="[ComponentName]GuidePage__note">
+<p class="[componentName]GuidePage__note">
   FormField Props/Slots 상세 설명은 <a href="/guide/input">Input 가이드 페이지</a>를 참조하세요.
 </p>
 ```

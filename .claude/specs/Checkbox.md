@@ -26,10 +26,10 @@
 ### 2. 영역 구성 (Area Map)
 
 ```
-① CheckboxRoot__wrapper  (label 태그 — 텍스트 클릭 시 체크 토글)
-  ② CheckboxRoot__control  (CheckboxRoot — Radix Vue, 실제 checkbox 버튼 역할)
-    ③ CheckboxRoot__icon--always  (SVG 체크 아이콘 — box/check 두 타입 모두 항상 렌더됨)
-  ④ CheckboxRoot__label  (default 슬롯에 내용이 있을 때만 렌더)
+① checkbox__wrapper  (label 태그 — 텍스트 클릭 시 체크 토글)
+  ② checkbox__control  (CheckboxRoot — Radix Vue, 실제 checkbox 버튼 역할)
+    ③ checkbox__icon--always  (SVG 체크 아이콘 — box/check 두 타입 모두 항상 렌더됨)
+  ④ checkbox__label  (default 슬롯에 내용이 있을 때만 렌더)
 ```
 
 | 번호 | 영역 | 필수 여부 | 설명 |
@@ -41,6 +41,7 @@
 
 > **설계 변경 이력**: 초기 명세의 `CheckboxIndicator` 블록(체크 시에만 DOM 렌더)은 최종 구현에서 제거됐습니다.
 > `box` / `check` 두 타입 모두 SVG 아이콘을 항상 렌더하고, 아이콘 색상을 CSS로 제어하는 방식으로 통일했습니다 (Figma 노드 `40004010:2292` 확인).
+
 
 ---
 

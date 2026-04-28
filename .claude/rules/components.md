@@ -70,7 +70,7 @@ const emit = defineEmits<{
 <!-- Button.vue — 단일(Base) 컴포넌트도 동일하게 적용 -->
 <template>
   <button
-    class="ButtonRoot"
+    class="button"
     :disabled="disabled"
     v-bind="$attrs"
   >
@@ -142,12 +142,12 @@ CVA 대신 Vue의 `:class` 바인딩으로 처리한다. `scoped` 방식이므�
 ```vue
 <template>
   <button
-    class="ButtonRoot"
+    class="button"
     :class="[
-      `ButtonRoot--${variant}`,
-      `ButtonRoot--${size}`,
-      { 'ButtonRoot--disabled': disabled },
-      { 'ButtonRoot--loading': loading },
+      `button--${variant}`,
+      `button--${size}`,
+      { 'button--disabled': disabled },
+      { 'button--loading': loading },
     ]"
     :disabled="disabled || loading"
   >
@@ -167,7 +167,7 @@ Vue의 `<slot>`은 React의 `{children}`에 해당한다.
 
 ```vue
 <!-- 기본 슬롯 (React의 {children}) -->
-<button class="ButtonRoot">
+<button class="button">
   <slot />
 </button>
 ```
@@ -175,11 +175,11 @@ Vue의 `<slot>`은 React의 `{children}`에 해당한다.
 ```vue
 <!-- 네임드 슬롯 (React에서 iconLeft={<Icon />} prop으로 넘기던 것) -->
 <template>
-  <button class="ButtonRoot">
-    <span v-if="$slots.icon" class="ButtonRoot__icon">
+  <button class="button">
+    <span v-if="$slots.icon" class="button__icon">
       <slot name="icon" />
     </span>
-    <span class="ButtonRoot__label">
+    <span class="button__label">
       <slot />
     </span>
   </button>
@@ -203,8 +203,8 @@ Vue의 `<slot>`은 React의 `{children}`에 해당한다.
       <slot name="trigger" />
     </DialogTrigger>
     <DialogPortal>
-      <DialogOverlay class="ModalRoot__overlay" />
-      <DialogContent class="ModalRoot__content">
+      <DialogOverlay class="modal__overlay" />
+      <DialogContent class="modal__content">
         <slot />
       </DialogContent>
     </DialogPortal>
@@ -212,7 +212,7 @@ Vue의 `<slot>`은 React의 `{children}`에 해당한다.
 </template>
 
 <style lang="scss" scoped>
-.ModalRoot {
+.modal {
   &__overlay {
     position: fixed;
     inset: 0;
@@ -297,15 +297,15 @@ Vue에서도 React와 동일하게 Base/Wrapper 분리가 가능하다.
 ```vue
 <!-- Input.vue -->
 <template>
-  <div class="InputRoot" :class="{ 'InputRoot--error': !!error }">
+  <div class="input" :class="{ 'input--error': !!error }">
     <input
-      class="InputRoot__field"
+      class="input__field"
       :value="modelValue"
       :disabled="disabled"
       v-bind="$attrs"
       @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
-    <p v-if="error" class="InputRoot__error">{{ error }}</p>
+    <p v-if="error" class="input__error">{{ error }}</p>
   </div>
 </template>
 
@@ -327,9 +327,9 @@ const emit = defineEmits<{
 ```vue
 <!-- InputSearch.vue -->
 <template>
-  <div class="InputSearchRoot">
+  <div class="inputSearch">
     <Input v-model="internalValue" v-bind="$attrs" :disabled="disabled" :error="error" />
-    <button type="button" class="InputSearchRoot__btn" :disabled="disabled" @click="emit('search', internalValue)">
+    <button type="button" class="inputSearch__btn" :disabled="disabled" @click="emit('search', internalValue)">
       <IconSearch />
     </button>
   </div>

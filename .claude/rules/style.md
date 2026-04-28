@@ -13,12 +13,12 @@
 
 ### BEM 네이밍
 
-CamelCase + BEM 조합을 사용한다.
+camelCase + BEM 조합을 사용한다.
 
 ```
-.ComponentRoot           ← Block (루트 요소)
-.ComponentRoot__element  ← Element (자식 요소)
-.ComponentRoot--modifier ← Modifier (상태/변형)
+.componentName           ← Block (루트 요소)
+.componentName__element  ← Element (자식 요소)
+.componentName--modifier ← Modifier (상태/변형)
 ```
 
 ### SCSS 블록 변수 패턴 (필수)
@@ -26,7 +26,7 @@ CamelCase + BEM 조합을 사용한다.
 모든 컴포넌트 `<style>` 블록 최상단에 `$b` 변수로 블록명을 선언하고, 이후 모든 셀렉터에서 `#{$b}`로 참조한다.
 
 ```scss
-$b: 'ButtonRoot';
+$b: 'button';
 
 // ✅ 블록
 .#{$b} { }
@@ -49,21 +49,21 @@ $b: 'ButtonRoot';
 
 // ✅ 모디파이어 안에서 엘리먼트 대상 지정 (descendant)
 .#{$b}--text {
-  .#{$b}__label {   // .ButtonRoot--text .ButtonRoot__label 생성
+  .#{$b}__label {   // .button--text .button__label 생성
     text-decoration: underline;
   }
 }
 ```
 
-**`&__label` 패턴 금지** — modifier 안에서 `&__element`를 쓰면 `.ButtonRoot--text__label`이 생성되어 실제 BEM 클래스와 불일치한다. 반드시 `.#{$b}__label`(변수 참조)로 작성한다.
+**`&__label` 패턴 금지** — modifier 안에서 `&__element`를 쓰면 `.button--text__label`이 생성되어 실제 BEM 클래스와 불일치한다. 반드시 `.#{$b}__label`(변수 참조)로 작성한다.
 
 ```scss
-// ❌ 잘못된 패턴 — .ButtonRoot--text__label 생성됨 (BEM 불일치)
+// ❌ 잘못된 패턴 — .button--text__label 생성됨 (BEM 불일치)
 .#{$b}--text {
   &__label { text-decoration: underline; }
 }
 
-// ✅ 올바른 패턴 — .ButtonRoot--text .ButtonRoot__label 생성됨
+// ✅ 올바른 패턴 — .button--text .button__label 생성됨
 .#{$b}--text {
   .#{$b}__label { text-decoration: underline; }
 }
@@ -75,7 +75,7 @@ $b: 'ButtonRoot';
 
 ```scss
 // ✅ import 없이 바로 사용 가능
-.ButtonRoot {
+.button {
   background-color: $color-primary;
   color: $text-strong;
   border-radius: $radius-sm;
@@ -104,21 +104,21 @@ px ÷ 10 = rem
 **핵심 원칙**: element(`__`)는 block(`.#{$b}`) 안에 중첩. modifier(`--`)는 block 밖에 flat 선언.
 
 ```scss
-$b: 'InputRoot';
+$b: 'input';
 
 // ✅ 기준 패턴 — $b 블록 안에 element 중첩, pseudo-class 3뎁스 허용
 .#{$b} {
   display: flex;
   width: 100%;
 
-  &__field {           // 2뎁스 — .InputRoot__field
+  &__field {           // 2뎁스 — .input__field
     border: 1px solid $border-default;
 
-    &:focus {          // 3뎁스 허용 — .InputRoot__field:focus
+    &:focus {          // 3뎁스 허용 — .input__field:focus
       border-color: $border-input-focus;
     }
 
-    &:disabled {       // 3뎁스 허용 — .InputRoot__field:disabled
+    &:disabled {       // 3뎁스 허용 — .input__field:disabled
       background-color: $bg-disabled;
       cursor: not-allowed;
     }
@@ -148,7 +148,7 @@ $b: 'InputRoot';
   }
 }
 
-// ❌ modifier 안에서 &__element — .InputRoot--disabled__field 생성됨 (BEM 불일치)
+// ❌ modifier 안에서 &__element — .input--disabled__field 생성됨 (BEM 불일치)
 .#{$b}--disabled {
   &__field { }
 }
@@ -167,13 +167,13 @@ $b: 'InputRoot';
 
 ```scss
 // ✅ 올바른 패턴
-.ButtonRoot {
+.button {
   display: flex;
   width: 100%;
 }
 
 // ❌ 금지 패턴
-.ButtonRoot {
+.button {
   display: inline-flex;  // 금지
   width: fit-content;    // 금지
   width: 200px;          // 금지 (고정 width는 부모가 결정)

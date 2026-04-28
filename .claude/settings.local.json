@@ -1,6 +1,17 @@
 {
   "permissions": {
-    "allow": ["WebFetch(domain:www.radix-vue.com)"],
-    "additionalDirectories": ["C:/dev/desimone"]
-  }
+    "allow": [
+      "WebFetch(domain:www.radix-vue.com)",
+      "Bash(grep *)"
+    ],
+    "additionalDirectories": [
+      "C:/dev/desimone"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "figma",
+    "context7",
+    "playwright"
+  ]
 }

@@ -22,4 +22,4 @@
 - 고유 ID(`uid`)로 `<label for>` + `<input id>` 연결, `aria-describedby` 연결
 - `aria-invalid="true"` — error 상태에서만 적용
 - 툴팁 버튼에 SVG 정보 아이콘(원 + i) 인라인 삽입
-- `InputRoot__helper--error` modifier로 도움말 색상 분기
+- `input__helper--error` modifier로 도움말 색상 분기

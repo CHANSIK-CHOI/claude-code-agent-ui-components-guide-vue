@@ -2,6 +2,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   telemetry: false,
 
+  devServer: {
+    port: 5000,
+  },
+
   modules: ['radix-vue/nuxt'],
 
   components: [

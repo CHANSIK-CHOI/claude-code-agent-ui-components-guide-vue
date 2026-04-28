@@ -149,7 +149,7 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 
 ### 4-6. 스타일
 
-`<style lang="scss" scoped>` + `$b` 블록 변수 패턴 + BEM(CamelCase). rem 단위(`html { font-size: 10px }` 기준), 2뎁스 중첩, `display: flex; width: 100%` 원칙. 모든 색상·타이포·간격은 토큰 변수만 참조. 자세한 규칙: `rules/style.md`, `rules/tokens.md`.
+`<style lang="scss" scoped>` + `$b` 블록 변수 패턴 + BEM(camelCase). rem 단위(`html { font-size: 10px }` 기준), 2뎁스 중첩, `display: flex; width: 100%` 원칙. 모든 색상·타이포·간격은 토큰 변수만 참조. 자세한 규칙: `rules/style.md`, `rules/tokens.md`.
 
 ### 4-7. 접근성
 
