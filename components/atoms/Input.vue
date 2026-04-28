@@ -1,9 +1,9 @@
 <template>
-  <div class="InputRoot">
+  <div class="input">
     <input
       v-bind="$attrs"
       :id="inputId"
-      class="InputRoot__field"
+      class="input__field"
       :type="props.type"
       :value="props.modelValue"
       :disabled="props.disabled"
@@ -53,7 +53,7 @@ const inputId = computed(() => (attrs.id as string | undefined) || `input-${_uid
 </script>
 
 <style lang="scss" scoped>
-$b: 'InputRoot';
+$b: 'input';
 
 .#{$b} {
   display: flex;

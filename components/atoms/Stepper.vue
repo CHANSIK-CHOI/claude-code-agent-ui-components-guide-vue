@@ -1,18 +1,18 @@
 <template>
   <div
-    class="StepperRoot"
-    :class="{ 'StepperRoot--disabled': props.disabled }"
+    class="stepper"
+    :class="{ 'stepper--disabled': props.disabled }"
   >
     <!-- 제거 버튼 -->
     <button
       v-bind="props.decrementAttrs"
       type="button"
-      class="StepperRoot__btn StepperRoot__btn--decrement"
+      class="stepper__btn stepper__btn--decrement"
       :disabled="props.disabled || isAtMin"
       aria-label="수량 감소"
       @click="handleDecrement"
     >
-      <span class="StepperRoot__icon" aria-hidden="true">
+      <span class="stepper__icon" aria-hidden="true">
         <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 1H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
         </svg>
@@ -22,7 +22,7 @@
     <!-- 숫자 표시 영역 -->
     <input
       v-bind="$attrs"
-      class="StepperRoot__value"
+      class="stepper__value"
       type="text"
       inputmode="numeric"
       :value="displayValue"
@@ -40,12 +40,12 @@
     <button
       v-bind="props.incrementAttrs"
       type="button"
-      class="StepperRoot__btn StepperRoot__btn--increment"
+      class="stepper__btn stepper__btn--increment"
       :disabled="props.disabled || isAtMax"
       aria-label="수량 증가"
       @click="handleIncrement"
     >
-      <span class="StepperRoot__icon" aria-hidden="true">
+      <span class="stepper__icon" aria-hidden="true">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
         </svg>
@@ -170,7 +170,7 @@ function handleKeydown(e: KeyboardEvent): void {
 </script>
 
 <style lang="scss" scoped>
-$b: 'StepperRoot';
+$b: 'stepper';
 
 .#{$b} {
   display: flex;

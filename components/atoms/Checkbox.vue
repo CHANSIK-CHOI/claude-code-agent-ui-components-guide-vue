@@ -1,17 +1,17 @@
 <template>
   <label
     :for="checkboxId"
-    class="CheckboxRoot__wrapper"
+    class="checkbox__wrapper"
     :class="[
-      `CheckboxRoot__wrapper--${type}`,
-      { 'CheckboxRoot__wrapper--disabled': disabled },
-      { 'CheckboxRoot__wrapper--checked': proxyValue },
+      `checkbox__wrapper--${type}`,
+      { 'checkbox__wrapper--disabled': disabled },
+      { 'checkbox__wrapper--checked': proxyValue },
     ]"
   >
     <CheckboxRoot
       v-bind="rootAttrs"
       :id="checkboxId"
-      class="CheckboxRoot__control"
+      class="checkbox__control"
       :checked="proxyValue"
       :disabled="disabled"
       :name="name"
@@ -25,7 +25,7 @@
         (box 미체크: $text-300 회색, check 미체크: $text-300 회색)
       -->
       <svg
-        class="CheckboxRoot__icon CheckboxRoot__icon--always"
+        class="checkbox__icon checkbox__icon--always"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 14 10"
         fill="none"
@@ -41,7 +41,7 @@
       </svg>
     </CheckboxRoot>
 
-    <span v-if="$slots.default?.().length" class="CheckboxRoot__label">
+    <span v-if="$slots.default?.().length" class="checkbox__label">
       <slot />
     </span>
   </label>
@@ -101,7 +101,7 @@ function onCheckedChange(val: boolean | 'indeterminate') {
 </script>
 
 <style lang="scss" scoped>
-$b: 'CheckboxRoot';
+$b: 'checkbox';
 
 // ── wrapper (label) ────────────────────────────────────────────────
 .#{$b}__wrapper {

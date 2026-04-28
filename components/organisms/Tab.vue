@@ -2,34 +2,34 @@
   <TabsRoot
     v-bind="$attrs"
     :model-value="modelValue"
-    class="TabRoot"
-    :class="`TabRoot--${variant}`"
+    class="tab"
+    :class="`tab--${variant}`"
     @update:model-value="emit('update:modelValue', $event as string)"
   >
-    <div class="TabRoot__header">
+    <div class="tab__header">
       <!-- 탭 목록 -->
-      <TabsList class="TabRoot__list">
+      <TabsList class="tab__list">
         <TabsTrigger
           v-for="item in items"
           :key="item.value"
-          class="TabRoot__trigger"
+          class="tab__trigger"
           :value="item.value"
         >
-          <span class="TabRoot__label">{{ item.label }}</span>
-          <span v-if="item.badge" class="TabRoot__badge">{{ item.badge }}</span>
+          <span class="tab__label">{{ item.label }}</span>
+          <span v-if="item.badge" class="tab__badge">{{ item.badge }}</span>
         </TabsTrigger>
       </TabsList>
 
       <!-- 뷰 토글 (pill + showViewToggle=true 전용) -->
       <div
         v-if="showViewToggle && variant === 'pill'"
-        class="TabRoot__viewToggle"
+        class="tab__viewToggle"
       >
         <!-- viewType='grid'면 → list 버튼 표시 -->
         <button
           v-if="viewType === 'grid'"
           type="button"
-          class="TabRoot__viewBtn"
+          class="tab__viewBtn"
           aria-label="목록 보기"
           @click="emit('update:viewType', 'list')"
         >
@@ -84,7 +84,7 @@
         <button
           v-else
           type="button"
-          class="TabRoot__viewBtn"
+          class="tab__viewBtn"
           aria-label="격자 보기"
           @click="emit('update:viewType', 'grid')"
         >
@@ -180,7 +180,7 @@ const modelValue = computed(
 </script>
 
 <style lang="scss" scoped>
-$b: "TabRoot";
+$b: 'tab';
 
 // ── 공통 ────────────────────────────────────────────────────────────────────
 

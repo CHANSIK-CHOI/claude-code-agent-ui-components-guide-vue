@@ -1,12 +1,12 @@
 <template>
-  <div class="FormFieldRoot">
+  <div class="formField">
     <!-- 라벨 영역 -->
-    <div v-if="props.showLabel" class="FormFieldRoot__labelArea">
-      <label class="FormFieldRoot__label" :for="props.inputId" @mousedown="handleLabelMousedown">
+    <div v-if="props.showLabel" class="formField__labelArea">
+      <label class="formField__label" :for="props.inputId" @mousedown="handleLabelMousedown">
         {{ props.labelText
-        }}<span v-if="props.required" class="FormFieldRoot__required" aria-hidden="true"> *</span>
+        }}<span v-if="props.required" class="formField__required" aria-hidden="true"> *</span>
       </label>
-      <div v-if="$slots['tooltip']" class="FormFieldRoot__tooltipSlot">
+      <div v-if="$slots['tooltip']" class="formField__tooltipSlot">
         <slot name="tooltip" />
       </div>
     </div>
@@ -18,8 +18,8 @@
     <p
       v-if="props.errorText || props.helperText"
       :id="`helper-${props.inputId}`"
-      class="FormFieldRoot__helper"
-      :class="{ 'FormFieldRoot__helper--error': !!props.errorText }"
+      class="formField__helper"
+      :class="{ 'formField__helper--error': !!props.errorText }"
       :role="props.errorText ? 'alert' : undefined"
     >
       {{ props.errorText || props.helperText }}
@@ -64,7 +64,7 @@ const props = withDefaults(
 </script>
 
 <style lang="scss" scoped>
-$b: 'FormFieldRoot';
+$b: 'formField';
 
 .#{$b} {
   display: flex;

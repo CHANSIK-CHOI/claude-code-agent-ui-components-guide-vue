@@ -1,12 +1,12 @@
 <template>
-  <div class="ButtonGuidePage">
+  <div class="buttonGuidePage">
     <!-- 헤더 -->
-    <header class="ButtonGuidePage__header">
-      <div class="ButtonGuidePage__meta">
-        <span class="ButtonGuidePage__badge">atoms</span>
+    <header class="buttonGuidePage__header">
+      <div class="buttonGuidePage__meta">
+        <span class="buttonGuidePage__badge">atoms</span>
       </div>
-      <h1 class="ButtonGuidePage__title">Button</h1>
-      <p class="ButtonGuidePage__desc">
+      <h1 class="buttonGuidePage__title">Button</h1>
+      <p class="buttonGuidePage__desc">
         사용자의 주요/보조 액션을 유도하는 클릭 가능한 인터랙티브 요소.<br />
         <code>shape</code> × <code>color</code> × <code>size</code> 조합으로
         24가지 variant 지원.
@@ -14,21 +14,21 @@
     </header>
 
     <!-- ① Shape × Color 조합 -->
-    <section class="ButtonGuidePage__section">
-      <h2 class="ButtonGuidePage__sectionTitle">① Shape × Color</h2>
+    <section class="buttonGuidePage__section">
+      <h2 class="buttonGuidePage__sectionTitle">① Shape × Color</h2>
 
-      <div v-for="shape in shapes" :key="shape" class="ButtonGuidePage__group">
-        <p class="ButtonGuidePage__groupTitle">shape="{{ shape }}"</p>
-        <div class="ButtonGuidePage__row">
+      <div v-for="shape in shapes" :key="shape" class="buttonGuidePage__group">
+        <p class="buttonGuidePage__groupTitle">shape="{{ shape }}"</p>
+        <div class="buttonGuidePage__row">
           <div
             v-for="color in getColors(shape)"
             :key="color"
-            class="ButtonGuidePage__item"
+            class="buttonGuidePage__item"
           >
-            <span class="ButtonGuidePage__itemLabel">{{ color }}</span>
+            <span class="buttonGuidePage__itemLabel">{{ color }}</span>
             <Button :shape="shape" :color="color">{{ color }}</Button>
             <pre
-              class="ButtonGuidePage__code"
+              class="buttonGuidePage__code"
             ><code>&lt;Button :shape="{{ shape }}" color="{{ color }}"&gt;
   {{ color }}
 &lt;/Button&gt;</code></pre>
@@ -38,37 +38,37 @@
     </section>
 
     <!-- ② Size matrix -->
-    <section class="ButtonGuidePage__section">
-      <h2 class="ButtonGuidePage__sectionTitle">② Size</h2>
-      <div class="ButtonGuidePage__row">
-        <div v-for="size in sizes" :key="size" class="ButtonGuidePage__item">
-          <span class="ButtonGuidePage__itemLabel">{{ size }}</span>
+    <section class="buttonGuidePage__section">
+      <h2 class="buttonGuidePage__sectionTitle">② Size</h2>
+      <div class="buttonGuidePage__row">
+        <div v-for="size in sizes" :key="size" class="buttonGuidePage__item">
+          <span class="buttonGuidePage__itemLabel">{{ size }}</span>
           <Button :size="size">버튼 ({{ size }})</Button>
           <pre
-            class="ButtonGuidePage__code"
+            class="buttonGuidePage__code"
           ><code>&lt;Button size="{{ size }}"&gt;버튼&lt;/Button&gt;</code></pre>
         </div>
       </div>
     </section>
 
     <!-- ③ Round variant -->
-    <section class="ButtonGuidePage__section">
-      <h2 class="ButtonGuidePage__sectionTitle">③ Round (pill)</h2>
-      <p class="ButtonGuidePage__note">
+    <section class="buttonGuidePage__section">
+      <h2 class="buttonGuidePage__sectionTitle">③ Round (pill)</h2>
+      <p class="buttonGuidePage__note">
         shape="text"에서는 round가 무시됩니다.
       </p>
-      <div class="ButtonGuidePage__row">
+      <div class="buttonGuidePage__row">
         <div
           v-for="shape in roundableShapes"
           :key="shape"
-          class="ButtonGuidePage__item"
+          class="buttonGuidePage__item"
         >
-          <span class="ButtonGuidePage__itemLabel"
+          <span class="buttonGuidePage__itemLabel"
             >shape="{{ shape }}" + round</span
           >
           <Button :shape="shape" :round="true">round ({{ shape }})</Button>
           <pre
-            class="ButtonGuidePage__code"
+            class="buttonGuidePage__code"
           ><code>&lt;Button :shape="{{ shape }}" :round="true"&gt;
   round
 &lt;/Button&gt;</code></pre>
@@ -77,16 +77,16 @@
     </section>
 
     <!-- ④ Disabled -->
-    <section class="ButtonGuidePage__section">
-      <h2 class="ButtonGuidePage__sectionTitle">④ Disabled</h2>
-      <div class="ButtonGuidePage__row">
-        <div v-for="shape in shapes" :key="shape" class="ButtonGuidePage__item">
-          <span class="ButtonGuidePage__itemLabel"
+    <section class="buttonGuidePage__section">
+      <h2 class="buttonGuidePage__sectionTitle">④ Disabled</h2>
+      <div class="buttonGuidePage__row">
+        <div v-for="shape in shapes" :key="shape" class="buttonGuidePage__item">
+          <span class="buttonGuidePage__itemLabel"
             >shape="{{ shape }}" + disabled</span
           >
           <Button :shape="shape" :disabled="true">비활성 ({{ shape }})</Button>
           <pre
-            class="ButtonGuidePage__code"
+            class="buttonGuidePage__code"
           ><code>&lt;Button :shape="{{ shape }}" :disabled="true"&gt;
   비활성
 &lt;/Button&gt;</code></pre>
@@ -95,16 +95,16 @@
     </section>
 
     <!-- ⑤ Icon 슬롯 -->
-    <section class="ButtonGuidePage__section">
-      <h2 class="ButtonGuidePage__sectionTitle">⑤ Icon Slots</h2>
-      <div class="ButtonGuidePage__row">
+    <section class="buttonGuidePage__section">
+      <h2 class="buttonGuidePage__sectionTitle">⑤ Icon Slots</h2>
+      <div class="buttonGuidePage__row">
         <!-- leading-icon -->
-        <div class="ButtonGuidePage__item">
-          <span class="ButtonGuidePage__itemLabel">leading-icon</span>
+        <div class="buttonGuidePage__item">
+          <span class="buttonGuidePage__itemLabel">leading-icon</span>
           <Button>
             <template #leading-icon>
               <svg
-                class="ButtonGuidePage__svgIcon"
+                class="buttonGuidePage__svgIcon"
                 viewBox="0 0 20 20"
                 fill="none"
                 aria-hidden="true"
@@ -127,7 +127,7 @@
             </template>
             확인
           </Button>
-          <pre class="ButtonGuidePage__code"><code>&lt;Button&gt;
+          <pre class="buttonGuidePage__code"><code>&lt;Button&gt;
   &lt;template #leading-icon&gt;
     &lt;IconCheck /&gt;
   &lt;/template&gt;
@@ -136,13 +136,13 @@
         </div>
 
         <!-- trailing-icon -->
-        <div class="ButtonGuidePage__item">
-          <span class="ButtonGuidePage__itemLabel">trailing-icon</span>
+        <div class="buttonGuidePage__item">
+          <span class="buttonGuidePage__itemLabel">trailing-icon</span>
           <Button shape="line">
             전체보기
             <template #trailing-icon>
               <svg
-                class="ButtonGuidePage__svgIcon"
+                class="buttonGuidePage__svgIcon"
                 viewBox="0 0 20 20"
                 fill="none"
                 aria-hidden="true"
@@ -157,7 +157,7 @@
               </svg>
             </template>
           </Button>
-          <pre class="ButtonGuidePage__code"><code>&lt;Button :shape="line"&gt;
+          <pre class="buttonGuidePage__code"><code>&lt;Button :shape="line"&gt;
   전체보기
   &lt;template #trailing-icon&gt;
     &lt;IconArrow /&gt;
@@ -166,12 +166,12 @@
         </div>
 
         <!-- leading + trailing -->
-        <div class="ButtonGuidePage__item">
-          <span class="ButtonGuidePage__itemLabel">leading + trailing</span>
+        <div class="buttonGuidePage__item">
+          <span class="buttonGuidePage__itemLabel">leading + trailing</span>
           <Button :color="'black'">
             <template #leading-icon>
               <svg
-                class="ButtonGuidePage__svgIcon"
+                class="buttonGuidePage__svgIcon"
                 viewBox="0 0 20 20"
                 fill="none"
                 aria-hidden="true"
@@ -194,7 +194,7 @@
             나만의 드시모네
             <template #trailing-icon>
               <svg
-                class="ButtonGuidePage__svgIcon"
+                class="buttonGuidePage__svgIcon"
                 viewBox="0 0 20 20"
                 fill="none"
                 aria-hidden="true"
@@ -209,7 +209,7 @@
               </svg>
             </template>
           </Button>
-          <pre class="ButtonGuidePage__code"><code>&lt;Button color="black"&gt;
+          <pre class="buttonGuidePage__code"><code>&lt;Button color="black"&gt;
   &lt;template #leading-icon&gt;&lt;IconUser /&gt;&lt;/template&gt;
   나만의 드시모네
   &lt;template #trailing-icon&gt;&lt;IconChevron /&gt;&lt;/template&gt;
@@ -219,11 +219,11 @@
     </section>
 
     <!-- ⑥ Props 참조 -->
-    <section class="ButtonGuidePage__section">
-      <h2 class="ButtonGuidePage__sectionTitle">⑥ Props</h2>
+    <section class="buttonGuidePage__section">
+      <h2 class="buttonGuidePage__sectionTitle">⑥ Props</h2>
 
-      <h3 class="ButtonGuidePage__tableTitle">Props</h3>
-      <table class="ButtonGuidePage__propsTable">
+      <h3 class="buttonGuidePage__tableTitle">Props</h3>
+      <table class="buttonGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -272,8 +272,8 @@
         </tbody>
       </table>
 
-      <h3 class="ButtonGuidePage__tableTitle">Slots</h3>
-      <table class="ButtonGuidePage__propsTable">
+      <h3 class="buttonGuidePage__tableTitle">Slots</h3>
+      <table class="buttonGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -300,8 +300,8 @@
         </tbody>
       </table>
 
-      <h3 class="ButtonGuidePage__tableTitle">Events</h3>
-      <table class="ButtonGuidePage__propsTable">
+      <h3 class="buttonGuidePage__tableTitle">Events</h3>
+      <table class="buttonGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -318,7 +318,7 @@
         </tbody>
       </table>
 
-      <p class="ButtonGuidePage__delegationNote">
+      <p class="buttonGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: 이 컴포넌트는
         <code>v-bind="$attrs"</code>를 사용하므로 위 Props 외에도
         <code>&lt;button&gt;</code> 요소의 모든 네이티브 HTML 속성

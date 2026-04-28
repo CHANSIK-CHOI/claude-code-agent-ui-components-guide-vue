@@ -6,14 +6,14 @@
 </script>
 
 <template>
-  <div class="product-head">
-    <span class="product-head__caption">{{ caption }}</span>
-    <h1 class="product-head__title">{{ title }}</h1>
+  <div class="productHead">
+    <span class="productHead__caption">{{ caption }}</span>
+    <h1 class="productHead__title">{{ title }}</h1>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .product-head {
+  .productHead {
     padding: 0 1.6rem 1.6rem;
     &__caption {
       color: $color-primary;

@@ -1,12 +1,12 @@
 <template>
-  <div class="TextAreaGuidePage">
+  <div class="textAreaGuidePage">
     <!-- 헤더 -->
-    <header class="TextAreaGuidePage__header">
-      <div class="TextAreaGuidePage__meta">
-        <span class="TextAreaGuidePage__badge">atoms</span>
+    <header class="textAreaGuidePage__header">
+      <div class="textAreaGuidePage__meta">
+        <span class="textAreaGuidePage__badge">atoms</span>
       </div>
-      <h1 class="TextAreaGuidePage__title">TextArea</h1>
-      <p class="TextAreaGuidePage__desc">
+      <h1 class="textAreaGuidePage__title">TextArea</h1>
+      <p class="textAreaGuidePage__desc">
         사용자가 여러 줄의 텍스트를 입력하는 폼 요소. 최대 글자 수 카운터를 내장합니다.<br />
         라벨 · 도움말 텍스트는 <code>FormField</code> (molecules)와 조합해 사용합니다.<br />
         <code>disabled</code> / <code>readonly</code> / <code>error</code> 상태와
@@ -15,32 +15,32 @@
     </header>
 
     <!-- ① 기본 조합 -->
-    <section class="TextAreaGuidePage__section">
-      <h2 class="TextAreaGuidePage__sectionTitle">① 기본 조합</h2>
+    <section class="textAreaGuidePage__section">
+      <h2 class="textAreaGuidePage__sectionTitle">① 기본 조합</h2>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">TextArea 단독 (라벨 없음)</p>
-        <p class="TextAreaGuidePage__note">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">TextArea 단독 (라벨 없음)</p>
+        <p class="textAreaGuidePage__note">
           라벨이 외부에서 제공되거나 불필요한 경우. <code>aria-label</code>을 직접 전달.
         </p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="demo1"
               placeholder="내용을 입력해주세요"
               aria-label="내용"
             />
             <pre
-              class="TextAreaGuidePage__code"
+              class="textAreaGuidePage__code"
             ><code>&lt;TextArea v-model="value" placeholder="내용을 입력해주세요" aria-label="내용" /&gt;</code></pre>
           </div>
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">FormField + TextArea (라벨 있음)</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">FormField + TextArea (라벨 있음)</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <FormField label-text="상품 문의" input-id="demo-inquiry">
               <TextArea
                 id="demo-inquiry"
@@ -49,7 +49,7 @@
               />
             </FormField>
             <pre
-              class="TextAreaGuidePage__code"
+              class="textAreaGuidePage__code"
             ><code>&lt;FormField label-text="상품 문의" input-id="demo-inquiry"&gt;
   &lt;TextArea id="demo-inquiry" v-model="value" placeholder="문의 내용을 입력해주세요" /&gt;
 &lt;/FormField&gt;</code></pre>
@@ -57,10 +57,10 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">FormField + TextArea (도움말 있음)</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">FormField + TextArea (도움말 있음)</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <FormField
               label-text="리뷰 작성"
               input-id="demo-review"
@@ -73,7 +73,7 @@
                 aria-describedby="helper-demo-review"
               />
             </FormField>
-            <pre class="TextAreaGuidePage__code"><code>&lt;FormField
+            <pre class="textAreaGuidePage__code"><code>&lt;FormField
   label-text="리뷰 작성"
   input-id="demo-review"
   helper-text="최대 500자까지 입력 가능합니다."
@@ -89,14 +89,14 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">FormField + TextArea (maxLength 카운터)</p>
-        <p class="TextAreaGuidePage__note">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">FormField + TextArea (maxLength 카운터)</p>
+        <p class="textAreaGuidePage__note">
           <!-- maxLength 설정 시 카운터 자동 노출 -->
           <code>:max-length="300"</code> prop 설정 시 하단에 글자 수 카운터가 자동으로 노출됩니다.
         </p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <FormField label-text="문의 내용" input-id="demo-maxlength">
               <TextArea
                 id="demo-maxlength"
@@ -105,7 +105,7 @@
                 placeholder="문의 내용을 입력해주세요 (최대 300자)"
               />
             </FormField>
-            <pre class="TextAreaGuidePage__code"><code>&lt;FormField label-text="문의 내용" input-id="demo-maxlength"&gt;
+            <pre class="textAreaGuidePage__code"><code>&lt;FormField label-text="문의 내용" input-id="demo-maxlength"&gt;
   &lt;!-- maxLength 설정 시 카운터 자동 노출 --&gt;
   &lt;TextArea id="demo-maxlength" v-model="value" :max-length="300" placeholder="문의 내용을 입력해주세요 (최대 300자)" /&gt;
 &lt;/FormField&gt;</code></pre>
@@ -113,14 +113,14 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">FormField + TextArea (에러 메시지)</p>
-        <p class="TextAreaGuidePage__note">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">FormField + TextArea (에러 메시지)</p>
+        <p class="textAreaGuidePage__note">
           <code>error-text</code>에 문자열을 전달하면 빨간색으로 표시됩니다.
           <code>role="alert"</code>가 자동 부여되어 스크린 리더가 즉시 읽습니다.
         </p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <FormField
               label-text="문의 내용"
               input-id="demo-error"
@@ -134,7 +134,7 @@
                 aria-describedby="helper-demo-error"
               />
             </FormField>
-            <pre class="TextAreaGuidePage__code"><code>&lt;FormField
+            <pre class="textAreaGuidePage__code"><code>&lt;FormField
   label-text="문의 내용"
   input-id="demo-error"
   error-text="내용을 입력해주세요."
@@ -154,13 +154,13 @@
     </section>
 
     <!-- ② 상태별 -->
-    <section class="TextAreaGuidePage__section">
-      <h2 class="TextAreaGuidePage__sectionTitle">② 상태별</h2>
+    <section class="textAreaGuidePage__section">
+      <h2 class="textAreaGuidePage__sectionTitle">② 상태별</h2>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">default</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">default</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="stateDemos.default"
               placeholder="내용을 입력해주세요"
@@ -170,10 +170,10 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">filled</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">filled</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="stateDemos.filled"
               aria-label="입력된 텍스트에어리어"
@@ -182,11 +182,11 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">focus</p>
-        <p class="TextAreaGuidePage__note">클릭하면 focus 상태로 전환됩니다.</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">focus</p>
+        <p class="textAreaGuidePage__note">클릭하면 focus 상태로 전환됩니다.</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="stateDemos.focus"
               placeholder="클릭해서 포커스 확인"
@@ -196,10 +196,10 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">disabled</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">disabled</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="stateDemos.disabled"
               :disabled="true"
@@ -209,10 +209,10 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">readonly</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">readonly</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="stateDemos.readonly"
               :readonly="true"
@@ -222,10 +222,10 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">error</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">error</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <FormField
               label-text="문의 내용"
               input-id="state-error"
@@ -243,11 +243,11 @@
         </div>
       </div>
 
-      <div class="TextAreaGuidePage__group">
-        <p class="TextAreaGuidePage__groupTitle">resize (vertical)</p>
-        <p class="TextAreaGuidePage__note">하단 핸들로 세로 크기 조절 가능</p>
-        <div class="TextAreaGuidePage__row">
-          <div class="TextAreaGuidePage__item">
+      <div class="textAreaGuidePage__group">
+        <p class="textAreaGuidePage__groupTitle">resize (vertical)</p>
+        <p class="textAreaGuidePage__note">하단 핸들로 세로 크기 조절 가능</p>
+        <div class="textAreaGuidePage__row">
+          <div class="textAreaGuidePage__item">
             <TextArea
               v-model="stateDemos.resize"
               :resize="'vertical'"
@@ -260,11 +260,11 @@
     </section>
 
     <!-- ③ Props 참조 -->
-    <section class="TextAreaGuidePage__section">
-      <h2 class="TextAreaGuidePage__sectionTitle">③ Props</h2>
+    <section class="textAreaGuidePage__section">
+      <h2 class="textAreaGuidePage__sectionTitle">③ Props</h2>
 
-      <h3 class="TextAreaGuidePage__tableTitle">TextArea Props</h3>
-      <table class="TextAreaGuidePage__propsTable">
+      <h3 class="textAreaGuidePage__tableTitle">TextArea Props</h3>
+      <table class="textAreaGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -327,8 +327,8 @@
         </tbody>
       </table>
 
-      <h3 class="TextAreaGuidePage__tableTitle">TextArea Events</h3>
-      <table class="TextAreaGuidePage__propsTable">
+      <h3 class="textAreaGuidePage__tableTitle">TextArea Events</h3>
+      <table class="textAreaGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -360,14 +360,14 @@
         </tbody>
       </table>
 
-      <p class="TextAreaGuidePage__delegationNote">
+      <p class="textAreaGuidePage__delegationNote">
         <strong>카운터 접근성</strong>: 카운터 요소에 <code>aria-live="polite"</code>가 적용되어
         스크린 리더가 글자 수 변경을 실시간으로 읽습니다.<br />
         <code>aria-describedby</code>로 <code>&lt;textarea&gt;</code>와 카운터가 연결됩니다.<br />
         <code>maxLength</code> 미설정 시 카운터 요소 자체가 렌더링되지 않습니다.
       </p>
 
-      <p class="TextAreaGuidePage__delegationNote">
+      <p class="textAreaGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: <code>TextArea</code>는
         <code>v-bind="$attrs"</code>를 사용하므로
         <code>&lt;textarea&gt;</code> 요소의 모든 네이티브 HTML 속성

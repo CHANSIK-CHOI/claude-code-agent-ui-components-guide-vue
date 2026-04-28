@@ -1,12 +1,12 @@
 <template>
-  <div class="StepperGuidePage">
+  <div class="stepperGuidePage">
     <!-- 헤더 -->
-    <header class="StepperGuidePage__header">
-      <div class="StepperGuidePage__meta">
-        <span class="StepperGuidePage__badge">atoms</span>
+    <header class="stepperGuidePage__header">
+      <div class="stepperGuidePage__meta">
+        <span class="stepperGuidePage__badge">atoms</span>
       </div>
-      <h1 class="StepperGuidePage__title">Stepper</h1>
-      <p class="StepperGuidePage__desc">
+      <h1 class="stepperGuidePage__title">Stepper</h1>
+      <p class="stepperGuidePage__desc">
         증가/감소 버튼과 숫자 표시 영역으로 이루어진 수량 입력 컴포넌트입니다.<br />
         Radix Vue NumberField가 Alpha 상태이므로 자체 구현했습니다.<br />
         <code>min</code> / <code>max</code>으로 범위를 지정하고,
@@ -18,19 +18,19 @@
     </header>
 
     <!-- ① 기본 사용 -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">① 기본 사용</h2>
-      <p class="StepperGuidePage__note">
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">① 기본 사용</h2>
+      <p class="stepperGuidePage__note">
         <code>min=1</code>, <code>max</code> 미설정(무제한), <code>readonly=true</code>(기본값).<br />
         현재값: <strong>{{ demo1 }}</strong>
       </p>
-      <div class="StepperGuidePage__group">
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+      <div class="stepperGuidePage__group">
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <Stepper v-model="demo1" />
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;Stepper v-model="qty" /&gt;
+            <pre class="stepperGuidePage__code"><code>&lt;Stepper v-model="qty" /&gt;
 
 &lt;!-- 기본값 --&gt;
 &lt;!-- min=1, step=1, max=없음, readonly=true --&gt;</code></pre>
@@ -40,97 +40,97 @@
     </section>
 
     <!-- ② min / max 경계 처리 -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">② min / max 경계 처리</h2>
-      <p class="StepperGuidePage__note">
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">② min / max 경계 처리</h2>
+      <p class="stepperGuidePage__note">
         <code>min</code> 도달 시 제거 버튼 disabled, <code>max</code> 도달 시 추가 버튼 disabled.<br />
         버튼 disabled 시 내부 아이콘 컬러도 <code>$text-300</code>으로 변합니다.<br />
         현재값: <strong>{{ demo2 }}</strong>
       </p>
-      <div class="StepperGuidePage__group">
-        <p class="StepperGuidePage__groupTitle">min=1, max=5</p>
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+      <div class="stepperGuidePage__group">
+        <p class="stepperGuidePage__groupTitle">min=1, max=5</p>
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <Stepper v-model="demo2" :min="1" :max="5" />
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="1" :max="5" /&gt;</code></pre>
+            <pre class="stepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="1" :max="5" /&gt;</code></pre>
           </div>
         </div>
       </div>
 
-      <div class="StepperGuidePage__group">
-        <p class="StepperGuidePage__groupTitle">step=5, min=0, max=100</p>
-        <p class="StepperGuidePage__note">
+      <div class="stepperGuidePage__group">
+        <p class="stepperGuidePage__groupTitle">step=5, min=0, max=100</p>
+        <p class="stepperGuidePage__note">
           현재값: <strong>{{ demo2b }}</strong>
         </p>
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <Stepper v-model="demo2b" :min="0" :max="100" :step="5" />
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="0" :max="100" :step="5" /&gt;</code></pre>
+            <pre class="stepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="0" :max="100" :step="5" /&gt;</code></pre>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ③ 직접 입력 허용 (readonly=false) -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">③ 직접 입력 허용 (readonly=false)</h2>
-      <p class="StepperGuidePage__note">
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">③ 직접 입력 허용 (readonly=false)</h2>
+      <p class="stepperGuidePage__note">
         <code>:readonly="false"</code> 전달 시 숫자 표시 영역에 직접 타이핑 가능.<br />
         입력 완료(blur 또는 Enter) 시 <code>min</code>~<code>max</code> 범위 내로 clamp 처리.<br />
         빈 값으로 blur 시 <code>min</code>으로 복원. 화살표 키(↑↓)로도 증감 가능.<br />
         현재값: <strong>{{ demo3 }}</strong>
       </p>
-      <div class="StepperGuidePage__group">
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+      <div class="stepperGuidePage__group">
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <Stepper v-model="demo3" :min="1" :max="99" :readonly="false" />
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="1" :max="99" :readonly="false" /&gt;</code></pre>
+            <pre class="stepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="1" :max="99" :readonly="false" /&gt;</code></pre>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ④ 전체 비활성 (disabled) -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">④ 전체 비활성 (disabled)</h2>
-      <p class="StepperGuidePage__note">
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">④ 전체 비활성 (disabled)</h2>
+      <p class="stepperGuidePage__note">
         <code>disabled=true</code> 시 버튼과 input 모두 클릭·포커스 불가.<br />
         min/max 경계에 의한 개별 버튼 비활성보다 우선합니다.
       </p>
-      <div class="StepperGuidePage__group">
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+      <div class="stepperGuidePage__group">
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <Stepper v-model="demo4" :min="1" :max="10" disabled />
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="1" :max="10" disabled /&gt;</code></pre>
+            <pre class="stepperGuidePage__code"><code>&lt;Stepper v-model="qty" :min="1" :max="10" disabled /&gt;</code></pre>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ⑤ FormField와 조합 -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">⑤ FormField와 조합</h2>
-      <p class="StepperGuidePage__note">
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">⑤ FormField와 조합</h2>
+      <p class="stepperGuidePage__note">
         <code>$attrs</code>는 기본적으로 내부 <code>&lt;input&gt;</code>으로 위임됩니다.<br />
         FormField의 <code>label for</code>과 연결하려면 <code>id</code>를 Stepper에 전달하면 됩니다.
       </p>
-      <div class="StepperGuidePage__group">
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+      <div class="stepperGuidePage__group">
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <FormField label-text="수량" input-id="demo-qty">
                 <Stepper id="demo-qty" v-model="demo5" :min="1" :max="99" />
               </FormField>
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;FormField label-text="수량" input-id="qty"&gt;
+            <pre class="stepperGuidePage__code"><code>&lt;FormField label-text="수량" input-id="qty"&gt;
   &lt;Stepper id="qty" v-model="qty" :min="1" :max="99" /&gt;
 &lt;/FormField&gt;
 
@@ -142,24 +142,24 @@
     </section>
 
     <!-- ⑥ decrementAttrs / incrementAttrs -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">⑥ 버튼 attrs 개별 위임</h2>
-      <p class="StepperGuidePage__note">
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">⑥ 버튼 attrs 개별 위임</h2>
+      <p class="stepperGuidePage__note">
         기본 <code>$attrs</code>는 input으로 가므로, 각 버튼에 <code>data-*</code>나 추가 이벤트 핸들러를 붙이려면
         <code>decrementAttrs</code> / <code>incrementAttrs</code> prop을 사용합니다.<br />
         아래 예시는 각 버튼에 <code>data-ga</code> 속성이 적용됩니다. 브라우저 개발자 도구에서 확인할 수 있습니다.
       </p>
-      <div class="StepperGuidePage__group">
-        <div class="StepperGuidePage__row">
-          <div class="StepperGuidePage__item">
-            <div class="StepperGuidePage__demoBox">
+      <div class="stepperGuidePage__group">
+        <div class="stepperGuidePage__row">
+          <div class="stepperGuidePage__item">
+            <div class="stepperGuidePage__demoBox">
               <Stepper
                 v-model="demo6"
                 :decrement-attrs="{ 'data-ga': 'qty-minus' }"
                 :increment-attrs="{ 'data-ga': 'qty-plus' }"
               />
             </div>
-            <pre class="StepperGuidePage__code"><code>&lt;Stepper
+            <pre class="stepperGuidePage__code"><code>&lt;Stepper
   v-model="qty"
   :decrement-attrs="{ 'data-ga': 'qty-minus' }"
   :increment-attrs="{ 'data-ga': 'qty-plus' }"
@@ -173,11 +173,11 @@
     </section>
 
     <!-- ⑦ Props 테이블 -->
-    <section class="StepperGuidePage__section">
-      <h2 class="StepperGuidePage__sectionTitle">⑦ Props</h2>
+    <section class="stepperGuidePage__section">
+      <h2 class="stepperGuidePage__sectionTitle">⑦ Props</h2>
 
-      <h3 class="StepperGuidePage__tableTitle">Stepper Props</h3>
-      <table class="StepperGuidePage__propsTable">
+      <h3 class="stepperGuidePage__tableTitle">Stepper Props</h3>
+      <table class="stepperGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -238,8 +238,8 @@
         </tbody>
       </table>
 
-      <h3 class="StepperGuidePage__tableTitle">Events</h3>
-      <table class="StepperGuidePage__propsTable">
+      <h3 class="stepperGuidePage__tableTitle">Events</h3>
+      <table class="stepperGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -261,8 +261,8 @@
         </tbody>
       </table>
 
-      <h3 class="StepperGuidePage__tableTitle">$attrs 위임 전략</h3>
-      <table class="StepperGuidePage__propsTable">
+      <h3 class="stepperGuidePage__tableTitle">$attrs 위임 전략</h3>
+      <table class="stepperGuidePage__propsTable">
         <thead>
           <tr>
             <th>전달 방법</th>
@@ -288,7 +288,7 @@
           </tr>
         </tbody>
       </table>
-      <p class="StepperGuidePage__delegationNote">
+      <p class="stepperGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: 이 컴포넌트는
         <code>v-bind="$attrs"</code>를 사용하므로 위 Props 외에도
         <code>&lt;input&gt;</code> 요소의 모든 네이티브 HTML 속성

@@ -1,12 +1,12 @@
 <template>
-  <div class="TabGuidePage">
+  <div class="tabGuidePage">
     <!-- 헤더 -->
-    <header class="TabGuidePage__header">
-      <div class="TabGuidePage__meta">
-        <span class="TabGuidePage__badge">organisms</span>
+    <header class="tabGuidePage__header">
+      <div class="tabGuidePage__meta">
+        <span class="tabGuidePage__badge">organisms</span>
       </div>
-      <h1 class="TabGuidePage__title">Tab</h1>
-      <p class="TabGuidePage__desc">
+      <h1 class="tabGuidePage__title">Tab</h1>
+      <p class="tabGuidePage__desc">
         콘텐츠 영역을 전환하는 탭 네비게이션 컴포넌트입니다.<br />
         <strong>Navigation only</strong> 설계로, Tab 자체는 탭 목록만 렌더링하고
         콘텐츠 패널은 부모 컴포넌트가 <code>v-model</code>로 받은 선택값에 따라
@@ -21,24 +21,24 @@
     </header>
 
     <!-- ① underline-dark -->
-    <section class="TabGuidePage__section">
-      <h2 class="TabGuidePage__sectionTitle">① underline-dark variant</h2>
-      <p class="TabGuidePage__note">
+    <section class="tabGuidePage__section">
+      <h2 class="tabGuidePage__sectionTitle">① underline-dark variant</h2>
+      <p class="tabGuidePage__note">
         상품 상세 페이지 탭에 사용하는 variant입니다. 높이 52px, 하단
         <code>$text-800</code> 색상의 2px 인디케이터. badge 표시 지원.
       </p>
 
-      <div class="TabGuidePage__group">
-        <p class="TabGuidePage__groupTitle">badge 포함 — 리뷰 수 표시</p>
-        <p class="TabGuidePage__note">
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">badge 포함 — 리뷰 수 표시</p>
+        <p class="tabGuidePage__note">
           <code>badge</code>는 포맷이 포함된 문자열을 그대로 전달합니다. 라벨과
           이어서 렌더링됩니다 (예: <code>리뷰(9,999)</code>).<br />
           선택된 탭: <strong>{{ demo1 }}</strong>
         </p>
-        <div class="TabGuidePage__row">
-          <div class="TabGuidePage__item">
+        <div class="tabGuidePage__row">
+          <div class="tabGuidePage__item">
             <Tab v-model="demo1" :items="detailTabs" variant="underline-dark" />
-            <pre class="TabGuidePage__code"><code>&lt;Tab
+            <pre class="tabGuidePage__code"><code>&lt;Tab
   v-model="activeTab"
   :items="tabs"
   variant="underline-dark"
@@ -57,25 +57,25 @@ const tabs = [
     </section>
 
     <!-- ② underline-primary -->
-    <section class="TabGuidePage__section">
-      <h2 class="TabGuidePage__sectionTitle">② underline-primary variant</h2>
-      <p class="TabGuidePage__note">
+    <section class="tabGuidePage__section">
+      <h2 class="tabGuidePage__sectionTitle">② underline-primary variant</h2>
+      <p class="tabGuidePage__note">
         카테고리 메뉴 탭에 사용하는 variant입니다. 높이 48px, 하단
         <code>$color-primary</code> 색상의 2px 인디케이터. 탭이 많아지면 가로
         스크롤이 발생합니다.<br />
         선택된 탭: <strong>{{ demo2 }}</strong>
       </p>
 
-      <div class="TabGuidePage__group">
-        <p class="TabGuidePage__groupTitle">카테고리 탭 — 가로 스크롤 발생</p>
-        <div class="TabGuidePage__row">
-          <div class="TabGuidePage__item">
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">카테고리 탭 — 가로 스크롤 발생</p>
+        <div class="tabGuidePage__row">
+          <div class="tabGuidePage__item">
             <Tab
               v-model="demo2"
               :items="categoryTabs"
               variant="underline-primary"
             />
-            <pre class="TabGuidePage__code"><code>&lt;Tab
+            <pre class="tabGuidePage__code"><code>&lt;Tab
   v-model="activeTab"
   :items="tabs"
   variant="underline-primary"
@@ -94,21 +94,21 @@ const tabs = [
     </section>
 
     <!-- ③ pill (기본) -->
-    <section class="TabGuidePage__section">
-      <h2 class="TabGuidePage__sectionTitle">③ pill variant</h2>
-      <p class="TabGuidePage__note">
+    <section class="tabGuidePage__section">
+      <h2 class="tabGuidePage__sectionTitle">③ pill variant</h2>
+      <p class="tabGuidePage__note">
         정렬/필터 탭에 사용하는 variant입니다. 높이 36px, pill
         형태(border-radius: full). active 배경색은
         <code>$color-primary-hover</code> (#00addb). 탭이 많아지면 가로 스크롤이 발생합니다.<br />
         선택된 탭: <strong>{{ demo3 }}</strong>
       </p>
 
-      <div class="TabGuidePage__group">
-        <p class="TabGuidePage__groupTitle">정렬 탭 — 가로 스크롤 발생</p>
-        <div class="TabGuidePage__row">
-          <div class="TabGuidePage__item">
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">정렬 탭 — 가로 스크롤 발생</p>
+        <div class="tabGuidePage__row">
+          <div class="tabGuidePage__item">
             <Tab v-model="demo3" :items="sortTabs" variant="pill" />
-            <pre class="TabGuidePage__code"><code>&lt;Tab
+            <pre class="tabGuidePage__code"><code>&lt;Tab
   v-model="activeTab"
   :items="tabs"
   variant="pill"
@@ -128,9 +128,9 @@ const tabs = [
     </section>
 
     <!-- ④ pill + showViewToggle -->
-    <section class="TabGuidePage__section">
-      <h2 class="TabGuidePage__sectionTitle">④ pill + showViewToggle</h2>
-      <p class="TabGuidePage__note">
+    <section class="tabGuidePage__section">
+      <h2 class="tabGuidePage__sectionTitle">④ pill + showViewToggle</h2>
+      <p class="tabGuidePage__note">
         <code>show-view-toggle</code>은 <code>variant="pill"</code> 전용입니다.
         탭 목록 우측에 격자/목록 전환 버튼이 고정 배치됩니다.<br />
         <code>v-model:viewType</code>으로 현재 뷰 타입을 제어합니다. 각 버튼에는
@@ -139,10 +139,10 @@ const tabs = [
         <strong>{{ demo4View }}</strong>
       </p>
 
-      <div class="TabGuidePage__group">
-        <p class="TabGuidePage__groupTitle">정렬 탭 + 격자/목록 토글</p>
-        <div class="TabGuidePage__row">
-          <div class="TabGuidePage__item">
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">정렬 탭 + 격자/목록 토글</p>
+        <div class="tabGuidePage__row">
+          <div class="tabGuidePage__item">
             <Tab
               v-model="demo4Tab"
               v-model:viewType="demo4View"
@@ -150,7 +150,7 @@ const tabs = [
               variant="pill"
               :show-view-toggle="true"
             />
-            <pre class="TabGuidePage__code"><code>&lt;Tab
+            <pre class="tabGuidePage__code"><code>&lt;Tab
   v-model="activeTab"
   v-model:viewType="viewType"
   :items="tabs"
@@ -168,9 +168,9 @@ const viewType = ref&lt;'grid' | 'list'&gt;('grid')
     </section>
 
     <!-- ⑤ Navigation only 패턴 -->
-    <section class="TabGuidePage__section">
-      <h2 class="TabGuidePage__sectionTitle">⑤ Navigation only 패턴</h2>
-      <p class="TabGuidePage__note">
+    <section class="tabGuidePage__section">
+      <h2 class="tabGuidePage__sectionTitle">⑤ Navigation only 패턴</h2>
+      <p class="tabGuidePage__note">
         Tab 컴포넌트는 <code>TabsContent</code>를 사용하지 않는 Navigation only
         설계입니다.<br />
         콘텐츠 패널 전환은 부모 컴포넌트가 <code>v-model</code>로 받은 선택값을
@@ -180,11 +180,11 @@ const viewType = ref&lt;'grid' | 'list'&gt;('grid')
         End)을 자동 처리합니다.
       </p>
 
-      <div class="TabGuidePage__group">
-        <p class="TabGuidePage__groupTitle">
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">
           부모 컴포넌트에서 콘텐츠 패널 전환
         </p>
-        <pre class="TabGuidePage__code"><code>&lt;!-- 부모 컴포넌트 --&gt;
+        <pre class="tabGuidePage__code"><code>&lt;!-- 부모 컴포넌트 --&gt;
 &lt;template&gt;
   &lt;Tab v-model="activeTab" :items="tabs" variant="underline-dark" /&gt;
 
@@ -206,9 +206,9 @@ const tabs = [
 &lt;/script&gt;</code></pre>
       </div>
 
-      <div class="TabGuidePage__group">
-        <p class="TabGuidePage__groupTitle">가로 스크롤 동작 규칙</p>
-        <p class="TabGuidePage__note">
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">가로 스크롤 동작 규칙</p>
+        <p class="tabGuidePage__note">
           3가지 variant 모두 탭 목록이 컨테이너 너비를 초과하면 가로 스크롤이
           자동 활성화됩니다.<br />
           PC (hover 가능 환경): 하단 네이티브 스크롤바 표시.<br />
@@ -218,7 +218,7 @@ const tabs = [
           적용).
         </p>
         <pre
-          class="TabGuidePage__code"
+          class="tabGuidePage__code"
         ><code>&lt;!-- aria-label로 TabsRoot에 레이블 전달 가능 --&gt;
 &lt;Tab
   v-model="activeTab"
@@ -230,11 +230,11 @@ const tabs = [
     </section>
 
     <!-- ⑥ Props 테이블 -->
-    <section class="TabGuidePage__section">
-      <h2 class="TabGuidePage__sectionTitle">⑥ Props</h2>
+    <section class="tabGuidePage__section">
+      <h2 class="tabGuidePage__sectionTitle">⑥ Props</h2>
 
-      <h3 class="TabGuidePage__tableTitle">Tab Props</h3>
-      <table class="TabGuidePage__propsTable">
+      <h3 class="tabGuidePage__tableTitle">Tab Props</h3>
+      <table class="tabGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -288,8 +288,8 @@ const tabs = [
         </tbody>
       </table>
 
-      <h3 class="TabGuidePage__tableTitle">TabItem 타입</h3>
-      <table class="TabGuidePage__propsTable">
+      <h3 class="tabGuidePage__tableTitle">TabItem 타입</h3>
+      <table class="tabGuidePage__propsTable">
         <thead>
           <tr>
             <th>필드</th>
@@ -323,8 +323,8 @@ const tabs = [
         </tbody>
       </table>
 
-      <h3 class="TabGuidePage__tableTitle">Events</h3>
-      <table class="TabGuidePage__propsTable">
+      <h3 class="tabGuidePage__tableTitle">Events</h3>
+      <table class="tabGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -351,7 +351,7 @@ const tabs = [
         </tbody>
       </table>
 
-      <p class="TabGuidePage__radixNote">
+      <p class="tabGuidePage__radixNote">
         이 컴포넌트는 <strong>Radix Vue</strong>를 기반으로 합니다. 위 Props
         외에도 Radix Vue가 지원하는 추가 props를 사용할 수 있습니다.
         <code>aria-label</code>, <code>aria-labelledby</code> 등 접근성 속성은

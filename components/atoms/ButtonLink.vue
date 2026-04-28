@@ -1,20 +1,20 @@
 <template>
   <component
     :is="tag"
-    class="ButtonLinkRoot"
+    class="buttonLink"
     :class="rootClass"
     v-bind="linkAttrs"
   >
     <span
       v-if="$slots['leading-icon']"
-      class="ButtonLinkRoot__icon ButtonLinkRoot__icon--leading"
+      class="buttonLink__icon buttonLink__icon--leading"
     >
       <slot name="leading-icon" />
     </span>
-    <span class="ButtonLinkRoot__label"><slot /></span>
+    <span class="buttonLink__label"><slot /></span>
     <span
       v-if="$slots['trailing-icon']"
-      class="ButtonLinkRoot__icon ButtonLinkRoot__icon--trailing"
+      class="buttonLink__icon buttonLink__icon--trailing"
     >
       <slot name="trailing-icon" />
     </span>
@@ -52,7 +52,7 @@ const props = withDefaults(
 
 const attrs = useAttrs()
 
-const rootClass = useButtonVariant('ButtonLinkRoot', props)
+const rootClass = useButtonVariant('buttonLink', props)
 
 // target="_blank" 시 rel에 noopener noreferrer 자동 추가
 const computedRel = computed(() => {
@@ -96,5 +96,5 @@ const linkAttrs = computed(() => {
 
 <style lang="scss" scoped>
 @use '~/assets/scss/components/button-base' as *;
-@include button-base('ButtonLinkRoot');
+@include button-base('buttonLink');
 </style>

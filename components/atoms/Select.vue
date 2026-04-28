@@ -8,21 +8,21 @@
     <SelectTrigger
       v-bind="triggerAttrs"
       :id="selectId"
-      class="SelectRoot__trigger"
+      class="select__trigger"
       :class="{
-        'SelectRoot__trigger--disabled': disabled,
-        'SelectRoot__trigger--error': error,
-        'SelectRoot__trigger--filter': variant === 'filter',
+        'select__trigger--disabled': disabled,
+        'select__trigger--error': error,
+        'select__trigger--filter': variant === 'filter',
       }"
       :aria-invalid="error ? 'true' : undefined"
     >
-      <SelectValue class="SelectRoot__value" :placeholder="placeholder" />
+      <SelectValue class="select__value" :placeholder="placeholder" />
       <SelectIcon as-child>
-        <span class="SelectRoot__icon">
+        <span class="select__icon">
           <!-- filter variant — 기본 아래(↓) 방향 SVG, 열린 상태에서 rotate(180deg)로 위(↑) -->
           <svg
             v-if="variant === 'filter'"
-            class="SelectRoot__iconSvg"
+            class="select__iconSvg"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -40,7 +40,7 @@
           <!-- default variant — 기본 위(∧) 방향 SVG, rotate(180deg)로 아래(↓) -->
           <svg
             v-else
-            class="SelectRoot__iconSvg"
+            class="select__iconSvg"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="none"
@@ -60,15 +60,15 @@
     <SelectPortal>
       <SelectContent
         :class="[
-          'SelectRoot__content',
-          { 'SelectRoot__content--filter': variant === 'filter' },
+          'select__content',
+          { 'select__content--filter': variant === 'filter' },
         ]"
         position="popper"
         :side-offset="4"
         :body-lock="false"
       >
         <SelectScrollUpButton
-          class="SelectRoot__scrollBtn SelectRoot__scrollBtn--up"
+          class="select__scrollBtn select__scrollBtn--up"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,25 +87,25 @@
           </svg>
         </SelectScrollUpButton>
 
-        <SelectViewport class="SelectRoot__viewport">
+        <SelectViewport class="select__viewport">
           <SelectItem
             v-for="option in options"
             :key="option.value"
             :class="[
-              'SelectRoot__item',
-              { 'SelectRoot__item--filter': variant === 'filter' },
+              'select__item',
+              { 'select__item--filter': variant === 'filter' },
             ]"
             :value="option.value"
             :disabled="option.disabled"
           >
-            <SelectItemText class="SelectRoot__itemText">
+            <SelectItemText class="select__itemText">
               {{ option.label }}
             </SelectItemText>
           </SelectItem>
         </SelectViewport>
 
         <SelectScrollDownButton
-          class="SelectRoot__scrollBtn SelectRoot__scrollBtn--down"
+          class="select__scrollBtn select__scrollBtn--down"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@ const proxyValue = computed({
     SelectContent에 자동 주입됨 → width에 직접 참조
 ──────────────────────────────────────────────────────────────────── -->
 <style lang="scss" scoped>
-$b: "SelectRoot";
+$b: 'select';
 
 .#{$b} {
   &__trigger {
@@ -285,7 +285,7 @@ $b: "SelectRoot";
 // ── SelectPortal 내부 요소 (:deep) ──────────────────────────────────
 // SelectContent 등은 Radix Vue 컴포넌트가 내부에서 렌더링하므로
 // 부모 scoped 속성(data-v-xxxxx)이 직접 붙지 않음.
-// :deep()을 쓰면 [data-v-xxxxx] .SelectRoot__content 로 컴파일되어
+// :deep()을 쓰면 [data-v-xxxxx] .select__content 로 컴파일되어
 // Portal이 <body>에 마운트되어도 DOM 트리상 조상에 data-v가 있으면 매칭됨.
 // $z-sticky(200): $z-dropdown(100)으로는 가이드 페이지 stacking context보다 낮을 수 있음
 :deep(.#{$b}__content) {

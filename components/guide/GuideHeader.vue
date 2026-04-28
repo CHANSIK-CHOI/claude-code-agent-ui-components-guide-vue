@@ -1,6 +1,6 @@
 <template>
-  <header class="GuideHeader" v-bind="$attrs">
-    <h1 class="GuideHeader__title">드시모네몰 퍼블리싱 가이드</h1>
+  <header class="guideHeader" v-bind="$attrs">
+    <h1 class="guideHeader__title">드시모네몰 퍼블리싱 가이드</h1>
   </header>
 </template>
 
@@ -9,7 +9,7 @@ defineOptions({ inheritAttrs: false })
 </script>
 
 <style lang="scss" scoped>
-$b: 'GuideHeader';
+$b: 'guideHeader';
 
 .#{$b} {
   display: flex;

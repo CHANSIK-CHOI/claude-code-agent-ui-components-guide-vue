@@ -1,12 +1,12 @@
 <template>
-  <div class="InputGuidePage">
+  <div class="inputGuidePage">
     <!-- 헤더 -->
-    <header class="InputGuidePage__header">
-      <div class="InputGuidePage__meta">
-        <span class="InputGuidePage__badge">atoms</span>
+    <header class="inputGuidePage__header">
+      <div class="inputGuidePage__meta">
+        <span class="inputGuidePage__badge">atoms</span>
       </div>
-      <h1 class="InputGuidePage__title">Input</h1>
-      <p class="InputGuidePage__desc">
+      <h1 class="inputGuidePage__title">Input</h1>
+      <p class="inputGuidePage__desc">
         사용자가 텍스트를 직접 입력하는 기본 폼 요소.<br />
         라벨 · 툴팁 · 도움말 텍스트는 <code>FormField</code> (molecules)와
         조합해 사용합니다.<br />
@@ -16,33 +16,33 @@
     </header>
 
     <!-- ① 기본 조합 -->
-    <section class="InputGuidePage__section">
-      <h2 class="InputGuidePage__sectionTitle">① 기본 조합</h2>
+    <section class="inputGuidePage__section">
+      <h2 class="inputGuidePage__sectionTitle">① 기본 조합</h2>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">Input 단독 (라벨 없음)</p>
-        <p class="InputGuidePage__note">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">Input 단독 (라벨 없음)</p>
+        <p class="inputGuidePage__note">
           라벨이 외부에서 제공되거나 불필요한 경우. <code>aria-label</code>을
           직접 전달.
         </p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <Input
               v-model="demo1"
               placeholder="이름을 입력하세요"
               aria-label="이름"
             />
             <pre
-              class="InputGuidePage__code"
+              class="inputGuidePage__code"
             ><code>&lt;Input v-model="value" placeholder="이름을 입력하세요" aria-label="이름" /&gt;</code></pre>
           </div>
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">FormField + Input (라벨 있음)</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">FormField + Input (라벨 있음)</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <FormField label-text="이메일" input-id="demo-email">
               <Input
                 id="demo-email"
@@ -51,7 +51,7 @@
               />
             </FormField>
             <pre
-              class="InputGuidePage__code"
+              class="inputGuidePage__code"
             ><code>&lt;FormField label-text="이메일" input-id="demo-email"&gt;
   &lt;Input id="demo-email" v-model="value" placeholder="example@email.com" /&gt;
 &lt;/FormField&gt;</code></pre>
@@ -59,12 +59,12 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">
           FormField + Input (도움말 있음)
         </p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <FormField
               label-text="비밀번호"
               input-id="demo-pw"
@@ -78,7 +78,7 @@
                 aria-describedby="helper-demo-pw"
               />
             </FormField>
-            <pre class="InputGuidePage__code"><code>&lt;FormField
+            <pre class="inputGuidePage__code"><code>&lt;FormField
   label-text="비밀번호"
   input-id="demo-pw"
   helper-text="영문, 숫자, 특수문자 포함 8자 이상"
@@ -95,15 +95,15 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">FormField + Input (툴팁 있음)</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">FormField + Input (툴팁 있음)</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <FormField label-text="포인트" input-id="demo-point">
               <template #tooltip>
                 <button
                   type="button"
-                  class="InputGuidePage__tooltipBtn"
+                  class="inputGuidePage__tooltipBtn"
                   aria-label="포인트 안내"
                 >
                   <svg
@@ -138,7 +138,7 @@
               />
             </FormField>
             <pre
-              class="InputGuidePage__code"
+              class="inputGuidePage__code"
             ><code>&lt;FormField label-text="포인트" input-id="demo-point"&gt;
   &lt;template #tooltip&gt;
     &lt;!-- Tooltip 컴포넌트 삽입 --&gt;
@@ -150,10 +150,10 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">FormField + Input (필수 항목)</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">FormField + Input (필수 항목)</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <FormField label-text="이름" input-id="demo-name" :required="true">
               <Input
                 id="demo-name"
@@ -163,7 +163,7 @@
               />
             </FormField>
             <pre
-              class="InputGuidePage__code"
+              class="inputGuidePage__code"
             ><code>&lt;FormField label-text="이름" input-id="demo-name" :required="true"&gt;
   &lt;Input id="demo-name" v-model="value" placeholder="이름을 입력하세요" required /&gt;
 &lt;/FormField&gt;</code></pre>
@@ -171,18 +171,18 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">
           FormField + Input (에러 메시지)
         </p>
-        <p class="InputGuidePage__note">
+        <p class="inputGuidePage__note">
           <code>error-text</code>에 문자열을 전달하면 빨간색으로 표시됩니다.
           <code>helper-text</code>와 동시에 지정하면 <code>error-text</code>가
           우선합니다.<br />
           <code>role="alert"</code>가 자동 부여되어 스크린 리더가 즉시 읽습니다.
         </p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <FormField
               label-text="이메일"
               input-id="demo-error"
@@ -196,7 +196,7 @@
                 aria-describedby="helper-demo-error"
               />
             </FormField>
-            <pre class="InputGuidePage__code"><code>&lt;FormField
+            <pre class="inputGuidePage__code"><code>&lt;FormField
   label-text="이메일"
   input-id="demo-error"
   error-text="올바른 이메일 형식이 아닙니다."
@@ -217,13 +217,13 @@
     </section>
 
     <!-- ② 상태별 -->
-    <section class="InputGuidePage__section">
-      <h2 class="InputGuidePage__sectionTitle">② 상태별</h2>
+    <section class="inputGuidePage__section">
+      <h2 class="inputGuidePage__sectionTitle">② 상태별</h2>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">default</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">default</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <Input
               v-model="stateDemos.default"
               placeholder="입력해주세요"
@@ -233,10 +233,10 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">filled</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">filled</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <Input
               v-model="stateDemos.filled"
               placeholder="입력해주세요"
@@ -246,11 +246,11 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">focus</p>
-        <p class="InputGuidePage__note">클릭하면 focus 상태로 전환됩니다.</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">focus</p>
+        <p class="inputGuidePage__note">클릭하면 focus 상태로 전환됩니다.</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <Input
               v-model="stateDemos.focus"
               placeholder="클릭해서 포커스 확인"
@@ -260,10 +260,10 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">disabled</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">disabled</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <Input
               v-model="stateDemos.disabled"
               :disabled="true"
@@ -274,10 +274,10 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">readonly</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">readonly</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <Input
               v-model="stateDemos.readonly"
               :readonly="true"
@@ -287,10 +287,10 @@
         </div>
       </div>
 
-      <div class="InputGuidePage__group">
-        <p class="InputGuidePage__groupTitle">error</p>
-        <div class="InputGuidePage__row">
-          <div class="InputGuidePage__item">
+      <div class="inputGuidePage__group">
+        <p class="inputGuidePage__groupTitle">error</p>
+        <div class="inputGuidePage__row">
+          <div class="inputGuidePage__item">
             <FormField
               label-text="이메일"
               input-id="state-error"
@@ -310,11 +310,11 @@
     </section>
 
     <!-- ③ Props 참조 -->
-    <section class="InputGuidePage__section">
-      <h2 class="InputGuidePage__sectionTitle">③ Props</h2>
+    <section class="inputGuidePage__section">
+      <h2 class="inputGuidePage__sectionTitle">③ Props</h2>
 
-      <h3 class="InputGuidePage__tableTitle">Input Props</h3>
-      <table class="InputGuidePage__propsTable">
+      <h3 class="inputGuidePage__tableTitle">Input Props</h3>
+      <table class="inputGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -366,8 +366,8 @@
         </tbody>
       </table>
 
-      <h3 class="InputGuidePage__tableTitle">FormField Props</h3>
-      <table class="InputGuidePage__propsTable">
+      <h3 class="inputGuidePage__tableTitle">FormField Props</h3>
+      <table class="inputGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -429,8 +429,8 @@
         </tbody>
       </table>
 
-      <h3 class="InputGuidePage__tableTitle">Input Events</h3>
-      <table class="InputGuidePage__propsTable">
+      <h3 class="inputGuidePage__tableTitle">Input Events</h3>
+      <table class="inputGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -462,8 +462,8 @@
         </tbody>
       </table>
 
-      <h3 class="InputGuidePage__tableTitle">FormField Slots</h3>
-      <table class="InputGuidePage__propsTable">
+      <h3 class="inputGuidePage__tableTitle">FormField Slots</h3>
+      <table class="inputGuidePage__propsTable">
         <thead>
           <tr>
             <th>이름</th>
@@ -482,7 +482,7 @@
         </tbody>
       </table>
 
-      <p class="InputGuidePage__delegationNote">
+      <p class="inputGuidePage__delegationNote">
         <strong>aria-describedby 연결 규칙</strong>: <code>FormField</code>의
         도움말 요소 id는 <code>helper-{inputId}</code> 형식으로 자동
         생성됩니다.<br />
@@ -490,7 +490,7 @@
         전달하면 스크린 리더가 도움말 텍스트를 읽습니다.
       </p>
 
-      <p class="InputGuidePage__delegationNote">
+      <p class="inputGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: <code>Input</code>은
         <code>v-bind="$attrs"</code>를 사용하므로
         <code>&lt;input&gt;</code> 요소의 모든 네이티브 HTML 속성

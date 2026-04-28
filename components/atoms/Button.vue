@@ -2,21 +2,21 @@
   <button
     v-bind="$attrs"
     :type="props.type"
-    class="ButtonRoot"
+    class="button"
     :class="rootClass"
     :disabled="props.disabled"
     @click="handleClick"
   >
     <span
       v-if="$slots['leading-icon']"
-      class="ButtonRoot__icon ButtonRoot__icon--leading"
+      class="button__icon button__icon--leading"
     >
       <slot name="leading-icon" />
     </span>
-    <span class="ButtonRoot__label"><slot /></span>
+    <span class="button__label"><slot /></span>
     <span
       v-if="$slots['trailing-icon']"
-      class="ButtonRoot__icon ButtonRoot__icon--trailing"
+      class="button__icon button__icon--trailing"
     >
       <slot name="trailing-icon" />
     </span>
@@ -54,7 +54,7 @@ const emit = defineEmits<{
   click: [event: MouseEvent]
 }>()
 
-const rootClass = useButtonVariant('ButtonRoot', props)
+const rootClass = useButtonVariant('button', props)
 
 function handleClick(e: MouseEvent): void {
   if (props.disabled) {
@@ -67,5 +67,5 @@ function handleClick(e: MouseEvent): void {
 
 <style lang="scss" scoped>
 @use '~/assets/scss/components/button-base' as *;
-@include button-base('ButtonRoot');
+@include button-base('button');
 </style>

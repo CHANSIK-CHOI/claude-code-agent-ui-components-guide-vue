@@ -1,7 +1,7 @@
 @use '../abstracts/variables' as *;
 
 // button-base($b) — Button·ButtonLink 공유 mixin
-// 호출 예: @include button-base('ButtonRoot')
+// 호출 예: @include button-base('button')
 @mixin button-base($b) {
   .#{$b} {
     display: flex;

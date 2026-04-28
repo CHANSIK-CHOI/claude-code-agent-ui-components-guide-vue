@@ -1,16 +1,16 @@
 <template>
   <div
-    class="TextAreaRoot"
+    class="textArea"
     :class="{
-      'TextAreaRoot--error': props.error,
-      'TextAreaRoot--disabled': props.disabled,
-      'TextAreaRoot--has-counter': !!props.maxLength,
+      'textArea--error': props.error,
+      'textArea--disabled': props.disabled,
+      'textArea--has-counter': !!props.maxLength,
     }"
   >
     <textarea
       v-bind="$attrs"
       :id="textareaId"
-      class="TextAreaRoot__field"
+      class="textArea__field"
       :value="props.modelValue"
       :disabled="props.disabled"
       :readonly="props.readonly"
@@ -27,10 +27,10 @@
       @blur="emit('blur', ($event.target as HTMLTextAreaElement).value)"
       @change="emit('change', ($event.target as HTMLTextAreaElement).value)"
     />
-    <div v-if="props.maxLength" class="TextAreaRoot__footer">
+    <div v-if="props.maxLength" class="textArea__footer">
       <span
         :id="`${textareaId}-counter`"
-        class="TextAreaRoot__counter"
+        class="textArea__counter"
         aria-live="polite"
       >
         {{ currentLength }} / {{ props.maxLength }}
@@ -81,7 +81,7 @@ const currentLength = computed(() => props.modelValue?.length ?? 0);
 </script>
 
 <style lang="scss" scoped>
-$b: "TextAreaRoot";
+$b: 'textArea';
 
 .#{$b} {
   position: relative;
