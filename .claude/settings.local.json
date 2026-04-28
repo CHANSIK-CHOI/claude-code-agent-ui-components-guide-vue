@@ -2,10 +2,10 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:www.radix-vue.com)",
-      "Bash(grep *)"
-    ],
-    "additionalDirectories": [
-      "C:/dev/desimone"
+      "Bash(grep *)",
+      "Bash(curl *)",
+      "Bash(lsof -iTCP -sTCP:LISTEN -P)",
+      "Bash(python3 -m json.tool)"
     ]
   },
   "enableAllProjectMcpServers": true,
