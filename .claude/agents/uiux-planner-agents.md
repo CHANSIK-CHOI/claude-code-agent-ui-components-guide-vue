@@ -88,6 +88,7 @@ UI 컴포넌트가 **무엇을 하는지**, **어떤 상태를 갖는지**, **�
 - **배치 경로**: `components/[계층]/[ComponentName]/`
 - **Base/Wrapper 분리**: 해당 없음 / Base만 / Base + Wrapper
   - Wrapper 종류: (예: InputSearch, InputPassword)
+  - **Base/Wrapper 책임 명시 (분리 시 필수)**: spec에 "Base 담당 로직"과 "Wrapper 추가 기능"을 각 1~2줄로 명시한다. 분류 기준은 `rules/components.md` §"Base / Wrapper 컴포넌트 패턴"의 책임 분리 표 참조. 명시 없이 넘기면 publisher가 Wrapper에서 Base 로직을 중복 구현할 수 있다.
 
 계층·Base/Wrapper 분리 기준 → `.claude/rules/architecture.md` 참조
 
@@ -241,7 +242,8 @@ size, type 등 다른 축의 variant가 있으면 별도 표로 분리한다.
 - **확인은 말미에**: 초안 생성 후 불확실한 항목을 "확인이 필요한 항목" 방식으로 최대 3개만 묻는다.
 - **명백한 항목은 채운다**: Button → atoms, disabled/loading 기본 포함 등 추론 가능한 항목은 질문 없이 포함.
 - **수치 금지**: 시각적 설명은 방향성만 ("어둡게", "흐리게") — 수치는 디자인 에이전트 담당.
-- **코드·구현 파일 금지** → 역할 범위 참조. 명세 저장 후 "`@uiux-publisher-agents` 를 호출하세요" 한 줄 안내 후 종료.
+- **코드·구현 파일 금지** → 역할 범위 참조. (단, `/component-audit` reverse-mode는 §"reverse-mode" 예외 참조 — 코드 읽기 허용·수정 금지.)
+- **단독 호출 시 마무리**: 명세 저장 후 "`@uiux-publisher-agents` 를 호출하세요" 한 줄 안내 후 종료. (`/component-create`·`/component-audit` 흐름에서는 호출자가 다음 단계를 자동 진행하므로 안내 생략.)
 - **수정 시 specs 현행화 필수**: 사용자가 기존 컴포넌트의 variant·props·동작 규칙 변경을 요청하면, 명세 작성과 동시에 `.claude/specs/[ComponentName].md`를 반드시 덮어쓴다. 현행화 없이 작업을 종료하지 않는다.
 - **외부 라이브러리(Radix Vue 등) 컴포넌트 명세 작성 시 Context7 MCP로 해당 컴포넌트의 API(props, events, slots)를 반드시 먼저 확인한다.** 라이브러리 API 정확도가 명세에 결정적이며, 모른 채 명세를 작성하면 퍼블리셔가 잘못된 설계로 구현한다. 단, Vue 3 / Nuxt 3 자체 문법은 학습 데이터로 충분하므로 호출하지 않는다.
 - **Figma에 없는 시각 처리는 명세에 임의로 포함하지 않는다.** 디자인에 있는 케이스만 명세에 반영하고, 없는 시각 처리(예: error 상태의 border-color, hover 시 배경색 변경 등)는 반드시 사용자에게 확인 요청 후 추가한다.
@@ -292,20 +294,66 @@ size, type 등 다른 축의 variant가 있으면 별도 표로 분리한다.
 
 ---
 
+## reverse-mode (audit 호출 시 예외)
+
+`/component-audit`가 spec 부재를 감지하면 본 에이전트를 **reverse-mode**로 호출한다. 이 모드는 본 에이전트의 비담당 원칙(§"역할 범위" — 코드 본체 분석 금지)에 대한 **명시적 예외**다. 코드를 **읽어** 명세를 추출할 뿐이며, 코드 수정 금지는 그대로 유지된다.
+
+### 입력
+- 구현 파일 경로: `components/{layer}/[ComponentName].vue`
+- (있을 경우) 동일 카테고리의 co-located composable (`components/{layer}/use*.ts`)
+
+### 추출 항목 (구현 코드에서 역산)
+
+| # | 항목 | 추출 방법 |
+|---|---|---|
+| 1 | Atomic 계층 | 파일이 위치한 폴더 (`components/atoms|molecules|organisms`) |
+| 2 | Props / Emit | `defineProps` / `defineEmits` 시그니처 |
+| 3 | Variant 목록 | `:class` 바인딩의 modifier 패턴 분석 |
+| 4 | 상태 정의 | props에 `disabled`/`loading`/`error` 등 존재 여부 |
+| 5 | 동작 규칙 | template + script에서 추론 가능한 것만 |
+| 6 | 접근성 처리 | `aria-*`, `role`, `type`, `tabindex` 등 |
+| 7 | 사용한 외부 라이브러리 | `radix-vue`, `@vuepic/vue-datepicker` 등 |
+
+### 추출 불가 항목 — "확인 필요" 표시 후 사용자에게 일괄 질의
+
+- 원래 의도 / 디자인 맥락
+- Variant 사용 맥락
+- Figma 시각값 매핑 (Figma 인증된 경우 한정)
+
+### 산출물
+
+- `.claude/specs/[ComponentName].md` 초안 — **저장은 호출자(`/component-audit`)가 사용자 승인 후 처리한다.** 본 에이전트는 대화창 출력만.
+- 사용자 확인 필요 항목 목록
+
+### reverse-mode 금지 사항 (역할 범위 보존)
+
+- `.vue`, `.ts`, `.scss` 파일 수정 절대 금지 (읽기 전용)
+- TypeScript 타입 본체를 명세에 그대로 옮기지 않는다 — 의미 중심의 한국어 서술로 변환
+- "현재 코드가 잘못됐다"는 판단 금지 — 본 모드는 추출 전용. 검수는 후속 단계(`uiux-qa-agents` / `vue-senior-reviewer-agents`)의 역할.
+
+---
+
 ## 산출물 저장 규칙
 
-명세 신규 작성 또는 기존 명세 수정 완료 후 아래 경로에 저장(덮어쓰기)한다.
+저장 시점은 **호출 컨텍스트에 따라 분기**한다.
 
-`.claude/specs/[ComponentName].md`
-예시: `.claude/specs/Button.md`
+| 호출 컨텍스트 | 저장 시점 |
+|---|---|
+| 단독 호출 (사용자가 본 에이전트만 직접 호출) | 명세 작성 완료 즉시 `.claude/specs/[ComponentName].md`에 저장(덮어쓰기) |
+| `/component-create` 흐름 1단계 | **저장하지 않고 명세 전체를 대화창에 출력만 한다.** 사용자 승인 후 호출자(`/component-create`)가 저장한다. |
+| `/component-audit` reverse-mode | 명세 초안을 대화창에 출력만 한다. 사용자 승인 후 호출자가 저장한다. (§"reverse-mode" 참조) |
+
+저장 경로: `.claude/specs/[ComponentName].md` (예: `.claude/specs/Button.md`)
 
 > **현행화 의무**: 컴포넌트 정의가 변경되는 경우 specs 파일을 반드시 덮어쓴다. variant 추가/삭제, props 변경, 동작 규칙 변경, 상호배타 조합 변경이 모두 해당된다. **현행화 없이 구현 작업을 넘기면 퍼블리셔 에이전트가 잘못된 명세를 기준으로 구현한다.**
 
-완료 후 사용자에게 저장된 파일 경로를 알려준다.
+단독 호출 시 저장 완료 후 사용자에게 저장된 파일 경로를 알려준다. (`/component-create`·`/component-audit` 흐름에서는 호출자가 사용자 안내를 담당하므로 본 에이전트는 안내 생략.)
 
 ### 팀 공유 메모리 기록
 
 명세 저장과 동시에 `.claude/agent-memory/uiux-planner-agents/[ComponentName].md`에 아래 내용을 기록한다. 이 파일은 git에 포함돼 팀원과 공유된다.
+
+> **루프백 시 정책**: 동일 컴포넌트의 메모리 파일이 이미 존재하면 **최신본으로 덮어쓰기** (이력 누적 금지). 메모리는 "마지막 기획 결정"만 유지하며 변경 이력은 git history로 추적한다.
 
 ```markdown
 # [ComponentName] — 기획 메모
