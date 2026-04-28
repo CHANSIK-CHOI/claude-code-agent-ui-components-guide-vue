@@ -1,4 +1,3 @@
-import { computed } from 'vue'
 import type { ButtonShape, ButtonColor, ButtonSize } from '@nd/components/types'
 
 interface ButtonVariantProps {

@@ -42,9 +42,10 @@ interface GuideNavGroup {
 
 const navigation: GuideNavGroup[] = [
   {
-    label: 'PAGE LIST',
+    label: 'OVERVIEW',
     items: [
-      { label: '퍼블리싱 현황', to: '/guide' },
+      { label: 'Claude 워크플로우', to: '/guide' },
+      { label: '퍼블리싱 현황', to: '/guide/pageList' },
     ],
   },
   {

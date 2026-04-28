@@ -1,0 +1,682 @@
+$b: 'claudeGuide';
+
+.#{$b} {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: $spacing-2xl $spacing-2xl;
+  gap: $spacing-2xl;
+  background-color: $bg-primary;
+
+  // ────────────────────────────────────────────
+  // Hero
+  // ────────────────────────────────────────────
+  &__hero {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-2xl;
+    border-radius: $radius-lg;
+    background:
+      linear-gradient(135deg, $bg-accent-sky-blue 0%, $bg-accent-light-blue 100%);
+    border: 1px solid $line-200;
+  }
+
+  &__heroEyebrow {
+    margin: 0;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__heroTitle {
+    margin: 0;
+    font-size: $font-size-h1;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    line-height: $line-height-tight;
+  }
+
+  &__heroDesc {
+    margin: 0;
+    font-size: $font-size-body2;
+    color: $text-700;
+    line-height: $line-height-base;
+    max-width: 80rem;
+  }
+
+  &__heroStack {
+    list-style: none;
+    margin: $spacing-sm 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+
+    li {
+      padding: 0.4rem 1.2rem;
+      border-radius: $radius-full;
+      background-color: $bg-primary;
+      border: 1px solid $line-200;
+      font-size: $font-size-caption1;
+      font-weight: $font-weight-medium;
+      color: $text-700;
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // Section common
+  // ────────────────────────────────────────────
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  &__sectionHead {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding-bottom: $spacing-md;
+    border-bottom: 2px solid $text-900;
+  }
+
+  &__sectionIndex {
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    letter-spacing: 0.1em;
+  }
+
+  &__sectionTitle {
+    margin: 0;
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    line-height: $line-height-snug;
+  }
+
+  &__sectionDesc {
+    margin: 0;
+    font-size: $font-size-body3;
+    color: $text-500;
+    line-height: $line-height-base;
+  }
+
+  // ────────────────────────────────────────────
+  // 02. Agent Cards
+  // ────────────────────────────────────────────
+  &__agentGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+  }
+
+  &__agentCard {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    border: 1px solid $line-200;
+    background-color: $bg-primary;
+    border-top-width: 3px;
+  }
+
+  &__agentHead {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__agentDot {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: $radius-full;
+    background-color: $color-primary;
+    flex-shrink: 0;
+  }
+
+  &__agentName {
+    flex: 1;
+    margin: 0;
+    font-size: $font-size-body1;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  &__agentBadge {
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-full;
+    background-color: $bg-secondary;
+    font-size: $font-size-caption2;
+    font-weight: $font-weight-bold;
+    color: $text-700;
+  }
+
+  &__agentRole {
+    margin: 0;
+    font-size: $font-size-body3;
+    color: $text-700;
+    line-height: $line-height-base;
+  }
+
+  &__agentBlock {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    margin: 0;
+
+    dt {
+      font-size: $font-size-caption1;
+      font-weight: $font-weight-bold;
+      color: $text-500;
+      letter-spacing: 0.05em;
+    }
+
+    dd {
+      margin: 0;
+      font-size: $font-size-body4;
+      color: $text-800;
+      line-height: $line-height-base;
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+      }
+
+      li {
+        position: relative;
+        padding-left: $spacing-md;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0.4rem;
+          top: 0.8rem;
+          width: 0.4rem;
+          height: 0.1rem;
+          background-color: $text-400;
+        }
+      }
+    }
+  }
+
+  &__agentFooter {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding-top: $spacing-md;
+    border-top: 1px solid $line-300;
+  }
+
+  &__agentLabel {
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+    color: $text-500;
+    letter-spacing: 0.05em;
+  }
+
+  // tone variants
+  &__agentCard[data-tone='planner'] {
+    border-top-color: $color-primary;
+
+    .#{$b}__agentDot { background-color: $color-primary; }
+    .#{$b}__agentBadge { background-color: $bg-accent-sky-blue; color: $color-primary; }
+  }
+
+  &__agentCard[data-tone='publisher'] {
+    border-top-color: $color-success;
+
+    .#{$b}__agentDot { background-color: $color-success; }
+    .#{$b}__agentBadge { background-color: $bg-accent-beige; color: $color-success; }
+  }
+
+  &__agentCard[data-tone='qa'] {
+    border-top-color: $color-warning;
+
+    .#{$b}__agentDot { background-color: $color-warning; }
+    .#{$b}__agentBadge { background-color: $bg-accent-orange; color: $text-700; }
+  }
+
+  &__agentCard[data-tone='reviewer'] {
+    border-top-color: $color-danger;
+
+    .#{$b}__agentDot { background-color: $color-danger; }
+    .#{$b}__agentBadge { background-color: $bg-accent-light-pink; color: $color-danger; }
+  }
+
+  // ────────────────────────────────────────────
+  // 03. Workflow
+  // ────────────────────────────────────────────
+  &__flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__flowStep {
+    display: flex;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-lg;
+    border-radius: $radius-md;
+    background-color: $bg-secondary;
+    border-left: 4px solid $line-100;
+  }
+
+  &__flowMarker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__flowNumber {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: $radius-full;
+    background-color: $bg-primary;
+    border: 2px solid $line-100;
+    font-size: $font-size-body3;
+    font-weight: $font-weight-bold;
+    color: $text-700;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  &__flowBody {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__flowTitle {
+    margin: 0;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+  }
+
+  &__flowAgent {
+    margin: 0;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+    color: $text-500;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  &__flowDesc {
+    margin: 0;
+    font-size: $font-size-body4;
+    color: $text-700;
+    line-height: $line-height-base;
+  }
+
+  &__flowMode {
+    margin: 0;
+    padding: 0.4rem 0.8rem;
+    align-self: flex-start;
+    border-radius: $radius-sm;
+    background-color: $bg-primary;
+    font-size: $font-size-caption2;
+    font-weight: $font-weight-medium;
+    color: $text-500;
+  }
+
+  // tone variants
+  &__flowStep[data-tone='planner'] {
+    border-left-color: $color-primary;
+
+    .#{$b}__flowNumber { border-color: $color-primary; color: $color-primary; }
+  }
+
+  &__flowStep[data-tone='publisher'] {
+    border-left-color: $color-success;
+
+    .#{$b}__flowNumber { border-color: $color-success; color: $color-success; }
+  }
+
+  &__flowStep[data-tone='guide'] {
+    border-left-color: $color-success;
+
+    .#{$b}__flowNumber { border-color: $color-success; color: $color-success; }
+  }
+
+  &__flowStep[data-tone='qa'] {
+    border-left-color: $color-warning;
+
+    .#{$b}__flowNumber { border-color: $color-warning; color: $text-700; }
+  }
+
+  &__flowStep[data-tone='reviewer'] {
+    border-left-color: $color-danger;
+
+    .#{$b}__flowNumber { border-color: $color-danger; color: $color-danger; }
+  }
+
+  &__flowStep[data-tone='final'] {
+    border-left-color: $text-900;
+
+    .#{$b}__flowNumber { border-color: $text-900; color: $text-900; }
+  }
+
+  // Loopback callout
+  &__loopback {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    background-color: $bg-accent-orange;
+    border-left: 4px solid $color-warning;
+  }
+
+  &__loopbackTitle {
+    margin: 0;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+  }
+
+  &__loopbackList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    li {
+      position: relative;
+      padding-left: $spacing-md;
+      font-size: $font-size-body4;
+      color: $text-800;
+      line-height: $line-height-base;
+
+      &::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: $color-warning;
+        font-weight: $font-weight-bold;
+      }
+
+      strong {
+        color: $text-900;
+        font-weight: $font-weight-bold;
+        margin-right: $spacing-xs;
+      }
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // 04. Commands
+  // ────────────────────────────────────────────
+  &__commandGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+  }
+
+  &__commandCard {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    background-color: $text-900;
+    color: $text-100;
+  }
+
+  &__commandHead {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__commandName {
+    padding: 0.4rem 0.8rem;
+    border-radius: $radius-sm;
+    background-color: $bg-primary;
+    color: $color-primary;
+    font-size: $font-size-body3;
+    font-weight: $font-weight-bold;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  &__commandPurpose {
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-full;
+    background-color: $bg-accent-sky-blue;
+    color: $text-900;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+  }
+
+  &__commandDesc {
+    margin: 0;
+    font-size: $font-size-body4;
+    color: $text-300;
+    line-height: $line-height-base;
+  }
+
+  &__commandSteps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    counter-reset: step;
+
+    li {
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-sm;
+      background-color: rgba(255, 255, 255, 0.06);
+      font-size: $font-size-body4;
+      color: $text-100;
+      line-height: $line-height-base;
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // 01. Principles
+  // ────────────────────────────────────────────
+  &__principleGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+  }
+
+  &__principleCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    background-color: $bg-secondary;
+    border: 1px solid transparent;
+    transition: border-color $duration-fast ease, background-color $duration-fast ease;
+
+    &:hover {
+      border-color: $color-primary;
+      background-color: $bg-primary;
+    }
+  }
+
+  &__principleNumber {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    line-height: 1;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  &__principleTitle {
+    margin: 0;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    line-height: $line-height-snug;
+  }
+
+  &__principleDesc {
+    margin: 0;
+    font-size: $font-size-body4;
+    color: $text-600;
+    line-height: $line-height-base;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $line-300;
+  }
+
+  &__principleList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    li {
+      position: relative;
+      padding-left: $spacing-md;
+      font-size: $font-size-body5;
+      color: $text-700;
+      line-height: $line-height-base;
+
+      &::before {
+        content: '·';
+        position: absolute;
+        left: 0.4rem;
+        top: -0.2rem;
+        font-weight: $font-weight-bold;
+        color: $color-primary;
+      }
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // 05. Severity (unchanged)
+  // ────────────────────────────────────────────
+  &__severityGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+  }
+
+  &__severityCard {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    border: 1px solid $line-200;
+    background-color: $bg-primary;
+  }
+
+  &__severityHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $line-300;
+  }
+
+  &__severityLevel {
+    font-size: $font-size-body3;
+    font-weight: $font-weight-bold;
+    letter-spacing: 0.1em;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  &__severityAction {
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-full;
+    background-color: $bg-secondary;
+    font-size: $font-size-caption2;
+    font-weight: $font-weight-medium;
+    color: $text-700;
+  }
+
+  &__severityDesc {
+    margin: 0;
+    font-size: $font-size-body4;
+    color: $text-700;
+    line-height: $line-height-base;
+  }
+
+  &__severityExamples {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    li {
+      position: relative;
+      padding-left: $spacing-md;
+      font-size: $font-size-body5;
+      color: $text-700;
+      line-height: $line-height-base;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0.4rem;
+        top: 0.8rem;
+        width: 0.4rem;
+        height: 0.1rem;
+        background-color: $text-400;
+      }
+    }
+  }
+
+  // tone variants for severity
+  &__severityCard[data-level='BLOCKER'] {
+    border-color: $color-danger;
+    background-color: $bg-accent-pink;
+
+    .#{$b}__severityLevel { color: $color-danger; }
+    .#{$b}__severityAction { background-color: $color-danger; color: $text-white; }
+  }
+
+  &__severityCard[data-level='WARN'] {
+    border-color: $color-warning;
+    background-color: $bg-accent-orange;
+
+    .#{$b}__severityLevel { color: $text-800; }
+    .#{$b}__severityAction { background-color: $color-warning; color: $text-900; }
+  }
+
+  &__severityCard[data-level='INFO'] {
+    border-color: $color-primary;
+    background-color: $bg-accent-light-blue;
+
+    .#{$b}__severityLevel { color: $color-primary; }
+    .#{$b}__severityAction { background-color: $color-primary; color: $text-white; }
+  }
+
+  // code 인라인
+  code {
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    font-size: $font-size-body5;
+  }
+}
