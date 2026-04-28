@@ -293,6 +293,22 @@ const triggerAttrs = computed(() =>
 Vue에서도 React와 동일하게 Base/Wrapper 분리가 가능하다.
 핵심은 `v-bind="$attrs"` — React의 `{...rest}` props spreading에 해당한다.
 
+**책임 분리 — 무엇을 Base에 두고 무엇을 Wrapper에 둘지**
+
+| 영역 | Base 담당 (공통 로직) | Wrapper 담당 (추가 기능) |
+|---|---|---|
+| v-model / 양방향 바인딩 | ✅ `modelValue` / `update:modelValue` 정의 | ❌ Base의 v-model을 그대로 위임 |
+| 공통 상태 props | ✅ `disabled`, `error`, `readonly` 등 | ❌ Base에 위임 (재선언 금지) |
+| `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` | ✅ 핵심 인터랙티브 요소에 적용 | ✅ Wrapper 자체 루트에도 동일 적용 (이중 위임) |
+| 검증·에러 표시 마크업 | ✅ `<p class="...__error">` 등 | ❌ Base 슬롯/표시 그대로 사용 |
+| 추가 시각 요소 (검색 버튼, 토글 아이콘 등) | ❌ | ✅ Base 옆에 형제 요소로 추가 |
+| 추가 이벤트 (`@search`, `@toggle` 등) | ❌ | ✅ Wrapper에서 정의·emit |
+| 라벨·헬퍼텍스트 등 데코레이션 | ❌ | ✅ (FormField 같은 molecules가 담당) |
+
+**판정 기준 한 줄**: 그 로직을 빼면 다른 Wrapper에서도 똑같이 다시 작성해야 한다면 → **Base**. 특정 시나리오(검색·비밀번호 토글 등)에만 필요하면 → **Wrapper**.
+
+> **금지**: Wrapper에서 Base의 v-model 처리·에러 표시·attrs 위임 같은 공통 로직을 다시 구현. Wrapper는 반드시 `<Base v-model="..." :error="..." v-bind="$attrs" />` 형태로 Base를 임포트해 사용하고, 자기만의 추가 요소(버튼·아이콘·이벤트)에만 집중한다.
+
 **Base 컴포넌트** — 공통 로직만 담당
 ```vue
 <!-- Input.vue -->

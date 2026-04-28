@@ -1,6 +1,12 @@
 ## 가이드 페이지 작성 규칙
 
-`pages/guide/[componentName]/index.vue` 작성 시 본 규칙을 따른다. **사용자가 가이드 페이지 작성을 명시적으로 요청한 경우에만 사용**한다 (publisher 에이전트는 컴포넌트 구현 후 자동 생성하지 않는다).
+`pages/guide/[componentName]/index.vue` 작성 시 본 규칙을 따른다. 작성 시점은 호출 컨텍스트에 따라 분기된다 — `.claude/agents/uiux-publisher-agents.md` §7·§9 참조 (`/component-create` 흐름은 자동, 단독 호출은 사용자 확인 필수).
+
+> **모범 예시 reference**:
+> - 일반 컴포넌트 (단순/Wrapper/`__delegationNote` 통합 케이스): `pages/guide/button/index.vue`
+> - FormField 사용 컴포넌트 (Props/Slots 상세 정의 — 다른 가이드의 단일 출처): `pages/guide/input/index.vue`
+>
+> 신규 가이드 페이지 작성 전 위 두 페이지를 모범 예시로 참조한다.
 
 ---
 
@@ -49,7 +55,7 @@
 &__tableTitle {
   font-size: $font-size-body2;
   font-weight: $font-weight-bold;
-  color: $text-strong;
+  color: $text-900;
   margin-top: $spacing-lg;
   margin-bottom: $spacing-sm;
 }
@@ -60,7 +66,7 @@
   font-size: $font-size-body3;
 
   th, td {
-    border: 1px solid $border-default;
+    border: 1px solid $line-200;
     padding: $spacing-sm $spacing-md;
     text-align: left;
     vertical-align: top;
@@ -69,11 +75,11 @@
   th {
     background-color: $bg-secondary;
     font-weight: $font-weight-medium;
-    color: $text-secondary;
+    color: $text-600;
     white-space: nowrap;
   }
 
-  td { color: $text-strong; }
+  td { color: $text-900; }
 
   code {
     background-color: $bg-tertiary;

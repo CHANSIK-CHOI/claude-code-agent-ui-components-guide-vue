@@ -180,9 +180,19 @@ $b: 'input';
 }
 ```
 
+**예외 — `text` shape 버튼**: `text` shape은 인라인 보조 액션으로 설계되어 콘텐츠 너비에 맞게 자연스럽게 흐른다. 이 경우에 한해 `display: inline-flex` + `width: fit-content`를 허용한다. 반드시 shape modifier(`--text`) 안에서만 선언하고 기본 block 스타일에는 적용하지 않는다.
+
+```scss
+// ✅ text shape 예외 허용
+.#{$b}--text {
+  display: inline-flex;   // text shape 전용 예외
+  width: fit-content;     // text shape 전용 예외
+}
+```
+
 ### 금지 사항
 
 - raw hex 컬러값 직접 사용 금지 — 반드시 토큰 변수 참조
-- `inline-flex`, `inline-block` 사용 금지
+- `inline-flex`, `inline-block` 사용 금지 (`text` shape 버튼 modifier 제외 — 위 예외 참조)
 - `<style>` 에 `scoped` 누락 금지 (전역 오염 방지)
 - 타이포그래피 수치 직접 입력 금지 — 토큰 변수 사용
