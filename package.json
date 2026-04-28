@@ -15,7 +15,7 @@
     "nuxt": "^3.21.2",
     "nuxt-svgo": "^4.0.2",
     "radix-vue": "latest",
-    "vue": "3.4.19"
+    "vue": "^3.5.0"
   },
   "devDependencies": {
     "sass": "latest",
