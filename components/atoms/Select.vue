@@ -19,40 +19,10 @@
       <SelectValue class="select__value" :placeholder="placeholder" />
       <SelectIcon as-child>
         <span class="select__icon">
-          <!-- filter variant — 기본 아래(↓) 방향 SVG, 열린 상태에서 rotate(180deg)로 위(↑) -->
-          <svg
-            v-if="variant === 'filter'"
-            class="select__iconSvg"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M4 6.66699L8 10.667L12 6.66699"
-              stroke="currentColor"
-              stroke-width="1.49847"
-              stroke-linecap="round"
-            />
-          </svg>
-          <!-- default variant — 기본 위(∧) 방향 SVG, rotate(180deg)로 아래(↓) -->
-          <svg
-            v-else
-            class="select__iconSvg"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M13.7598 10.1057L7.99977 5.30571L2.23977 10.1057"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
+          <!-- filter variant — 기본 아래(↓) 방향, 열린 상태에서 rotate(180deg)로 위(↑) -->
+          <SmallChevronDownIcon v-if="variant === 'filter'" />
+          <!-- default variant — 기본 위(↑) 방향, rotate(180deg)로 아래(↓) -->
+          <SmallChevronUpIcon v-else />
         </span>
       </SelectIcon>
     </SelectTrigger>
@@ -70,21 +40,7 @@
         <SelectScrollUpButton
           class="select__scrollBtn select__scrollBtn--up"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
-            width="16"
-            height="16"
-          >
-            <path
-              d="M13.7598 10.1057L7.99977 5.30571L2.23977 10.1057"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
+          <SmallChevronUpIcon />
         </SelectScrollUpButton>
 
         <SelectViewport class="select__viewport">
@@ -107,22 +63,7 @@
         <SelectScrollDownButton
           class="select__scrollBtn select__scrollBtn--down"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
-            width="16"
-            height="16"
-          >
-            <path
-              d="M13.7598 10.1057L7.99977 5.30571L2.23977 10.1057"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              transform="rotate(180 8 8)"
-            />
-          </svg>
+          <SmallChevronDownIcon />
         </SelectScrollDownButton>
       </SelectContent>
     </SelectPortal>
@@ -130,6 +71,8 @@
 </template>
 
 <script setup lang="ts">
+import { SmallChevronUpIcon, SmallChevronDownIcon } from '~/components/icons'
+
 defineOptions({ inheritAttrs: false });
 
 type SelectVariant = "default" | "filter";
@@ -246,15 +189,11 @@ $b: 'select';
     width: 1.6rem;
     height: 1.6rem;
     flex-shrink: 0;
-    color: $text-900;
+    color: $text-600;
     transform: rotate(180deg); // 기본(닫힌 상태) → 아래(↓) 방향
     transition: transform $duration-fast ease;
   }
 
-  &__iconSvg {
-    width: 100%;
-    height: 100%;
-  }
 }
 
 // Trigger 열린 상태 — Radix Vue가 data-state="open" 적용
@@ -361,7 +300,6 @@ $b: 'select';
   height: 3rem;
 
   .#{$b}__icon {
-    color: $text-600; // #666666 — Figma 40004271:6839
     transform: rotate(0deg); // filter SVG는 기본 아래(↓) 방향
   }
   &:disabled {

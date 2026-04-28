@@ -106,29 +106,7 @@
                   class="inputGuidePage__tooltipBtn"
                   aria-label="포인트 안내"
                 >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <circle
-                      cx="8"
-                      cy="8"
-                      r="7"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                    <path
-                      d="M8 7v4.5"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <circle cx="8" cy="4.5" r="0.75" fill="currentColor" />
-                  </svg>
+                  <TooltipIcon />
                 </button>
               </template>
               <Input
@@ -503,6 +481,8 @@
 </template>
 
 <script setup lang="ts">
+import { TooltipIcon } from '~/components/icons'
+
 definePageMeta({ layout: "guide" });
 
 const demo1 = ref("");

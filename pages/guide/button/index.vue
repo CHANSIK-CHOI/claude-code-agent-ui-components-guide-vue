@@ -103,33 +103,13 @@
           <span class="buttonGuidePage__itemLabel">leading-icon</span>
           <Button>
             <template #leading-icon>
-              <svg
-                class="buttonGuidePage__svgIcon"
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
-                <circle
-                  cx="10"
-                  cy="10"
-                  r="7.5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                />
-                <path
-                  d="M7 10l2 2 4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <SmallGreatIcon />
             </template>
             확인
           </Button>
           <pre class="buttonGuidePage__code"><code>&lt;Button&gt;
   &lt;template #leading-icon&gt;
-    &lt;IconCheck /&gt;
+    &lt;SmallGreatIcon /&gt;
   &lt;/template&gt;
   확인
 &lt;/Button&gt;</code></pre>
@@ -141,26 +121,13 @@
           <Button shape="line">
             전체보기
             <template #trailing-icon>
-              <svg
-                class="buttonGuidePage__svgIcon"
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M8 5l5 5-5 5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <ChevronRightIcon />
             </template>
           </Button>
-          <pre class="buttonGuidePage__code"><code>&lt;Button :shape="line"&gt;
+          <pre class="buttonGuidePage__code"><code>&lt;Button shape="line"&gt;
   전체보기
   &lt;template #trailing-icon&gt;
-    &lt;IconArrow /&gt;
+    &lt;ChevronRightIcon /&gt;
   &lt;/template&gt;
 &lt;/Button&gt;</code></pre>
         </div>
@@ -170,49 +137,17 @@
           <span class="buttonGuidePage__itemLabel">leading + trailing</span>
           <Button :color="'black'">
             <template #leading-icon>
-              <svg
-                class="buttonGuidePage__svgIcon"
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
-                <circle
-                  cx="10"
-                  cy="7"
-                  r="3.5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                />
-                <path
-                  d="M3 17c0-3.314 3.134-6 7-6s7 2.686 7 6"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-              </svg>
+              <UserIcon />
             </template>
             나만의 드시모네
             <template #trailing-icon>
-              <svg
-                class="buttonGuidePage__svgIcon"
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M5 8l5 5 5-5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <SmallChevronDownIcon />
             </template>
           </Button>
           <pre class="buttonGuidePage__code"><code>&lt;Button color="black"&gt;
-  &lt;template #leading-icon&gt;&lt;IconUser /&gt;&lt;/template&gt;
+  &lt;template #leading-icon&gt;&lt;UserIcon /&gt;&lt;/template&gt;
   나만의 드시모네
-  &lt;template #trailing-icon&gt;&lt;IconChevron /&gt;&lt;/template&gt;
+  &lt;template #trailing-icon&gt;&lt;SmallChevronDownIcon /&gt;&lt;/template&gt;
 &lt;/Button&gt;</code></pre>
         </div>
       </div>
@@ -331,6 +266,8 @@
 </template>
 
 <script setup lang="ts">
+import { SmallGreatIcon, ChevronRightIcon, UserIcon, SmallChevronDownIcon } from '~/components/icons'
+
 definePageMeta({ layout: "guide" });
 
 type ButtonShape = "solid" | "line" | "text";
