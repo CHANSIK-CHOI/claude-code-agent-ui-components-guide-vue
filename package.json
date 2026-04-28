@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^11",
-    "nuxt": "3.10.3",
-    "nuxt-svgo": "^4.2.6",
+    "nuxt": "^3.21.2",
+    "nuxt-svgo": "^4.0.2",
     "radix-vue": "latest",
     "vue": "3.4.19"
   },
