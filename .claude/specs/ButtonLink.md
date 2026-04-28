@@ -57,7 +57,7 @@ Button과 ButtonLink는 다음 세 가지를 공유한다. 디자인 변경 시 
 | Prop | 타입 | 기본값 | 설명 |
 |------|------|--------|------|
 | `shape` | `ButtonShape` | `'solid'` | 버튼 외형 — `solid` \| `line` \| `text` |
-| `color` | `ButtonColor` | `'primary'` | 버튼 색상 — `primary` \| `secondary` \| `black` |
+| `color` | `ButtonColor` | `'primary'` | 버튼 색상 — `primary` \| `secondary` \| `black` \| `gray` |
 | `size` | `ButtonSize` | `'md'` | 버튼 크기 — `sm` \| `md` \| `lg` |
 | `round` | `boolean` | `false` | pill 형태 (shape=text 제외) |
 | `disabled` | `boolean` | `false` | 비활성 상태 |

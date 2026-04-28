@@ -19,9 +19,32 @@
       참고해주세요.
     </div>
 
-    <!-- ① Disabled -->
+    <!-- ① Shape × Color (gray 추가) -->
     <section class="buttonLinkGuidePage__section">
-      <h2 class="buttonLinkGuidePage__sectionTitle">① Disabled</h2>
+      <h2 class="buttonLinkGuidePage__sectionTitle">① Shape × Color — gray</h2>
+      <p class="buttonLinkGuidePage__note">
+        <code>color="gray"</code>는 보조 액션에 사용하는 회색 계열 버튼입니다.
+        shape별 gray 컬러 예시를 확인하세요.
+      </p>
+      <div class="buttonLinkGuidePage__row">
+        <div class="buttonLinkGuidePage__item">
+          <span class="buttonLinkGuidePage__itemLabel">solid + gray</span>
+          <ButtonLink href="#" shape="solid" color="gray">gray solid</ButtonLink>
+        </div>
+        <div class="buttonLinkGuidePage__item">
+          <span class="buttonLinkGuidePage__itemLabel">line + gray</span>
+          <ButtonLink href="#" shape="line" color="gray">gray line</ButtonLink>
+        </div>
+        <div class="buttonLinkGuidePage__item">
+          <span class="buttonLinkGuidePage__itemLabel">text + gray</span>
+          <ButtonLink href="#" shape="text" color="gray">gray text</ButtonLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② Disabled -->
+    <section class="buttonLinkGuidePage__section">
+      <h2 class="buttonLinkGuidePage__sectionTitle">② Disabled</h2>
       <p class="buttonLinkGuidePage__note">
         <code>&lt;a&gt;</code>에는 네이티브 <code>disabled</code>가 없으므로
         <code>aria-disabled="true"</code> + <code>tabindex="-1"</code> + <code>pointer-events: none</code>으로 처리합니다.
@@ -29,9 +52,9 @@
       </p>
     </section>
 
-    <!-- ② NuxtLink vs href -->
+    <!-- ③ NuxtLink vs href -->
     <section class="buttonLinkGuidePage__section">
-      <h2 class="buttonLinkGuidePage__sectionTitle">② NuxtLink vs href</h2>
+      <h2 class="buttonLinkGuidePage__sectionTitle">③ NuxtLink vs href</h2>
       <p class="buttonLinkGuidePage__note">
         <code>to</code> prop → 내부 라우팅 (<code>&lt;NuxtLink&gt;</code> 렌더링).
         <code>href</code> prop → 외부 URL (<code>&lt;a&gt;</code> 렌더링).
@@ -80,9 +103,9 @@
       </div>
     </section>
 
-    <!-- ③ target="_blank" -->
+    <!-- ④ target="_blank" -->
     <section class="buttonLinkGuidePage__section">
-      <h2 class="buttonLinkGuidePage__sectionTitle">③ target="_blank" 자동 보안 처리</h2>
+      <h2 class="buttonLinkGuidePage__sectionTitle">④ target="_blank" 자동 보안 처리</h2>
       <p class="buttonLinkGuidePage__note">
         <code>target="_blank"</code> 지정 시 <code>rel</code>에 <code>noopener noreferrer</code>가
         없으면 자동으로 추가됩니다. 탭나이핑(tabnabbing) 보안 취약점을 방어합니다.
@@ -145,9 +168,9 @@
       </div>
     </section>
 
-    <!-- ④ API 문서 -->
+    <!-- ⑤ API 문서 -->
     <section class="buttonLinkGuidePage__section">
-      <h2 class="buttonLinkGuidePage__sectionTitle">④ API 문서</h2>
+      <h2 class="buttonLinkGuidePage__sectionTitle">⑤ API 문서</h2>
 
       <h3 class="buttonLinkGuidePage__tableTitle">Props</h3>
       <table class="buttonLinkGuidePage__propsTable">
@@ -168,7 +191,7 @@
           </tr>
           <tr>
             <td><code>color</code></td>
-            <td><code>'primary' | 'secondary' | 'black'</code></td>
+            <td><code>'primary' | 'secondary' | 'black' | 'gray'</code></td>
             <td><code>'primary'</code></td>
             <td>버튼 색상</td>
           </tr>

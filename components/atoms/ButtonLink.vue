@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="buttonLink" :class="rootClass" v-bind="linkAttrs">
+  <component :is="tag" class="buttonLink" :class="rootClass" v-bind="linkAttrs" @click="handleClick">
     <span
       v-if="$slots['leading-icon']"
       class="buttonLink__icon buttonLink__icon--leading"
@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useAttrs, resolveComponent } from "vue";
 import type { ButtonShape, ButtonColor, ButtonSize } from "@nd/components/types";
 import { useButtonVariant } from "./useButtonVariant";
 
@@ -45,9 +44,18 @@ const props = withDefaults(
   },
 );
 
+const emit = defineEmits<{
+  click: [event: MouseEvent];
+}>();
+
 const attrs = useAttrs();
 
 const rootClass = useButtonVariant("buttonLink", props);
+
+function handleClick(e: MouseEvent) {
+  if (props.disabled) return;
+  emit("click", e);
+}
 
 // target="_blank" 시 rel에 noopener noreferrer 자동 추가
 const computedRel = computed(() => {
@@ -60,9 +68,12 @@ const computedRel = computed(() => {
   return props.rel || undefined;
 });
 
+// resolveComponent는 setup() 최상위에서 한 번만 호출해야 함 (SSR 안전)
+const NuxtLink = resolveComponent("NuxtLink");
+
 // disabled 시 NuxtLink는 사용하지 않음 (탐색 방지)
 const tag = computed(() =>
-  props.to && !props.disabled ? resolveComponent("NuxtLink") : "a",
+  props.to && !props.disabled ? NuxtLink : "a",
 );
 
 const linkAttrs = computed(() => {
