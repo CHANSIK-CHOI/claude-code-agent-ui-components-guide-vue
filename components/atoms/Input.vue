@@ -2,7 +2,6 @@
   <div class="input">
     <input
       v-bind="$attrs"
-      :id="inputId"
       class="input__field"
       :type="props.type"
       :value="props.modelValue"
@@ -46,10 +45,6 @@ const emit = defineEmits<{
   blur: [value: string]
   change: [value: string]
 }>()
-
-const attrs = useAttrs()
-const _uid = Math.random().toString(36).slice(2, 8)
-const inputId = computed(() => (attrs.id as string | undefined) || `input-${_uid}`)
 </script>
 
 <style lang="scss" scoped>
@@ -80,7 +75,7 @@ $b: 'input';
 
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.12);
+      box-shadow: 0 0 0 3px rgba($border-input-focus, 0.12);
     }
 
     &:disabled {

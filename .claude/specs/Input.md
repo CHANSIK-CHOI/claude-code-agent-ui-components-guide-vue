@@ -47,9 +47,8 @@
 | 비활성 여부 | 켜면 입력 불가, 시각적으로 흐려짐 | 끔 |
 | Placeholder | 값이 없을 때 필드 내에 표시할 안내 텍스트 | 빈 값 |
 | 입력 타입 | text / email / password / tel / number 등 HTML input type | text |
-| id | 입력 요소와 외부 라벨을 연결하는 고유 식별자. 전달 시 내부 생성 id보다 우선 적용됨 | 빈 값 (미전달 시 자동 생성) |
 
-> `aria-describedby`, `aria-label`, `maxlength` 등 네이티브 속성은 `v-bind="$attrs"` 위임으로 직접 전달 가능.
+> `id`, `aria-describedby`, `aria-label`, `maxlength` 등 네이티브 속성은 모두 `v-bind="$attrs"` 위임으로 `<input>` 요소에 직접 전달 가능. id 자동 생성 없음 — FormField 또는 사용처에서 id를 직접 전달해야 한다.
 
 ---
 
@@ -78,7 +77,7 @@ Input 컴포넌트는 별도의 시각적 variant가 없으며, 상태(State)에
 - readonly 상태에서는 입력만 차단. 포커스, 텍스트 선택, 복사는 가능
 - placeholder는 입력값이 없을 때만 표시
 - 입력 필드의 너비는 부모 컨테이너에 맞게 늘어남 (고정 너비 없음)
-- 외부에서 id prop이 전달되면 내부 자동 생성 id 대신 외부 id를 사용
+- id는 `v-bind="$attrs"` 위임으로 처리되므로 사용처에서 직접 `id="..."` 속성을 전달한다. 자동 생성 없음
 - 라벨/도움말/툴팁 관련 동작은 `FormField` 명세를 참조
 
 ---
@@ -118,11 +117,11 @@ Figma 노드 `40004010:2461` 기준.
 |----------|------------|---------|
 | 필드 배경 (default / filled / focus) | `#ffffff` | `$bg-primary` |
 | 필드 배경 (disabled) | `#f5f5f5` | `$bg-disabled` |
-| 테두리 (default / filled) | `#dddddd` | `$border-default` |
+| 테두리 (default / filled) | `#dddddd` | `$line-200` |
 | 테두리 (focus) | `#111111` | `$border-input-focus` |
-| placeholder 텍스트 | `#666666` | `$text-secondary` |
-| filled 입력 텍스트 | `#111111` | `$text-strong` |
-| disabled 텍스트 | `#c0c0c0` | `$text-disabled` |
+| placeholder 텍스트 | `#666666` | `$text-600` |
+| filled 입력 텍스트 | `#111111` | `$text-900` |
+| disabled 텍스트 | `#c0c0c0` | `$text-300` |
 
 #### 테두리 및 형태
 
