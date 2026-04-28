@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { computed, useAttrs, resolveComponent } from "vue";
-import type { ButtonShape, ButtonColor, ButtonSize } from "~/components/types";
+import type { ButtonShape, ButtonColor, ButtonSize } from "@nd/components/types";
 import { useButtonVariant } from "./useButtonVariant";
 
 defineOptions({ inheritAttrs: false });
@@ -90,7 +90,7 @@ const linkAttrs = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@use "~/assets/scss/components/button-base" as *;
+@use "@nd/assets/scss/components/button-base" as *;
 @include button-base("buttonLink");
 
 $b: "buttonLink";

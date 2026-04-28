@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { SmallChevronUpIcon, SmallChevronDownIcon } from '~/components/icons'
+import { SmallChevronUpIcon, SmallChevronDownIcon } from '@nd/components/icons'
 
 defineOptions({ inheritAttrs: false });
 

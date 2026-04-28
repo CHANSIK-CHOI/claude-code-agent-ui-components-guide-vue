@@ -1,4 +1,9 @@
+import { fileURLToPath } from 'node:url'
+
 export default defineNuxtConfig({
+  alias: {
+    '@nd': fileURLToPath(new URL('./', import.meta.url)),
+  },
   compatibilityDate: '2024-04-03',
   telemetry: false,
 
@@ -23,7 +28,7 @@ export default defineNuxtConfig({
 
   components: [
     {
-      path: '~/components',
+      path: '@nd/components',
       pathPrefix: false,
       extensions: ['.vue'],
     },
@@ -35,7 +40,7 @@ export default defineNuxtConfig({
 
   css: [
     '@vuepic/vue-datepicker/dist/main.css',
-    '~/assets/scss/global.scss',
+    '@nd/assets/scss/global.scss',
   ],
 
   vite: {
@@ -43,7 +48,7 @@ export default defineNuxtConfig({
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
-          additionalData: '@use "~/assets/scss/abstracts/_variables.scss" as *;',
+          additionalData: '@use "@nd/assets/scss/abstracts/_variables.scss" as *;',
         },
       },
     },

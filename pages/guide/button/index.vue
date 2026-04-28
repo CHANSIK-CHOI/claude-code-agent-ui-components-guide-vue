@@ -266,7 +266,7 @@
 </template>
 
 <script setup lang="ts">
-import { SmallGreatIcon, ChevronRightIcon, UserIcon, SmallChevronDownIcon } from '~/components/icons'
+import { SmallGreatIcon, ChevronRightIcon, UserIcon, SmallChevronDownIcon } from '@nd/components/icons'
 
 definePageMeta({ layout: "guide" });
 

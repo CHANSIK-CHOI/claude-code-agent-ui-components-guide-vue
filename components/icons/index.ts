@@ -1,83 +1,83 @@
 import type { Component } from 'vue'
 import { defineComponent, h } from 'vue'
 import Icon from './Icon.vue'
-import type { IconSize } from '~/components/types'
+import type { IconSize } from '@nd/components/types'
 
 // --- SVG imports (일반 — currentColor 자동 변환) ---
 // @ts-ignore — vite-svg-loader ?component 모듈은 런타임에 정상 동작
-import CloseSvg from '~/assets/icons/close.svg?component'
+import CloseSvg from '@nd/assets/icons/close.svg?component'
 // @ts-ignore
-import SearchSvg from '~/assets/icons/search.svg?component'
+import SearchSvg from '@nd/assets/icons/search.svg?component'
 // @ts-ignore
-import UserSvg from '~/assets/icons/user.svg?component'
+import UserSvg from '@nd/assets/icons/user.svg?component'
 // @ts-ignore
-import ChevronLeftSvg from '~/assets/icons/chevronLeft.svg?component'
+import ChevronLeftSvg from '@nd/assets/icons/chevronLeft.svg?component'
 // @ts-ignore
-import ChevronRightSvg from '~/assets/icons/chevronRight.svg?component'
+import ChevronRightSvg from '@nd/assets/icons/chevronRight.svg?component'
 // @ts-ignore
-import CategorySvg from '~/assets/icons/category.svg?component'
+import CategorySvg from '@nd/assets/icons/category.svg?component'
 // @ts-ignore
-import HomeSvg from '~/assets/icons/home.svg?component'
+import HomeSvg from '@nd/assets/icons/home.svg?component'
 // @ts-ignore
-import LogoutSvg from '~/assets/icons/logout.svg?component'
+import LogoutSvg from '@nd/assets/icons/logout.svg?component'
 // @ts-ignore
-import CalenderSvg from '~/assets/icons/calender.svg?component'
+import CalenderSvg from '@nd/assets/icons/calender.svg?component'
 // @ts-ignore
-import PlusSvg from '~/assets/icons/plus.svg?component'
+import PlusSvg from '@nd/assets/icons/plus.svg?component'
 // @ts-ignore
-import DeleteSvg from '~/assets/icons/delete.svg?component'
+import DeleteSvg from '@nd/assets/icons/delete.svg?component'
 // @ts-ignore
-import TimeSvg from '~/assets/icons/time.svg?component'
+import TimeSvg from '@nd/assets/icons/time.svg?component'
 // --- SVG imports (skipsvgo — 색상 고정) ---
 // nuxt-svgo defaultImport:'component'가 적용되므로 ?skipsvgo 만으로 충분
 // @ts-ignore
-import LeftSvg from '~/assets/icons/left.svg?skipsvgo'
+import LeftSvg from '@nd/assets/icons/left.svg?skipsvgo'
 // @ts-ignore
-import RightSvg from '~/assets/icons/right.svg?skipsvgo'
+import RightSvg from '@nd/assets/icons/right.svg?skipsvgo'
 // @ts-ignore
-import PlaySvg from '~/assets/icons/play.svg?skipsvgo'
+import PlaySvg from '@nd/assets/icons/play.svg?skipsvgo'
 // @ts-ignore
-import GridSvg from '~/assets/icons/grid.svg?skipsvgo'
+import GridSvg from '@nd/assets/icons/grid.svg?skipsvgo'
 // @ts-ignore
-import ListSvg from '~/assets/icons/list.svg?skipsvgo'
+import ListSvg from '@nd/assets/icons/list.svg?skipsvgo'
 // @ts-ignore
-import HeartFullSvg from '~/assets/icons/heartFull.svg?skipsvgo'
+import HeartFullSvg from '@nd/assets/icons/heartFull.svg?skipsvgo'
 // @ts-ignore
-import HeartSvg from '~/assets/icons/heart.svg?skipsvgo'
+import HeartSvg from '@nd/assets/icons/heart.svg?skipsvgo'
 // @ts-ignore
-import CartSvg from '~/assets/icons/cart.svg?skipsvgo'
+import CartSvg from '@nd/assets/icons/cart.svg?skipsvgo'
 // @ts-ignore
-import TooltipSvg from '~/assets/icons/tooltip.svg?skipsvgo'
+import TooltipSvg from '@nd/assets/icons/tooltip.svg?skipsvgo'
 // @ts-ignore
-import CircularNoteSvg from '~/assets/icons/circularNote.svg?skipsvgo'
+import CircularNoteSvg from '@nd/assets/icons/circularNote.svg?skipsvgo'
 // @ts-ignore
-import DocumentSvg from '~/assets/icons/document.svg?skipsvgo'
+import DocumentSvg from '@nd/assets/icons/document.svg?skipsvgo'
 // @ts-ignore
-import BigCircularNoteIconSvg from '~/assets/icons/bigCircularNoteIcon.svg?skipsvgo'
+import BigCircularNoteIconSvg from '@nd/assets/icons/bigCircularNoteIcon.svg?skipsvgo'
 // @ts-ignore
-import StarSvg from '~/assets/icons/star.svg?skipsvgo'
+import StarSvg from '@nd/assets/icons/star.svg?skipsvgo'
 
 // --- SVG imports (sm — 16px / 일반 — currentColor 자동 변환) ---
 // @ts-ignore
-import SmallChevronDownSvg from '~/assets/icons/smallChevronDown.svg?component'
+import SmallChevronDownSvg from '@nd/assets/icons/smallChevronDown.svg?component'
 // @ts-ignore
-import SmallChevronUpSvg from '~/assets/icons/smallChevronUp.svg?component'
+import SmallChevronUpSvg from '@nd/assets/icons/smallChevronUp.svg?component'
 // @ts-ignore
-import SmallChevronLeftSvg from '~/assets/icons/smallChevronLeft.svg?component'
+import SmallChevronLeftSvg from '@nd/assets/icons/smallChevronLeft.svg?component'
 // @ts-ignore
-import SmallChevronRightSvg from '~/assets/icons/smallChevronRight.svg?component'
+import SmallChevronRightSvg from '@nd/assets/icons/smallChevronRight.svg?component'
 // @ts-ignore
-import SmallPlusSvg from '~/assets/icons/smallPlus.svg?component'
+import SmallPlusSvg from '@nd/assets/icons/smallPlus.svg?component'
 // @ts-ignore
-import SmallCloseSvg from '~/assets/icons/smallClose.svg?component'
+import SmallCloseSvg from '@nd/assets/icons/smallClose.svg?component'
 // @ts-ignore
-import SmallBagSvg from '~/assets/icons/smallBag.svg?component'
+import SmallBagSvg from '@nd/assets/icons/smallBag.svg?component'
 // @ts-ignore
-import SmallGreatSvg from '~/assets/icons/smallGreat.svg?component'
+import SmallGreatSvg from '@nd/assets/icons/smallGreat.svg?component'
 
 // --- SVG imports (sm — 16px / skipsvgo — 색상 고정) ---
 // @ts-ignore
-import CircularArrowSvg from '~/assets/icons/circularArrow.svg?skipsvgo'
+import CircularArrowSvg from '@nd/assets/icons/circularArrow.svg?skipsvgo'
 
 // ---------------------------------------------------------------------------
 // makeIcon — SVG 파일 컴포넌트 방식

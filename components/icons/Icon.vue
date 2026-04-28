@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IconSize } from '~/components/types'
+import type { IconSize } from '@nd/components/types'
 
 defineOptions({ inheritAttrs: false })
 

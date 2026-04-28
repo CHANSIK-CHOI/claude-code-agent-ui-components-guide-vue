@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ButtonShape, ButtonColor, ButtonSize } from '~/components/types'
+import type { ButtonShape, ButtonColor, ButtonSize } from '@nd/components/types'
 import { useButtonVariant } from './useButtonVariant'
 
 type ButtonType = 'button' | 'submit'
@@ -66,6 +66,6 @@ function handleClick(e: MouseEvent): void {
 </script>
 
 <style lang="scss" scoped>
-@use '~/assets/scss/components/button-base' as *;
+@use '@nd/assets/scss/components/button-base' as *;
 @include button-base('button');
 </style>

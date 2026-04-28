@@ -371,7 +371,7 @@ const tabs = [
 </template>
 
 <script setup lang="ts">
-import type { TabItem, ViewType } from "~/components/organisms";
+import type { TabItem, ViewType } from "@nd/components/organisms";
 
 definePageMeta({ layout: "guide" });
 

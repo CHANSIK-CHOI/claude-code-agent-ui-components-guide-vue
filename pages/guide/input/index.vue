@@ -481,7 +481,7 @@
 </template>
 
 <script setup lang="ts">
-import { TooltipIcon } from '~/components/icons'
+import { TooltipIcon } from '@nd/components/icons'
 
 definePageMeta({ layout: "guide" });
 

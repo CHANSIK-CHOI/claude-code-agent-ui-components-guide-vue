@@ -532,7 +532,7 @@ import {
   DocumentIcon,
   BigCircularNoteIcon,
   StarIcon,
-} from "~/components/icons";
+} from "@nd/components/icons";
 
 definePageMeta({ layout: "guide" });
 </script>
