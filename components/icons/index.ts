@@ -54,6 +54,8 @@ import CircularNoteSvg from '~/assets/icons/circularNote.svg?skipsvgo'
 import DocumentSvg from '~/assets/icons/document.svg?skipsvgo'
 // @ts-ignore
 import BigCircularNoteIconSvg from '~/assets/icons/bigCircularNoteIcon.svg?skipsvgo'
+// @ts-ignore
+import StarSvg from '~/assets/icons/star.svg?skipsvgo'
 
 // --- SVG imports (sm — 16px / 일반 — currentColor 자동 변환) ---
 // @ts-ignore
@@ -149,6 +151,11 @@ export const SmallGreatIcon = makeIcon('SmallGreatIcon', 'sm', SmallGreatSvg as 
 // 색상 고정 아이콘 — sm (16px, skipsvgo)
 // ---------------------------------------------------------------------------
 export const CircularArrowIcon = makeIcon('CircularArrowIcon', 'sm', CircularArrowSvg as Component)
+
+// ---------------------------------------------------------------------------
+// 색상 고정 아이콘 — xs (8px, skipsvgo)
+// ---------------------------------------------------------------------------
+export const StarIcon = makeIcon('StarIcon', 'xs', StarSvg as Component)
 
 // ---------------------------------------------------------------------------
 // CartIcon — 배지(count) 처리를 위해 별도 defineComponent로 정의

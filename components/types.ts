@@ -8,4 +8,4 @@ export type ButtonColor = 'primary' | 'secondary' | 'black' | 'gray'
 export type ButtonSize  = 'sm' | 'md' | 'lg'
 
 // Icon 공유 타입
-export type IconSize = 'sm' | 'md' | 'lg'
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg'

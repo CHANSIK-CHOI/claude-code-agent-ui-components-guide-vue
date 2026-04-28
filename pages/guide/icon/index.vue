@@ -255,6 +255,21 @@
           </div>
         </div>
       </div>
+
+      <!-- xs 그룹 (8px) -->
+      <div class="iconGuidePage__group">
+        <p class="iconGuidePage__groupTitle">size="xs" — 8px</p>
+
+        <p class="iconGuidePage__subGroupTitle">색상 고정 (skipsvgo)</p>
+        <div class="iconGuidePage__iconGrid">
+          <div class="iconGuidePage__iconItem">
+            <div class="iconGuidePage__iconPreview">
+              <StarIcon />
+            </div>
+            <span class="iconGuidePage__iconName">StarIcon</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ② 색상 제어 -->
@@ -410,9 +425,9 @@ export const NewIcon = makeIcon('NewIcon', 'md', NewIconSvg as Component)</code>
         <tbody>
           <tr>
             <td><code>size</code></td>
-            <td><code>'sm' | 'md' | 'lg'</code></td>
+            <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
             <td><code>'md'</code></td>
-            <td>아이콘 크기 (16 / 24 / 40px)</td>
+            <td>아이콘 크기 (8 / 16 / 24 / 40px)</td>
           </tr>
           <tr>
             <td><code>color</code></td>
@@ -516,6 +531,7 @@ import {
   CircularArrowIcon,
   DocumentIcon,
   BigCircularNoteIcon,
+  StarIcon,
 } from "~/components/icons";
 
 definePageMeta({ layout: "guide" });

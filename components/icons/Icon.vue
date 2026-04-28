@@ -48,6 +48,11 @@ $b: 'icon';
     height: 100%;
   }
 
+  &--xs {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
   &--sm {
     width: 1.6rem;
     height: 1.6rem;
