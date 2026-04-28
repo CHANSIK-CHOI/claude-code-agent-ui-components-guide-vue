@@ -1,22 +1,22 @@
 <template>
-  <aside class="GuideSidebar" v-bind="$attrs">
-    <nav class="GuideSidebar__nav" aria-label="가이드 네비게이션">
+  <aside class="guideSidebar" v-bind="$attrs">
+    <nav class="guideSidebar__nav" aria-label="가이드 네비게이션">
       <div
         v-for="group in navigation"
         :key="group.label"
-        class="GuideSidebar__group"
+        class="guideSidebar__group"
       >
-        <p class="GuideSidebar__groupTitle">{{ group.label }}</p>
-        <ul class="GuideSidebar__list">
+        <p class="guideSidebar__groupTitle">{{ group.label }}</p>
+        <ul class="guideSidebar__list">
           <li
             v-for="item in group.items"
             :key="item.to"
-            class="GuideSidebar__item"
+            class="guideSidebar__item"
           >
             <NuxtLink
               :to="item.to"
-              class="GuideSidebar__link"
-              active-class="GuideSidebar__link--active"
+              class="guideSidebar__link"
+              active-class="guideSidebar__link--active"
             >
               {{ item.label }}
             </NuxtLink>
@@ -41,6 +41,12 @@ interface GuideNavGroup {
 }
 
 const navigation: GuideNavGroup[] = [
+  {
+    label: 'PAGE LIST',
+    items: [
+      { label: '퍼블리싱 현황', to: '/guide' },
+    ],
+  },
   {
     label: 'ATOMS',
     items: [
@@ -69,7 +75,7 @@ const navigation: GuideNavGroup[] = [
 </script>
 
 <style lang="scss" scoped>
-$b: 'GuideSidebar';
+$b: 'guideSidebar';
 
 .#{$b} {
   display: flex;

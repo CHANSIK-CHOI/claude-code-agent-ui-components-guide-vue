@@ -1,0 +1,148 @@
+$b: 'pageList';
+
+.#{$b} {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: $spacing-xl $spacing-2xl;
+  gap: $spacing-xl;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid $line-200;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $font-size-h3;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: $font-size-body3;
+    color: $text-400;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-body3;
+    white-space: nowrap;
+  }
+
+  &__th {
+    padding: $spacing-sm $spacing-md;
+    text-align: left;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+    color: $text-400;
+    background-color: $bg-secondary;
+    border: 1px solid $line-200;
+    white-space: nowrap;
+
+    &--name {
+      min-width: 14rem;
+    }
+
+    &--days {
+      min-width: 7rem;
+      text-align: center;
+    }
+  }
+
+  &__row {
+    &:hover {
+      background-color: $bg-secondary;
+    }
+  }
+
+  &__td {
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid $line-200;
+    color: $text-900;
+    vertical-align: middle;
+
+    &--name {
+      font-weight: $font-weight-medium;
+      padding: $spacing-xs $spacing-md;
+    }
+
+    &--days {
+      text-align: center;
+      color: $text-400;
+      font-size: $font-size-caption1;
+    }
+
+    &--center {
+      text-align: center;
+    }
+
+    &--link {
+      text-align: center;
+    }
+  }
+
+  &__status {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-full;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    background-color: $bg-tertiary;
+    color: $text-400;
+
+    &[data-status='진행중'] {
+      background-color: $bg-accent-light-blue;
+      color: $color-primary;
+    }
+
+    &[data-status='완료'] {
+      background-color: $bg-accent-beige;
+      color: $color-success;
+    }
+
+    &[data-status='보류'] {
+      background-color: $bg-accent-orange;
+      color: $color-warning;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: $radius-sm;
+    background-color: $bg-secondary;
+    color: $color-primary;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    border: 1px solid $line-200;
+
+    &:hover {
+      background-color: $bg-accent-light-blue;
+      border-color: $color-primary;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px $color-primary;
+    }
+  }
+
+  &__empty {
+    color: $text-300;
+    font-size: $font-size-caption1;
+  }
+}
