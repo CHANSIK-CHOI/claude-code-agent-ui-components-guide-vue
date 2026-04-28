@@ -57,6 +57,13 @@ const navigation: GuideNavGroup[] = [
       { label: 'TextArea', to: '/guide/textarea' },
       { label: 'Stepper', to: '/guide/stepper' },
       { label: 'Checkbox', to: '/guide/checkbox' },
+      { label: 'Switch', to: '/guide/switch' },
+    ],
+  },
+  {
+    label: 'ICONS',
+    items: [
+      { label: 'Icon', to: '/guide/icon' },
     ],
   },
   {

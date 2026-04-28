@@ -1,0 +1,264 @@
+$b: 'switchGuidePage';
+
+.#{$b} {
+  padding: $spacing-lg;
+  max-width: 100%;
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    background-color: $bg-accent-sky-blue;
+    color: $color-primary;
+  }
+
+  &__desc {
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__sectionTitle {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $line-200;
+  }
+
+  &__group {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__groupTitle {
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+    color: $text-600;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__note {
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-md;
+    font-size: $font-size-caption1;
+    color: $text-400;
+    line-height: $line-height-base;
+  }
+
+  &__stateRow {
+    display: flex;
+    gap: $spacing-lg;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: $spacing-md;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-xs;
+  }
+
+  &__stateLabel {
+    font-size: $font-size-body3;
+    color: $text-700;
+    margin-top: $spacing-xs;
+  }
+
+  &__demo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
+
+  &__stateText {
+    font-size: $font-size-body3;
+    color: $text-600;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    width: 100%;
+    max-width: 40rem;
+  }
+
+  &__formRow {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__formLabel {
+    font-size: $font-size-body3;
+    color: $text-700;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+  }
+
+  &__submitBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    background-color: $bg-secondary;
+    font-size: $font-size-body3;
+    color: $text-700;
+    cursor: pointer;
+    transition: background-color $duration-fast ease;
+
+    &:hover {
+      background-color: $bg-tertiary;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 0.2rem $color-primary;
+    }
+  }
+
+  &__formResult {
+    font-size: $font-size-body3;
+    color: $text-600;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    border: 1px solid $line-200;
+  }
+
+  &__externalLabel {
+    font-size: $font-size-body3;
+    color: $text-700;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+  }
+
+  &__code {
+    background-color: $bg-tertiary;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-caption3;
+    color: $text-600;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: $line-height-base;
+  }
+
+  // Props 테이블 섹션
+  &__tableTitle {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__propsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-body3;
+
+    th, td {
+      border: 1px solid $line-200;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: $bg-secondary;
+      font-weight: $font-weight-medium;
+      color: $text-600;
+      white-space: nowrap;
+    }
+
+    td {
+      color: $text-900;
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+      white-space: nowrap;
+    }
+  }
+
+  &__delegationNote {
+    margin-top: $spacing-lg;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-left: 3px solid $color-primary;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+
+  &__radixNote {
+    margin-top: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-secondary;
+    border-left: 3px solid $line-200;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    a {
+      color: $color-primary;
+
+      &:hover {
+        color: $color-primary-hover;
+      }
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+}

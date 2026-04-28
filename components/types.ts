@@ -6,3 +6,6 @@ export type Status = 'default' | 'error' | 'success' | 'warning'
 export type ButtonShape = 'solid' | 'line' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'black' | 'gray'
 export type ButtonSize  = 'sm' | 'md' | 'lg'
+
+// Icon 공유 타입
+export type IconSize = 'sm' | 'md' | 'lg'

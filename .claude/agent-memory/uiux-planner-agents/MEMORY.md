@@ -6,3 +6,5 @@
 - [Tab](Tab.md) — organisms 계층, Radix Vue 래핑, Navigation only, overflowIndicator 제거, viewToggle 단일 버튼 렌더링(v-if/v-else)
 - [Checkbox](Checkbox.md) — atoms 계층, Radix Vue CheckboxRoot 래핑(CheckboxIndicator 미사용), 아이콘 항상 렌더+CSS 색상 제어, box 미체크도 회색 아이콘 표시
 - [Button](Button.md) — ButtonColor gray 추가(2026-04-27): secondary=sky-blue 계열 재정의, gray=구 secondary 회색 보조 액션
+- [Switch](Switch.md) — atoms 계층, Radix Vue SwitchRoot+SwitchThumb 래핑, 내부 레이블 없음, checked=#00ADDB/$color-primary-hover / unchecked=#C0C0C0/$text-300
+- [Icon](Icon.md) — 독립 폴더(components/icons/), vite-svg-loader SVG import 방식, makeIcon(name, size, SvgComponent), PlayIcon은 skipsvgo 예외

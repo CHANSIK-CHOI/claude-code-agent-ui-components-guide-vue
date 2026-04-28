@@ -1,0 +1,217 @@
+.iconGuidePage {
+  padding: $spacing-lg;
+  max-width: 100%;
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    background-color: $bg-accent-sky-blue;
+    color: $color-primary;
+  }
+
+  &__desc {
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__sectionTitle {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $line-200;
+  }
+
+  &__group {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__groupTitle {
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+    color: $text-600;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subGroupTitle {
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+    color: $text-600;
+    margin-top: $spacing-md;
+    margin-bottom: $spacing-sm;
+  }
+
+  // 아이콘 그리드 — 가로 나열
+  &__iconGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    align-items: flex-start;
+  }
+
+  &__iconItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xs;
+    width: 12rem;
+  }
+
+  &__emptyNote {
+    font-size: $font-size-caption1;
+    color: $text-400;
+    font-style: italic;
+  }
+
+  &__iconPreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 5.6rem;
+    background-color: $bg-secondary;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    color: $text-900;
+  }
+
+  &__iconPreview--colored {
+    color: #0CB5E2; // currentColor 상속 데모용
+  }
+
+  &__iconName {
+    font-size: $font-size-caption1;
+    color: $text-400;
+    text-align: center;
+    word-break: break-all;
+  }
+
+  // 일반 행 레이아웃
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    align-items: flex-start;
+    flex-direction: column;
+
+    &--horizontal {
+      flex-direction: row;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    min-width: 16rem;
+  }
+
+  &__itemLabel {
+    font-size: $font-size-caption1;
+    color: $text-400;
+    font-weight: $font-weight-medium;
+  }
+
+  &__note {
+    margin-bottom: $spacing-md;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  &__code {
+    background-color: $bg-tertiary;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    font-size: 1.1rem;
+    color: $text-600;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: $line-height-base;
+  }
+
+  &__tableTitle {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__propsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-body3;
+
+    th, td {
+      border: 1px solid $line-200;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: $bg-secondary;
+      font-weight: $font-weight-medium;
+      color: $text-600;
+      white-space: nowrap;
+    }
+
+    td { color: $text-900; }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+      white-space: nowrap;
+    }
+  }
+
+  &__delegationNote {
+    margin-top: $spacing-lg;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-left: 3px solid $color-primary;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+}

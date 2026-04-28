@@ -11,3 +11,6 @@
 - [Stepper](Stepper.md) — atoms 계층, 자체 구현(Radix Vue NumberField Alpha), attrs 3방향 분산 위임, inputBuffer 직접 입력 패턴
 - [CheckboxGuidePage](CheckboxGuidePage.md) — Checkbox 가이드 페이지, 6섹션, inline-flex 예외 팀 확정, GuideSidebar ATOMS 그룹 추가
 - [Button](Button.md) — ButtonColor gray 추가(2026-04-27): secondary=sky-blue($bg-accent-sky-blue+$color-primary-hover), gray=구 secondary 회색
+- [Switch](Switch.md) — atoms 계층, Radix Vue SwitchRoot/SwitchThumb 래핑, display:contents 래퍼+:deep() 패턴, data-state/data-disabled 속성 선택자로 상태 처리
+- [SwitchGuidePage](SwitchGuidePage.md) — Switch 가이드 페이지, 6섹션, $border-default 미존재로 $line-200 대체, GuideSidebar ATOMS 그룹 추가
+- [Icon](Icon.md) — icons 전용 폴더(Atomic 외부), makeIcon 헬퍼+CartIcon 배지, inline-flex 예외, CartIcon CSS는 global.scss raw hex, 모든 export에 Icon suffix(CloseIcon 등), Tooltip/CircularNote는 ?skipsvgo(배경 버그)

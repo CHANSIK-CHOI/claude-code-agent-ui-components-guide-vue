@@ -4,6 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -11,7 +12,8 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: $font-size-md;
   font-weight: $font-weight-regular;
   line-height: $line-height-base;
@@ -39,4 +41,35 @@ video {
 ul,
 ol {
   list-style: none;
+}
+
+// ---------------------------------------------------------------------------
+// CartIcon — 배지 전역 스타일
+// scoped 없는 블록에서는 additionalData SCSS 변수 자동 주입이 미작동
+// → 배지 색상(danger) 및 흰색 텍스트는 raw 값 사용
+// ---------------------------------------------------------------------------
+.cartIcon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartIcon__badge {
+  position: absolute;
+  bottom: -0.4rem;
+  left: 1rem;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.4rem;
+  border-radius: 9999px;
+  background-color: #0cb5e2;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.6rem;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  box-sizing: border-box;
 }

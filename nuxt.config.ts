@@ -6,7 +6,20 @@ export default defineNuxtConfig({
     port: 5000,
   },
 
-  modules: ['radix-vue/nuxt'],
+  modules: [
+    'radix-vue/nuxt',
+    ['nuxt-svgo', {
+      defaultImport: 'component',
+      svgoConfig: {
+        plugins: [
+          {
+            name: 'convertColors',
+            params: { currentColor: true },
+          },
+        ],
+      },
+    }],
+  ],
 
   components: [
     {
