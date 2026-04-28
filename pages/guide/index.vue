@@ -385,7 +385,18 @@ const principles: Principle[] = [
       'atoms → molecules → organisms 단방향',
       '컴포넌트별 하위 폴더 없이 .vue 평탄 배치',
       '카테고리 단위 index.ts barrel만',
-      'Base / Wrapper 같은 폴더 평탄 배치',
+      'Base·Wrapper 분리는 다음 원칙 참조',
+    ],
+  },
+  {
+    title: 'Base / Wrapper 로직 분리',
+    desc: '공통 로직은 Base 하나에 응집한다. Wrapper는 Base를 import해서 추가 기능만 붙인다. Wrapper가 Base의 v-model·에러 표시·$attrs 위임을 다시 구현하는 순간 둘 사이의 계약이 깨진다 — 공통 로직 변경 시 Base만 수정하면 되는 이점이 사라진다.',
+    items: [
+      'v-model / error / disabled / $attrs 위임 → Base 책임',
+      '검색 버튼 / 비밀번호 토글 등 추가 요소 → Wrapper 책임',
+      'Wrapper는 <Base v-model="..." :error="..." v-bind="$attrs" /> 형태만',
+      'Wrapper에서 Base 공통 로직 재구현 금지',
+      'Base·Wrapper 같은 카테고리 폴더 평탄 배치',
     ],
   },
   {
