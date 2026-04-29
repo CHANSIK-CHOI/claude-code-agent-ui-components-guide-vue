@@ -127,20 +127,18 @@ const tabs = [
       </div>
     </section>
 
-    <!-- ④ pill + showViewToggle -->
+    <!-- ④ showViewToggle (모든 variant) -->
     <section class="tabGuidePage__section">
-      <h2 class="tabGuidePage__sectionTitle">④ pill + showViewToggle</h2>
+      <h2 class="tabGuidePage__sectionTitle">④ showViewToggle — 모든 variant 사용 가능</h2>
       <p class="tabGuidePage__note">
-        <code>show-view-toggle</code>은 <code>variant="pill"</code> 전용입니다.
+        <code>show-view-toggle</code>은 <strong>모든 variant</strong>에서 사용할 수 있습니다.
         탭 목록 우측에 격자/목록 전환 버튼이 고정 배치됩니다.<br />
-        <code>v-model:viewType</code>으로 현재 뷰 타입을 제어합니다. 각 버튼에는
-        <code>aria-pressed</code>가 자동 적용됩니다.<br />
-        선택된 탭: <strong>{{ demo4Tab }}</strong> / 현재 뷰:
-        <strong>{{ demo4View }}</strong>
+        <code>v-model:viewType</code>으로 현재 뷰 타입을 제어합니다.
+        버튼 클릭 시 반대 viewType으로 전환되며 <code>aria-label</code>이 자동 적용됩니다.
       </p>
 
       <div class="tabGuidePage__group">
-        <p class="tabGuidePage__groupTitle">정렬 탭 + 격자/목록 토글</p>
+        <p class="tabGuidePage__groupTitle">pill + showViewToggle — 선택된 탭: <strong>{{ demo4Tab }}</strong> / 현재 뷰: <strong>{{ demo4View }}</strong></p>
         <div class="tabGuidePage__row">
           <div class="tabGuidePage__item">
             <Tab
@@ -156,12 +154,51 @@ const tabs = [
   :items="tabs"
   variant="pill"
   :show-view-toggle="true"
-/&gt;
+/&gt;</code></pre>
+          </div>
+        </div>
+      </div>
 
-&lt;script setup&gt;
-const activeTab = ref('latest')
-const viewType = ref&lt;'grid' | 'list'&gt;('grid')
-&lt;/script&gt;</code></pre>
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">underline-primary + showViewToggle — 선택된 탭: <strong>{{ demo5Tab }}</strong> / 현재 뷰: <strong>{{ demo5View }}</strong></p>
+        <div class="tabGuidePage__row">
+          <div class="tabGuidePage__item">
+            <Tab
+              v-model="demo5Tab"
+              v-model:viewType="demo5View"
+              :items="categoryTabs"
+              variant="underline-primary"
+              :show-view-toggle="true"
+            />
+            <pre class="tabGuidePage__code"><code>&lt;Tab
+  v-model="activeTab"
+  v-model:viewType="viewType"
+  :items="tabs"
+  variant="underline-primary"
+  :show-view-toggle="true"
+/&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabGuidePage__group">
+        <p class="tabGuidePage__groupTitle">underline-dark + showViewToggle — 선택된 탭: <strong>{{ demo6Tab }}</strong> / 현재 뷰: <strong>{{ demo6View }}</strong></p>
+        <div class="tabGuidePage__row">
+          <div class="tabGuidePage__item">
+            <Tab
+              v-model="demo6Tab"
+              v-model:viewType="demo6View"
+              :items="detailTabs"
+              variant="underline-dark"
+              :show-view-toggle="true"
+            />
+            <pre class="tabGuidePage__code"><code>&lt;Tab
+  v-model="activeTab"
+  v-model:viewType="viewType"
+  :items="tabs"
+  variant="underline-dark"
+  :show-view-toggle="true"
+/&gt;</code></pre>
           </div>
         </div>
       </div>
@@ -272,8 +309,8 @@ const tabs = [
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>
-              격자/목록 전환 버튼 표시 여부. <code>variant="pill"</code> 전용.
-              다른 variant에서는 무시됨.
+              격자/목록 전환 버튼 표시 여부. 모든 variant에서 사용 가능.
+              <code>true</code>이면 variant에 관계없이 탭 목록 우측에 토글 버튼이 렌더링됨.
             </td>
           </tr>
           <tr>
@@ -406,6 +443,10 @@ const demo2 = ref<string>(categoryTabs[0].value);
 const demo3 = ref<string>(sortTabs[0].value);
 const demo4Tab = ref<string>(sortTabs[0].value);
 const demo4View = ref<ViewType>("grid");
+const demo5Tab = ref<string>(categoryTabs[0].value);
+const demo5View = ref<ViewType>("grid");
+const demo6Tab = ref<string>(detailTabs[0].value);
+const demo6View = ref<ViewType>("grid");
 </script>
 
 <style lang="scss" scoped src="./tabGuidePage.scss"></style>

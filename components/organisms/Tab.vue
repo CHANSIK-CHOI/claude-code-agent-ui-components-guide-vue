@@ -20,11 +20,8 @@
         </TabsTrigger>
       </TabsList>
 
-      <!-- 뷰 토글 (pill + showViewToggle=true 전용) -->
-      <div
-        v-if="showViewToggle && variant === 'pill'"
-        class="tab__viewToggle"
-      >
+      <!-- 뷰 토글 (showViewToggle=true 시 모든 variant에서 렌더링) -->
+      <div v-if="showViewToggle" class="tab__viewToggle">
         <!-- viewType='grid'면 → list 버튼 표시 -->
         <button
           v-if="viewType === 'grid'"
@@ -180,7 +177,7 @@ const modelValue = computed(
 </script>
 
 <style lang="scss" scoped>
-$b: 'tab';
+$b: "tab";
 
 // ── 공통 ────────────────────────────────────────────────────────────────────
 
@@ -195,7 +192,6 @@ $b: 'tab';
   display: flex;
   width: 100%;
   align-items: center;
-  position: relative;
 }
 
 .#{$b}__list {
@@ -246,16 +242,17 @@ $b: 'tab';
   align-items: center;
   flex-shrink: 0;
   gap: $spacing-xs;
+  position: relative;
 
   &::before {
     content: "";
     position: absolute;
-    right: 4.4rem;
-    top: -1.5rem;
+    right: 2.4rem;
+    top: -1rem;
     bottom: 0;
     width: 4rem;
     height: calc(100% + 2rem);
-    background: linear-gradient(to right, transparent, #ffffff);
+    background: linear-gradient(to right, transparent, $bg-primary);
     pointer-events: none;
   }
 }

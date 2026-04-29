@@ -49,12 +49,12 @@ tab (TabsRoot)
     │   └── tab__trigger (TabsTrigger × items.length)   ← 필수
     │       ├── tab__label                               ← 필수 (탭 텍스트)
     │       └── tab__badge                               ← 조건부 (badge prop 있을 때만)
-    └── tab__view-toggle                                 ← 조건부 (showViewToggle=true, pill 전용)
+    └── tab__view-toggle                                 ← 조건부 (showViewToggle=true)
         └── tab__view-btn (단일 버튼: viewType='grid'이면 목록 아이콘, 'list'이면 격자 아이콘)
 ```
 
 - `tab__badge`: badge prop이 있을 때만 렌더링. 의미 있는 텍스트이므로 `aria-hidden` 미적용.
-- `tab__view-toggle`: `showViewToggle=true`이고 `variant="pill"`일 때만 렌더링.
+- `tab__view-toggle`: `showViewToggle=true`일 때 모든 variant에서 렌더링.
 
 ---
 
@@ -76,7 +76,7 @@ type ViewType = 'grid' | 'list'
 | `variant` | 디자인 3가지 (`underline-dark` / `underline-primary` / `pill`) | `'underline-primary'` |
 | `items` | 탭 항목 배열 (`TabItem[]`) | — (필수) |
 | `modelValue` | 현재 선택된 탭 value (v-model) | `items[0].value` |
-| `showViewToggle` | 격자/목록 전환 버튼 표시 여부. `variant="pill"` 전용 | `false` |
+| `showViewToggle` | 격자/목록 전환 버튼 표시 여부. 모든 variant에서 사용 가능 | `false` |
 | `viewType` | 현재 뷰 타입 (`'grid'` / `'list'`) (v-model:viewType) | `'grid'` |
 
 > **attrs 위임**: `defineOptions({ inheritAttrs: false })` + `TabsRoot`에 `v-bind="$attrs"` 적용. `aria-label`, `aria-labelledby` 등 외부 접근성 속성을 TabsRoot에 전달 가능.
@@ -90,7 +90,6 @@ type ViewType = 'grid' | 'list'
 | `activeIndex: number` | value 기반 식별이 더 명확 | `modelValue: string` (value로 탭 식별) |
 | `defaultValue` 별도 제공 | v-model 하나로 제어 통일 | `modelValue`의 `withDefaults` 기본값으로 처리 |
 | `isGridView: boolean` | viewType 한 prop으로 통합 | `viewType: 'grid' \| 'list'` |
-| `showViewToggle` + `pill` 이외 variant | pill 이외에서는 동작하지 않음 | 명세에서 pill 전용임을 명시. 타 variant에서는 무시 |
 
 ---
 
@@ -161,7 +160,7 @@ type ViewType = 'grid' | 'list'
 }
 ```
 
-**뷰 토글** (`showViewToggle=true`, `pill` 전용)
+**뷰 토글** (`showViewToggle=true`)
 - 탭 목록 우측에 단일 버튼으로 고정 배치 (스크롤 영역 밖)
 - `viewType === 'grid'`이면 "목록 보기" 버튼(list 아이콘)만 표시 → 클릭 시 `update:viewType` emit with `'list'`
 - `viewType === 'list'`이면 "격자 보기" 버튼(grid 아이콘)만 표시 → 클릭 시 `update:viewType` emit with `'grid'`
@@ -330,6 +329,6 @@ type ViewType = 'grid' | 'list'
 | badge 타입 | `string` 단일. 포맷(괄호 등)은 호출자가 결정해서 전달 |
 | 가로 스크롤 | 3가지 variant 모두 적용. PC: 스크롤바 표시 / 모바일: 스크롤바 숨김 |
 | pill active 색상 | `$color-primary-hover` (#00addb) — `$color-primary` (#0cb5e2) 아님 |
-| showViewToggle 동작 범위 | `pill` variant 전용. 타 variant에서는 렌더링하지 않음 |
+| showViewToggle 동작 범위 | 모든 variant에서 사용 가능. `showViewToggle=true`이면 variant에 관계없이 렌더링 |
 | viewToggle 렌더링 방식 | `v-if`/`v-else`로 단일 버튼 렌더링. 현재 viewType의 반대 상태 버튼만 DOM에 존재 |
 | SVG currentColor | 뷰 토글 아이콘 stroke를 `currentColor`로 교체하여 CSS color로 색상 제어 |
