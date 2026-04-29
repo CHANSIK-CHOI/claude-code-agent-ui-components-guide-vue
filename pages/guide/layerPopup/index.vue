@@ -212,6 +212,12 @@
             <td><code>true</code></td>
             <td>ESC 키 입력 시 닫기</td>
           </tr>
+          <tr>
+            <td><code>showFooter</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>footer 영역 표시 여부. <code>false</code>면 footer 태그 자체가 렌더링되지 않음</td>
+          </tr>
         </tbody>
       </table>
 

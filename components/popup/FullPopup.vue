@@ -12,6 +12,7 @@
     :ok-disabled="okDisabled"
     :close-on-overlay="false"
     :close-on-escape="closeOnEscape"
+    :show-footer="showFooter"
     @update:open="(v) => emit('update:open', v)"
     @opened="emit('opened')"
     @closed="emit('closed')"
@@ -42,6 +43,7 @@ const props = withDefaults(
     showCancel?: boolean
     okDisabled?: boolean
     closeOnEscape?: boolean
+    showFooter?: boolean
   }>(),
   {
     showClose: true,
@@ -50,6 +52,7 @@ const props = withDefaults(
     showCancel: false,
     okDisabled: false,
     closeOnEscape: true,
+    showFooter: true,
   },
 )
 

@@ -49,13 +49,10 @@
             <button
               type="button"
               class="popup__closeBtn"
-              :aria-label="type === 'full' ? '뒤로가기' : '닫기'"
+              aria-label="닫기"
               @click="handleCloseBtn"
             >
-              <span class="popup__closeBtnIcon" aria-hidden="true">
-                <template v-if="type === 'full'">←</template>
-                <template v-else>✕</template>
-              </span>
+              <CloseIcon aria-hidden="true" />
             </button>
           </DialogClose>
         </header>
@@ -71,7 +68,7 @@
         </div>
 
         <!-- Footer: #footer slot 또는 기본 ok/cancel 버튼 -->
-        <footer class="popup__footer">
+        <footer v-if="showFooter" class="popup__footer">
           <template v-if="$slots.footer">
             <slot name="footer" />
           </template>
@@ -131,6 +128,7 @@ const props = withDefaults(
     okFlex?: number;
     closeOnOverlay?: boolean;
     closeOnEscape?: boolean;
+    showFooter?: boolean;
   }>(),
   {
     type: "layer",
@@ -144,6 +142,7 @@ const props = withDefaults(
     okFlex: 1,
     closeOnOverlay: true,
     closeOnEscape: true,
+    showFooter: true,
   },
 );
 
@@ -302,13 +301,33 @@ $b: "popup";
   right: 0;
   width: 100%;
   max-height: 80vh;
-  border-radius: $radius-lg $radius-lg 0 0;
+  border-radius: 2rem 2rem 0 0;
+  padding: 3rem 1.6rem 1rem;
+  gap: 2rem;
 
   &[data-state="open"] {
     animation: slideUp $duration-base ease-out;
   }
   &[data-state="closed"] {
     animation: slideDown $duration-base ease-out forwards;
+  }
+
+  .#{$b}__header {
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .#{$b}__title {
+    text-align: center;
+  }
+
+  .#{$b}__body {
+    padding: 0;
+  }
+
+  .#{$b}__footer {
+    padding: 0;
+    border-top: none;
   }
 }
 
@@ -322,10 +341,19 @@ $b: "popup";
   border-radius: 0;
 
   &[data-state="open"] {
-    animation: slideInRight $duration-slow ease-out;
+    animation: slideInRight $duration-base ease-out;
   }
   &[data-state="closed"] {
-    animation: slideOutRight $duration-slow ease-out forwards;
+    animation: slideOutRight $duration-base ease-out forwards;
+  }
+
+  .#{$b}__header,
+  .#{$b}__footer {
+    padding: 1.4rem 1.6rem;
+  }
+
+  .#{$b}__body {
+    padding: 2rem 1.6rem 4rem 1.6rem;
   }
 }
 
@@ -396,11 +424,6 @@ $b: "popup";
     box-shadow: 0 0 0 2px $color-primary;
     border-radius: $radius-sm;
   }
-}
-
-.#{$b}__closeBtnIcon {
-  font-size: 1.6rem;
-  line-height: 1;
 }
 
 .#{$b}__closeBtn--absolute {

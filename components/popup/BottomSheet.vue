@@ -12,6 +12,7 @@
     :ok-disabled="okDisabled"
     :close-on-overlay="closeOnOverlay"
     :close-on-escape="closeOnEscape"
+    :show-footer="showFooter"
     @update:open="(v) => emit('update:open', v)"
     @opened="emit('opened')"
     @closed="emit('closed')"
@@ -43,15 +44,17 @@ const props = withDefaults(
     okDisabled?: boolean
     closeOnOverlay?: boolean
     closeOnEscape?: boolean
+    showFooter?: boolean
   }>(),
   {
-    showClose: true,
+    showClose: false,
     okLabel: '확인',
     cancelLabel: '취소',
     showCancel: true,
     okDisabled: false,
     closeOnOverlay: true,
     closeOnEscape: true,
+    showFooter: true,
   },
 )
 

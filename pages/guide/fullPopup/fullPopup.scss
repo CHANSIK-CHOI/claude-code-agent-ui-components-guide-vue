@@ -111,50 +111,6 @@ $b: "fullPopupGuidePage";
   color: $text-700;
 }
 
-.#{$b}__filterForm {
-  padding: $spacing-sm 0;
-}
-
-.#{$b}__filterSection {
-  margin-bottom: $spacing-lg;
-}
-
-.#{$b}__filterLabel {
-  font-size: $font-size-body3;
-  font-weight: $font-weight-bold;
-  color: $text-900;
-  margin-bottom: $spacing-sm;
-}
-
-.#{$b}__radio {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-xs 0;
-  font-size: $font-size-body3;
-  color: $text-700;
-  cursor: pointer;
-}
-
-.#{$b}__footerBtn {
-  flex: 1;
-  height: 4.8rem;
-  border: none;
-  border-radius: $radius-md;
-  font-size: $font-size-body3;
-  font-weight: $font-weight-bold;
-  cursor: pointer;
-}
-
-.#{$b}__footerBtn--reset {
-  background-color: $bg-secondary;
-  color: $text-700;
-}
-
-.#{$b}__footerBtn--apply {
-  background-color: $color-primary;
-  color: $text-white;
-}
 
 .#{$b}__tableTitle {
   font-size: $font-size-body2;
