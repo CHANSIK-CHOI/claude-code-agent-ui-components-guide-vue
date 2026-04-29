@@ -10,38 +10,38 @@
 // ────────────────────────────────────────────
 
 // brand
-$_brand-cyan:        #0cb5e2;
-$_brand-cyan-dark:   #00addb;
-$_brand-cyan-light:  #8ad9ee;
+$_brand-cyan:        #00a1ff;
+$_brand-cyan-dark:   #0090e8;
+$_brand-cyan-light:  #80cfff;
 
 // neutral (gray scale)
-$_neutral-100: #f6f7f9;
+$_neutral-100: #f7f9fa;
 $_neutral-200: #f5f5f5;
-$_neutral-300: #c0c0c0;
-$_neutral-400: #838b92;
-$_neutral-500: #777777;
-$_neutral-600: #666666;
-$_neutral-700: #535e66;
-$_neutral-800: #333333;
-$_neutral-900: #111111;
+$_neutral-300: #c2c8cc;
+$_neutral-400: #828c94;
+$_neutral-500: #656e75;
+$_neutral-600: #525b61;
+$_neutral-700: #3f474d;
+$_neutral-800: #2f3438;
+$_neutral-900: #131517;
 
 // line (border-only neutral scale)
-$_line-100: #c4cdd7;
-$_line-200: #dddddd;
-$_line-300: #e9ebeb;
+$_line-100: #c2c8cc;
+$_line-200: #e0e0e0;
+$_line-300: #ededed;
 
 // accent
-$_accent-red:         #ff5146;
+$_accent-red:         #f05656;
 $_accent-yellow:      #ffcc33;
 $_accent-green:       #34c691;
-$_accent-light-gray:  #beccd2;
+$_accent-light-gray:  #c2c8cc;
 $_accent-purple:      #f1eeff;
-$_accent-sky-blue:    #dff6ff;
-$_accent-light-blue:  #e9f9ff;
+$_accent-sky-blue:    #dff0ff;
+$_accent-light-blue:  #e5f4ff;
 $_accent-orange:      #ffefe0;
-$_accent-light-pink:  #f2cfcd;
+$_accent-light-pink:  #ffd9d9;
 $_accent-beige:       #f8e2df;
-$_accent-pink:        #fff0f0;
+$_accent-pink:        #ffeded;
 
 
 // ────────────────────────────────────────────
@@ -57,20 +57,20 @@ $color-warning:        $_accent-yellow;
 $color-success:        $_accent-green;
 
 // text
-$text-900:    $_neutral-900;  // #111111
-$text-800:    $_neutral-800;  // #333333
-$text-700:    $_neutral-700;  // #535e66
-$text-600:    $_neutral-600;  // #666666
-$text-500:    $_neutral-500;  // #777777
-$text-400:    $_neutral-400;  // #838b92
-$text-300:    $_neutral-300;  // #c0c0c0
+$text-900:    $_neutral-900;  // #131517
+$text-800:    $_neutral-800;  // #2f3438
+$text-700:    $_neutral-700;  // #3f474d
+$text-600:    $_neutral-600;  // #525b61
+$text-500:    $_neutral-500;  // #656e75
+$text-400:    $_neutral-400;  // #828c94
+$text-300:    $_neutral-300;  // #c2c8cc
 $text-200:    $_neutral-200;  // #f5f5f5
-$text-100:    $_neutral-100;  // #f6f7f9
+$text-100:    $_neutral-100;  // #f7f9fa
 $text-white:  #ffffff;        // primary 배경 위 텍스트
 
 // bg
 $bg-primary:    #ffffff;
-$bg-secondary:  $_neutral-100;    // 카드/섹션 보조 배경 (#F6F7F9)
+$bg-secondary:  $_neutral-100;    // 카드/섹션 보조 배경 (#F7F9FA)
 $bg-tertiary:   $_neutral-200;    // 더 어두운 보조 배경 (#F5F5F5)
 $bg-disabled:   $_neutral-200;    // disabled 배경
 
@@ -84,12 +84,12 @@ $bg-accent-beige:       $_accent-beige;
 $bg-accent-pink:        $_accent-pink;
 
 // border — line 스케일
-$line-100:  $_line-100;  // #c4cdd7
-$line-200:  $_line-200;  // #dddddd
-$line-300:  $_line-300;  // #e9ebeb
+$line-100:  $_line-100;  // #c2c8cc
+$line-200:  $_line-200;  // #e0e0e0
+$line-300:  $_line-300;  // #ededed
 $border-focus:        $_brand-cyan;
-$border-input-focus:  $_neutral-900;   // Input focus 전용 — #111111
-$border-disabled: $_accent-light-gray;  // (#BECCD2)
+$border-input-focus:  $_neutral-900;   // Input focus 전용 — #131517
+$border-disabled: $_accent-light-gray;  // (#C2C8CC)
 
 
 // ────────────────────────────────────────────
@@ -99,11 +99,11 @@ $border-disabled: $_accent-light-gray;  // (#BECCD2)
 $font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
 // font-size — heading
-$font-size-h1: 2.6rem;   // 26px
-$font-size-h2: 2.2rem;   // 22px
+$font-size-h1: 3.2rem;   // 32px
+$font-size-h2: 2.4rem;   // 24px
 $font-size-h3: 2.0rem;   // 20px
 $font-size-h4: 1.8rem;   // 18px
-$font-size-h5: 1.6rem;   // 16px
+$font-size-h5: 1.7rem;   // 17px
 
 // font-size — body
 $font-size-body1: 1.6rem;  // 16px
@@ -131,7 +131,7 @@ $font-weight-bold:    700;
 $line-height-tight: 1.2;
 $line-height-snug:  1.3;  // tight(1.2)과 base(1.5) 사이
 $line-height-base:  1.5;
-$line-height-loose: 1.8;
+$line-height-loose: 1.75;
 
 
 // ────────────────────────────────────────────

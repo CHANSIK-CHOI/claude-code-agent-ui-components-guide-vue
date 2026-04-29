@@ -80,16 +80,16 @@ $z-tooltip: 500;
 디자이너가 Figma 수치를 토큰 시스템과 100% 정합하게 맞추지 않는 경우가 있다.
 토큰이 없다고 신규 추가하지 않는다. 아래 순서로 대체한다.
 
-1. **의미가 같은 기존 토큰**을 찾아 대체 — `#535e66`(입력 텍스트)이 없으면 `$text-strong`처럼 역할이 맞는 토큰 사용
-2. **값이 가장 가까운 기존 토큰**으로 대체 — `#c0c6cc`(스크롤바 thumb)는 `$border-strong`(`#c4cdd7`)으로 근사
+1. **의미가 같은 기존 토큰**을 찾아 대체 — `#3f474d`(입력 텍스트)이 없으면 `$text-700`처럼 역할이 맞는 토큰 사용
+2. **값이 가장 가까운 기존 토큰**으로 대체 — `#bfc6ca`(스크롤바 thumb)는 `$line-100`(`#c2c8cc`)으로 근사
 3. 위 두 방법이 모두 불가하면 `rem` 수치를 직접 사용 — 색상 raw hex는 절대 직접 사용 금지
 
 ```scss
 // ✅ 의미로 대체
-color: $text-strong;          // Figma #535e66이지만 입력 텍스트 역할이 같음
+color: $text-700;          // Figma #3f474d이지만 입력 텍스트 역할이 같음
 
 // ✅ 값으로 근사
-background-color: $border-strong; // Figma #c0c6cc → 가장 가까운 #c4cdd7
+background-color: $line-100; // Figma #bfc6ca → 가장 가까운 #c2c8cc
 
 // ✅ 수치 직접 사용 (spacing만 허용, 색상 제외)
 padding: 1.2rem;              // $spacing-textarea 토큰 미존재 시
@@ -100,7 +100,7 @@ background-color: #c0c6cc;
 
 ### 금지 사항
 
-- raw hex 컬러값 직접 사용 금지 — `#0cb5e2` ❌, `$color-primary` ✅
+- raw hex 컬러값 직접 사용 금지 — `#00a1ff` ❌, `$color-primary` ✅
 - magic number z-index 금지 — `999`, `9999` ❌
 - 원시 토큰(`$_brand-cyan`) 컴포넌트에서 직접 참조 금지
 - 토큰 미존재를 이유로 신규 토큰 임의 추가 금지 — 기존 토큰으로 대체

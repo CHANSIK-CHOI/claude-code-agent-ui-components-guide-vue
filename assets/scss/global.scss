@@ -23,14 +23,7 @@ body {
   line-height: $line-height-base;
   color: $text-900;
   background-color: $bg-primary;
-  // max-width: 60rem;
-  // margin: 0 auto !important;
 }
-
-// #wrap {
-//   border-left: 1px solid $line-200;
-//   border-right: 1px solid $line-200;
-// }
 
 a {
   color: inherit;
@@ -61,16 +54,11 @@ ol {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // Popup Container — 팝업 전용 teleport 대상
-// transform이 있으면 하위 position:fixed가 뷰포트가 아닌 이 컨테이너 기준으로 배치됨
-// overflow:hidden으로 slideInRight/slideDown 애니메이션 시작 위치를 레이아웃 밖에서 숨김
+// inset:0으로 뷰포트 전체 커버. overflow:hidden으로 slideInRight/slideDown 시작 위치 숨김
 // ---------------------------------------------------------------------------
 #popup-container {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(60rem, 100%);
+  inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: $z-modal;
@@ -91,7 +79,7 @@ ol {
   height: 1.6rem;
   padding: 0 0.4rem;
   border-radius: 9999px;
-  background-color: #0cb5e2;
+  background-color: #00a1ff;
   color: #ffffff;
   font-size: 1rem;
   font-weight: 700;
