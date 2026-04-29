@@ -1,8 +1,6 @@
-$b: 'alertGuidePage';
+$b: "alertGuidePage";
 
 .#{$b} {
-  max-width: 80rem;
-  margin: 0 auto;
   padding: $spacing-lg;
 }
 
@@ -153,7 +151,8 @@ $b: 'alertGuidePage';
   border-collapse: collapse;
   font-size: $font-size-body3;
 
-  th, td {
+  th,
+  td {
     border: 1px solid $line-300;
     padding: $spacing-sm $spacing-md;
     text-align: left;
@@ -167,7 +166,9 @@ $b: 'alertGuidePage';
     white-space: nowrap;
   }
 
-  td { color: $text-900; }
+  td {
+    color: $text-900;
+  }
 
   code {
     background-color: $bg-tertiary;
@@ -206,7 +207,9 @@ $b: 'alertGuidePage';
   color: $text-700;
   line-height: $line-height-base;
 
-  a { color: $color-primary; }
+  a {
+    color: $color-primary;
+  }
 
   code {
     background-color: $bg-tertiary;

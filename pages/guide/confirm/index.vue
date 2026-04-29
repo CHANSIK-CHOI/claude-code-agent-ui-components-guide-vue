@@ -259,7 +259,7 @@ else { /* cancel */ }</code></pre>
 
 <script setup lang="ts">
 definePageMeta({ layout: "guide" });
-import { useConfirm } from "~/components/popup";
+import { useConfirm } from "@nd/components/popup";
 
 const { open } = useConfirm();
 const lastResult = ref<boolean | null>(null);

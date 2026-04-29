@@ -70,9 +70,9 @@
 
 | type | 위치 | 크기 | 애니메이션 | 사용 맥락 |
 |------|------|------|-----------|---------|
-| `layer` | 뷰포트 중앙 | max-width 48rem | fadeScaleIn/Out | 일반 레이어 팝업, Alert, Confirm |
-| `bottomSheet` | 화면 하단 고정 | width 100%, max-height 80vh | slideUp/Down | 모바일 바텀시트 |
-| `full` | 전체화면 | 100dvw × 100dvh | slideInRight/OutRight | 모바일 전체화면 레이어 |
+| `layer` | 컨테이너 중앙 | max-width 48rem | fadeScaleIn/Out | 일반 레이어 팝업, Alert, Confirm |
+| `bottomSheet` | 컨테이너 하단 | width 100% (컨테이너 = 60rem), max-height 80vh | slideUp/Down | 모바일 바텀시트 |
+| `full` | 컨테이너 전체 | 100% × 100dvh (컨테이너 = 60rem) | slideInRight/OutRight | 모바일 전체화면 레이어 |
 
 ---
 
@@ -191,11 +191,33 @@ const hasFooter = computed(() =>
 
 ---
 
+## 7-1. 팝업 컨테이너 (#popup-container)
+
+모든 팝업은 `app.vue`에 삽입된 `<div id="popup-container">` 안에 렌더링된다. `DialogPortal`의 `to="#popup-container"` prop으로 지정.
+
+**컨테이너 속성 (global.scss)**:
+```
+position: fixed; top: 0; bottom: 0;
+left: 50%; transform: translateX(-50%);
+width: min(60rem, 100%);
+overflow: hidden;
+pointer-events: none;
+z-index: $z-modal;
+```
+
+**핵심 동작**:
+- `transform`이 있는 조상은 하위 `position: fixed` 요소의 containing block이 된다(CSS 스펙). 따라서 내부 `position: fixed` 자식들은 뷰포트가 아닌 컨테이너 기준으로 배치됨.
+- `overflow: hidden`이 slideInRight / slideDown 애니메이션 시작 위치(컨테이너 바깥)를 숨김 → 60rem 레이아웃 바깥에서 팝업이 보이는 문제 방지.
+- `pointer-events: none`으로 팝업이 없을 때 하위 페이지 클릭을 통과시킴. overlay / content에는 `pointer-events: auto`를 명시해 클릭 이벤트 복원.
+- bottomSheet / full 타입 포지셔닝이 단순화됨: `left: 0; right: 0; width: 100%` (기존의 `left:50%; transform:translateX(-50%); width:min(60rem,100%)` 불필요).
+
+---
+
 ## 8. Radix Vue 구조 및 attrs 위임
 
 ```
 DialogRoot (v-model:open, @update:open)
-└─ DialogPortal
+└─ DialogPortal (to="#popup-container")
    ├─ DialogOverlay  (.popup__overlay, data-state="open|closed")
    └─ DialogContent  (.popup__content .popup--{type})
       │              data-state="open|closed"
@@ -227,7 +249,7 @@ DialogRoot (v-model:open, @update:open)
 
 | 용도 | 토큰 |
 |------|------|
-| Overlay 배경 | `rgba($text-900, 0.5)` |
+| Overlay 배경 | `rgba($text-900, 0.5)` (60rem 프레임 너비, 뷰포트 높이) |
 | 팝업 배경 | `$bg-primary` |
 | 타이틀 텍스트 | `$text-900` |
 | 본문 텍스트 | `$text-700` |
@@ -260,11 +282,11 @@ Radix Vue Dialog는 내부적으로 `Presence` 컴포넌트를 사용해 닫기 
   to   { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
 }
 
-// bottomSheet
+// bottomSheet — 컨테이너 내 left:0 기준이므로 Y축만 이동
 @keyframes slideUp   { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes slideDown { from { transform: translateY(0);    } to { transform: translateY(100%); } }
 
-// full
+// full — 컨테이너 내 left:0 기준이므로 X축만 이동 (overflow:hidden이 시작 위치 숨김)
 @keyframes slideInRight  { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @keyframes slideOutRight { from { transform: translateX(0);    } to { transform: translateX(100%); } }
 ```

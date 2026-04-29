@@ -28,7 +28,7 @@ Popup.vue Base 구조 사용. `type="full"` 고정으로 다음 시각적 특징
 
 - **전체화면** (`100dvw × 100dvh`)
 - 모서리 없음 (`border-radius: 0`)
-- Overlay(dim) 없음 — 전체화면이므로 불필요
+- Overlay(dim) 있음 — 레이아웃 영역(`min(60rem, 100%)`) 기준으로 dim 적용. 클릭해도 닫히지 않음 (closeOnOverlay: false 기본)
 - 헤더 닫기(×) 버튼이 **뒤로가기** 역할
 - 슬라이드-인-라이트(open) / 슬라이드-아웃-라이트(close) 애니메이션
 
@@ -46,7 +46,7 @@ Popup.vue Base 구조 사용. `type="full"` 고정으로 다음 시각적 특징
 | `cancelLabel` | `string` | `'취소'` | cancel 버튼 텍스트 |
 | `showCancel` | `boolean` | `false` | cancel 버튼 표시. 전체화면은 기본 숨김 |
 | `okDisabled` | `boolean` | `false` | ok 버튼 비활성 |
-| `closeOnOverlay` | `boolean` | `false` | dim 없으므로 기본 false |
+| `closeOnOverlay` | `boolean` | `false` | dim이 있으나 전체화면 팝업은 헤더 뒤로가기로 닫는 패턴이 표준이므로 기본 false |
 | `closeOnEscape` | `boolean` | `true` | ESC 키 입력 시 닫기 |
 
 **내부 고정값**
@@ -121,12 +121,12 @@ const filterPopup = useFullPopup()
 
 | 항목 | 값 |
 |------|-----|
-| 위치 | `position: fixed; top: 0; left: 0` |
-| 크기 | `width: 100dvw; height: 100dvh` |
+| 위치 | `position: fixed; top: 0; left: 50%; translate: -50% 0` |
+| 크기 | `width: min(60rem, 100%); height: 100dvh` |
 | 모서리 | `border-radius: 0` |
-| Overlay | 없음 (`DialogOverlay` 미렌더링 또는 투명) |
-| 애니메이션 open | slideInRight — `$duration-slow` |
-| 애니메이션 close | slideOutRight — `$duration-slow` |
+| Overlay | 있음 — 레이아웃 영역 동일 크기(`left: 50%; width: min(60rem, 100%)`)에 반투명 dim |
+| 애니메이션 open | slideInRight — `$duration-slow` (from: translate(50%, 0) — 레이아웃 오른쪽 끝에서 시작) |
+| 애니메이션 close | slideOutRight — `$duration-slow` (to: translate(50%, 0) — 레이아웃 오른쪽 끝으로 나감) |
 | body 스크롤 | `overflow-y: auto` |
 
 > `100dvh`: 모바일 브라우저 주소창을 제외한 실제 뷰포트 높이. `100vh` 대신 `dvh` 사용.
@@ -137,7 +137,9 @@ const filterPopup = useFullPopup()
 
 ### 6-1. Overlay 처리
 
-`type="full"`이면 Popup.vue Base에서 `DialogOverlay`를 렌더링하지 않거나 완전 투명으로 처리한다. 전체화면이 이미 dim 역할을 하기 때문이다.
+`type="full"`도 `DialogOverlay`를 렌더링한다. Overlay 위치·크기는 레이아웃 콘텐츠 영역(`left: 50%; width: min(60rem, 100%)`)에 맞춘다. 즉, 팝업 패널 뒤쪽 같은 영역에만 dim이 깔린다.
+
+`closeOnOverlay` 기본값은 `false` 유지 — 전체화면 팝업은 헤더 뒤로가기로 닫는 패턴이 표준이므로, 실수로 overlay 클릭 시 닫히는 것을 방지한다.
 
 ### 6-2. 닫기 버튼 아이콘
 
@@ -191,4 +193,7 @@ LayerPopup.md § 6-1과 동일한 패턴. FullPopup.vue가 `defineEmits`로 7개
 
 - FullPopup.vue = Popup.vue + `type="full"` 고정 + 닫기 아이콘 교체
 - useFullPopup.ts = `usePopupState` 호출 한 줄 — useLayerPopup과 동일 매커니즘
-- SCSS 포인트: `[data-state="open"]` slideInRight / `[data-state="closed"]` slideOutRight 키프레임, Overlay 투명 처리
+- SCSS 포인트:
+  - Popup.vue: `v-if="type !== 'full'"` 조건 제거 → `DialogOverlay` 항상 렌더링
+  - slideInRight from: `translate(100%, 0)` → `translate(50%, 0)` (레이아웃 오른쪽 끝에서 시작)
+  - slideOutRight to: `translate(100%, 0)` → `translate(50%, 0)` (열림과 대칭)

@@ -123,7 +123,7 @@ const sheet = useBottomSheet()
 
 | 항목 | 값 |
 |------|-----|
-| 위치 | `position: fixed; bottom: 0; left: 0; width: 100%` |
+| 위치 | `position: fixed; bottom: 0; left: 50%; translate: -50% 0; width: min(60rem, 100%)` |
 | 최대 높이 | `80vh` |
 | 상단 모서리 | `$radius-lg` |
 | 하단 모서리 | `0` |

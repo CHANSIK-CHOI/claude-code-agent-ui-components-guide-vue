@@ -36,33 +36,33 @@ Popup.vue Base 구조를 그대로 사용. 모든 영역이 slot으로 커스터
 
 Popup.vue props 전체를 그대로 노출한다 (type 제외).
 
-| prop | 타입 | 기본값 | 설명 |
-|------|------|--------|------|
-| `open` | `boolean` | — (필수) | v-model:open |
-| `title` | `string` | — | 헤더 타이틀 |
-| `description` | `string` | — | a11y용 설명 텍스트 (`DialogDescription`으로 자동 래핑) |
-| `showClose` | `boolean` | `true` | 닫기(×) 버튼 표시 |
-| `okLabel` | `string` | `'확인'` | ok 버튼 텍스트 |
-| `cancelLabel` | `string` | `'취소'` | cancel 버튼 텍스트 |
-| `showCancel` | `boolean` | `true` | cancel 버튼 표시 |
-| `okDisabled` | `boolean` | `false` | ok 버튼 비활성 |
-| `closeOnOverlay` | `boolean` | `true` | dim 클릭 시 닫기 |
-| `closeOnEscape` | `boolean` | `true` | ESC 키 입력 시 닫기 |
+| prop             | 타입      | 기본값   | 설명                                                   |
+| ---------------- | --------- | -------- | ------------------------------------------------------ |
+| `open`           | `boolean` | — (필수) | v-model:open                                           |
+| `title`          | `string`  | —        | 헤더 타이틀                                            |
+| `description`    | `string`  | —        | a11y용 설명 텍스트 (`DialogDescription`으로 자동 래핑) |
+| `showClose`      | `boolean` | `true`   | 닫기(×) 버튼 표시                                      |
+| `okLabel`        | `string`  | `'확인'` | ok 버튼 텍스트                                         |
+| `cancelLabel`    | `string`  | `'취소'` | cancel 버튼 텍스트                                     |
+| `showCancel`     | `boolean` | `true`   | cancel 버튼 표시                                       |
+| `okDisabled`     | `boolean` | `false`  | ok 버튼 비활성                                         |
+| `closeOnOverlay` | `boolean` | `true`   | dim 클릭 시 닫기                                       |
+| `closeOnEscape`  | `boolean` | `true`   | ESC 키 입력 시 닫기                                    |
 
 **내부 고정값**
 
-| prop | 고정값 |
-|------|--------|
+| prop   | 고정값    |
+| ------ | --------- |
 | `type` | `'layer'` |
 
 ---
 
 ## 3. Slots
 
-| 슬롯 | 필수 | 설명 |
-|------|------|------|
-| `default` | 권장 | body 영역 콘텐츠 |
-| `#header` | 선택 | 헤더 완전 교체. 제공 시 title/showClose prop 무시 |
+| 슬롯      | 필수 | 설명                                                 |
+| --------- | ---- | ---------------------------------------------------- |
+| `default` | 권장 | body 영역 콘텐츠                                     |
+| `#header` | 선택 | 헤더 완전 교체. 제공 시 title/showClose prop 무시    |
 | `#footer` | 선택 | 푸터 완전 교체. 제공 시 ok/cancel 기본 버튼 미렌더링 |
 
 ---
@@ -79,18 +79,22 @@ LayerPopup / BottomSheet / FullPopup이 공유하는 단순 열기/닫기 상태
 // components/popup/usePopupState.ts
 
 interface PopupStateController {
-  isOpen: Ref<boolean>           // ⚠️ mutable Ref — v-model:open 바인딩 위해 필수
-  open: () => void
-  close: () => void
+  isOpen: Ref<boolean>; // ⚠️ mutable Ref — v-model:open 바인딩 위해 필수
+  open: () => void;
+  close: () => void;
 }
 
 export function usePopupState(): PopupStateController {
-  const isOpen = ref(false)
+  const isOpen = ref(false);
   return {
     isOpen,
-    open:  () => { isOpen.value = true  },
-    close: () => { isOpen.value = false },
-  }
+    open: () => {
+      isOpen.value = true;
+    },
+    close: () => {
+      isOpen.value = false;
+    },
+  };
 }
 ```
 
@@ -110,10 +114,10 @@ export function usePopupState(): PopupStateController {
 
 ```ts
 // components/popup/useLayerPopup.ts
-import { usePopupState } from './usePopupState'
+import { usePopupState } from "./usePopupState";
 
 export function useLayerPopup() {
-  return usePopupState()
+  return usePopupState();
 }
 
 // 또는 alias로 더 단순히
@@ -123,19 +127,19 @@ export function useLayerPopup() {
 ### 4-3. 인터페이스
 
 ```ts
-const popup = useLayerPopup()
-popup.isOpen     // Ref<boolean> — v-model:open에 바인딩
-popup.open()     // 열기
-popup.close()    // 닫기
+const popup = useLayerPopup();
+popup.isOpen; // Ref<boolean> — v-model:open에 바인딩
+popup.open(); // 열기
+popup.close(); // 닫기
 ```
 
 ### 사용 패턴
 
 ```vue
 <script setup>
-import { useLayerPopup } from '~/components/popup'
+import { useLayerPopup } from "@nd/components/popup";
 
-const popup = useLayerPopup()
+const popup = useLayerPopup();
 </script>
 
 <template>
@@ -161,20 +165,20 @@ const popup = useLayerPopup()
 
 ### 5-1. 열기 / 닫기
 
-| 트리거 | 동작 |
-|--------|------|
-| `popup.open()` | `isOpen = true` → 팝업 표시 |
-| `popup.close()` | `isOpen = false` → 팝업 닫힘 |
-| 닫기(×) 버튼 | Popup.vue `update:open(false)` → `isOpen = false` |
-| ESC | Popup.vue → `isOpen = false` |
-| dim 클릭 (`closeOnOverlay=true`) | Popup.vue → `isOpen = false` |
-| `#footer` slot의 취소 버튼 클릭 | `popup.close()` 직접 호출 |
+| 트리거                           | 동작                                              |
+| -------------------------------- | ------------------------------------------------- |
+| `popup.open()`                   | `isOpen = true` → 팝업 표시                       |
+| `popup.close()`                  | `isOpen = false` → 팝업 닫힘                      |
+| 닫기(×) 버튼                     | Popup.vue `update:open(false)` → `isOpen = false` |
+| ESC                              | Popup.vue → `isOpen = false`                      |
+| dim 클릭 (`closeOnOverlay=true`) | Popup.vue → `isOpen = false`                      |
+| `#footer` slot의 취소 버튼 클릭  | `popup.close()` 직접 호출                         |
 
 ### 5-2. 여러 팝업 동시 사용
 
 ```ts
-const addressPopup = useLayerPopup()
-const filterPopup = useLayerPopup()
+const addressPopup = useLayerPopup();
+const filterPopup = useLayerPopup();
 // 각각 독립적인 isOpen ref
 ```
 
@@ -186,15 +190,15 @@ const filterPopup = useLayerPopup()
 
 Popup.vue Base emit을 그대로 노출한다.
 
-| 이벤트 | 발생 시점 | 전달값 |
-|--------|---------|--------|
-| `update:open` | open 상태 변경 | `boolean` |
-| `opened` | 열림 애니메이션 완료 | — |
-| `closed` | 닫힘 애니메이션 완료 | — |
-| `close` | 닫기(×) 버튼 클릭 | — |
-| `ok` | ok 버튼 클릭 | — |
-| `cancel` | cancel 버튼 클릭 | — |
-| `overlayClick` | dim 클릭 | — |
+| 이벤트         | 발생 시점            | 전달값    |
+| -------------- | -------------------- | --------- |
+| `update:open`  | open 상태 변경       | `boolean` |
+| `opened`       | 열림 애니메이션 완료 | —         |
+| `closed`       | 닫힘 애니메이션 완료 | —         |
+| `close`        | 닫기(×) 버튼 클릭    | —         |
+| `ok`           | ok 버튼 클릭         | —         |
+| `cancel`       | cancel 버튼 클릭     | —         |
+| `overlayClick` | dim 클릭             | —         |
 
 ### 6-1. emit forward 매커니즘 (구현 시 주의)
 
@@ -229,16 +233,18 @@ Popup.vue Base emit을 그대로 노출한다.
 </template>
 
 <script setup lang="ts">
-defineProps<{ /* ... Popup props 그대로 ... */ }>()
+defineProps<{
+  /* ... Popup props 그대로 ... */
+}>();
 const emit = defineEmits<{
-  'update:open': [value: boolean]
-  opened: []
-  closed: []
-  close: []
-  ok: []
-  cancel: []
-  overlayClick: []
-}>()
+  "update:open": [value: boolean];
+  opened: [];
+  closed: [];
+  close: [];
+  ok: [];
+  cancel: [];
+  overlayClick: [];
+}>();
 </script>
 ```
 
@@ -250,11 +256,11 @@ const emit = defineEmits<{
 
 Popup.vue Base 접근성 기준을 따른다.
 
-| 항목 | 요구사항 |
-|------|---------|
-| `title` 제공 | 권장. 없으면 `#header` slot에서 `DialogTitle` 직접 래핑 |
-| 포커스 관리 | 팝업 열릴 때 첫 포커스 가능 요소로 자동 이동 (Radix Vue) |
-| 닫기 버튼 | `aria-label="닫기"` 필수 |
+| 항목         | 요구사항                                                 |
+| ------------ | -------------------------------------------------------- |
+| `title` 제공 | 권장. 없으면 `#header` slot에서 `DialogTitle` 직접 래핑  |
+| 포커스 관리  | 팝업 열릴 때 첫 포커스 가능 요소로 자동 이동 (Radix Vue) |
+| 닫기 버튼    | `aria-label="닫기"` 필수                                 |
 
 ---
 
@@ -264,16 +270,17 @@ Popup.vue Base 접근성 기준을 따른다.
 
 `rules/guide-page.md`의 가이드 페이지 작성 규칙을 따른다. 아래 시연 시나리오를 포함한다:
 
-| 시나리오 | 설명 |
-|---------|------|
-| 기본 LayerPopup | title + body slot + 기본 ok/cancel 버튼 |
-| `#footer` slot 커스텀 | 취소/저장 버튼을 직접 마크업, 비동기 저장 후 close |
-| `#header` slot 커스텀 | 시각적 헤더 자유 마크업 (title prop 비우면 hidden DialogTitle 자동 마운트) |
-| `showCancel=false` | ok 버튼만 노출 |
-| `closeOnOverlay=false` | dim 클릭으로 닫히지 않는 강제 응답 시나리오 |
-| 비동기 ok 처리 | `@ok="async () => { await save(); popup.close() }"` — ok가 부모 책임임을 보여주기 |
+| 시나리오               | 설명                                                                              |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| 기본 LayerPopup        | title + body slot + 기본 ok/cancel 버튼                                           |
+| `#footer` slot 커스텀  | 취소/저장 버튼을 직접 마크업, 비동기 저장 후 close                                |
+| `#header` slot 커스텀  | 시각적 헤더 자유 마크업 (title prop 비우면 hidden DialogTitle 자동 마운트)        |
+| `showCancel=false`     | ok 버튼만 노출                                                                    |
+| `closeOnOverlay=false` | dim 클릭으로 닫히지 않는 강제 응답 시나리오                                       |
+| 비동기 ok 처리         | `@ok="async () => { await save(); popup.close() }"` — ok가 부모 책임임을 보여주기 |
 
 **페이지 마크업 포인트**:
+
 - `useLayerPopup()` 훅 + `<LayerPopup v-model:open="popup.isOpen" ...>` 패턴
 - ⑥ Props/Slots/Events 섹션 HTML `<table>` 작성
 - `__delegationNote` (Popup이 Radix Dialog 기반이므로 추가 props 사용 안내)
