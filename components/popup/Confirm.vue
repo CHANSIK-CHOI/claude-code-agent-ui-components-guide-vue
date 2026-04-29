@@ -1,5 +1,6 @@
 <template>
   <Popup
+    v-bind="$attrs"
     type="layer"
     :open="isOpen"
     :title="title"
@@ -20,6 +21,8 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false })
+
 import Popup from './Popup.vue'
 
 const props = defineProps<{
@@ -33,11 +36,10 @@ const props = defineProps<{
 }>()
 
 const isOpen = ref(true)
-// ok 클릭 전까지는 cancel(기본값). ok 클릭 시에만 onOk 호출.
-const closeReason = ref<'ok' | 'cancel'>('cancel')
+const isOkClicked = ref(false)
 
 function handleOk() {
-  closeReason.value = 'ok'
+  isOkClicked.value = true
   isOpen.value = false
 }
 
@@ -47,11 +49,12 @@ function handleUpdateOpen(val: boolean) {
 }
 
 function handleClosed() {
-  if (closeReason.value === 'ok') {
+  if (isOkClicked.value) {
     props.onOk()
   } else {
     props.onCancel()
   }
+  isOkClicked.value = false
 }
 </script>
 

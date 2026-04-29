@@ -2,11 +2,11 @@
   <template v-for="instance in instances" :key="instance.id">
     <Alert
       v-if="instance.component === 'alert'"
-      v-bind="(instance.props as Record<string, unknown>)"
+      v-bind="instance.props"
     />
     <Confirm
       v-else-if="instance.component === 'confirm'"
-      v-bind="(instance.props as Record<string, unknown>)"
+      v-bind="instance.props"
     />
   </template>
 </template>

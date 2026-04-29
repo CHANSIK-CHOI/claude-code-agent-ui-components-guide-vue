@@ -1,5 +1,6 @@
 <template>
   <Popup
+    v-bind="$attrs"
     type="bottomSheet"
     :open="open"
     :title="title"
@@ -26,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false })
+
 import Popup from './Popup.vue'
 
 const props = withDefaults(

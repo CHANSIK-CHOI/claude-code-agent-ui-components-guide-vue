@@ -1,5 +1,6 @@
 <template>
   <Popup
+    v-bind="$attrs"
     type="layer"
     :open="isOpen"
     :title="title"
@@ -18,6 +19,8 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false })
+
 import Popup from './Popup.vue'
 
 const props = defineProps<{

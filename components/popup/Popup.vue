@@ -9,6 +9,7 @@
       />
 
       <DialogContent
+        v-bind="$attrs"
         class="popup__content"
         :class="`popup--${type}`"
         @interact-outside="handleInteractOutside"
@@ -84,6 +85,8 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false })
+
 type PopupType = 'layer' | 'bottomSheet' | 'full'
 
 const props = withDefaults(
