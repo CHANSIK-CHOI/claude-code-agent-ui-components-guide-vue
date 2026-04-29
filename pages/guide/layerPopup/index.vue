@@ -25,7 +25,7 @@
             기본 LayerPopup 열기
           </button>
         </div>
-        <LayerPopup v-model:open="basic.isOpen" title="배송지 변경" @ok="basic.close()">
+        <LayerPopup v-model:open="basic.isOpen.value" title="배송지 변경" @ok="basic.close()">
           <p>팝업 바디 영역입니다. 기본 ok/cancel 버튼이 푸터에 표시됩니다.</p>
         </LayerPopup>
       </div>
@@ -43,7 +43,7 @@
             #footer 커스텀 열기
           </button>
         </div>
-        <LayerPopup v-model:open="customFooter.isOpen" title="저장 확인">
+        <LayerPopup v-model:open="customFooter.isOpen.value" title="저장 확인">
           <p>커스텀 푸터를 사용합니다.</p>
           <template #footer>
             <button type="button" class="layerPopupGuidePage__footerBtn layerPopupGuidePage__footerBtn--cancel" @click="customFooter.close()">취소</button>
@@ -66,7 +66,7 @@
             #header 커스텀 열기
           </button>
         </div>
-        <LayerPopup v-model:open="customHeader.isOpen" @ok="customHeader.close()">
+        <LayerPopup v-model:open="customHeader.isOpen.value" @ok="customHeader.close()">
           <template #header>
             <div class="layerPopupGuidePage__customHeader">
               <span class="layerPopupGuidePage__customHeaderTitle">커스텀 헤더</span>
@@ -87,7 +87,7 @@
             ok 버튼만 열기
           </button>
         </div>
-        <LayerPopup v-model:open="noCancel.isOpen" title="안내" :show-cancel="false" @ok="noCancel.close()">
+        <LayerPopup v-model:open="noCancel.isOpen.value" title="안내" :show-cancel="false" @ok="noCancel.close()">
           <p>취소 버튼 없이 ok 버튼만 표시됩니다.</p>
         </LayerPopup>
       </div>
@@ -106,7 +106,7 @@
             강제 응답 팝업 열기
           </button>
         </div>
-        <LayerPopup v-model:open="noOverlay.isOpen" title="필수 응답" :close-on-overlay="false" @ok="noOverlay.close()">
+        <LayerPopup v-model:open="noOverlay.isOpen.value" title="필수 응답" :close-on-overlay="false" @ok="noOverlay.close()">
           <p>dim을 클릭해도 닫히지 않습니다. 버튼으로만 닫을 수 있습니다.</p>
         </LayerPopup>
       </div>

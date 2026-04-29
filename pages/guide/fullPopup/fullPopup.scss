@@ -1,4 +1,4 @@
-$b: 'fullPopupGuidePage';
+$b: "fullPopupGuidePage";
 
 .#{$b} {
   max-width: 80rem;
@@ -12,7 +12,9 @@ $b: 'fullPopupGuidePage';
   border-bottom: 1px solid $line-300;
 }
 
-.#{$b}__meta { margin-bottom: $spacing-sm; }
+.#{$b}__meta {
+  margin-bottom: $spacing-sm;
+}
 
 .#{$b}__badge {
   display: inline-block;
@@ -49,7 +51,9 @@ $b: 'fullPopupGuidePage';
   padding-bottom: $spacing-xl;
   border-bottom: 1px solid $line-300;
 
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .#{$b}__sectionTitle {
@@ -59,7 +63,9 @@ $b: 'fullPopupGuidePage';
   margin-bottom: $spacing-lg;
 }
 
-.#{$b}__group { margin-bottom: $spacing-lg; }
+.#{$b}__group {
+  margin-bottom: $spacing-lg;
+}
 
 .#{$b}__note {
   font-size: $font-size-body3;
@@ -93,7 +99,9 @@ $b: 'fullPopupGuidePage';
   font-weight: $font-weight-bold;
   cursor: pointer;
 
-  &:hover { background-color: $color-primary-hover; }
+  &:hover {
+    background-color: $color-primary-hover;
+  }
 }
 
 .#{$b}__result {
@@ -163,7 +171,8 @@ $b: 'fullPopupGuidePage';
   border-collapse: collapse;
   font-size: $font-size-body3;
 
-  th, td {
+  th,
+  td {
     border: 1px solid $line-300;
     padding: $spacing-sm $spacing-md;
     text-align: left;
@@ -177,7 +186,9 @@ $b: 'fullPopupGuidePage';
     white-space: nowrap;
   }
 
-  td { color: $text-900; }
+  td {
+    color: $text-900;
+  }
 
   code {
     background-color: $bg-tertiary;
@@ -216,7 +227,9 @@ $b: 'fullPopupGuidePage';
   color: $text-700;
   line-height: $line-height-base;
 
-  a { color: $color-primary; }
+  a {
+    color: $color-primary;
+  }
 
   code {
     background-color: $bg-tertiary;

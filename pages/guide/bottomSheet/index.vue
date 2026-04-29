@@ -22,7 +22,7 @@
             기본 BottomSheet 열기
           </button>
         </div>
-        <BottomSheet v-model:open="basic.isOpen" title="정렬 선택" @ok="basic.close()">
+        <BottomSheet v-model:open="basic.isOpen.value" title="정렬 선택" @ok="basic.close()">
           <ul class="bottomSheetGuidePage__optionList">
             <li v-for="opt in sortOptions" :key="opt.value" class="bottomSheetGuidePage__optionItem">
               <button type="button" @click="selectedSort = opt.value; basic.close()">
@@ -50,7 +50,7 @@
             긴 콘텐츠 BottomSheet 열기
           </button>
         </div>
-        <BottomSheet v-model:open="longContent.isOpen" title="긴 목록" @ok="longContent.close()">
+        <BottomSheet v-model:open="longContent.isOpen.value" title="긴 목록" @ok="longContent.close()">
           <ul class="bottomSheetGuidePage__longList">
             <li v-for="i in 30" :key="i" class="bottomSheetGuidePage__longListItem">항목 {{ i }}</li>
           </ul>
@@ -70,7 +70,7 @@
             필터 BottomSheet 열기
           </button>
         </div>
-        <BottomSheet v-model:open="filter.isOpen" title="필터">
+        <BottomSheet v-model:open="filter.isOpen.value" title="필터">
           <div class="bottomSheetGuidePage__filterGroup">
             <p class="bottomSheetGuidePage__filterLabel">카테고리</p>
             <label v-for="opt in filterOptions" :key="opt.value" class="bottomSheetGuidePage__radio">

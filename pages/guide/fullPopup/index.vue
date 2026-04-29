@@ -27,7 +27,7 @@
             기본 FullPopup 열기
           </button>
         </div>
-        <FullPopup v-model:open="basic.isOpen" title="상세 정보" @ok="basic.close()">
+        <FullPopup v-model:open="basic.isOpen.value" title="상세 정보" @ok="basic.close()">
           <p>전체화면 팝업의 바디 영역입니다.<br />오른쪽에서 슬라이드 인 하는 애니메이션을 확인하세요.</p>
         </FullPopup>
       </div>
@@ -46,7 +46,7 @@
             상세 필터 열기
           </button>
         </div>
-        <FullPopup v-model:open="filterPopup.isOpen" title="상세 필터">
+        <FullPopup v-model:open="filterPopup.isOpen.value" title="상세 필터">
           <div class="fullPopupGuidePage__filterForm">
             <div class="fullPopupGuidePage__filterSection">
               <p class="fullPopupGuidePage__filterLabel">카테고리</p>
