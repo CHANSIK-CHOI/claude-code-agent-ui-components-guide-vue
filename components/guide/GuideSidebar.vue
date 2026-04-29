@@ -76,6 +76,7 @@ const navigation: GuideNavGroup[] = [
       { label: 'LayerPopup', to: '/guide/layerPopup' },
       { label: 'BottomSheet', to: '/guide/bottomSheet' },
       { label: 'FullPopup', to: '/guide/fullPopup' },
+      { label: 'ToastPopup', to: '/guide/toastPopup' },
     ],
   },
   {

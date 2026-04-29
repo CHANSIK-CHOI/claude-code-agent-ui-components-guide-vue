@@ -23,7 +23,7 @@ $sidebar-width: 24rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  // min-width: 120rem;
+  min-width: 120rem;
 
   &__header {
     position: sticky;

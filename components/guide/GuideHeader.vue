@@ -5,11 +5,11 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 </script>
 
 <style lang="scss" scoped>
-$b: 'guideHeader';
+$b: "guideHeader";
 
 .#{$b} {
   display: flex;
