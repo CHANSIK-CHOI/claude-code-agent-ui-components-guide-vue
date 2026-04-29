@@ -1,8 +1,8 @@
 <template>
   <SelectRoot
     v-bind="rootAttrs"
-    v-model="proxyValue"
     :disabled="disabled"
+    v-model="proxyValue"
     @update:open="emit('open-change', $event)"
   >
     <SelectTrigger
@@ -12,7 +12,7 @@
       :class="{
         'select__trigger--disabled': disabled,
         'select__trigger--error': error,
-        'select__trigger--filter': variant === 'filter',
+        'select__trigger--filter': isFilter,
       }"
       :aria-invalid="error ? 'true' : undefined"
     >
@@ -20,7 +20,7 @@
       <SelectIcon as-child>
         <span class="select__icon">
           <!-- filter variant — 기본 아래(↓) 방향, 열린 상태에서 rotate(180deg)로 위(↑) -->
-          <SmallChevronDownIcon v-if="variant === 'filter'" />
+          <SmallChevronDownIcon v-if="isFilter" />
           <!-- default variant — 기본 위(↑) 방향, rotate(180deg)로 아래(↓) -->
           <SmallChevronUpIcon v-else />
         </span>
@@ -31,7 +31,7 @@
       <SelectContent
         :class="[
           'select__content',
-          { 'select__content--filter': variant === 'filter' },
+          { 'select__content--filter': isFilter },
         ]"
         position="popper"
         :side-offset="4"
@@ -49,7 +49,7 @@
             :key="option.value"
             :class="[
               'select__item',
-              { 'select__item--filter': variant === 'filter' },
+              { 'select__item--filter': isFilter },
             ]"
             :value="option.value"
             :disabled="option.disabled"
@@ -118,9 +118,9 @@ const SELECT_ROOT_PROPS = [
 ] as const;
 
 const attrs = useAttrs();
-const _uid = Math.random().toString(36).slice(2, 8);
+const _nuxtId = useId(); // Nuxt 3.9+ auto-import — SSR-safe unique id
 const selectId = computed(
-  () => (attrs.id as string | undefined) || `select-${_uid}`,
+  () => (attrs.id as string | undefined) || `select-${_nuxtId}`,
 );
 
 const rootAttrs = computed(() =>
@@ -141,9 +141,11 @@ const triggerAttrs = computed(() =>
 );
 
 const proxyValue = computed({
-  get: () => props.modelValue ?? "",
+  get: () => props.modelValue,
   set: (val: string) => emit("update:modelValue", val),
 });
+
+const isFilter = computed(() => props.variant === 'filter');
 </script>
 
 <!-- ──────────────────────────────────────────────────────────────────
@@ -173,7 +175,6 @@ $b: 'select';
     font-weight: $font-weight-regular;
     color: $text-900;
     cursor: pointer;
-    outline: none;
 
     &:focus-visible {
       outline: none;
@@ -205,6 +206,11 @@ $b: 'select';
   }
 }
 
+// Trigger error modifier
+.#{$b}__trigger--error {
+  border-color: $color-danger;
+}
+
 // Trigger disabled modifier
 .#{$b}__trigger--disabled {
   background-color: $bg-disabled;
@@ -226,7 +232,7 @@ $b: 'select';
 // 부모 scoped 속성(data-v-xxxxx)이 직접 붙지 않음.
 // :deep()을 쓰면 [data-v-xxxxx] .select__content 로 컴파일되어
 // Portal이 <body>에 마운트되어도 DOM 트리상 조상에 data-v가 있으면 매칭됨.
-// $z-sticky(200): $z-dropdown(100)으로는 가이드 페이지 stacking context보다 낮을 수 있음
+// $z-dropdown(100): 드롭다운 의미상 올바른 레이어 — 가이드 페이지에 stacking context 없음 확인 완료
 :deep(.#{$b}__content) {
   background-color: $bg-primary;
   border: 1px solid $line-200;
@@ -234,7 +240,7 @@ $b: 'select';
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  z-index: $z-sticky;
+  z-index: $z-dropdown;
 }
 
 :deep(.#{$b}__viewport) {
@@ -290,14 +296,13 @@ $b: 'select';
 // 인라인 필터 컨트롤로 content 너비 기준이 디자인 의도 (style.md 일반 너비 규칙 예외)
 .#{$b}__trigger--filter {
   width: fit-content; // style.md 일반 너비 규칙 예외 — filter variant 디자인 의도 (Figma 40004271:6839)
-  height: auto;
+  height: 3rem;
   padding: 0.6rem $spacing-sm 0.6rem 1rem; // 상하 6px / 우 8px($spacing-sm) / 좌 10px
   border-radius: 0.6rem; // 6px — $radius-sm(4px) 토큰 불일치, 직접 사용
   font-size: $font-size-body4; // 14px — Figma 40004271:6839
   gap: 0.4rem; // 4px — 텍스트·아이콘 사이 간격
   justify-content: flex-start; // space-between override — fit-content 너비에서 gap으로 제어
   color: $text-400;
-  height: 3rem;
 
   .#{$b}__icon {
     transform: rotate(0deg); // filter SVG는 기본 아래(↓) 방향

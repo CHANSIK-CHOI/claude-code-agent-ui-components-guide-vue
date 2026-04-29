@@ -18,7 +18,9 @@ type: project
   - Trigger 열린 상태: `[data-state="open"]` 속성 선택자로 감지
   - 아이템 상태: `[data-highlighted]`, `[data-state="checked"]`, `[data-disabled]` 속성 선택자 활용
   - `proxyValue` computed를 통한 v-model 연동 (modelValue 기본값 undefined → get에서 '' 폴백)
-  - `selectId` 자동 생성 패턴 (Input.vue와 동일)
+  - `selectId` 자동 생성 패턴: **Nuxt `useId()` 사용** (SSR-safe, Nuxt 3.9+ auto-import)
+    - 구 방식(`모듈 레벨 카운터 _selectUidCounter`)은 SSR/CSR 번들이 각자 카운터를 독립 실행하여 hydration mismatch 발생 → 제거됨
+    - `<script lang="ts">` 블록 완전 제거, `<script setup>` 단일 블록 유지
 - **개발자 핸드오프**: 없음 (options prop은 정적 배열로 전달, API 연동 필요 시 options를 동적 데이터로 교체)
 - **filter variant 추가 (2026-04-27 업데이트)**:
   - `variant?: 'default' | 'filter'` prop 신규 도입 (기본값 `'default'`)
