@@ -21,7 +21,7 @@
       <div class="alertGuidePage__group">
         <p class="alertGuidePage__groupTitle">fire-and-forget</p>
         <p class="alertGuidePage__note">
-          가장 일반적인 사용 패턴. ok 버튼 또는 ✕ 버튼을 클릭하면 팝업이
+          가장 일반적인 사용 패턴. ok 버튼 / ESC / dim 클릭으로 팝업이
           닫힙니다.
         </p>
         <div class="alertGuidePage__row">
@@ -39,6 +39,9 @@ open({ message: '저장됐습니다.' })</code></pre>
 
       <div class="alertGuidePage__group">
         <p class="alertGuidePage__groupTitle">타이틀 포함</p>
+        <p class="alertGuidePage__note">
+          <code>title</code>을 전달하면 body 영역에 제목과 메시지가 함께 표시됩니다.
+        </p>
         <div class="alertGuidePage__row">
           <button
             type="button"
@@ -149,7 +152,7 @@ open({ message: '저장됐습니다.' })</code></pre>
             <td><code>title</code></td>
             <td><code>string</code></td>
             <td>—</td>
-            <td>헤더 타이틀. 생략 가능</td>
+            <td>body에 표시되는 제목. 생략 가능</td>
           </tr>
           <tr>
             <td><code>okLabel</code></td>

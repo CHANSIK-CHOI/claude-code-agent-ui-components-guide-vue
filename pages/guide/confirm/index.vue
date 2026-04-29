@@ -21,8 +21,9 @@
       <div class="confirmGuidePage__group">
         <p class="confirmGuidePage__note">
           <code>await open(config)</code>로 결과를 받습니다. ok →
-          <code>true</code>, cancel/ESC/dim → <code>false</code>. 아래 결과
-          영역에서 resolve 값을 확인하세요.
+          <code>true</code>, cancel/ESC/dim → <code>false</code>. body 영역에
+          <code>title</code>(선택)과 <code>message</code>가 배치됩니다. 아래
+          결과 영역에서 resolve 값을 확인하세요.
         </p>
         <div class="confirmGuidePage__row">
           <button
@@ -119,33 +120,9 @@ else { /* cancel */ }</code></pre>
       </div>
     </section>
 
-    <!-- ④ ok 비활성 -->
+    <!-- ④ Props (useConfirm config 인터페이스) -->
     <section class="confirmGuidePage__section">
-      <h2 class="confirmGuidePage__sectionTitle">④ ok 버튼 비활성</h2>
-      <div class="confirmGuidePage__group">
-        <p class="confirmGuidePage__note">
-          <code>okDisabled: true</code>로 ok 버튼을 비활성화합니다. 취소/ESC/dim
-          클릭으로 닫을 수 있습니다.
-        </p>
-        <div class="confirmGuidePage__row">
-          <button
-            type="button"
-            class="confirmGuidePage__demoBtn"
-            @click="handleDisabled"
-          >
-            okDisabled 열기
-          </button>
-        </div>
-        <pre class="confirmGuidePage__code"><code>open({
-  message: '처리 중입니다. 잠시 기다려 주세요.',
-  okDisabled: true,
-})</code></pre>
-      </div>
-    </section>
-
-    <!-- ⑤ Props (useConfirm config 인터페이스) -->
-    <section class="confirmGuidePage__section">
-      <h2 class="confirmGuidePage__sectionTitle">⑤ Props</h2>
+      <h2 class="confirmGuidePage__sectionTitle">④ Props</h2>
 
       <h3 class="confirmGuidePage__tableTitle">useConfirm config</h3>
       <table class="confirmGuidePage__propsTable">
@@ -168,7 +145,7 @@ else { /* cancel */ }</code></pre>
             <td><code>title</code></td>
             <td><code>string</code></td>
             <td>—</td>
-            <td>헤더 타이틀. 생략 가능</td>
+            <td>body에 표시되는 제목. 생략 가능</td>
           </tr>
           <tr>
             <td><code>okLabel</code></td>
@@ -181,12 +158,6 @@ else { /* cancel */ }</code></pre>
             <td><code>string</code></td>
             <td><code>'취소'</code></td>
             <td>cancel 버튼 텍스트</td>
-          </tr>
-          <tr>
-            <td><code>okDisabled</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>ok 버튼 비활성</td>
           </tr>
           <tr>
             <td><code>onOk</code></td>
@@ -293,13 +264,6 @@ async function handleCustomLabel() {
     message: "서비스 이용을 위해 동의가 필요합니다.",
     okLabel: "동의",
     cancelLabel: "거부",
-  });
-}
-
-async function handleDisabled() {
-  await open({
-    message: "처리 중입니다. 잠시 기다려 주세요.",
-    okDisabled: true,
   });
 }
 </script>

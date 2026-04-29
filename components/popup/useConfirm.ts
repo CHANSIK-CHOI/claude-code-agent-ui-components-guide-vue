@@ -5,7 +5,6 @@ export interface ConfirmConfig {
   message: string
   okLabel?: string
   cancelLabel?: string
-  okDisabled?: boolean
 }
 
 interface ConfirmCallbackConfig extends ConfirmConfig {
@@ -34,7 +33,6 @@ export function useConfirm() {
           message: config.message,
           okLabel: config.okLabel ?? '확인',
           cancelLabel: config.cancelLabel ?? '취소',
-          okDisabled: config.okDisabled ?? false,
           onOk: () => {
             unmount(id)
             config.onOk()
@@ -58,7 +56,6 @@ export function useConfirm() {
           message: config.message,
           okLabel: config.okLabel ?? '확인',
           cancelLabel: config.cancelLabel ?? '취소',
-          okDisabled: config.okDisabled ?? false,
           onOk: () => {
             unmount(id)
             resolve(true)

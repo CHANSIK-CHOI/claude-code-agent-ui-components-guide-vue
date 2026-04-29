@@ -26,9 +26,9 @@ React의 `window.confirm()`을 대체하지만, 비동기 처리가 필요한 �
 
 Popup.vue Base 구조를 사용하며 다음이 고정된다:
 
-- ③ **Header**: `title` prop. **`showClose=false` 고정** — 일반적인 confirm UX는 cancel/ok 두 버튼만 두는 패턴 (헤더 닫기 버튼 없음)
-- ④ **Body**: `message` prop 텍스트를 `DialogDescription`으로 래핑
-- ⑤ **Footer**: ok + cancel 버튼 모두 표시 (`showCancel=true` 고정)
+- ③ **Header**: **없음** — title/닫기 버튼 비표시. `DialogTitle`은 `VisuallyHidden`으로만 존재 (a11y)
+- ④ **Body**: `title` 텍스트 (굵게, 중앙 정렬, optional) + `message` 텍스트 (중앙 정렬), 섹션 간 gap: 2rem
+- ⑤ **Footer**: cancel (flex:1, `$border-disabled` 배경, 흰 텍스트) + ok (flex:1, `$color-primary`), border-top 없음, gap: 0.5rem, 버튼 height 5.4rem, border-radius 1rem
 
 ---
 
@@ -40,43 +40,45 @@ Popup.vue Base 구조를 사용하며 다음이 고정된다:
 | `message` | `string` | — (필수) | body 확인 메시지 텍스트 |
 | `okLabel` | `string` | `'확인'` | ok 버튼 텍스트 |
 | `cancelLabel` | `string` | `'취소'` | cancel 버튼 텍스트 |
-| `okDisabled` | `boolean` | `false` | ok 버튼 비활성 |
-
 **내부 고정값** (외부 노출 안 함)
 
 | prop | 고정값 |
 |------|--------|
-| `type` | `'layer'` |
-| `showClose` | **`false`** — confirm은 cancel/ok 버튼만 사용 (사용자 결정, 2026-04-28) |
+| `type` | `'confirm'` |
+| `showClose` | `false` — 헤더 자체 비표시 |
 | `showCancel` | `true` |
 | `closeOnOverlay` | `true` |
 | `closeOnEscape` | `true` |
 
 ### `message` ↔ Popup `description` 전달 구조
 
-Confirm.vue는 `message` prop을 Popup.vue의 `description` prop으로 전달하여 `DialogDescription` aria-describedby 자동 연결을 활용한다. (자세한 패턴은 Alert.md § 2-1 참조)
+Confirm.vue는 `message` prop을 body slot 안의 `confirm__message` 단락으로 직접 렌더링한다. Popup에 `:description` prop을 전달하지 않으며, `DialogDescription`은 빈 문자열로 마운트된다.
+
+> **의도적 설계**: `:description="message"`를 전달하면 `aria-describedby`(DialogDescription)와 시각적 메시지 단락이 동시에 노출되어 스크린리더가 같은 내용을 두 번 읽는다. Alert.md § 2-1의 동일한 설계 결정을 따른다.
 
 ```vue
 <!-- Confirm.vue 구현 패턴 (요약) -->
 <Popup
-  type="layer"
+  type="confirm"
   :open="true"
-  :title="title"
-  :description="message"
+  :title="title ?? '확인'"
   :ok-label="okLabel"
   :cancel-label="cancelLabel"
-  :ok-disabled="okDisabled"
   :show-close="false"
   :show-cancel="true"
   :close-on-overlay="true"
   :close-on-escape="true"
   @ok="handleOk"
-  @cancel="handleCancel"
-  @overlay-click="handleCancel"
+  @closed="handleClosed"
 >
-  <p class="confirm__message">{{ message }}</p>
+  <div class="confirm__body">
+    <p v-if="title" class="confirm__title">{{ title }}</p>
+    <p class="confirm__message">{{ message }}</p>
+  </div>
 </Popup>
 ```
+
+> `title` prop은 `Popup`에 `title ?? '확인'`으로 전달되지만, `type="confirm"`이면 Popup.vue가 헤더를 렌더링하지 않고 `VisuallyHidden DialogTitle`로만 처리한다. 시각적 title은 body slot 안의 `confirm__title`로 표시된다.
 
 ---
 
@@ -92,7 +94,6 @@ interface ConfirmConfig {
   message: string
   okLabel?: string
   cancelLabel?: string
-  okDisabled?: boolean
 }
 
 interface ConfirmCallbackConfig extends ConfirmConfig {
@@ -213,7 +214,6 @@ async function handleDelete() {
 |------|------|
 | 대기 | `useConfirm().open()` 호출 전. 팝업 없음 |
 | 표시 | `instances`에 Confirm 항목 존재. 두 버튼 모두 활성 |
-| ok-disabled 표시 | `okDisabled=true`. ok 버튼 비활성, cancel은 활성 |
 | 닫힘 | ok/cancel/ESC/dim. `instances`에서 제거. Promise resolve 또는 callback 호출 |
 
 ---
@@ -237,7 +237,7 @@ Popup.vue Base 접근성 기준을 따른다 (`DialogTitle` / `DialogDescription
 
 | 항목 | 요구사항 |
 |------|---------|
-| `DialogTitle` | `title` 없으면 `VisuallyHidden`으로 감싸 빈 노드라도 항상 마운트. 기본 텍스트("확인") 자동 주입 권장 |
+| `DialogTitle` | 항상 `VisuallyHidden`으로만 처리 (헤더 영역 자체 없음). `title` prop 값이 있으면 해당 텍스트, 없으면 기본 텍스트 `"확인"` 주입. Popup.vue의 `type="confirm"` 분기가 자동 처리. |
 | `DialogDescription` | Confirm은 `message`가 필수이므로 항상 텍스트 존재. `DialogDescription`으로 래핑하여 `aria-describedby` 자동 연결 |
 | 포커스 초기화 | open 시 cancel 버튼에 포커스 이동 권장 (취소가 더 안전한 기본 선택) — `@open-auto-focus.prevent` 후 nextTick에서 cancel ref.focus() |
 | 키보드 | Tab으로 cancel ↔ ok 순환, Enter로 포커스된 버튼 실행 |
@@ -255,7 +255,6 @@ Popup.vue Base 접근성 기준을 따른다 (`DialogTitle` / `DialogDescription
 | Promise 방식 | `const ok = await confirm.open({...}); console.log(ok)` — true/false resolve 시연 |
 | Callback 방식 | `confirm.open({ ..., onOk: () => alert('ok'), onCancel: () => alert('cancel') })` |
 | 버튼 라벨 변경 | `okLabel: '동의'`, `cancelLabel: '거부'` 변형 시연 |
-| ok 비활성 | `okDisabled: true` (정적) — 추후 동적 제어가 필요하면 별도 prop 패턴 검토 |
 | ESC/dim 닫기 | `false` resolve / `onCancel` 호출 동작 확인 |
 
 **페이지 마크업 포인트**:

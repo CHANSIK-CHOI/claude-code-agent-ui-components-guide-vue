@@ -28,10 +28,10 @@ React의 `window.alert()`을 대체하는 커스텀 구현이지만, 비동기 �
 Popup.vue Base 구조를 그대로 사용하며, 다음 사항이 고정된다:
 
 - ① **Overlay**: 항상 표시
-- ② **Container**: `type="layer"` 고정 (중앙 위치)
-- ③ **Header**: `title` prop으로 설정. `showClose=true` 고정
-- ④ **Body**: `message` prop 텍스트를 `DialogDescription`으로 래핑
-- ⑤ **Footer**: ok 버튼만 (`showCancel=false` 고정)
+- ② **Container**: `type="alert"` 고정 (중앙 위치, max-width 32.8rem)
+- ③ **Header**: **없음** — title/닫기 버튼 비표시. `DialogTitle`은 `VisuallyHidden`으로만 존재 (a11y)
+- ④ **Body**: `title` 텍스트 (굵게, 중앙 정렬, optional) + `message` 텍스트 (중앙 정렬), 섹션 간 gap: 2rem
+- ⑤ **Footer**: ok 버튼 하나, full width, border-top 없음
 
 ---
 
@@ -49,40 +49,42 @@ Popup.vue props 중 다음만 외부 노출한다.
 
 | prop | 고정값 |
 |------|--------|
-| `type` | `'layer'` |
-| `showClose` | `true` |
+| `type` | `'alert'` |
+| `showClose` | `false` — 헤더 자체 비표시, 닫기 버튼 없음 |
 | `showCancel` | `false` |
 | `closeOnOverlay` | `true` |
 | `closeOnEscape` | `true` |
 
-### `message` ↔ Popup `description` 전달 구조
+### `message` 표시 구조
 
-Alert.vue는 `message` prop을 받아 내부적으로 Popup.vue의 `description` prop으로 전달한다. Popup이 이를 `DialogDescription`으로 래핑해 `aria-describedby` 자동 연결.
+Alert.vue는 `message` prop을 body slot 안의 `alert__message` 단락으로 직접 렌더링한다. Popup에 `:description` prop을 전달하지 않으며, `DialogDescription`은 빈 문자열로 마운트된다.
+
+> **의도적 설계**: `:description="message"`를 전달하면 `aria-describedby`(DialogDescription)와 시각적 메시지 단락이 동시에 노출되어 스크린리더가 같은 내용을 두 번 읽는다. 시각적 body 안의 메시지 단락이 이미 접근성 트리에 노출되므로 `description` 전달을 생략한다.
 
 ```vue
 <!-- Alert.vue 구현 패턴 -->
 <template>
   <Popup
-    type="layer"
+    type="alert"
     :open="true"
-    :title="title"
-    :description="message"
+    :title="title ?? '안내'"
     :ok-label="okLabel"
-    :show-close="true"
+    :show-close="false"
     :show-cancel="false"
     :close-on-overlay="true"
     :close-on-escape="true"
-    @ok="handleClose"
-    @close="handleClose"
-    @cancel="handleClose"
-    @overlay-click="handleClose"
+    @ok="handleOk"
+    @closed="handleClosed"
   >
-    <p class="alert__message">{{ message }}</p>   <!-- 시각용 — DialogDescription은 Popup이 자동 처리 -->
+    <div class="alert__body">
+      <p v-if="title" class="alert__title">{{ title }}</p>
+      <p class="alert__message">{{ message }}</p>
+    </div>
   </Popup>
 </template>
 ```
 
-> Popup의 `description` prop은 a11y용 (`DialogDescription` aria-describedby) 텍스트, body slot은 시각적 표시용으로 분리. message가 짧은 텍스트라 동일 내용을 양쪽에 전달 가능.
+> `title` prop은 `Popup`에 `title ?? '안내'`로 전달되지만, `type="alert"`이면 Popup.vue가 헤더를 렌더링하지 않고 `VisuallyHidden DialogTitle`로만 처리한다. 시각적 title은 body slot 안의 `alert__title`로 표시된다.
 
 ---
 
@@ -204,7 +206,6 @@ PopupRenderer 내부는 `<template v-for>` + 컴포넌트 분기 구조. Radix V
 
 다음 모두 팝업을 닫고 `onClose` 실행:
 - ok 버튼 클릭
-- 닫기(×) 버튼 클릭
 - ESC 키
 - dim 클릭
 
@@ -220,7 +221,7 @@ PopupRenderer 내부는 `<template v-for>` + 컴포넌트 분기 구조. Radix V
 |------|------|
 | 대기 | `useAlert().open()` 호출 전. 팝업 없음 |
 | 표시 | `instances`에 Alert 항목 존재. PopupRenderer가 Alert 렌더링 |
-| 닫힘 | ok/닫기/ESC/dim 클릭. `instances`에서 제거. `onClose` 호출 |
+| 닫힘 | ok/ESC/dim 클릭. `instances`에서 제거. `onClose` 호출 |
 
 ---
 
@@ -230,7 +231,7 @@ useAlert의 `open()` 호출 시 제공하는 이벤트:
 
 | 이벤트 (콜백 prop) | 발생 시점 |
 |------------------|---------|
-| `onClose` | ok / 닫기(×) / ESC / dim 클릭 — 팝업이 닫히고 인스턴스 제거 후 호출 |
+| `onClose` | ok / ESC / dim 클릭 — 팝업이 닫히고 인스턴스 제거 후 호출 |
 
 > 별도 emit 없음. Alert.vue는 내부적으로 Popup.vue의 emit을 처리한다.
 
@@ -242,7 +243,7 @@ Popup.vue Base 접근성 기준을 그대로 따른다 (`DialogTitle` / `DialogD
 
 | 항목 | 요구사항 |
 |------|---------|
-| `DialogTitle` | `title` prop이 없으면 `VisuallyHidden`으로 감싸 빈 노드라도 항상 마운트. 기본 텍스트("안내") 자동 주입 권장 |
+| `DialogTitle` | 항상 `VisuallyHidden`으로만 처리 (헤더 영역 자체 없음). `title` prop 값이 있으면 해당 텍스트, 없으면 기본 텍스트 `"안내"` 주입. Popup.vue의 `type="alert"` 분기가 자동 처리. |
 | `DialogDescription` | Alert는 `message`가 필수이므로 항상 텍스트 존재. `DialogDescription`으로 래핑하여 `aria-describedby` 자동 연결 |
 | 포커스 초기화 | open 시 ok 버튼에 포커스 이동 권장 (`@open-auto-focus.prevent` 후 nextTick에서 ref.focus()) |
 | 색상 대비 | message 텍스트와 팝업 배경 대비 4.5:1 이상 |

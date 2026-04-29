@@ -1,13 +1,11 @@
 <template>
   <Popup
     v-bind="$attrs"
-    type="layer"
+    type="confirm"
     :open="isOpen"
-    :title="title"
-    :description="message"
+    :title="title ?? '확인'"
     :ok-label="okLabel"
     :cancel-label="cancelLabel"
-    :ok-disabled="okDisabled"
     :show-close="false"
     :show-cancel="true"
     :close-on-overlay="true"
@@ -16,7 +14,10 @@
     @ok="handleOk"
     @closed="handleClosed"
   >
-    <p class="confirm__message">{{ message }}</p>
+    <div class="confirm__body">
+      <p v-if="title" class="confirm__title">{{ title }}</p>
+      <p class="confirm__message">{{ message }}</p>
+    </div>
   </Popup>
 </template>
 
@@ -30,7 +31,6 @@ const props = defineProps<{
   message: string
   okLabel?: string
   cancelLabel?: string
-  okDisabled?: boolean
   onOk: () => void
   onCancel: () => void
 }>()
@@ -61,10 +61,25 @@ function handleClosed() {
 <style lang="scss" scoped>
 $b: 'confirm';
 
+.#{$b}__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: center;
+}
+
+.#{$b}__title {
+  font-size: $font-size-h5;
+  font-weight: $font-weight-bold;
+  color: $text-800;
+  line-height: $line-height-snug;
+}
+
 .#{$b}__message {
-  color: $text-700;
   font-size: $font-size-body3;
-  line-height: $line-height-base;
+  font-weight: $font-weight-medium;
+  color: $text-700;
+  line-height: $line-height-snug;
   white-space: pre-line;
 }
 </style>

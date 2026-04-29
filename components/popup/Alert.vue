@@ -1,12 +1,11 @@
 <template>
   <Popup
     v-bind="$attrs"
-    type="layer"
+    type="alert"
     :open="isOpen"
-    :title="title"
-    :description="message"
+    :title="title ?? '안내'"
     :ok-label="okLabel"
-    :show-close="true"
+    :show-close="false"
     :show-cancel="false"
     :close-on-overlay="true"
     :close-on-escape="true"
@@ -14,7 +13,10 @@
     @ok="handleOk"
     @closed="handleClosed"
   >
-    <p class="alert__message">{{ message }}</p>
+    <div class="alert__body">
+      <p v-if="title" class="alert__title">{{ title }}</p>
+      <p class="alert__message">{{ message }}</p>
+    </div>
   </Popup>
 </template>
 
@@ -37,12 +39,10 @@ function handleUpdateOpen(val: boolean) {
 }
 
 function handleOk() {
-  // 닫기 애니메이션 시작 — unmount는 @closed(애니메이션 종료) 이후
   isOpen.value = false
 }
 
 function handleClosed() {
-  // 닫기 애니메이션이 완전히 끝난 뒤 unmount
   props.onClose()
 }
 </script>
@@ -50,10 +50,25 @@ function handleClosed() {
 <style lang="scss" scoped>
 $b: 'alert';
 
+.#{$b}__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: center;
+}
+
+.#{$b}__title {
+  font-size: $font-size-h5;
+  font-weight: $font-weight-bold;
+  color: $text-800;
+  line-height: $line-height-snug;
+}
+
 .#{$b}__message {
-  color: $text-700;
   font-size: $font-size-body3;
-  line-height: $line-height-base;
+  font-weight: $font-weight-medium;
+  color: $text-700;
+  line-height: $line-height-snug;
   white-space: pre-line;
 }
 </style>

@@ -14,9 +14,9 @@
         @escape-key-down="handleEscapeKeyDown"
         @animationend="handleAnimationEnd"
       >
-        <!-- a11y: title 없어도 항상 마운트 (Radix Vue dev 워닝 회피) -->
-        <VisuallyHidden v-if="!title">
-          <DialogTitle />
+        <!-- a11y: alert/confirm 타입 또는 title 없으면 VisuallyHidden으로만 마운트 -->
+        <VisuallyHidden v-if="!title || type === 'alert' || type === 'confirm'">
+          <DialogTitle>{{ title ?? '' }}</DialogTitle>
         </VisuallyHidden>
 
         <!-- a11y: description 항상 마운트 -->
@@ -24,11 +24,11 @@
           <DialogDescription>{{ description ?? "" }}</DialogDescription>
         </VisuallyHidden>
 
-        <!-- Header: #header slot 또는 기본 헤더 -->
-        <template v-if="$slots.header">
+        <!-- Header: #header slot 또는 기본 헤더 (alert/confirm 타입 제외) -->
+        <template v-if="$slots.header && type !== 'alert' && type !== 'confirm'">
           <slot name="header" />
         </template>
-        <header v-else-if="title || showClose" class="popup__header">
+        <header v-else-if="(title || showClose) && type !== 'alert' && type !== 'confirm'" class="popup__header">
           <DialogTitle v-if="title" class="popup__title">{{
             title
           }}</DialogTitle>
@@ -84,7 +84,7 @@
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false });
 
-type PopupType = "layer" | "bottomSheet" | "full";
+type PopupType = "layer" | "bottomSheet" | "full" | "alert" | "confirm";
 
 const props = withDefaults(
   defineProps<{
@@ -249,6 +249,52 @@ $b: "popup";
   }
   &[data-state="closed"] {
     animation: slideOutRight $duration-slow ease-out forwards;
+  }
+}
+
+// ── type: alert / confirm ────────────────────────────────────────────
+.#{$b}--alert,
+.#{$b}--confirm {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 3.2rem);
+  max-width: 32.8rem;
+  border-radius: 2rem;
+  padding: 3rem 1rem 1rem;
+
+  &[data-state="open"] {
+    animation: fadeScaleIn $duration-base ease-out;
+  }
+  &[data-state="closed"] {
+    animation: fadeScaleOut $duration-base ease-out forwards;
+  }
+
+  .#{$b}__body {
+    flex: unset;
+    overflow-y: visible;
+    padding: 0;
+  }
+
+  .#{$b}__footer {
+    border-top: none;
+    padding: 2rem 0 0;
+    gap: 0.5rem;
+  }
+
+  .#{$b}__footerBtn {
+    height: 5.4rem;
+    border-radius: 1rem;
+  }
+
+  .#{$b}__footerBtn--cancel {
+    background-color: $border-disabled;
+    color: $text-white;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+      background-color: $border-disabled;
+    }
   }
 }
 
