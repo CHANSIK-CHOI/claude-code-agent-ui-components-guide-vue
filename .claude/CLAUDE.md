@@ -8,6 +8,17 @@
 - UI 라이브러리: Radix Vue (헤드리스), @vuepic/vue-datepicker
 - 에디터: VS Code / 패키지매니저: npm
 
+### 고정 패키지 버전 (exact pin — 실제 프로젝트와 동일)
+
+| 패키지 | 버전 | 비고 |
+|--------|------|------|
+| vue | 3.4.19 | Vue 3.5+ API(`useTemplateRef`, `useId` 등) 사용 금지 |
+| nuxt | 3.10.3 | Vite 5.x 기반 — `scss.api: 'modern-compiler'` 사용 불가 |
+| radix-vue | 1.9.17 | Stable 컴포넌트만 사용 |
+| nuxt-svgo | 4.2.6 | |
+| sass | 1.85.0 | `@use` 문법 사용 (`@import` deprecated) |
+| vite-svg-loader | 5.1.1 | |
+
 ## 응답 방식 (필수)
 
 - 결론 먼저, 이유 뒤에 (IMPORTANT)
@@ -38,6 +49,7 @@
 
 ```
 신규 컴포넌트:  /component-create  → planner(spec) → publisher(SFC) → 가이드 페이지(자동) → QA → 시니어 리뷰 → (BLOCKER 시 자동 분기 루프백 최대 2회)
+기획 수정:      /component-revise  → planner(spec diff) → publisher(변경 부분 재구현) → 가이드 페이지 업데이트 → QA → 시니어 리뷰 → (publisher만 루프백)
 기존 컴포넌트:  /component-audit   → (spec 부재 시 reverse-mode: planner가 코드 → spec 역추출) → QA → 시니어 리뷰 → (동일 루프백 정책)
 ```
 
@@ -45,8 +57,9 @@
 - spec 자체 결함 → planner 부터 재실행
 - 구현 영역 결함 → publisher 만 재실행
 - 시니어 리뷰 영역은 항상 publisher 만 (spec 영역 아님)
+- `/component-revise` 루프백은 항상 publisher 만 — spec은 1단계에서 사용자가 승인한 상태
 
-> **plan / accept mode 전환**: `.claude/settings.json` `defaultMode: "plan"` 으로 모든 세션이 plan mode로 시작한다. `/component-create` 1단계는 plan mode에서 그대로 진행하며, 2단계 이후 코드 변경 자동 진행을 위해서는 **1단계 승인 직후 사용자가 `Shift+Tab`으로 accept mode로 수동 전환**해야 한다. (Claude Code는 명령 내부에서 mode를 자동 전환할 수 없다.) `/component-audit`도 동일 — 1단계(reverse-mode 또는 검수) 승인 후 수동 전환 필요.
+> **plan / accept mode 전환**: `.claude/settings.json` `defaultMode: "plan"` 으로 모든 세션이 plan mode로 시작한다. `/component-create` 1단계는 plan mode에서 그대로 진행하며, 2단계 이후 코드 변경 자동 진행을 위해서는 **1단계 승인 직후 사용자가 `Shift+Tab`으로 accept mode로 수동 전환**해야 한다. (Claude Code는 명령 내부에서 mode를 자동 전환할 수 없다.) `/component-audit`, `/component-revise`도 동일 — 1단계 승인 후 수동 전환 필요.
 
 ## Rules 참조
 

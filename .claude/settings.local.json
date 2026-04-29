@@ -5,7 +5,9 @@
       "Bash(grep *)",
       "Bash(curl *)",
       "Bash(lsof -iTCP -sTCP:LISTEN -P)",
-      "Bash(python3 -m json.tool)"
+      "Bash(python3 -m json.tool)",
+      "WebSearch",
+      "WebFetch(domain:blog.vuejs.org)"
     ]
   },
   "enableAllProjectMcpServers": true,

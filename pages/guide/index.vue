@@ -99,7 +99,7 @@
         <span class="claudeGuide__sectionIndex">03</span>
         <h2 class="claudeGuide__sectionTitle">워크플로우</h2>
         <p class="claudeGuide__sectionDesc">
-          신규 컴포넌트는 1~6단계 전체를, 기존 컴포넌트는 검수 단계(4·5)만 단독 실행할 수 있습니다.
+          신규 컴포넌트는 1~6단계 전체를, 기존 컴포넌트는 검수 단계(4·5)만 단독 실행할 수 있습니다. 기획이 변경된 경우에는 <code>/component-revise</code>로 spec 수정부터 재실행합니다.
           1단계는 plan 모드(읽기·계획만 가능)에서 진행되며, 사용자가 명세를 승인한 직후 <code>Shift+Tab</code>으로 accept 모드(파일 쓰기 가능)로 수동 전환하면 2단계 이후가 자동 진행됩니다 — Claude Code는 명령 내부에서 mode 전환을 자동화할 수 없어 이 한 번의 수동 조작이 필요합니다.
         </p>
       </div>
@@ -350,6 +350,19 @@ const commands: Command[] = [
       '2. Vue SFC 구현 + 카테고리 index.ts barrel export 1줄 추가 (사용처에서 카테고리 단위로 import)',
       '3. 가이드 페이지 작성 (사용자 추가 확인 없이 자동 진행 — publisher 단독 호출 시에는 반대로 사용자 확인 필수)',
       '4. QA 검수 → 시니어 리뷰 (이슈 시 자동 루프백)',
+      '5. 완료 보고',
+    ],
+  },
+  {
+    name: '/component-revise [Name] [변경 내용]',
+    purpose: '기획 수정 재반영',
+    desc: '기존 컴포넌트의 기획이 변경됐을 때 사용합니다. 현재 spec과 변경 내용을 planner에게 전달해 diff 형태 수정안을 작성하고, 사용자 승인 후 publisher가 변경된 부분만 최소 수정합니다. /component-create와 달리 spec이 있어도 1단계(planner)가 반드시 실행되며, 루프백은 항상 publisher만 재실행합니다(spec은 이미 사용자가 승인한 상태).',
+    steps: [
+      '0. 사전 확인 (구현 파일 부재 시 종료 / spec 부재 시 reverse-mode)',
+      '1. spec 수정안 작성 [plan 모드] — 현재 spec + 변경 내용 → diff 출력, 승인 후 .claude/specs/[Name].md 업데이트',
+      '2. Vue SFC 재구현 — 변경된 부분만 최소 수정 (기존 코드 스타일 보존)',
+      '3. 가이드 페이지 업데이트 (변경된 Props/Slots/Events 반영)',
+      '4. QA 검수 → 시니어 리뷰 (이슈 시 publisher만 루프백)',
       '5. 완료 보고',
     ],
   },

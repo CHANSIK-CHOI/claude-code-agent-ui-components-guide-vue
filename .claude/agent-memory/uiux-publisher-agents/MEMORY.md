@@ -14,3 +14,4 @@
 - [Switch](Switch.md) — atoms 계층, Radix Vue SwitchRoot/SwitchThumb 래핑, display:contents 래퍼+:deep() 패턴, data-state/data-disabled 속성 선택자로 상태 처리
 - [SwitchGuidePage](SwitchGuidePage.md) — Switch 가이드 페이지, 6섹션, $border-default 미존재로 $line-200 대체, GuideSidebar ATOMS 그룹 추가
 - [Icon](Icon.md) — icons 전용 폴더(Atomic 외부), makeIcon 헬퍼+CartIcon 배지, inline-flex 예외, CartIcon CSS는 global.scss raw hex, 모든 export에 Icon suffix(CloseIcon 등), Tooltip/CircularNote는 ?skipsvgo(배경 버그)
+- [Popup](Popup.md) — popup/ 전용 폴더, Radix Vue DialogRoot/DialogContent 래핑, 6개 파일 전체 inheritAttrs:false+v-bind="$attrs" 위임, Alert/Confirm은 프로그래매틱(onClose/onOk/onCancel 콜백 패턴)

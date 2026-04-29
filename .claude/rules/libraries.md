@@ -56,7 +56,7 @@
 | 라이브러리 | 버전 | 용도 | 정책 |
 |----------|------|------|------|
 | `@vuepic/vue-datepicker` | ^11 | DatePicker 전반 | 유지 — Radix Vue Alpha 회피용. 모든 날짜 선택 컴포넌트는 이 라이브러리 래핑 |
-| `radix-vue` | (Stable 한정) | 헤드리스 UI | Stable 컴포넌트만 사용 |
+| `radix-vue` | 1.9.17 | 헤드리스 UI | Stable 컴포넌트만 사용 |
 
 ---
 
