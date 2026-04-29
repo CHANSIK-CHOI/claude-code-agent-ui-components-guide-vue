@@ -1,8 +1,12 @@
 import { fileURLToPath } from 'node:url'
+import { join } from 'node:path'
+
+const rootDir = fileURLToPath(new URL('./', import.meta.url))
+const scssVariablesPath = join(rootDir, 'assets/scss/abstracts/_variables.scss').replace(/\\/g, '/')
 
 export default defineNuxtConfig({
   alias: {
-    '@nd': fileURLToPath(new URL('./', import.meta.url)),
+    '@nd': rootDir,
   },
   compatibilityDate: '2024-04-03',
   telemetry: false,
@@ -47,7 +51,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "@nd/assets/scss/abstracts/_variables.scss" as *;',
+          additionalData: `@use "${scssVariablesPath}" as *;`,
         },
       },
     },
