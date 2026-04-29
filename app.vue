@@ -4,9 +4,11 @@
       <NuxtPage />
     </div>
   </NuxtLayout>
-  <PopupRenderer />
-  <ToastRenderer />
-  <div id="popup-container" />
+  <ClientOnly>
+    <PopupRenderer />
+    <ToastRenderer />
+    <div id="popup-container" />
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
