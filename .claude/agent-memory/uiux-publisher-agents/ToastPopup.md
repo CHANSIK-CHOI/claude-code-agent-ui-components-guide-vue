@@ -1,0 +1,34 @@
+# ToastPopup — 구현 메모
+
+- **파일 경로**:
+  - `components/popup/ToastPopup.vue`
+  - `components/popup/ToastRenderer.vue`
+  - `components/popup/useToastPopup.ts`
+- **계층**: organisms (popup/ 전용 폴더)
+- **구현 완료일**: 2026-04-29
+- **비표준 구현**:
+  - Radix Vue ToastRoot/ToastDescription/ToastClose/ToastProvider/ToastViewport 래핑
+  - `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` → ToastRoot 단일 위임 (Trigger 없어 2단계 분리 불필요)
+  - 모듈 레벨 싱글톤 `ref<ToastItem[]>` 패턴 (usePopupManager의 SSR용 `useState`와 달리 CSR 전용이므로 `ref` 직접 사용)
+  - `handleAnimationEnd`: `event.target !== event.currentTarget` 버블링 차단 후 `data-state=closed` 시 `closed` emit
+  - `hasIconSlot`: `useSlots().icon` computed로 슬롯 유무 감지
+  - Radix Vue는 `radix-vue/nuxt` auto-import이나 ToastRoot 등은 명시적 import로 작성 (안전성)
+  - swipe CSS 변수: `--radix-toast-swipe-move-x`, `--radix-toast-swipe-end-x` Radix 제공
+  - **[버그 수정] ToastViewport/ToastRootImpl 모두 `inheritAttrs: false`**:
+    - scoped CSS의 `data-v-xxxxx` 속성이 실제 DOM 요소에 전달되지 않아 CSS 전혀 미적용 (토스트가 화면에 안 보이는 원인)
+    - ToastPopup.vue: `<style lang="scss">` (non-scoped) 사용
+    - ToastRenderer.vue: `<style lang="scss">` (non-scoped) 사용
+  - **[버그 수정] `duration: 0` → Radix Vue 즉시 닫힘 문제** (해결 방식 전환):
+    - 최초: ToastRenderer의 `resolveDuration()` 헬퍼에서 `0` → `Infinity`로 변환
+    - 최종: ToastProvider `:duration="Infinity"` 고정 + useToastPopup에서 `setTimeout` 직접 관리로 전환
+  - **[spec 변경] hover pause 비활성화**:
+    - Radix Vue 1.9.17 기준 `ToastProvider`/`ToastRoot` 모두 `pauseOnHover` prop 없음 (타입 정의 확인)
+    - 해결: `ToastProvider :duration="Infinity"` 고정 → Radix 내장 타이머 완전 비활성화
+    - `useToastPopup.ts`에서 모듈 레벨 `timers: Map<string, ReturnType<typeof setTimeout>>`으로 직접 타이머 관리
+    - `show()` 호출 시 `duration > 0`이면 `setTimeout(() => close(id), ms)` 등록
+    - `close()` / `remove()` 호출 시 `clearTimeout` + `timers.delete` 정리
+  - **[spec 변경] success/error 단축 메서드 제거**:
+    - `useToastPopup()` return: `{ instances, show, remove, close }` (success, error 없음)
+- **개발자 핸드오프**:
+  - `useToastPopup().show()` — API 응답 후 호출
+  - `show()` return값은 toast id (필요 시 `remove(id)`로 수동 제거 가능)
