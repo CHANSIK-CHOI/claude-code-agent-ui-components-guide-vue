@@ -29,7 +29,7 @@ Popup.vue Base 구조 사용. `type="full"` 고정으로 다음 시각적 특징
 - **전체화면** (`100dvw × 100dvh`)
 - 모서리 없음 (`border-radius: 0`)
 - Overlay(dim) 있음 — 레이아웃 영역(`min(60rem, 100%)`) 기준으로 dim 적용. 클릭해도 닫히지 않음 (closeOnOverlay: false 기본)
-- 헤더 닫기(×) 버튼이 **뒤로가기** 역할
+- 헤더 닫기 버튼 — X 아이콘 (공통 닫기 버튼)
 - 슬라이드-인-라이트(open) / 슬라이드-아웃-라이트(close) 애니메이션
 
 ---
@@ -128,6 +128,9 @@ const filterPopup = useFullPopup()
 | 애니메이션 open | slideInRight — `$duration-slow` (from: translate(50%, 0) — 레이아웃 오른쪽 끝에서 시작) |
 | 애니메이션 close | slideOutRight — `$duration-slow` (to: translate(50%, 0) — 레이아웃 오른쪽 끝으로 나감) |
 | body 스크롤 | `overflow-y: auto` |
+| header padding | `1.4rem 1.6rem` |
+| footer padding | `1.4rem 1.6rem` |
+| body padding | `2rem 1.6rem 4rem 1.6rem` |
 
 > `100dvh`: 모바일 브라우저 주소창을 제외한 실제 뷰포트 높이. `100vh` 대신 `dvh` 사용.
 
@@ -143,7 +146,7 @@ const filterPopup = useFullPopup()
 
 ### 6-2. 닫기 버튼 아이콘
 
-`showClose=true`일 때 일반 × 아이콘 대신 **← 뒤로가기 아이콘** 사용을 권장한다. 전체화면 팝업이 새 화면처럼 동작하기 때문이다. FullPopup.vue가 닫기 버튼 아이콘을 교체한다.
+`showClose=true`일 때 일반 **X 아이콘(CloseIcon)** 을 사용한다. BottomSheet·LayerPopup과 동일한 닫기 버튼 아이콘을 공통 적용한다.
 
 ---
 
@@ -162,7 +165,7 @@ LayerPopup.md § 6-1과 동일한 패턴. FullPopup.vue가 `defineEmits`로 7개
 | 항목 | 요구사항 |
 |------|---------|
 | `DialogTitle` | 항상 제공 |
-| 닫기 버튼 | `aria-label="뒤로가기"` (전체화면 맥락에서 더 명확) |
+| 닫기 버튼 | `aria-label="닫기"` (공통 패턴으로 통일) |
 | 포커스 관리 | 열릴 때 본문 첫 포커스 가능 요소로 이동 |
 
 ---
@@ -185,7 +188,7 @@ LayerPopup.md § 6-1과 동일한 패턴. FullPopup.vue가 `defineEmits`로 7개
 - 모바일 너비 시뮬레이션 컨테이너 권장
 - ⑥ Props/Slots/Events 섹션 HTML `<table>`
 - `__delegationNote` / `__radixNote` 추가
-- 닫기 버튼 aria-label이 `"뒤로가기"`임을 명시
+- 닫기 버튼 aria-label이 `"닫기"`임을 명시
 
 ---
 

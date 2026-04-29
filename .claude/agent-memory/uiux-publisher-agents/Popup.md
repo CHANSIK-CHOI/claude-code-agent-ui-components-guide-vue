@@ -16,6 +16,8 @@ type: project
   - `PopupType` = "layer" | "bottomSheet" | "full" | "alert" | "confirm" (alert/confirm은 2026-04-29 추가)
   - alert/confirm 타입: 헤더 표시 안 함 — DialogTitle은 VisuallyHidden으로만 마운트
   - alert/confirm CSS: `.popup--alert, .popup--confirm` 공통 modifier. max-width 32.8rem, padding 3rem 1rem 1rem, border-radius 2rem, footer border-top 없음, 버튼 gap 0.5rem
+  - **BottomSheet CSS 업데이트 (2026-04-29)**: `.popup--bottomSheet` border-radius `$radius-lg $radius-lg 0 0` → `2rem 2rem 0 0`. padding `3rem 1.6rem 1rem`, gap `2rem` 추가. descendant 재정의: `.popup__header { padding:0; border-bottom:none }`, `.popup__title { text-align:center }`, `.popup__body { padding:0 }`, `.popup__footer { padding:0; border-top:none }`
+  - **BottomSheet.vue showClose 기본값 (2026-04-29)**: `true` → `false`로 변경
   - **Footer 버튼 교체 (2026-04-29)**: 기존 `<button>` → `<Button shape="solid" size="lg">` 컴포넌트로 교체. ok는 `color="primary"`, cancel은 `:color="cancelColor"` (기본 `'gray'`). 각 버튼을 `<span class="popup__footerBtnWrap">` + `:style="{ flex: cancelFlex/okFlex }"` 로 감쌈.
   - 신규 props: `cancelColor?: 'secondary' | 'gray'` (기본 `'gray'`), `cancelFlex?: number` (기본 `1`), `okFlex?: number` (기본 `1`)
   - 제거된 SCSS: `.popup__footerBtn` 공통 선언, `--cancel`, `--ok` modifier, type별 `.popup__footerBtn` height/border-radius 재정의 전체

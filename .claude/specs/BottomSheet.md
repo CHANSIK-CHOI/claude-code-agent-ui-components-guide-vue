@@ -27,7 +27,7 @@
 Popup.vue Base 구조 사용. `type="bottomSheet"` 고정으로 다음 시각적 특징을 가진다:
 
 - 화면 **하단 고정**, width 100%
-- 상단 모서리만 `$radius-lg` (하단은 0)
+- 상단 모서리만 `2rem 2rem 0 0` (20px, 하단은 0)
 - 최대 높이 `80vh`, body 영역 오버플로 스크롤
 - 슬라이드업(open) / 슬라이드다운(close) 애니메이션
 
@@ -42,7 +42,7 @@ LayerPopup.vue와 동일한 props 노출. (`type` 고정값만 다름)
 | `open` | `boolean` | — (필수) | v-model:open |
 | `title` | `string` | — | 헤더 타이틀 |
 | `description` | `string` | — | a11y용 설명 텍스트 (`DialogDescription`으로 자동 래핑) |
-| `showClose` | `boolean` | `true` | 닫기(×) 버튼 표시 |
+| `showClose` | `boolean` | `false` | 닫기(×) 버튼 표시 |
 | `okLabel` | `string` | `'확인'` | ok 버튼 텍스트 |
 | `cancelLabel` | `string` | `'취소'` | cancel 버튼 텍스트 |
 | `showCancel` | `boolean` | `true` | cancel 버튼 표시 |
@@ -123,10 +123,15 @@ const sheet = useBottomSheet()
 
 | 항목 | 값 |
 |------|-----|
-| 위치 | `position: fixed; bottom: 0; left: 50%; translate: -50% 0; width: min(60rem, 100%)` |
+| 위치 | `position: fixed; bottom: 0; left: 0; right: 0; width: 100%` |
 | 최대 높이 | `80vh` |
-| 상단 모서리 | `$radius-lg` |
+| 상단 모서리 | `2rem 2rem 0 0` (20px 20px 0 0) |
 | 하단 모서리 | `0` |
+| 컨테이너 padding | `3rem 1.6rem 1rem` (top 30 · left/right 16 · bottom 10) |
+| 컨테이너 gap | `2rem` (header↔body, body↔footer 모두 20px) |
+| header override | `padding: 0`, `border-bottom: none`, title `text-align: center` |
+| body override | `padding: 0` |
+| footer override | `padding: 0`, `border-top: none` |
 | body 스크롤 | `overflow-y: auto` |
 | 애니메이션 open | slideUp — `$duration-base` |
 | 애니메이션 close | slideDown — `$duration-base` |

@@ -61,6 +61,7 @@
 | `okFlex` | `number` | `1` | ok 버튼 wrapper flex 값 (cancel과의 너비 비율 조정) |
 | `closeOnOverlay` | `boolean` | `true` | dim(overlay) 클릭 시 팝업 닫기 여부 |
 | `closeOnEscape` | `boolean` | `true` | ESC 키 입력 시 팝업 닫기 여부 |
+| `showFooter` | `boolean` | `true` | footer 영역 표시 여부. `false`면 `<footer>` 태그 자체를 렌더링하지 않음. `#footer` slot·ok/cancel 버튼 모두 숨겨짐 |
 
 > `title`이 비어 있어도 `DialogTitle`은 항상 마운트되며 시각적으로만 숨긴다 (Radix Vue가 dev 워닝을 띄우기 때문). `description`도 동일.  
 > `title`이 없고 `showClose=false`이면 시각적 Header 박스(`.popup__header`)는 렌더링하지 않되, `DialogTitle`은 `VisuallyHidden`으로 트리에 포함시킨다.
@@ -109,21 +110,9 @@
 
 ### 5-2. `#footer` slot 우선순위 및 footer 렌더링 조건
 
+footer는 `showFooter` prop이 `true`(기본값)일 때만 렌더링된다. `showFooter=false`면 `#footer` slot 제공 여부와 무관하게 `<footer>` 태그 자체를 렌더링하지 않는다.
+
 `#footer` slot이 제공되면 ok/cancel 기본 버튼 전체를 대체한다. 기본 버튼과 slot을 동시에 렌더링하지 않는다.
-
-**`hasFooter` 정의** — `.popup__footer`의 `v-if` 조건:
-
-```ts
-// 구현 시 computed
-const hasFooter = computed(() =>
-  !!slots.footer        // ① #footer slot 제공 시 (slot 안이 비어있어도 노드 존재로 간주)
-  || true               // ② ok 버튼은 항상 표시 (showOk prop 제거됨)
-  // showCancel은 ②와 OR 관계가 의미 없음 (ok가 항상 true이므로) — 결과적으로 hasFooter는 항상 true
-)
-```
-
-> 실질적으로 footer는 항상 렌더링된다 (ok 버튼이 항상 표시되므로). 다만 `#footer` slot에 빈 노드를 명시적으로 전달하면 publisher가 footer 영역을 시각적으로 비울 수 있다.  
-> 만약 향후 "footer 자체 숨김"이 필요하면 `hideFooter` prop을 추가하는 방향으로 확장한다 (현재 명세에는 없음).
 
 ### 5-3. Header 렌더링 조건
 
@@ -239,7 +228,7 @@ DialogRoot (v-model:open, @update:open)
       │   └─ DialogDescription                               ← description prop 텍스트 또는 빈 노드
       │
       ├─ .popup__body                                         — default slot
-      └─ .popup__footer (v-if="hasFooter")                    — #footer slot 또는 기본 버튼 영역
+      └─ .popup__footer (v-if="showFooter")                   — #footer slot 또는 기본 버튼 영역
             • cancel wrapper: <span class="popup__footerBtnWrap" :style="{ flex: cancelFlex }"> (v-if="showCancel")
                 └─ Button shape="solid" :color="cancelColor" size="lg" @click="handleCancel"
             • ok wrapper: <span class="popup__footerBtnWrap" :style="{ flex: okFlex }">
