@@ -102,53 +102,6 @@ $b: "layerPopupGuidePage";
   }
 }
 
-.#{$b}__footerBtn {
-  flex: 1;
-  height: 4.4rem;
-  border: none;
-  border-radius: $radius-md;
-  font-size: $font-size-body3;
-  font-weight: $font-weight-bold;
-  cursor: pointer;
-}
-
-.#{$b}__footerBtn--cancel {
-  background-color: $bg-secondary;
-  color: $text-700;
-}
-
-.#{$b}__footerBtn--ok {
-  background-color: $color-primary;
-  color: $text-white;
-}
-
-.#{$b}__customHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-md;
-  border-bottom: 1px solid $line-300;
-}
-
-.#{$b}__customHeaderTitle {
-  font-size: $font-size-body2;
-  font-weight: $font-weight-bold;
-  color: $text-900;
-}
-
-.#{$b}__customClose {
-  width: 2.4rem;
-  height: 2.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  color: $text-700;
-  cursor: pointer;
-  font-size: 1.6rem;
-}
-
 .#{$b}__tableTitle {
   font-size: $font-size-body2;
   font-weight: $font-weight-bold;

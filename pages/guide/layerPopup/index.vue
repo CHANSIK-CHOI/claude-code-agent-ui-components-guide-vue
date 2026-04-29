@@ -18,25 +18,21 @@
       <h2 class="layerPopupGuidePage__sectionTitle">① 기본 LayerPopup</h2>
       <div class="layerPopupGuidePage__group">
         <p class="layerPopupGuidePage__note">
-          <code>useLayerPopup()</code> 훅 + <code>v-model:open</code> 패턴. ok
-          버튼은 부모가 직접 닫습니다.
+          별도 컴포넌트로 래핑한 뒤 부모에서 <code>ref</code>를 통해
+          <code>.open()</code> / <code>.close()</code> 메서드로 제어합니다.
+          닫기(✕) 버튼은 콘텐츠 우상단에
+          <code>position: absolute</code>로 배치됩니다.
         </p>
         <div class="layerPopupGuidePage__row">
           <button
             type="button"
             class="layerPopupGuidePage__demoBtn"
-            @click="basic.open()"
+            @click="basicRef?.open()"
           >
             기본 LayerPopup 열기
           </button>
         </div>
-        <LayerPopup
-          v-model:open="basic.isOpen.value"
-          title="배송지 변경"
-          @ok="basic.close()"
-        >
-          <p>팝업 바디 영역입니다. 기본 ok/cancel 버튼이 푸터에 표시됩니다.</p>
-        </LayerPopup>
+        <LayerPopupDemoBasic ref="basicRef" />
       </div>
     </section>
 
@@ -52,30 +48,12 @@
           <button
             type="button"
             class="layerPopupGuidePage__demoBtn"
-            @click="customFooter.open()"
+            @click="footerRef?.open()"
           >
             #footer 커스텀 열기
           </button>
         </div>
-        <LayerPopup v-model:open="customFooter.isOpen.value" title="저장 확인">
-          <p>커스텀 푸터를 사용합니다.</p>
-          <template #footer>
-            <button
-              type="button"
-              class="layerPopupGuidePage__footerBtn layerPopupGuidePage__footerBtn--cancel"
-              @click="customFooter.close()"
-            >
-              취소
-            </button>
-            <button
-              type="button"
-              class="layerPopupGuidePage__footerBtn layerPopupGuidePage__footerBtn--ok"
-              @click="handleSave"
-            >
-              저장
-            </button>
-          </template>
-        </LayerPopup>
+        <LayerPopupDemoFooter ref="footerRef" />
       </div>
     </section>
 
@@ -92,32 +70,12 @@
           <button
             type="button"
             class="layerPopupGuidePage__demoBtn"
-            @click="customHeader.open()"
+            @click="headerRef?.open()"
           >
             #header 커스텀 열기
           </button>
         </div>
-        <LayerPopup
-          v-model:open="customHeader.isOpen.value"
-          @ok="customHeader.close()"
-        >
-          <template #header>
-            <div class="layerPopupGuidePage__customHeader">
-              <span class="layerPopupGuidePage__customHeaderTitle"
-                >커스텀 헤더</span
-              >
-              <button
-                type="button"
-                class="layerPopupGuidePage__customClose"
-                aria-label="닫기"
-                @click="customHeader.close()"
-              >
-                ✕
-              </button>
-            </div>
-          </template>
-          <p>헤더를 완전히 교체했습니다.</p>
-        </LayerPopup>
+        <LayerPopupDemoHeader ref="headerRef" />
       </div>
     </section>
 
@@ -129,19 +87,12 @@
           <button
             type="button"
             class="layerPopupGuidePage__demoBtn"
-            @click="noCancel.open()"
+            @click="noCancelRef?.open()"
           >
             ok 버튼만 열기
           </button>
         </div>
-        <LayerPopup
-          v-model:open="noCancel.isOpen.value"
-          title="안내"
-          :show-cancel="false"
-          @ok="noCancel.close()"
-        >
-          <p>취소 버튼 없이 ok 버튼만 표시됩니다.</p>
-        </LayerPopup>
+        <LayerPopupDemoNoCancel ref="noCancelRef" />
       </div>
     </section>
 
@@ -157,19 +108,12 @@
           <button
             type="button"
             class="layerPopupGuidePage__demoBtn"
-            @click="noOverlay.open()"
+            @click="noOverlayRef?.open()"
           >
             강제 응답 팝업 열기
           </button>
         </div>
-        <LayerPopup
-          v-model:open="noOverlay.isOpen.value"
-          title="필수 응답"
-          :close-on-overlay="false"
-          @ok="noOverlay.close()"
-        >
-          <p>dim을 클릭해도 닫히지 않습니다. 버튼으로만 닫을 수 있습니다.</p>
-        </LayerPopup>
+        <LayerPopupDemoNoOverlay ref="noOverlayRef" />
       </div>
     </section>
 
@@ -212,7 +156,7 @@
             <td><code>showClose</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
-            <td>헤더 닫기(✕) 버튼 표시</td>
+            <td>닫기(✕) 버튼 표시. layer 타입에서는 콘텐츠 우상단에 absolute 배치</td>
           </tr>
           <tr>
             <td><code>okLabel</code></td>
@@ -236,7 +180,25 @@
             <td><code>okDisabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>ok 버튼 비활성</td>
+            <td>ok 버튼 비활성. Button 컴포넌트의 <code>disabled</code> prop으로 위임</td>
+          </tr>
+          <tr>
+            <td><code>cancelColor</code></td>
+            <td><code>'secondary' | 'gray'</code></td>
+            <td><code>'gray'</code></td>
+            <td>cancel 버튼 Button color prop</td>
+          </tr>
+          <tr>
+            <td><code>cancelFlex</code></td>
+            <td><code>number</code></td>
+            <td><code>1</code></td>
+            <td>cancel 버튼 wrapper flex 값 (ok와의 너비 비율 조정)</td>
+          </tr>
+          <tr>
+            <td><code>okFlex</code></td>
+            <td><code>number</code></td>
+            <td><code>1</code></td>
+            <td>ok 버튼 wrapper flex 값 (cancel과의 너비 비율 조정)</td>
           </tr>
           <tr>
             <td><code>closeOnOverlay</code></td>
@@ -331,8 +293,9 @@
 
       <p class="layerPopupGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: LayerPopup은
-        <code>Popup</code> Base를 내부에서 사용합니다. 추가 props가 필요한 경우
-        LayerPopup의 props에 명시적으로 전달합니다.<br />
+        <code>Popup</code> Base를 내부에서 사용합니다. <code>v-bind="$attrs"</code>가
+        <code>DialogContent</code>에 위임되어 <code>aria-label</code>, <code>data-*</code> 등
+        네이티브 HTML 속성을 그대로 전달할 수 있습니다.<br />
         React의 <code>{...rest}</code> props spreading과 동일한 동작입니다.
       </p>
 
@@ -354,17 +317,21 @@
 
 <script setup lang="ts">
 definePageMeta({ layout: "guide" });
-import { LayerPopup, useLayerPopup } from "@nd/components/popup";
+import {
+  LayerPopupDemoBasic,
+  LayerPopupDemoFooter,
+  LayerPopupDemoHeader,
+  LayerPopupDemoNoCancel,
+  LayerPopupDemoNoOverlay,
+} from "@nd/components/guide";
 
-const basic = useLayerPopup();
-const customFooter = useLayerPopup();
-const customHeader = useLayerPopup();
-const noCancel = useLayerPopup();
-const noOverlay = useLayerPopup();
+type PopupRef = { open: () => void; close: () => void };
 
-function handleSave() {
-  customFooter.close();
-}
+const basicRef = ref<PopupRef>();
+const footerRef = ref<PopupRef>();
+const headerRef = ref<PopupRef>();
+const noCancelRef = ref<PopupRef>();
+const noOverlayRef = ref<PopupRef>();
 </script>
 
 <style lang="scss" scoped src="./layerPopup.scss"></style>
