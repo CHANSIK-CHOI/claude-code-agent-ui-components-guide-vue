@@ -85,8 +85,8 @@ const tabs = [
 const tabs = [
   { value: 'all',       label: '전체' },
   { value: 'promo',     label: '프로모션' },
-  { value: 'premium',   label: '드시모네 프리미엄' },
-  { value: 'basic',     label: '드시모네 베이직' },
+  { value: 'premium',   label: '프리미엄' },
+  { value: 'basic',     label: '베이직' },
 ]</code></pre>
           </div>
         </div>
@@ -424,8 +424,8 @@ const detailTabs: TabItem[] = [
 const categoryTabs: TabItem[] = [
   { value: "all", label: "전체" },
   { value: "promo", label: "프로모션" },
-  { value: "premium", label: "드시모네 프리미엄" },
-  { value: "basic", label: "드시모네 베이직" },
+  { value: "premium", label: "프리미엄" },
+  { value: "basic", label: "베이직" },
 ];
 
 // [연동] 개발자가 API 응답으로 교체

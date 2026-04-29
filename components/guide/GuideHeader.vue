@@ -1,6 +1,6 @@
 <template>
   <header class="guideHeader" v-bind="$attrs">
-    <h1 class="guideHeader__title">드시모네몰 퍼블리싱 가이드</h1>
+    <h1 class="guideHeader__title">UI 컴포넌트 가이드</h1>
   </header>
 </template>
 

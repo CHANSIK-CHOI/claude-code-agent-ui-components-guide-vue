@@ -1,7 +1,7 @@
 <template>
   <LayerPopup
     v-model:open="popup.isOpen.value"
-    title="드시모네몰 혜택 알림 받고 추가 10% 혜택을 받아가세요!"
+    title="혜택 알림 받고 추가 10% 할인 혜택을 받아가세요!"
     cancel-label="혜택없이 구매하기"
     cancel-color="secondary"
     ok-label="동의하고 혜택받기"

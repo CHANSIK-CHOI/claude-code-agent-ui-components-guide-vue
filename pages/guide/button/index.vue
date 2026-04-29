@@ -139,14 +139,14 @@
             <template #leading-icon>
               <UserIcon />
             </template>
-            나만의 드시모네
+            나만의 쇼핑
             <template #trailing-icon>
               <SmallChevronDownIcon />
             </template>
           </Button>
           <pre class="buttonGuidePage__code"><code>&lt;Button color="black"&gt;
   &lt;template #leading-icon&gt;&lt;UserIcon /&gt;&lt;/template&gt;
-  나만의 드시모네
+  나만의 쇼핑
   &lt;template #trailing-icon&gt;&lt;SmallChevronDownIcon /&gt;&lt;/template&gt;
 &lt;/Button&gt;</code></pre>
         </div>
