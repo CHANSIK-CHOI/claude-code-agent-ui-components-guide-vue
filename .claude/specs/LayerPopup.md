@@ -30,6 +30,20 @@ Popup.vue Base 구조를 그대로 사용. 모든 영역이 slot으로 커스터
 - ④ **Body**: `default` slot — 임의 콘텐츠 삽입
 - ⑤ **Footer**: `#footer` slot 권장. 없으면 Popup.vue 기본 ok/cancel 버튼
 
+### 2-2. layer 타입 디자인 사양 (Figma 기준)
+
+| 영역 | 스타일 |
+|------|--------|
+| Content | `border-radius: 20px`, `padding: 30px 10px 10px 10px`, flex-col, `gap: 10px`, `position: relative` |
+| Close 버튼 | `position: absolute`, `top: 10px`, `right: 10px`, `size: 24px`; 아이콘: `<CloseIcon />` 사용 |
+| Header | border-bottom 없음, `padding: 0 6px` (컨테이너 10px + 헤더 6px = 16px 들여쓰기) |
+| Body | `padding: 0` (컨테이너 padding이 좌우 처리) |
+| Footer | border-top 없음, `padding: 0`, `gap: 5px`, 버튼 높이 `54px`, `border-radius: 10px` |
+
+> **Close 버튼 위치**: layer 타입의 close 버튼은 header 내부 flex item이 아닌, DialogContent 안에 `position: absolute`로 별도 배치한다. 이를 위해 Popup.vue에서 `type === 'layer'`일 때 header와 분리된 absolute 버튼을 렌더링한다.
+>
+> **type별 스타일 분기**: Popup.vue의 `.popup--layer` modifier selector에서 header·body·footer를 오버라이드한다.
+
 ---
 
 ## 2-1. Props 목록

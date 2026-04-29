@@ -39,7 +39,7 @@
 - ② **Container** — `DialogContent`. 팝업 본체. type에 따라 위치/크기/애니메이션 결정
 - ③ **Header** — `title` prop 또는 `#header` slot. `title`이 없고 `showClose=false`면 미렌더링
 - ④ **Body** — `default slot`. 내부 콘텐츠를 스크롤 가능하게 래핑
-- ⑤ **Footer** — `#footer` slot 제공 시 slot 사용. 없으면 ok/cancel 기본 버튼 렌더링. 버튼이 모두 숨겨지거나 slot이 비어 있으면 미렌더링
+- ⑤ **Footer** — `#footer` slot 제공 시 slot 사용. 없으면 `Button` 컴포넌트(size="lg")로 ok/cancel 버튼 렌더링. ok는 항상 `shape="solid" color="primary"`, cancel은 `shape="solid" :color="cancelColor"`. 버튼이 모두 숨겨지거나 slot이 비어 있으면 미렌더링
 
 ---
 
@@ -55,7 +55,10 @@
 | `okLabel` | `string` | `'확인'` | ok 버튼 텍스트 |
 | `cancelLabel` | `string` | `'취소'` | cancel 버튼 텍스트 |
 | `showCancel` | `boolean` | `true` | cancel 버튼 표시 여부 |
-| `okDisabled` | `boolean` | `false` | ok 버튼 비활성 |
+| `okDisabled` | `boolean` | `false` | ok 버튼 비활성. `Button` 컴포넌트의 `disabled` prop으로 위임 |
+| `cancelColor` | `'secondary' \| 'gray'` | `'gray'` | cancel 버튼 Button color prop |
+| `cancelFlex` | `number` | `1` | cancel 버튼 wrapper flex 값 (ok와의 너비 비율 조정) |
+| `okFlex` | `number` | `1` | ok 버튼 wrapper flex 값 (cancel과의 너비 비율 조정) |
 | `closeOnOverlay` | `boolean` | `true` | dim(overlay) 클릭 시 팝업 닫기 여부 |
 | `closeOnEscape` | `boolean` | `true` | ESC 키 입력 시 팝업 닫기 여부 |
 
@@ -236,7 +239,11 @@ DialogRoot (v-model:open, @update:open)
       │   └─ DialogDescription                               ← description prop 텍스트 또는 빈 노드
       │
       ├─ .popup__body                                         — default slot
-      └─ .popup__footer (v-if="hasFooter")                    — #footer slot 또는 기본 ok/cancel 버튼
+      └─ .popup__footer (v-if="hasFooter")                    — #footer slot 또는 기본 버튼 영역
+            • cancel wrapper: <span class="popup__footerBtnWrap" :style="{ flex: cancelFlex }"> (v-if="showCancel")
+                └─ Button shape="solid" :color="cancelColor" size="lg" @click="handleCancel"
+            • ok wrapper: <span class="popup__footerBtnWrap" :style="{ flex: okFlex }">
+                └─ Button shape="solid" color="primary" size="lg" :disabled="okDisabled" @click="handleOk"
 ```
 
 > **DialogTitle/DialogDescription 정책**: Radix Vue Dialog는 둘 다 없으면 dev 콘솔에 워닝을 띄운다. `title`/`description` prop 텍스트가 없어도 `VisuallyHidden`으로 감싸 항상 트리에 마운트한다. `radix-vue`에서 `VisuallyHidden` 컴포넌트가 제공된다 — 별도 sr-only 유틸리티를 만들 필요 없음.
@@ -262,6 +269,23 @@ DialogRoot (v-model:open, @update:open)
 | body 최대 높이 | `calc(80vh - 헤더높이 - 푸터높이)` |
 | 열림/닫힘 — layer/bottomSheet | `$duration-base` |
 | 열림/닫힘 — full | `$duration-slow` |
+
+> **Footer 버튼 색상/크기 토큰은 `Button` 컴포넌트가 담당한다.**  
+> ok 버튼: `color="primary"` / cancel 버튼: `:color="cancelColor"` (기본 `'gray'`) / 공통: `size="lg"`, `shape="solid"`
+
+### 9-1. SCSS 제거 대상 (Button 컴포넌트 교체로 불필요)
+
+| 제거 대상 선택자 | 이유 |
+|----------------|------|
+| `.popup__footerBtn` (공통) | Button 컴포넌트가 height, border-radius, font, cursor, border, transition 담당 |
+| `.popup__footerBtn--cancel` | Button `color` prop 스타일로 대체 |
+| `.popup__footerBtn--ok` | Button `color="primary"` + `disabled` 처리로 대체 |
+| `.popup--layer .popup__footerBtn` | Button이 height/border-radius 담당, type별 재정의 불필요 |
+| `.popup--alert .popup__footerBtn`, `.popup--confirm .popup__footerBtn` | 동일 이유 |
+| `.popup--alert .popup__footerBtn--cancel`, `.popup--confirm .popup__footerBtn--cancel` | Button color prop으로 대체 |
+
+**유지되는 SCSS**: `.popup__footer` 레이아웃 (display:flex, gap, padding, border-top), type별 footer gap/padding 재정의  
+**신규 추가 SCSS**: `.popup__footerBtnWrap { flex: 1; }` (기본값. `:style="{ flex: n }"` 인라인으로 override)
 
 ### 애니메이션 매커니즘 (Radix Vue Presence)
 

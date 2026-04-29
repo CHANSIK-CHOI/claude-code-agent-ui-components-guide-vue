@@ -1,0 +1,23 @@
+# LayerPopup — QA 검수 메모
+
+- **검수일**: 2026-04-29
+- **검수 결과**: PASS
+- **루프 횟수**: 2회 (1회: dev server 미기동으로 Playwright 스킵 / 2회: Playwright 완료)
+- **발견한 BLOCKER 요약**: 없음
+- **발견한 WARN 요약**:
+  - 가이드 페이지 커스텀 close 버튼(`.layerPopupGuidePage__customClose`)에 `:focus-visible` 포커스 스타일 누락 (이전 정적 분석 결과)
+  - `radixNote` `border-left` 토큰이 `$line-200`으로 `rules/guide-page.md` 권장(`$border-default`)과 미세 차이 (이전 정적 분석 결과)
+- **Playwright 검증 결과 (2026-04-29 완료)**:
+  - 콘솔 에러: 전부 Vite HMR WebSocket(포트 24678) — 앱 기능 에러 없음
+  - 팝업 중앙 배치: isCentered = true (centerX/vpCenterX = 624.5 완전 일치)
+  - border-radius: 20px (2rem) 정확히 일치
+  - padding-top: DialogContent 자체 30px (3rem) 정확히 일치
+  - Close 버튼: position:absolute, top 10px / right 10px, SVG 렌더링 확인
+  - footer 버튼 높이: 취소/확인 모두 54px 정확히 일치
+  - Close 버튼 클릭 닫기: 정상
+  - ESC 키 닫기: 정상
+  - dim 클릭 닫기: 정상 (Playwright aria-hidden 우회 필요 — dispatchEvent로 검증)
+- **재발 방지 메모**:
+  - Playwright에서 Radix Vue overlay(`aria-hidden="true"`)를 직접 클릭 불가 — `dispatchEvent(PointerEvent)` 우회로 검증
+  - Popup.vue의 `.popup--layer .popup__header` scoped descendant 선택자는 동일 SFC 내부 요소이므로 정상 동작
+  - `#header` slot 사용 시 absolute close 버튼이 숨겨지므로 slot 사용자가 닫기 버튼 직접 구현 필요 (spec 명시됨)

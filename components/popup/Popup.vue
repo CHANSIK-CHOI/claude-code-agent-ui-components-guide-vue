@@ -15,6 +15,7 @@
         @animationend="handleAnimationEnd"
       >
         <!-- a11y: alert/confirm 타입 또는 title 없으면 VisuallyHidden으로만 마운트 -->
+        <!-- layer/bottomSheet/full + title 있으면 header 안의 DialogTitle이 직접 렌더하므로 VisuallyHidden 불필요 -->
         <VisuallyHidden v-if="!title || type === 'alert' || type === 'confirm'">
           <DialogTitle>{{ title ?? '' }}</DialogTitle>
         </VisuallyHidden>
@@ -24,14 +25,26 @@
           <DialogDescription>{{ description ?? "" }}</DialogDescription>
         </VisuallyHidden>
 
-        <!-- Header: #header slot 또는 기본 헤더 (alert/confirm 타입 제외) -->
-        <template v-if="$slots.header && type !== 'alert' && type !== 'confirm'">
+        <!-- layer 타입 전용: absolute close 버튼 (header 바깥 배치) -->
+        <DialogClose v-if="showLayerAbsoluteClose" as-child>
+          <button
+            type="button"
+            class="popup__closeBtn popup__closeBtn--absolute"
+            aria-label="닫기"
+            @click="handleCloseBtn"
+          >
+            <CloseIcon aria-hidden="true" />
+          </button>
+        </DialogClose>
+
+        <!-- 커스텀 header slot (alert/confirm 제외) -->
+        <template v-if="hasCustomHeader && type !== 'alert' && type !== 'confirm'">
           <slot name="header" />
         </template>
-        <header v-else-if="(title || showClose) && type !== 'alert' && type !== 'confirm'" class="popup__header">
-          <DialogTitle v-if="title" class="popup__title">{{
-            title
-          }}</DialogTitle>
+
+        <!-- 비-layer 기본 헤더 (bottomSheet, full 타입용) — 독립 v-if -->
+        <header v-if="showDefaultHeader" class="popup__header">
+          <DialogTitle v-if="title" class="popup__title">{{ title }}</DialogTitle>
           <DialogClose v-if="showClose" as-child>
             <button
               type="button"
@@ -47,6 +60,11 @@
           </DialogClose>
         </header>
 
+        <!-- layer 전용 타이틀 헤더 — 독립 v-if -->
+        <header v-if="showLayerTitleHeader" class="popup__header">
+          <DialogTitle class="popup__title">{{ title }}</DialogTitle>
+        </header>
+
         <!-- Body -->
         <div class="popup__body">
           <slot />
@@ -58,22 +76,30 @@
             <slot name="footer" />
           </template>
           <template v-else>
-            <button
+            <span
               v-if="showCancel"
-              type="button"
-              class="popup__footerBtn popup__footerBtn--cancel"
-              @click="handleCancel"
+              class="popup__footerBtnWrap"
+              :style="{ flex: cancelFlex }"
             >
-              {{ cancelLabel }}
-            </button>
-            <button
-              type="button"
-              class="popup__footerBtn popup__footerBtn--ok"
-              :disabled="okDisabled"
-              @click="handleOk"
+              <Button
+                shape="solid"
+                :color="cancelColor"
+                size="lg"
+                @click="handleCancel"
+              >{{ cancelLabel }}</Button>
+            </span>
+            <span
+              class="popup__footerBtnWrap"
+              :style="{ flex: okFlex }"
             >
-              {{ okLabel }}
-            </button>
+              <Button
+                shape="solid"
+                color="primary"
+                size="lg"
+                :disabled="okDisabled"
+                @click="handleOk"
+              >{{ okLabel }}</Button>
+            </span>
           </template>
         </footer>
       </DialogContent>
@@ -83,6 +109,9 @@
 
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false });
+
+import type { ButtonColor } from '@nd/components/types';
+import { CloseIcon } from '@nd/components/icons';
 
 type PopupType = "layer" | "bottomSheet" | "full" | "alert" | "confirm";
 
@@ -97,6 +126,9 @@ const props = withDefaults(
     cancelLabel?: string;
     showCancel?: boolean;
     okDisabled?: boolean;
+    cancelColor?: Extract<ButtonColor, 'secondary' | 'gray'>;
+    cancelFlex?: number;
+    okFlex?: number;
     closeOnOverlay?: boolean;
     closeOnEscape?: boolean;
   }>(),
@@ -107,9 +139,37 @@ const props = withDefaults(
     cancelLabel: "취소",
     showCancel: true,
     okDisabled: false,
+    cancelColor: 'gray',
+    cancelFlex: 1,
+    okFlex: 1,
     closeOnOverlay: true,
     closeOnEscape: true,
   },
+);
+
+const slots = useSlots();
+
+// 커스텀 header slot 사용 여부
+const hasCustomHeader = computed(() => !!slots.header);
+
+// layer 타입: absolute close 버튼 표시 여부
+const showLayerAbsoluteClose = computed(
+  () => props.type === 'layer' && props.showClose && !hasCustomHeader.value,
+);
+
+// 비-layer 기본 헤더 표시 여부 (bottomSheet, full 타입용) — 독립 v-if
+const showDefaultHeader = computed(
+  () =>
+    !hasCustomHeader.value &&
+    (!!props.title || props.showClose) &&
+    props.type !== 'alert' &&
+    props.type !== 'confirm' &&
+    props.type !== 'layer',
+);
+
+// layer 전용 타이틀 헤더 표시 여부
+const showLayerTitleHeader = computed(
+  () => !hasCustomHeader.value && !!props.title && props.type === 'layer',
 );
 
 const emit = defineEmits<{
@@ -208,13 +268,30 @@ $b: "popup";
   width: calc(100% - 3.2rem);
   max-width: 48rem;
   max-height: calc(100dvh - 6.4rem);
-  border-radius: $radius-lg;
+  border-radius: 2rem;
+  padding: 3rem 1rem 1rem 1rem;
+  gap: 1rem;
 
   &[data-state="open"] {
     animation: fadeScaleIn $duration-base ease-out;
   }
   &[data-state="closed"] {
     animation: fadeScaleOut $duration-base ease-out forwards;
+  }
+
+  .#{$b}__header {
+    border-bottom: none;
+    padding: 0 0.6rem;
+  }
+
+  .#{$b}__body {
+    padding: 0;
+  }
+
+  .#{$b}__footer {
+    border-top: none;
+    padding: 0;
+    gap: 0.5rem;
   }
 }
 
@@ -281,21 +358,6 @@ $b: "popup";
     padding: 2rem 0 0;
     gap: 0.5rem;
   }
-
-  .#{$b}__footerBtn {
-    height: 5.4rem;
-    border-radius: 1rem;
-  }
-
-  .#{$b}__footerBtn--cancel {
-    background-color: $border-disabled;
-    color: $text-white;
-
-    &:hover:not(:disabled) {
-      opacity: 0.9;
-      background-color: $border-disabled;
-    }
-  }
 }
 
 // ── Header ───────────────────────────────────────────────────────────
@@ -341,6 +403,12 @@ $b: "popup";
   line-height: 1;
 }
 
+.#{$b}__closeBtn--absolute {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
 // ── Body ─────────────────────────────────────────────────────────────
 .#{$b}__body {
   flex: 1;
@@ -360,45 +428,8 @@ $b: "popup";
   flex-shrink: 0;
 }
 
-.#{$b}__footerBtn {
+.#{$b}__footerBtnWrap {
   flex: 1;
-  height: 4.8rem;
-  border-radius: $radius-md;
-  font-size: $font-size-body2;
-  font-weight: $font-weight-bold;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  transition: background-color $duration-fast ease;
-
-  &:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px $color-primary;
-  }
-}
-
-.#{$b}__footerBtn--cancel {
-  background-color: $bg-secondary;
-  color: $text-700;
-
-  &:hover:not(:disabled) {
-    background-color: $bg-tertiary;
-  }
-}
-
-.#{$b}__footerBtn--ok {
-  background-color: $color-primary;
-  color: $text-white;
-
-  &:hover:not(:disabled) {
-    background-color: $color-primary-hover;
-  }
-
-  &:disabled {
-    background-color: $bg-disabled;
-    color: $text-300;
-    cursor: not-allowed;
-  }
 }
 
 // ── Keyframes ────────────────────────────────────────────────────────

@@ -15,10 +15,11 @@ type: project
   - Confirm은 `isOkClicked ref(false)` 패턴으로 ok/cancel 구분 후 `@closed` 애니메이션 종료 시점에 콜백 실행
   - `PopupType` = "layer" | "bottomSheet" | "full" | "alert" | "confirm" (alert/confirm은 2026-04-29 추가)
   - alert/confirm 타입: 헤더 표시 안 함 — DialogTitle은 VisuallyHidden으로만 마운트
-  - alert/confirm CSS: `.popup--alert, .popup--confirm` 공통 modifier. max-width 32.8rem, padding 3rem 1rem 1rem, border-radius 2rem, footer border-top 없음, 버튼 height 5.4rem, 버튼 gap 0.5rem
-  - cancel 버튼: alert/confirm 타입에서 `$border-disabled` (#BECCD2) 배경, ok 버튼은 기본 `$color-primary` 유지
-  - Alert/Confirm body: `div.alert__body / div.confirm__body` 래퍼 안에 title(optional) + message 배치, `text-align: center`
-  - `okDisabled` prop 제거 (2026-04-29): Confirm.vue 및 useConfirm.ts에서 완전 제거
+  - alert/confirm CSS: `.popup--alert, .popup--confirm` 공통 modifier. max-width 32.8rem, padding 3rem 1rem 1rem, border-radius 2rem, footer border-top 없음, 버튼 gap 0.5rem
+  - **Footer 버튼 교체 (2026-04-29)**: 기존 `<button>` → `<Button shape="solid" size="lg">` 컴포넌트로 교체. ok는 `color="primary"`, cancel은 `:color="cancelColor"` (기본 `'gray'`). 각 버튼을 `<span class="popup__footerBtnWrap">` + `:style="{ flex: cancelFlex/okFlex }"` 로 감쌈.
+  - 신규 props: `cancelColor?: 'secondary' | 'gray'` (기본 `'gray'`), `cancelFlex?: number` (기본 `1`), `okFlex?: number` (기본 `1`)
+  - 제거된 SCSS: `.popup__footerBtn` 공통 선언, `--cancel`, `--ok` modifier, type별 `.popup__footerBtn` height/border-radius 재정의 전체
+  - 신규 SCSS: `.popup__footerBtnWrap { flex: 1; }` — 인라인 :style로 override
 - **attrs 위임 구조**:
   - Popup.vue(Base): `<DialogContent v-bind="$attrs">` — Radix Vue가 실제 `role="dialog"` DOM을 렌더링하는 핵심 요소
   - LayerPopup/BottomSheet/FullPopup: `<Popup v-bind="$attrs">` — Wrapper → Base 이중 위임
