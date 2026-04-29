@@ -29,17 +29,12 @@
 
     <SelectPortal>
       <SelectContent
-        :class="[
-          'select__content',
-          { 'select__content--filter': isFilter },
-        ]"
+        :class="['select__content', { 'select__content--filter': isFilter }]"
         position="popper"
         :side-offset="4"
         :body-lock="false"
       >
-        <SelectScrollUpButton
-          class="select__scrollBtn select__scrollBtn--up"
-        >
+        <SelectScrollUpButton class="select__scrollBtn select__scrollBtn--up">
           <SmallChevronUpIcon />
         </SelectScrollUpButton>
 
@@ -47,10 +42,7 @@
           <SelectItem
             v-for="option in options"
             :key="option.value"
-            :class="[
-              'select__item',
-              { 'select__item--filter': isFilter },
-            ]"
+            :class="['select__item', { 'select__item--filter': isFilter }]"
             :value="option.value"
             :disabled="option.disabled"
           >
@@ -71,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { SmallChevronUpIcon, SmallChevronDownIcon } from '@nd/components/icons'
+import { SmallChevronUpIcon, SmallChevronDownIcon } from "@nd/components/icons";
 
 defineOptions({ inheritAttrs: false });
 
@@ -145,7 +137,7 @@ const proxyValue = computed({
   set: (val: string) => emit("update:modelValue", val),
 });
 
-const isFilter = computed(() => props.variant === 'filter');
+const isFilter = computed(() => props.variant === "filter");
 </script>
 
 <!-- ──────────────────────────────────────────────────────────────────
@@ -158,7 +150,7 @@ const isFilter = computed(() => props.variant === 'filter');
     SelectContent에 자동 주입됨 → width에 직접 참조
 ──────────────────────────────────────────────────────────────────── -->
 <style lang="scss" scoped>
-$b: 'select';
+$b: "select";
 
 .#{$b} {
   &__trigger {
@@ -194,7 +186,6 @@ $b: 'select';
     transform: rotate(180deg); // 기본(닫힌 상태) → 아래(↓) 방향
     transition: transform $duration-fast ease;
   }
-
 }
 
 // Trigger 열린 상태 — Radix Vue가 data-state="open" 적용
@@ -204,11 +195,6 @@ $b: 'select';
   .#{$b}__icon {
     transform: rotate(0deg); // 열린 상태 → 위(↑) 방향
   }
-}
-
-// Trigger error modifier
-.#{$b}__trigger--error {
-  border-color: $color-danger;
 }
 
 // Trigger disabled modifier
