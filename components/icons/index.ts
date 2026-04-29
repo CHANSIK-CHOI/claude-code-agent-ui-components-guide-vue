@@ -1,7 +1,7 @@
 import type { Component } from 'vue'
 import { defineComponent, h } from 'vue'
 import Icon from './Icon.vue'
-import type { IconSize } from '@nd/components/types'
+import type { IconPresetSize, IconSize } from '@nd/components/types'
 
 // --- SVG imports (일반 — currentColor 자동 변환) ---
 // @ts-ignore — vite-svg-loader ?component 모듈은 런타임에 정상 동작
@@ -83,11 +83,11 @@ import CircularArrowSvg from '@nd/assets/icons/circularArrow.svg?skipsvgo'
 // makeIcon — SVG 파일 컴포넌트 방식
 // vite-svg-loader로 import한 SVG 컴포넌트를 받아 Icon 래퍼에 slot으로 렌더한다.
 // ---------------------------------------------------------------------------
-function makeIcon(name: string, defaultSize: IconSize, SvgComponent: Component) {
+function makeIcon(name: string, defaultSize: IconPresetSize, SvgComponent: Component) {
   return defineComponent({
     name,
     props: {
-      size: { type: String as () => IconSize, default: defaultSize },
+      size: { type: [String, Number] as unknown as () => IconSize, default: defaultSize },
       color: { type: String, default: undefined },
       label: { type: String, default: undefined },
     },
@@ -163,7 +163,7 @@ export const StarIcon = makeIcon('StarIcon', 'xs', StarSvg as Component)
 export const CartIcon = defineComponent({
   name: 'CartIcon',
   props: {
-    size: { type: String as () => IconSize, default: 'md' as IconSize },
+    size: { type: [String, Number] as unknown as () => IconSize, default: 'md' as IconPresetSize },
     color: { type: String, default: undefined },
     label: { type: String, default: undefined },
     count: { type: Number, default: undefined },

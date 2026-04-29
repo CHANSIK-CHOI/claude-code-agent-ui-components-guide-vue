@@ -28,13 +28,25 @@ components/types.ts  ← IconSize 타입 추가
 
 ## 아이콘 사이즈 체계
 
-Figma 기준 3가지 크기:
+### 프리셋 크기 (Figma 기준)
 
 | size prop | 픽셀 | 용도                    |
 | --------- | ---- | ----------------------- |
+| `'xs'`    | 8px  | 초소형 UI 요소 내 아이콘 |
 | `'sm'`    | 16px | 소형 UI 요소 내 아이콘  |
 | `'md'`    | 24px | 일반 UI 아이콘 (기본값) |
 | `'lg'`    | 40px | 대형/일러스트 아이콘    |
+
+### 커스텀 크기
+
+프리셋 외에 픽셀 수치를 직접 지정할 수 있다.
+
+| 형태 | 예시 | 결과 |
+| ---- | ---- | ---- |
+| `number` (정방형) | `:size="50"` | 50×50px |
+
+- 커스텀 크기는 CSS class가 아닌 inline style(`width` / `height`)로 처리한다
+- `makeIcon()`의 `defaultSize` 인수는 프리셋 문자열만 허용 — 커스텀 크기를 기본값으로 설정할 수 없다
 
 ---
 
@@ -51,11 +63,11 @@ Figma 기준 3가지 크기:
 
 ### Props
 
-| 이름    | 타입                   | 기본값      | 설명                                                  |
-| ------- | ---------------------- | ----------- | ----------------------------------------------------- |
-| `size`  | `'sm' \| 'md' \| 'lg'` | `'md'`      | 아이콘 크기                                           |
-| `color` | `string \| undefined`  | `undefined` | CSS color 값. 미전달 시 부모 `color` CSS 상속         |
-| `label` | `string \| undefined`  | `undefined` | 접근성 라벨. 전달 시 `aria-label` + `role="img"` 적용 |
+| 이름    | 타입                                                  | 기본값      | 설명                                                                          |
+| ------- | ----------------------------------------------------- | ----------- | ----------------------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| number`             | `'md'`      | 아이콘 크기. 프리셋 문자열은 CSS class로, 숫자는 inline style로 처리한다     |
+| `color` | `string \| undefined`                                 | `undefined` | CSS color 값. 미전달 시 부모 `color` CSS 상속                                 |
+| `label` | `string \| undefined`                                 | `undefined` | 접근성 라벨. 전달 시 `aria-label` + `role="img"` 적용                         |
 
 ### Slots
 
@@ -72,11 +84,12 @@ Figma 기준 3가지 크기:
 ### 마크업 구조
 
 ```html
+<!-- size가 프리셋 문자열일 때는 CSS class, 숫자일 때는 inline style로 처리 -->
 <span
   v-bind="$attrs"
   class="icon"
-  :class="`icon--${size}`"
-  :style="color ? { color } : undefined"
+  :class="typeof size === 'string' ? `icon--${size}` : undefined"
+  :style="sizeStyle"
   :aria-hidden="label ? undefined : 'true'"
   :aria-label="label"
   :role="label ? 'img' : undefined"
@@ -84,6 +97,10 @@ Figma 기준 3가지 크기:
   <slot />
 </span>
 ```
+
+`sizeStyle` 계산 규칙:
+- `size`가 `'xs' | 'sm' | 'md' | 'lg'` → `sizeStyle = color ? { color } : undefined`
+- `size`가 `number` → `sizeStyle = { width: '{size}px', height: '{size}px', ...(color 있으면 color) }`
 
 ### SCSS 명세
 
@@ -103,6 +120,10 @@ $b: "icon";
     height: 100%;
   }
 
+  &--xs {
+    width: 0.8rem;
+    height: 0.8rem;
+  } // 8px
   &--sm {
     width: 1.6rem;
     height: 1.6rem;
@@ -115,6 +136,7 @@ $b: "icon";
     width: 4rem;
     height: 4rem;
   } // 40px
+  // 커스텀 크기(number)는 inline style로 처리 — CSS class 없음
 }
 ```
 
@@ -132,16 +154,16 @@ $b: "icon";
 ### `makeIcon()` 헬퍼
 
 ```typescript
-import type { Component } from 'vue'
+import type { Component } from "vue";
 
-function makeIcon(name: string, defaultSize: IconSize, SvgComponent: Component);
+function makeIcon(name: string, defaultSize: IconPresetSize, SvgComponent: Component);
 ```
 
-| 인수           | 타입        | 설명                                              |
-| -------------- | ----------- | ------------------------------------------------- |
-| `name`         | `string`    | 컴포넌트 이름 (DevTools 표시용)                   |
-| `defaultSize`  | `IconSize`  | 해당 아이콘의 Figma 기준 기본 크기                |
-| `SvgComponent` | `Component` | `vite-svg-loader`가 변환한 SVG Vue 컴포넌트       |
+| 인수           | 타입             | 설명                                        |
+| -------------- | ---------------- | ------------------------------------------- |
+| `name`         | `string`         | 컴포넌트 이름 (DevTools 표시용)             |
+| `defaultSize`  | `IconPresetSize` | 해당 아이콘의 Figma 기준 기본 크기 (프리셋만 허용) |
+| `SvgComponent` | `Component` | `vite-svg-loader`가 변환한 SVG Vue 컴포넌트 |
 
 render function 내부 구조:
 
@@ -159,20 +181,20 @@ render function 내부 구조:
 
 **이유**: `<Close>`, `<Tooltip>` 등 접미사 없는 이름은 일반 HTML 요소(`<input>`, `<select>`) 또는 Radix Vue 서브 컴포넌트(`<TooltipRoot>` 등)와 이름 충돌 위험이 있다.
 
-| 패턴 | 예시 |
-|------|------|
-| ✅ 올바른 이름 | `CloseIcon`, `CartIcon`, `TooltipIcon`, `ChevronDownIcon` |
-| ❌ 금지 — 접미사 없음 | `Close`, `Cart`, `Tooltip`, `ChevronDown` |
+| 패턴                  | 예시                                                      |
+| --------------------- | --------------------------------------------------------- |
+| ✅ 올바른 이름        | `CloseIcon`, `CartIcon`, `TooltipIcon`, `ChevronDownIcon` |
+| ❌ 금지 — 접미사 없음 | `Close`, `Cart`, `Tooltip`, `ChevronDown`                 |
 
 ### 아이콘 목록 및 기본 크기
 
 아이콘 목록은 사용자가 직접 추가한다. 각 size별 패턴 예시:
 
-| size | 예시 컴포넌트 이름 | 용도 |
-|------|-----------------|------|
-| `'md'` (24px) | `HomeIcon` | 일반 UI 아이콘 |
-| `'sm'` (16px) | `ChevronUpIcon` | 소형 UI 아이콘 |
-| `'lg'` (40px) | `WarningLargeIcon` | 대형/일러스트 |
+| size          | 예시 컴포넌트 이름 | 용도           |
+| ------------- | ------------------ | -------------- |
+| `'md'` (24px) | `HomeIcon`         | 일반 UI 아이콘 |
+| `'sm'` (16px) | `ChevronUpIcon`    | 소형 UI 아이콘 |
+| `'lg'` (40px) | `WarningLargeIcon` | 대형/일러스트  |
 
 > **publisher 구현 범위**: `HomeIcon`(`'md'`) 1개를 예시로 구현한다. 나머지 아이콘은 사용자가 패턴을 참고해 직접 추가.
 
@@ -232,7 +254,7 @@ render function 내부 구조:
 `vite-svg-loader` 플러그인을 등록하고 SVGO `convertColors` 설정을 추가한다.
 
 ```typescript
-import svgLoader from 'vite-svg-loader'
+import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
   vite: {
@@ -241,7 +263,7 @@ export default defineNuxtConfig({
         svgoConfig: {
           plugins: [
             {
-              name: 'convertColors',
+              name: "convertColors",
               params: { currentColor: true },
             },
           ],
@@ -249,7 +271,7 @@ export default defineNuxtConfig({
       }),
     ],
   },
-})
+});
 ```
 
 - `convertColors: true` → SVG 내 `fill="black"`, `stroke="black"` 등 색상값을 빌드 시 자동으로 `currentColor`로 변환
@@ -260,9 +282,12 @@ export default defineNuxtConfig({
 ## types.ts 업데이트
 
 ```typescript
-// components/types.ts에 추가
-export type IconSize = "sm" | "md" | "lg";
+// components/types.ts에 추가/수정
+export type IconPresetSize = "xs" | "sm" | "md" | "lg";
+export type IconSize = IconPresetSize | number;
 ```
+
+`IconPresetSize`를 별도 타입으로 분리하는 이유: `makeIcon()`의 `defaultSize` 인수 타입을 프리셋 문자열로만 제한하기 위함.
 
 ---
 
@@ -270,24 +295,18 @@ export type IconSize = "sm" | "md" | "lg";
 
 ```typescript
 // Nuxt auto-import 미지원 — 명시적 import 필수
-import { HomeIcon, SearchIcon, CartIcon } from "~/components/icons";
+import { HomeIcon, SearchIcon, CartIcon } from "@nd/components/icons";
 ```
 
 ```html
-<HomeIcon />
-<!-- 24px, currentColor 상속 -->
-<SearchIcon size="sm" />
-<!-- 16px -->
-<SearchIcon color="#0CB5E2" />
-<!-- 명시적 색상 -->
-<HomeIcon label="홈으로 이동" />
-<!-- 의미있는 아이콘 (aria-label) -->
-<CartIcon />
-<!-- 배지 없음 -->
-<CartIcon :count="3" />
-<!-- 배지 '3' -->
-<CartIcon :count="100" />
-<!-- 배지 '99+' -->
+<HomeIcon />                  <!-- 기본: 24px, currentColor 상속 -->
+<SearchIcon size="sm" />      <!-- 프리셋: 16px -->
+<SearchIcon color="#0CB5E2" /> <!-- 명시적 색상 -->
+<HomeIcon label="홈으로 이동" /> <!-- 의미있는 아이콘 (aria-label) -->
+<HomeIcon :size="50" />       <!-- 커스텀: 50×50px -->
+<CartIcon />                  <!-- 배지 없음 -->
+<CartIcon :count="3" />       <!-- 배지 '3' -->
+<CartIcon :count="100" />     <!-- 배지 '99+' -->
 ```
 
 부모 CSS로 색상 제어 (권장 방식):
@@ -313,9 +332,13 @@ import { HomeIcon, SearchIcon, CartIcon } from "~/components/icons";
 
 ```typescript
 // components/icons/index.ts
-import ChevronDownSvg from '~/assets/icons/chevron-down.svg?component'
+import ChevronDownSvg from "@nd/assets/icons/chevron-down.svg?component";
 
-export const ChevronDownIcon = makeIcon('ChevronDownIcon', 'md', ChevronDownSvg)
+export const ChevronDownIcon = makeIcon(
+  "ChevronDownIcon",
+  "md",
+  ChevronDownSvg,
+);
 ```
 
 - `?component` 쿼리: `vite-svg-loader`가 SVG 파일을 Vue 컴포넌트로 변환
@@ -327,24 +350,28 @@ SVGO 전역 설정(`convertColors`)이 SVG 내 색상값을 `currentColor`로 �
 
 **skipsvgo 적용 아이콘 목록**
 
-| 아이콘 컴포넌트 | 이유 |
-|---------------|------|
-| `PlayIcon` | `<filter>` drop-shadow + `fill="white"` 포함 — SVGO가 white를 currentColor로 변환하면 드롭섀도 시각이 깨짐 |
-| `TooltipIcon` | 배경 fill 없이 라인(stroke)만 있는 구조 — SVGO가 stroke를 currentColor로 변환하면 배경이 검정색으로 표시되는 문제 발생 |
-| `CircularNoteIcon` | 배경 fill 없이 라인(stroke)만 있는 구조 — 동일 이유 |
+| 아이콘 컴포넌트    | 이유                                                                                                                   |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `PlayIcon`         | `<filter>` drop-shadow + `fill="white"` 포함 — SVGO가 white를 currentColor로 변환하면 드롭섀도 시각이 깨짐             |
+| `TooltipIcon`      | 배경 fill 없이 라인(stroke)만 있는 구조 — SVGO가 stroke를 currentColor로 변환하면 배경이 검정색으로 표시되는 문제 발생 |
+| `CircularNoteIcon` | 배경 fill 없이 라인(stroke)만 있는 구조 — 동일 이유                                                                    |
 
 ```typescript
 // PlayIcon — <filter> drop-shadow + fill="white" 포함, SVGO 건너뜀
-import PlaySvg from '~/assets/icons/play.svg?component&skipsvgo'
-export const PlayIcon = makeIcon('PlayIcon', 'lg', PlaySvg)
+import PlaySvg from "@nd/assets/icons/play.svg?component&skipsvgo";
+export const PlayIcon = makeIcon("PlayIcon", "lg", PlaySvg);
 
 // TooltipIcon — 라인(stroke)만 있는 SVG, SVGO convertColors 오적용 방지
-import TooltipSvg from '~/assets/icons/tooltip.svg?component&skipsvgo'
-export const TooltipIcon = makeIcon('TooltipIcon', 'md', TooltipSvg)
+import TooltipSvg from "@nd/assets/icons/tooltip.svg?component&skipsvgo";
+export const TooltipIcon = makeIcon("TooltipIcon", "md", TooltipSvg);
 
 // CircularNoteIcon — 라인(stroke)만 있는 SVG, SVGO convertColors 오적용 방지
-import CircularNoteSvg from '~/assets/icons/circular-note.svg?component&skipsvgo'
-export const CircularNoteIcon = makeIcon('CircularNoteIcon', 'md', CircularNoteSvg)
+import CircularNoteSvg from "@nd/assets/icons/circular-note.svg?component&skipsvgo";
+export const CircularNoteIcon = makeIcon(
+  "CircularNoteIcon",
+  "md",
+  CircularNoteSvg,
+);
 ```
 
 - `skipsvgo` 사용 시: SVGO 자동 변환이 없으므로 SVG 파일 내에서 `stroke/fill` 값을 직접 `currentColor`로 수정해야 한다 (단, 디자인 의도로 유지해야 하는 색상값은 그대로 둔다)

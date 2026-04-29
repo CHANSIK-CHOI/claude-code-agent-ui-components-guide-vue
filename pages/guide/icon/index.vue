@@ -272,9 +272,51 @@
       </div>
     </section>
 
-    <!-- ② 색상 제어 -->
+    <!-- ② 커스텀 사이즈 -->
     <section class="iconGuidePage__section">
-      <h2 class="iconGuidePage__sectionTitle">② 색상 제어</h2>
+      <h2 class="iconGuidePage__sectionTitle">② 커스텀 사이즈</h2>
+      <p class="iconGuidePage__note">
+        <code>size</code> prop에 <code>number</code>를 전달하면 프리셋 CSS class
+        대신 inline style(<code>width</code> / <code>height</code>)로 크기를
+        적용합니다. 정방형 기준입니다.
+      </p>
+
+      <div class="iconGuidePage__row iconGuidePage__row--horizontal">
+        <div class="iconGuidePage__item">
+          <span class="iconGuidePage__itemLabel">:size="32"</span>
+          <div class="iconGuidePage__iconPreview">
+            <HomeIcon :size="32" />
+          </div>
+          <pre
+            class="iconGuidePage__code"
+          ><code>&lt;HomeIcon :size="32" /&gt;</code></pre>
+        </div>
+
+        <div class="iconGuidePage__item">
+          <span class="iconGuidePage__itemLabel">:size="50"</span>
+          <div class="iconGuidePage__iconPreview">
+            <HomeIcon :size="50" />
+          </div>
+          <pre
+            class="iconGuidePage__code"
+          ><code>&lt;HomeIcon :size="50" /&gt;</code></pre>
+        </div>
+
+        <div class="iconGuidePage__item">
+          <span class="iconGuidePage__itemLabel">:size="72" + color</span>
+          <div class="iconGuidePage__iconPreview">
+            <HomeIcon :size="72" color="#0CB5E2" />
+          </div>
+          <pre
+            class="iconGuidePage__code"
+          ><code>&lt;HomeIcon :size="72" color="#0CB5E2" /&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 색상 제어 -->
+    <section class="iconGuidePage__section">
+      <h2 class="iconGuidePage__sectionTitle">③ 색상 제어</h2>
       <p class="iconGuidePage__note">
         <code>color</code> prop 미전달 시 부모의 CSS <code>color</code> 값을
         <code>currentColor</code>로 상속합니다.
@@ -309,9 +351,9 @@
       </div>
     </section>
 
-    <!-- ③ Cart 배지 -->
+    <!-- ④ Cart 배지 -->
     <section class="iconGuidePage__section">
-      <h2 class="iconGuidePage__sectionTitle">③ Cart 배지</h2>
+      <h2 class="iconGuidePage__sectionTitle">④ Cart 배지</h2>
       <p class="iconGuidePage__note">
         <code>count</code> prop으로 배지를 제어합니다. 99 초과 시
         <code>99+</code>로 표시됩니다.
@@ -358,9 +400,9 @@
       </div>
     </section>
 
-    <!-- ④ 접근성 -->
+    <!-- ⑤ 접근성 -->
     <section class="iconGuidePage__section">
-      <h2 class="iconGuidePage__sectionTitle">④ 접근성</h2>
+      <h2 class="iconGuidePage__sectionTitle">⑤ 접근성</h2>
 
       <div class="iconGuidePage__row">
         <div class="iconGuidePage__item">
@@ -391,26 +433,28 @@
       </div>
     </section>
 
-    <!-- ⑤ 아이콘 추가 방법 -->
+    <!-- ⑥ 아이콘 추가 방법 -->
     <section class="iconGuidePage__section">
-      <h2 class="iconGuidePage__sectionTitle">⑤ 아이콘 추가 방법</h2>
+      <h2 class="iconGuidePage__sectionTitle">⑥ 아이콘 추가 방법</h2>
       <p class="iconGuidePage__note">
         Figma에서 SVG 내보내기 후 <code>components/icons/index.ts</code>에 아래
         패턴으로 추가하세요.
       </p>
-      <pre class="iconGuidePage__code"><code>// 1. assets/icons/ 에 SVG 파일 추가 (예: newIcon.svg)
+      <pre
+        class="iconGuidePage__code"
+      ><code>// 1. assets/icons/ 에 SVG 파일 추가 (예: newIcon.svg)
 
 // 2. components/icons/index.ts 에 import 추가
-import NewIconSvg from '~/assets/icons/newIcon.svg'
+import NewIconSvg from '@nd/assets/icons/newIcon.svg'
 //   색상 고정이 필요한 경우: ?skipsvgo
 
 // 3. makeIcon으로 export 추가
 export const NewIcon = makeIcon('NewIcon', 'md', NewIconSvg as Component)</code></pre>
     </section>
 
-    <!-- ⑥ Props -->
+    <!-- ⑦ Props -->
     <section class="iconGuidePage__section">
-      <h2 class="iconGuidePage__sectionTitle">⑥ Props</h2>
+      <h2 class="iconGuidePage__sectionTitle">⑦ Props</h2>
 
       <h3 class="iconGuidePage__tableTitle">Icon.vue (Base)</h3>
       <table class="iconGuidePage__propsTable">
@@ -425,9 +469,12 @@ export const NewIcon = makeIcon('NewIcon', 'md', NewIconSvg as Component)</code>
         <tbody>
           <tr>
             <td><code>size</code></td>
-            <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
+            <td><code>'xs' | 'sm' | 'md' | 'lg' | number</code></td>
             <td><code>'md'</code></td>
-            <td>아이콘 크기 (8 / 16 / 24 / 40px)</td>
+            <td>
+              아이콘 크기. 프리셋 문자열은 CSS class(8 / 16 / 24 / 40px),
+              숫자는 inline style(정방형 px)로 처리
+            </td>
           </tr>
           <tr>
             <td><code>color</code></td>
