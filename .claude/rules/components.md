@@ -30,28 +30,28 @@
 
 ```vue
 <script setup lang="ts">
-// 공용 타입은 ~/components/types에서 import
-type Variant = 'primary' | 'secondary' | 'ghost'
-type Size = 'sm' | 'md' | 'lg'
+// 공용 타입은 @nd/components/types에서 import
+type Variant = "primary" | "secondary" | "ghost";
+type Size = "sm" | "md" | "lg";
 
 const props = withDefaults(
   defineProps<{
-    variant?: Variant
-    size?: Size
-    disabled?: boolean
-    loading?: boolean
+    variant?: Variant;
+    size?: Size;
+    disabled?: boolean;
+    loading?: boolean;
   }>(),
   {
-    variant: 'primary',
-    size: 'md',
+    variant: "primary",
+    size: "md",
     disabled: false,
     loading: false,
-  }
-)
+  },
+);
 
 const emit = defineEmits<{
-  click: [event: MouseEvent]
-}>()
+  click: [event: MouseEvent];
+}>();
 </script>
 ```
 
@@ -69,19 +69,15 @@ const emit = defineEmits<{
 ```vue
 <!-- Button.vue — 단일(Base) 컴포넌트도 동일하게 적용 -->
 <template>
-  <button
-    class="button"
-    :disabled="disabled"
-    v-bind="$attrs"
-  >
+  <button class="button" :disabled="disabled" v-bind="$attrs">
     <slot />
   </button>
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
-const props = defineProps<{ disabled?: boolean }>()
+const props = defineProps<{ disabled?: boolean }>();
 </script>
 ```
 
@@ -89,14 +85,14 @@ const props = defineProps<{ disabled?: boolean }>()
 
 루트가 래퍼 `<div>`인 경우에도 `<div>`가 아닌 **핵심 인터랙티브 요소**에 배치한다.
 
-| 컴포넌트 | `v-bind="$attrs"` 위치 |
-|----------|-----------------------|
-| Button | `<button>` |
-| Input | `<input>` |
-| Select | `<select>` 또는 Radix `SelectTrigger` |
-| Checkbox | `<input type="checkbox">` |
-| Textarea | `<textarea>` |
-| Anchor | `<a>` |
+| 컴포넌트 | `v-bind="$attrs"` 위치                |
+| -------- | ------------------------------------- |
+| Button   | `<button>`                            |
+| Input    | `<input>`                             |
+| Select   | `<select>` 또는 Radix `SelectTrigger` |
+| Checkbox | `<input type="checkbox">`             |
+| Textarea | `<textarea>`                          |
+| Anchor   | `<a>`                                 |
 
 **`v-bind="$attrs"` 순서 규칙 — 반드시 먼저 작성**
 
@@ -107,30 +103,22 @@ Vue 3도 나중에 오는 바인딩이 앞의 바인딩을 덮어쓰므로, `v-b
 
 ```vue
 <!-- ✅ 올바른 순서 — $attrs 먼저, 명시 바인딩 나중 -->
-<button
-  v-bind="$attrs"
-  :type="type"
-  :disabled="disabled || loading"
->
+<button v-bind="$attrs" :type="type" :disabled="disabled || loading">
   <slot />
 </button>
 
 <!-- ❌ 금지 — $attrs가 나중에 오면 외부 type/disabled가 내부 값을 덮어씀 -->
-<button
-  :type="type"
-  :disabled="disabled || loading"
-  v-bind="$attrs"
->
+<button :type="type" :disabled="disabled || loading" v-bind="$attrs">
   <slot />
 </button>
 ```
 
 **예외 — 덮어쓰지 않고 병합되는 경우:**
 
-| 속성 종류 | 동작 |
-|-----------|------|
-| `class`, `style` | 순서 무관하게 항상 **병합** (merge) |
-| 이벤트 핸들러 (`@click` 등) | 순서 무관하게 **양쪽 모두 실행** |
+| 속성 종류                                | 동작                                   |
+| ---------------------------------------- | -------------------------------------- |
+| `class`, `style`                         | 순서 무관하게 항상 **병합** (merge)    |
+| 이벤트 핸들러 (`@click` 등)              | 순서 무관하게 **양쪽 모두 실행**       |
 | 나머지 HTML 속성 (`type`, `disabled` 등) | 나중에 오는 값이 **덮어씀** (override) |
 
 ---
@@ -235,11 +223,11 @@ Radix Vue 래핑 컴포넌트는 여러 서브 컴포넌트가 있으므로, att
 
 **3단계 위임 전략:**
 
-| 단계 | 대상 attrs | 위임 위치 | 처리 방법 |
-|------|-----------|---------|---------|
-| 1단계 — Root 전용 props | 상태/폼 관련 (`name`, `required`, `dir`, `open`, `defaultOpen` 등) | Root 컴포넌트 | `useAttrs()`로 명시적 리스트 분리 |
-| 2단계 — 인터랙티브 attrs | HTML attr + Trigger props (`aria-*`, `tabindex`, `data-*` 등) | Trigger 컴포넌트 | 1단계 제외 나머지 전부 |
-| 3단계 — Content 포지셔닝 | 포지셔닝 (`sideOffset`, `align`, `side` 등) | Content 컴포넌트 | 필요한 것만 **명시적 prop**으로 추가 |
+| 단계                     | 대상 attrs                                                         | 위임 위치        | 처리 방법                            |
+| ------------------------ | ------------------------------------------------------------------ | ---------------- | ------------------------------------ |
+| 1단계 — Root 전용 props  | 상태/폼 관련 (`name`, `required`, `dir`, `open`, `defaultOpen` 등) | Root 컴포넌트    | `useAttrs()`로 명시적 리스트 분리    |
+| 2단계 — 인터랙티브 attrs | HTML attr + Trigger props (`aria-*`, `tabindex`, `data-*` 등)      | Trigger 컴포넌트 | 1단계 제외 나머지 전부               |
+| 3단계 — Content 포지셔닝 | 포지셔닝 (`sideOffset`, `align`, `side` 등)                        | Content 컴포넌트 | 필요한 것만 **명시적 prop**으로 추가 |
 
 > **⚠️ "HTML attr 제외" 금지**: Radix Vue 컴포넌트라도 `aria-label`, `aria-describedby` 같은 접근성 속성은 인터랙티브 요소(Trigger)에 반드시 전달해야 한다. HTML attr과 Radix props를 출처로 구분하지 않는다.
 
@@ -248,38 +236,49 @@ Radix Vue 래핑 컴포넌트는 여러 서브 컴포넌트가 있으므로, att
 ```vue
 <!-- Select.vue — Radix Vue attrs 위임 패턴 예시 -->
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
 // 1단계: Root 전용 props 명시 목록
 const SELECT_ROOT_PROPS = [
-  'defaultValue', 'open', 'defaultOpen', 'required', 'name', 'autocomplete', 'dir',
-] as const
+  "defaultValue",
+  "open",
+  "defaultOpen",
+  "required",
+  "name",
+  "autocomplete",
+  "dir",
+] as const;
 
-const attrs = useAttrs()
+const attrs = useAttrs();
 
 // rootAttrs: Root 전용 props만 분리
 const rootAttrs = computed(() =>
   Object.fromEntries(
-    Object.entries(attrs).filter(([k]) => (SELECT_ROOT_PROPS as readonly string[]).includes(k))
-  )
-)
+    Object.entries(attrs).filter(([k]) =>
+      (SELECT_ROOT_PROPS as readonly string[]).includes(k),
+    ),
+  ),
+);
 
 // triggerAttrs: 나머지 전부 (2단계 — aria-*, tabindex, data-* 등)
 const triggerAttrs = computed(() =>
   Object.fromEntries(
-    Object.entries(attrs).filter(([k]) =>
-      !(SELECT_ROOT_PROPS as readonly string[]).includes(k) && k !== 'id'
-    )
-  )
-)
+    Object.entries(attrs).filter(
+      ([k]) =>
+        !(SELECT_ROOT_PROPS as readonly string[]).includes(k) && k !== "id",
+    ),
+  ),
+);
 </script>
 
 <template>
   <SelectRoot v-bind="rootAttrs" v-model="proxyValue">
-    <SelectTrigger v-bind="triggerAttrs"><!-- 2단계: aria-*, tabindex 등 전달됨 -->
+    <SelectTrigger v-bind="triggerAttrs"
+      ><!-- 2단계: aria-*, tabindex 등 전달됨 -->
       ...
     </SelectTrigger>
-    <SelectContent position="popper" :side-offset="4"><!-- 3단계: 하드코딩 default -->
+    <SelectContent position="popper" :side-offset="4"
+      ><!-- 3단계: 하드코딩 default -->
       ...
     </SelectContent>
   </SelectRoot>
@@ -295,21 +294,22 @@ Vue에서도 React와 동일하게 Base/Wrapper 분리가 가능하다.
 
 **책임 분리 — 무엇을 Base에 두고 무엇을 Wrapper에 둘지**
 
-| 영역 | Base 담당 (공통 로직) | Wrapper 담당 (추가 기능) |
-|---|---|---|
-| v-model / 양방향 바인딩 | ✅ `modelValue` / `update:modelValue` 정의 | ❌ Base의 v-model을 그대로 위임 |
-| 공통 상태 props | ✅ `disabled`, `error`, `readonly` 등 | ❌ Base에 위임 (재선언 금지) |
-| `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` | ✅ 핵심 인터랙티브 요소에 적용 | ✅ Wrapper 자체 루트에도 동일 적용 (이중 위임) |
-| 검증·에러 표시 마크업 | ✅ `<p class="...__error">` 등 | ❌ Base 슬롯/표시 그대로 사용 |
-| 추가 시각 요소 (검색 버튼, 토글 아이콘 등) | ❌ | ✅ Base 옆에 형제 요소로 추가 |
-| 추가 이벤트 (`@search`, `@toggle` 등) | ❌ | ✅ Wrapper에서 정의·emit |
-| 라벨·헬퍼텍스트 등 데코레이션 | ❌ | ✅ (FormField 같은 molecules가 담당) |
+| 영역                                                         | Base 담당 (공통 로직)                      | Wrapper 담당 (추가 기능)                       |
+| ------------------------------------------------------------ | ------------------------------------------ | ---------------------------------------------- |
+| v-model / 양방향 바인딩                                      | ✅ `modelValue` / `update:modelValue` 정의 | ❌ Base의 v-model을 그대로 위임                |
+| 공통 상태 props                                              | ✅ `disabled`, `error`, `readonly` 등      | ❌ Base에 위임 (재선언 금지)                   |
+| `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` | ✅ 핵심 인터랙티브 요소에 적용             | ✅ Wrapper 자체 루트에도 동일 적용 (이중 위임) |
+| 검증·에러 표시 마크업                                        | ✅ `<p class="...__error">` 등             | ❌ Base 슬롯/표시 그대로 사용                  |
+| 추가 시각 요소 (검색 버튼, 토글 아이콘 등)                   | ❌                                         | ✅ Base 옆에 형제 요소로 추가                  |
+| 추가 이벤트 (`@search`, `@toggle` 등)                        | ❌                                         | ✅ Wrapper에서 정의·emit                       |
+| 라벨·헬퍼텍스트 등 데코레이션                                | ❌                                         | ✅ (FormField 같은 molecules가 담당)           |
 
 **판정 기준 한 줄**: 그 로직을 빼면 다른 Wrapper에서도 똑같이 다시 작성해야 한다면 → **Base**. 특정 시나리오(검색·비밀번호 토글 등)에만 필요하면 → **Wrapper**.
 
 > **금지**: Wrapper에서 Base의 v-model 처리·에러 표시·attrs 위임 같은 공통 로직을 다시 구현. Wrapper는 반드시 `<Base v-model="..." :error="..." v-bind="$attrs" />` 형태로 Base를 임포트해 사용하고, 자기만의 추가 요소(버튼·아이콘·이벤트)에만 집중한다.
 
 **Base 컴포넌트** — 공통 로직만 담당
+
 ```vue
 <!-- Input.vue -->
 <template>
@@ -319,59 +319,73 @@ Vue에서도 React와 동일하게 Base/Wrapper 분리가 가능하다.
       :value="modelValue"
       :disabled="disabled"
       v-bind="$attrs"
-      @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="
+        emit('update:modelValue', ($event.target as HTMLInputElement).value)
+      "
     />
     <p v-if="error" class="input__error">{{ error }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
 const props = defineProps<{
-  modelValue?: string
-  disabled?: boolean
-  error?: string
-}>()
+  modelValue?: string;
+  disabled?: boolean;
+  error?: string;
+}>();
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
+  "update:modelValue": [value: string];
+}>();
 </script>
 ```
 
 **Wrapper 컴포넌트** — Base를 import해서 추가 기능만 구현
+
 ```vue
 <!-- InputSearch.vue -->
 <template>
   <div class="inputSearch">
-    <Input v-model="internalValue" v-bind="$attrs" :disabled="disabled" :error="error" />
-    <button type="button" class="inputSearch__btn" :disabled="disabled" @click="emit('search', internalValue)">
+    <Input
+      v-model="internalValue"
+      v-bind="$attrs"
+      :disabled="disabled"
+      :error="error"
+    />
+    <button
+      type="button"
+      class="inputSearch__btn"
+      :disabled="disabled"
+      @click="emit('search', internalValue)"
+    >
       <IconSearch />
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
 const props = defineProps<{
-  modelValue?: string
-  disabled?: boolean
-  error?: string
-}>()
+  modelValue?: string;
+  disabled?: boolean;
+  error?: string;
+}>();
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
-  'search': [value: string]
-}>()
+  "update:modelValue": [value: string];
+  search: [value: string];
+}>();
 
 const internalValue = computed({
-  get: () => props.modelValue ?? '',
-  set: (val) => emit('update:modelValue', val),
-})
+  get: () => props.modelValue ?? "",
+  set: (val) => emit("update:modelValue", val),
+});
 </script>
 ```
 
 > React 비교:
+>
 > - `{...rest}` → `v-bind="$attrs"`
 > - `forwardRef` → `defineExpose()` (내부 ref를 외부로 노출할 때)
 > - `defineOptions({ inheritAttrs: false })` — attrs가 루트 요소에 자동 적용되는 것을 막고 원하는 위치에 수동으로 `v-bind="$attrs"`를 지정

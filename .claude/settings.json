@@ -22,7 +22,7 @@
     "defaultMode": "plan"
   },
   "model": "sonnet",
-  "enabledMcpjsonServers": ["figma", "context7"],
+  "enabledMcpjsonServers": ["figma", "context7", "playwright"],
   "statusLine": {
     "type": "command",
     "command": "bash .claude/statusline-command.sh"

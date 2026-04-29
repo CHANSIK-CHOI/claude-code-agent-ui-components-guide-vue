@@ -13,6 +13,7 @@ components/
 ```
 
 **계층 의존 규칙**
+
 - atoms → 외부 의존 없음
 - molecules → atoms만 import 가능
 - organisms → atoms + molecules import 가능
@@ -51,28 +52,28 @@ components/
 
 ```ts
 // components/atoms/index.ts
-export { default as Button } from './Button.vue'
-export { default as ButtonLink } from './ButtonLink.vue'
-export { default as Input } from './Input.vue'
-export { default as InputSearch } from './InputSearch.vue'
+export { default as Button } from "./Button.vue";
+export { default as ButtonLink } from "./ButtonLink.vue";
+export { default as Input } from "./Input.vue";
+export { default as InputSearch } from "./InputSearch.vue";
 
 // components/molecules/index.ts
-export { default as FormField } from './FormField.vue'
+export { default as FormField } from "./FormField.vue";
 ```
 
 **사용 방법** — 반드시 카테고리 단위로 import
 
 ```ts
 // ✅ 카테고리 단위 import
-import { Button, Input } from '~/components/atoms'
-import { FormField } from '~/components/molecules'
-import { GuideHeader, GuideSidebar } from '~/components/guide'
+import { Button, Input } from "@nd/components/atoms";
+import { FormField } from "@nd/components/molecules";
+import { GuideHeader, GuideSidebar } from "@nd/components/guide";
 
 // ❌ 루트 단일 import 금지 — components/index.ts 미존재
-import { Button, FormField } from '~/components'
+import { Button, FormField } from "@nd/components";
 
 // ❌ 개별 .vue 직접 import 지양 — 카테고리 barrel 우회 금지
-import Button from '~/components/atoms/Button.vue'
+import Button from "@nd/components/atoms/Button.vue";
 ```
 
 > **Nuxt auto-import 참고**: `<template>` 안에서는 Nuxt가 `components/` 하위 `.vue` 파일을 자동 전역 등록하므로 import 없이 `<Button />`을 바로 쓸 수 있습니다. 위 barrel export는 `<script>` 블록에서 명시적으로 import할 때 사용합니다.
@@ -132,27 +133,27 @@ types/
 
 ```ts
 // organisms/index.ts
-export { default as Tab } from './Tab.vue'
-export type { TabItem, TabVariant, ViewType } from './Tab.vue'  // ✅ .vue에서 직접 re-export
+export { default as Tab } from "./Tab.vue";
+export type { TabItem, TabVariant, ViewType } from "./Tab.vue"; // ✅ .vue에서 직접 re-export
 ```
 
 ```ts
 // 사용 측 (pages, layouts)
-import type { TabItem } from '~/components/organisms'  // ✅ 카테고리 경유
+import type { TabItem } from "@nd/components/organisms"; // ✅ 카테고리 경유
 ```
 
-| 타입 종류 | 정의 위치 | export 방법 |
-|-----------|----------|------------|
-| 단일 컴포넌트 전용, 외부 미사용 | `.vue` 인라인 | 없음 |
-| 단일 컴포넌트 전용, 외부 사용 | `.vue` 인라인 | 카테고리 `index.ts`에서 re-export |
-| 2개 이상 컴포넌트 공유 | `components/types.ts` | `types.ts`에서 직접 import |
+| 타입 종류                       | 정의 위치             | export 방법                       |
+| ------------------------------- | --------------------- | --------------------------------- |
+| 단일 컴포넌트 전용, 외부 미사용 | `.vue` 인라인         | 없음                              |
+| 단일 컴포넌트 전용, 외부 사용   | `.vue` 인라인         | 카테고리 `index.ts`에서 re-export |
+| 2개 이상 컴포넌트 공유          | `components/types.ts` | `types.ts`에서 직접 import        |
 
 ### Composables 위치
 
-| 종류 | 위치 | import 방식 |
-|------|------|------------|
+| 종류                                                    | 위치                         | import 방식               |
+| ------------------------------------------------------- | ---------------------------- | ------------------------- |
 | 카테고리 내 공유 (특정 카테고리의 일부 컴포넌트만 사용) | `components/{layer}/use*.ts` | 명시적 import (상대 경로) |
-| 앱 전역 (어디서나 호출) | `composables/use*.ts` | Nuxt auto-import |
+| 앱 전역 (어디서나 호출)                                 | `composables/use*.ts`        | Nuxt auto-import          |
 
 - 카테고리 내 공유 composable은 해당 카테고리 폴더에 평탄 배치한다 — 예: `useButtonVariant`는 atoms 내 Button/ButtonLink가 공유하므로 `components/atoms/useButtonVariant.ts`에 위치
 - 같은 카테고리 안의 .vue에서는 상대 경로로 명시적 import — `import { useButtonVariant } from './useButtonVariant'`

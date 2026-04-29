@@ -79,6 +79,7 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 기본 스택은 `.claude/CLAUDE.md` 개발 환경 섹션을 참조한다.
 
 추가 사항:
+
 - Radix Vue: `radix-vue/nuxt`로 auto-import 설정됨 → `import` 없이 바로 사용 가능
 - @vuepic/vue-datepicker: `.client.ts` 플러그인 등록됨
 - 아이콘: `components/atoms/Icon*.vue` SVG 컴포넌트(평탄 배치). 해당 아이콘이 없으면 슬롯(`name="iconLeading"` 등)만 정의하고 사용 측에서 SVG 주입
@@ -93,7 +94,7 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 
 **컴포넌트 추가 시 작업**: 새 `.vue` 파일을 해당 카테고리 폴더에 추가 + 카테고리 `index.ts`에 `export { default as Name } from './Name.vue'` 한 줄 추가. 그 외 작업 없음.
 
-**사용처 import**: 카테고리 단위만 허용 (`~/components/atoms`, `~/components/molecules` 등). 루트 barrel·개별 `.vue` 직접 import 금지. `<template>` 안에서는 Nuxt auto-import로 import 없이 사용 가능.
+**사용처 import**: 카테고리 단위만 허용 (`@nd/components/atoms`, `@nd/components/molecules` 등). 루트 barrel·개별 `.vue` 직접 import 금지. `<template>` 안에서는 Nuxt auto-import로 import 없이 사용 가능.
 
 폴더 구조·import 예시·co-located composable 위치 상세는 `rules/architecture.md` 참조.
 
@@ -107,7 +108,7 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 
 ```vue
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 </script>
 ```
 
@@ -131,18 +132,19 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 
 복잡한 UI(Dialog, Dropdown, Tooltip, Select)는 Radix Vue로 동작을 가져오고 스타일은 SCSS로 직접 작성. `import` 불필요. 컴포넌트 매핑 표:
 
-| 컴포넌트 | Radix Vue | 비고 |
-|---|---|---|
-| Dialog / Modal / Drawer | `DialogRoot` | `as-child`로 trigger 슬롯 위임 |
-| Dropdown / Popover | `DropdownMenuRoot` | `DropdownMenuPortal`로 위치 제어 |
-| Tooltip | `TooltipProvider` + `TooltipRoot` | Provider는 앱 최상단 1번만 |
-| Select (복잡) | `SelectRoot` | 단순 select는 네이티브 `<select>` |
+| 컴포넌트                | Radix Vue                         | 비고                              |
+| ----------------------- | --------------------------------- | --------------------------------- |
+| Dialog / Modal / Drawer | `DialogRoot`                      | `as-child`로 trigger 슬롯 위임    |
+| Dropdown / Popover      | `DropdownMenuRoot`                | `DropdownMenuPortal`로 위치 제어  |
+| Tooltip                 | `TooltipProvider` + `TooltipRoot` | Provider는 앱 최상단 1번만        |
+| Select (복잡)           | `SelectRoot`                      | 단순 select는 네이티브 `<select>` |
 
 코드 예시: `rules/components.md` §"Radix Vue 활용 패턴".
 
 > **Radix Vue 래핑 — attrs 3단계 위임**: 단일 `v-bind="$attrs"` 대신 Root(상태/폼 props) / Trigger(HTML attr + 인터랙티브) / Content(포지셔닝)에 분배한다. 표·코드 패턴은 `rules/components.md` §"Radix Vue 래핑 컴포넌트 attrs 위임 전략" 참조.
 >
 > 자주 빠뜨리는 안티패턴:
+>
 > - ❌ "HTML attr이라 제외" — `aria-label`, `aria-describedby`는 반드시 2단계(Trigger)로 전달. HTML attr과 Radix props를 출처로 구분하지 않는다.
 > - ❌ Content 포지셔닝 props 전체 노출 — `avoidCollisions`, `collisionPadding` 등은 하드코딩 default로. `sideOffset` 등 실제 조정이 필요한 것만 명시적 prop으로.
 > - 1단계(Root 전용 props) 리스트는 **구현 전 Context7 MCP로 확인** 후 작성.
@@ -171,6 +173,7 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 퍼블리셔는 마크업과 UI 상태만 담당. API 연동은 개발자 영역. 연동 위치는 `// [연동]` 주석으로 표시.
 
 ### 에이전트가 작성하는 것
+
 - `<template>` 마크업, BEM 클래스 구조
 - `defineProps` + `withDefaults` (타입 포함)
 - `defineEmits` (이벤트명 + 페이로드 타입)
@@ -179,6 +182,7 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 - 쇼케이스용 더미 데이터 (정적 배열, `// [연동] 개발자가 교체` 주석 포함)
 
 ### 에이전트가 작성하지 않는 것
+
 - `$fetch`, `useFetch`, `useAsyncData`, `axios` 호출
 - `useQuery`, `useMutation` (TanStack Query)
 - `Zod` schema, 유효성 검사 로직
@@ -192,21 +196,21 @@ CVA 금지. variant 조합이 단순하면 template `:class`, 복잡하면 `comp
 const props = withDefaults(
   defineProps<{
     // [연동] 개발자가 API 응답으로 채울 항목
-    items?: SelectOption[]
-    loading?: boolean
+    items?: SelectOption[];
+    loading?: boolean;
     // [퍼블리셔] UI 제어용
-    disabled?: boolean
-    placeholder?: string
+    disabled?: boolean;
+    placeholder?: string;
   }>(),
-  { disabled: false, placeholder: "선택해주세요" }
-)
+  { disabled: false, placeholder: "선택해주세요" },
+);
 
 const emit = defineEmits<{
   // [연동] 개발자가 이 이벤트를 수신해 API 호출
-  submit: [formData: Record<string, string>]
+  submit: [formData: Record<string, string>];
   // [퍼블리셔] UI 상태 변경만
-  toggle: [isOpen: boolean]
-}>()
+  toggle: [isOpen: boolean];
+}>();
 </script>
 ```
 
@@ -215,12 +219,12 @@ const emit = defineEmits<{
 ```markdown
 ## 개발자 핸드오프
 
-| 항목 | 종류 | 설명 |
-|---|---|---|
-| `items` prop | API 연동 | 목록 데이터 (배열) |
-| `loading` prop | API 연동 | 로딩 상태 |
-| `@submit` emit | API 연동 | 폼 제출 시 개발자가 수신 |
-| `disabled` prop | 퍼블리셔 | UI 비활성 상태 |
+| 항목            | 종류     | 설명                     |
+| --------------- | -------- | ------------------------ |
+| `items` prop    | API 연동 | 목록 데이터 (배열)       |
+| `loading` prop  | API 연동 | 로딩 상태                |
+| `@submit` emit  | API 연동 | 폼 제출 시 개발자가 수신 |
+| `disabled` prop | 퍼블리셔 | UI 비활성 상태           |
 ```
 
 ---
@@ -243,9 +247,9 @@ const emit = defineEmits<{
 
 가이드 페이지(`pages/guide/[componentName]/index.vue`) 작성 시점은 **호출 컨텍스트에 따라 분기**한다.
 
-| 호출 컨텍스트 | 가이드 페이지 작성 시점 |
-|---|---|
-| `/component-create` 흐름 (3단계) | 호출자가 자동으로 진행 — 추가 사용자 확인 불필요 |
+| 호출 컨텍스트                                | 가이드 페이지 작성 시점                                      |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| `/component-create` 흐름 (3단계)             | 호출자가 자동으로 진행 — 추가 사용자 확인 불필요             |
 | 단독 호출 (사용자가 본 에이전트만 직접 호출) | 사용자 명시 요청 시에만 작성 — 자동 생성 금지 (§9 행동 원칙) |
 
 작성 시 `.claude/rules/guide-page.md`를 읽고 그 규칙을 따른다. 핵심 의무:
@@ -286,11 +290,13 @@ const emit = defineEmits<{
   - **단독 호출 시**: 가이드 페이지 제작/현행화 여부를 사용자에게 반드시 알린다. 자동 수행 금지.
 
     안내 형식 (단독 호출 작업 완료 후 반드시 포함):
+
     ```
     가이드 페이지 작업이 필요합니다:
     - pages/guide/[componentName]/index.vue — 신규 제작 필요 (또는: 현행화 필요)
     진행할까요?
     ```
+
 - 구현 완료 후 안내: "구현이 명세(`.claude/specs/[ComponentName].md`)와 일치하는지 사용자가 직접 확인해주세요. 명세 변경이 필요하면 `@uiux-planner-agents`로 명세를 먼저 갱신해야 합니다."
 
 ### 팀 공유 메모리 기록
