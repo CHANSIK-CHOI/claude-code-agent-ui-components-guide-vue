@@ -28,68 +28,61 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
 interface GuideNavItem {
-  label: string
-  to: string
+  label: string;
+  to: string;
 }
 
 interface GuideNavGroup {
-  label: string
-  items: GuideNavItem[]
+  label: string;
+  items: GuideNavItem[];
 }
 
 const navigation: GuideNavGroup[] = [
   {
-    label: 'OVERVIEW',
+    label: "OVERVIEW",
+    items: [{ label: "Claude 워크플로우", to: "/guide" }],
+  },
+  {
+    label: "ATOMS",
     items: [
-      { label: 'Claude 워크플로우', to: '/guide' },
-      { label: '퍼블리싱 현황', to: '/guide/pageList' },
+      { label: "Button", to: "/guide/button" },
+      { label: "ButtonLink", to: "/guide/button-link" },
+      { label: "Input", to: "/guide/input" },
+      { label: "Select", to: "/guide/select" },
+      { label: "TextArea", to: "/guide/textarea" },
+      { label: "Stepper", to: "/guide/stepper" },
+      { label: "Checkbox", to: "/guide/checkbox" },
+      { label: "Switch", to: "/guide/switch" },
     ],
   },
   {
-    label: 'ATOMS',
+    label: "ICONS",
+    items: [{ label: "Icon", to: "/guide/icon" }],
+  },
+  {
+    label: "ORGANISMS",
     items: [
-      { label: 'Button', to: '/guide/button' },
-      { label: 'ButtonLink', to: '/guide/button-link' },
-      { label: 'Input', to: '/guide/input' },
-      { label: 'Select', to: '/guide/select' },
-      { label: 'TextArea', to: '/guide/textarea' },
-      { label: 'Stepper', to: '/guide/stepper' },
-      { label: 'Checkbox', to: '/guide/checkbox' },
-      { label: 'Switch', to: '/guide/switch' },
+      { label: "Tab", to: "/guide/tab" },
+      { label: "Alert", to: "/guide/alert" },
+      { label: "Confirm", to: "/guide/confirm" },
+      { label: "LayerPopup", to: "/guide/layerPopup" },
+      { label: "BottomSheet", to: "/guide/bottomSheet" },
+      { label: "FullPopup", to: "/guide/fullPopup" },
+      { label: "ToastPopup", to: "/guide/toastPopup" },
     ],
   },
   {
-    label: 'ICONS',
-    items: [
-      { label: 'Icon', to: '/guide/icon' },
-    ],
+    label: "POLICY",
+    items: [{ label: "외부 라이브러리 정책", to: "/guide/libraries" }],
   },
-  {
-    label: 'ORGANISMS',
-    items: [
-      { label: 'Tab', to: '/guide/tab' },
-      { label: 'Alert', to: '/guide/alert' },
-      { label: 'Confirm', to: '/guide/confirm' },
-      { label: 'LayerPopup', to: '/guide/layerPopup' },
-      { label: 'BottomSheet', to: '/guide/bottomSheet' },
-      { label: 'FullPopup', to: '/guide/fullPopup' },
-      { label: 'ToastPopup', to: '/guide/toastPopup' },
-    ],
-  },
-  {
-    label: 'POLICY',
-    items: [
-      { label: '외부 라이브러리 정책', to: '/guide/libraries' },
-    ],
-  },
-]
+];
 </script>
 
 <style lang="scss" scoped>
-$b: 'guideSidebar';
+$b: "guideSidebar";
 
 .#{$b} {
   display: flex;
