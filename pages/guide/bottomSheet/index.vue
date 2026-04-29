@@ -21,45 +21,12 @@
           <button
             type="button"
             class="bottomSheetGuidePage__demoBtn"
-            @click="basic.open()"
+            @click="basicRef?.open()"
           >
             기본 BottomSheet 열기
           </button>
         </div>
-        <BottomSheet
-          v-model:open="basic.isOpen.value"
-          title="정렬 선택"
-          @ok="basic.close()"
-        >
-          <ul class="bottomSheetGuidePage__optionList">
-            <li
-              v-for="opt in sortOptions"
-              :key="opt.value"
-              class="bottomSheetGuidePage__optionItem"
-            >
-              <button
-                type="button"
-                @click="
-                  selectedSort = opt.value;
-                  basic.close();
-                "
-              >
-                {{ opt.label }}
-                <span
-                  v-if="selectedSort === opt.value"
-                  class="bottomSheetGuidePage__check"
-                  >✓</span
-                >
-              </button>
-            </li>
-          </ul>
-        </BottomSheet>
-      </div>
-      <div v-if="selectedSort" class="bottomSheetGuidePage__result">
-        선택된 정렬:
-        <strong>{{
-          sortOptions.find((o) => o.value === selectedSort)?.label
-        }}</strong>
+        <BottomSheetDemoBasic ref="basicRef" />
       </div>
     </section>
 
@@ -74,26 +41,12 @@
           <button
             type="button"
             class="bottomSheetGuidePage__demoBtn"
-            @click="longContent.open()"
+            @click="longContentRef?.open()"
           >
             긴 콘텐츠 BottomSheet 열기
           </button>
         </div>
-        <BottomSheet
-          v-model:open="longContent.isOpen.value"
-          title="긴 목록"
-          @ok="longContent.close()"
-        >
-          <ul class="bottomSheetGuidePage__longList">
-            <li
-              v-for="i in 30"
-              :key="i"
-              class="bottomSheetGuidePage__longListItem"
-            >
-              항목 {{ i }}
-            </li>
-          </ul>
-        </BottomSheet>
+        <BottomSheetDemoLongContent ref="longContentRef" />
       </div>
     </section>
 
@@ -108,46 +61,12 @@
           <button
             type="button"
             class="bottomSheetGuidePage__demoBtn"
-            @click="filter.open()"
+            @click="filterRef?.open()"
           >
             필터 BottomSheet 열기
           </button>
         </div>
-        <BottomSheet v-model:open="filter.isOpen.value" title="필터">
-          <div class="bottomSheetGuidePage__filterGroup">
-            <p class="bottomSheetGuidePage__filterLabel">카테고리</p>
-            <label
-              v-for="opt in filterOptions"
-              :key="opt.value"
-              class="bottomSheetGuidePage__radio"
-            >
-              <input type="radio" v-model="filterValue" :value="opt.value" />
-              {{ opt.label }}
-            </label>
-          </div>
-          <template #footer>
-            <button
-              type="button"
-              class="bottomSheetGuidePage__footerBtn bottomSheetGuidePage__footerBtn--reset"
-              @click="filterValue = ''"
-            >
-              초기화
-            </button>
-            <button
-              type="button"
-              class="bottomSheetGuidePage__footerBtn bottomSheetGuidePage__footerBtn--apply"
-              @click="applyFilter"
-            >
-              적용
-            </button>
-          </template>
-        </BottomSheet>
-      </div>
-      <div v-if="appliedFilter" class="bottomSheetGuidePage__result">
-        적용된 필터:
-        <strong>{{
-          filterOptions.find((o) => o.value === appliedFilter)?.label
-        }}</strong>
+        <BottomSheetDemoFilter ref="filterRef" />
       </div>
     </section>
 
@@ -189,7 +108,7 @@
           <tr>
             <td><code>showClose</code></td>
             <td><code>boolean</code></td>
-            <td><code>true</code></td>
+            <td><code>false</code></td>
             <td>헤더 닫기(✕) 버튼 표시</td>
           </tr>
           <tr>
@@ -227,6 +146,12 @@
             <td><code>boolean</code></td>
             <td><code>true</code></td>
             <td>ESC 키 입력 시 닫기</td>
+          </tr>
+          <tr>
+            <td><code>showFooter</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>footer 영역 표시 여부. <code>false</code>면 footer 태그 자체가 렌더링되지 않음</td>
           </tr>
         </tbody>
       </table>
@@ -331,34 +256,16 @@
 
 <script setup lang="ts">
 definePageMeta({ layout: "guide" });
-import { BottomSheet, useBottomSheet } from "@nd/components/popup";
+import {
+  BottomSheetDemoBasic,
+  BottomSheetDemoLongContent,
+  BottomSheetDemoFilter,
+} from "@nd/components/guide";
 
-const basic = useBottomSheet();
-const longContent = useBottomSheet();
-const filter = useBottomSheet();
-
-const selectedSort = ref("");
-const filterValue = ref("");
-const appliedFilter = ref("");
-
-const sortOptions = [
-  { value: "popular", label: "인기순" },
-  { value: "newest", label: "최신순" },
-  { value: "price_asc", label: "낮은 가격순" },
-  { value: "price_desc", label: "높은 가격순" },
-];
-
-const filterOptions = [
-  { value: "all", label: "전체" },
-  { value: "skincare", label: "스킨케어" },
-  { value: "makeup", label: "메이크업" },
-  { value: "haircare", label: "헤어케어" },
-];
-
-function applyFilter() {
-  appliedFilter.value = filterValue.value;
-  filter.close();
-}
+type PopupRef = { open: () => void; close: () => void };
+const basicRef = ref<PopupRef>();
+const longContentRef = ref<PopupRef>();
+const filterRef = ref<PopupRef>();
 </script>
 
 <style lang="scss" scoped src="./bottomSheet.scss"></style>
