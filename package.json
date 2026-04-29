@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^11",
-    "nuxt": "^3.21.2",
-    "nuxt-svgo": "^4.0.2",
-    "radix-vue": "latest",
-    "vue": "^3.5.0"
+    "nuxt": "3.10.3",
+    "nuxt-svgo": "4.2.6",
+    "radix-vue": "1.9.17",
+    "vue": "3.4.19"
   },
   "devDependencies": {
-    "sass": "latest",
+    "sass": "1.85.0",
     "typescript": "latest",
     "vite-svg-loader": "^5.1.1",
     "vue-tsc": "latest"
