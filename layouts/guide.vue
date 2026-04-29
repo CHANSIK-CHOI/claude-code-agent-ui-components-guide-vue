@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { GuideHeader, GuideSidebar } from "@/components/guide";
+import { GuideHeader, GuideSidebar } from "@nd/components/guide";
 </script>
 
 <style lang="scss" scoped>

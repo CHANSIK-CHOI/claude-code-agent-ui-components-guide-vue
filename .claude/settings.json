@@ -12,7 +12,6 @@
       "Write(**)"
     ],
     "deny": [
-      "Bash(git push *)",
       "Bash(rm -rf *)",
       "Bash(wget*)",
       "Bash(ssh*)",
