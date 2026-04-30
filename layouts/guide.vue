@@ -44,12 +44,14 @@ $sidebar-width: 24rem;
     align-self: flex-start;
     height: calc(100vh - #{$header-height});
     overflow-y: auto;
+    width: 24rem;
   }
 
   &__main {
     flex: 1;
     min-width: 0;
     overflow-x: auto;
+    width: calc(100vw - 24rem);
   }
 }
 </style>
