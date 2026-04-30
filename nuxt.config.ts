@@ -58,7 +58,11 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'vercel-static',
+    preset: 'github-pages',
+  },
+
+  app: {
+    baseURL: '/claude-code-agent-ui-components-guide-vue/',
   },
 
   typescript: {
