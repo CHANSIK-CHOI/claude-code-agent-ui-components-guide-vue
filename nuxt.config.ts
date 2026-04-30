@@ -65,6 +65,8 @@ export default defineNuxtConfig({
     baseURL: '/claude-code-agent-ui-components-guide-vue/',
   },
 
+  ssr: false,
+
   typescript: {
     strict: true,
     typeCheck: false,

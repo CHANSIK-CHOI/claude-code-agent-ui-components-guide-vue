@@ -4,10 +4,9 @@ export interface PopupInstance {
   props: Record<string, unknown>
 }
 
-export function usePopupManager() {
-  // useState: SSR request-scoped — 모듈 최상위 reactive() 대신 사용하여 cross-request 메모리 공유 방지
-  const instances = useState<PopupInstance[]>('popup-instances', () => [])
+const instances = ref<PopupInstance[]>([])
 
+export function usePopupManager() {
   function mount(instance: PopupInstance): void {
     instances.value.push(instance)
   }
