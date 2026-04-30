@@ -1,4 +1,19 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Frameout Pub — Claude 설정
+
+## 개발 커맨드
+
+```bash
+npm run dev       # 개발 서버 (http://localhost:5000 — 기본 포트 5000, 3000 아님)
+npm run build     # Nuxt SSR 빌드
+npm run generate  # 정적 생성 (GitHub Pages 배포용)
+npm run typecheck # vue-tsc 타입 체크 (CI 전 수동 실행)
+```
+
+> **배포**: `nuxt generate` → GitHub Pages. `nuxt.config.ts`의 `ssr: false` (SPA 모드), `baseURL: '/claude-code-agent-ui-components-guide-vue/'`.
 
 ## 개발 환경
 
@@ -60,6 +75,60 @@
 - `/component-revise` 루프백은 항상 publisher 만 — spec은 1단계에서 사용자가 승인한 상태
 
 > **plan / accept mode 전환**: `.claude/settings.json` `defaultMode: "plan"` 으로 모든 세션이 plan mode로 시작한다. `/component-create` 1단계는 plan mode에서 그대로 진행하며, 2단계 이후 코드 변경 자동 진행을 위해서는 **1단계 승인 직후 사용자가 `Shift+Tab`으로 accept mode로 수동 전환**해야 한다. (Claude Code는 명령 내부에서 mode를 자동 전환할 수 없다.) `/component-audit`, `/component-revise`도 동일 — 1단계 승인 후 수동 전환 필요.
+
+## 아키텍처 핵심 패턴
+
+### 경로 alias
+
+`@nd` → 프로젝트 루트. 모든 cross-directory import는 `@nd/` prefix 사용.
+
+```ts
+import type { ButtonShape } from '@nd/components/types'
+import { useButtonVariant } from './useButtonVariant'  // 같은 폴더는 상대경로
+```
+
+### 컴포넌트 폴더 구조 (특수 폴더)
+
+- `components/icons/` — `Icon.vue` 단일 컴포넌트. SVG는 `nuxt-svgo`로 자동 임포트되며 `currentColor`로 색상 변환됨
+- `components/popup/` — Popup 계열 전체 (organisms 아님). 아래 팝업 시스템 참조
+- `components/guide/` — 가이드 페이지 전용 레이아웃 컴포넌트 (GuideHeader, GuideSidebar)
+
+### 팝업 시스템 — 프로그래매틱 API
+
+Alert/Confirm은 컴포넌트를 직접 사용하지 않고 composable로 호출한다.
+
+```ts
+// 사용 측
+const { open: openAlert } = useAlert({ title: '...', onConfirm: () => {} })
+const { open: openConfirm } = useConfirm({ title: '...', onConfirm: () => {}, onCancel: () => {} })
+```
+
+내부 동작: `useAlert`/`useConfirm` → `usePopupManager.mount()` → `PopupRenderer.vue`가 instances를 렌더링 (layout에 마운트됨). Toast는 `ToastRenderer.vue` + `useToastPopup`으로 별도 운영.
+
+`PopupRenderer`와 `ToastRenderer`는 `<ClientOnly>`로 감싸져 있어야 SSR/정적 생성에서 에러 없음.
+
+### Button SCSS 공유 믹스인
+
+Button/ButtonLink는 스타일을 SFC 인라인이 아닌 외부 mixin 파일로 공유한다.
+
+```scss
+// Button.vue, ButtonLink.vue 공통 패턴
+@use '@nd/assets/scss/components/button-base' as *;
+@include button-base('button');   // BEM block명 전달
+```
+
+### SCSS 변수 자동 주입
+
+`nuxt.config.ts`의 `vite.css.preprocessorOptions.scss.additionalData`로 `_variables.scss`가 **모든 `<style>` 블록에 자동 주입**된다. `@use`/`@import` 없이 모든 토큰 변수 즉시 사용 가능.
+
+### 레이아웃
+
+- `layouts/default.vue` — 일반 페이지
+- `layouts/guide.vue` — GuideHeader + GuideSidebar + `<slot />` 구조. 가이드 페이지(`pages/guide/**`)에서 사용
+
+### 가이드 페이지
+
+신규 컴포넌트마다 `pages/guide/[componentName]/index.vue`를 생성한다. 상세 규칙은 `rules/guide-page.md` 참조.
 
 ## Rules 참조
 
