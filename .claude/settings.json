@@ -15,6 +15,7 @@
       "Bash(rm -rf *)",
       "Bash(wget*)",
       "Bash(ssh*)",
+      "Bash(git push *)",
       "Write(./.env)",
       "Write(./.env.*)"
     ],
