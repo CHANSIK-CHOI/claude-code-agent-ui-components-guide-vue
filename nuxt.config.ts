@@ -1,14 +1,21 @@
-import { fileURLToPath } from 'node:url'
-import { join } from 'node:path'
+import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
-const rootDir = fileURLToPath(new URL('./', import.meta.url))
-const scssVariablesPath = join(rootDir, 'assets/scss/abstracts/_variables.scss').replace(/\\/g, '/')
+const rootDir = fileURLToPath(new URL("./", import.meta.url));
+const scssVariablesPath = join(
+  rootDir,
+  "assets/scss/abstracts/_variables.scss",
+).replace(/\\/g, "/");
+const scssMixinsPath = join(
+  rootDir,
+  "assets/scss/abstracts/_mixins.scss",
+).replace(/\\/g, "/");
 
 export default defineNuxtConfig({
   alias: {
-    '@nd': rootDir,
+    "@nd": rootDir,
   },
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: "2024-04-03",
   telemetry: false,
 
   devServer: {
@@ -16,53 +23,57 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    'radix-vue/nuxt',
-    ['nuxt-svgo', {
-      defaultImport: 'component',
-      svgoConfig: {
-        plugins: [
-          {
-            name: 'convertColors',
-            params: { currentColor: true },
-          },
-        ],
+    "radix-vue/nuxt",
+    [
+      "nuxt-svgo",
+      {
+        defaultImport: "component",
+        svgoConfig: {
+          plugins: [
+            {
+              name: "convertColors",
+              params: { currentColor: true },
+            },
+          ],
+        },
       },
-    }],
+    ],
   ],
 
   components: [
     {
-      path: '@nd/components',
+      path: "@nd/components",
       pathPrefix: false,
-      extensions: ['.vue'],
+      extensions: [".vue"],
     },
   ],
 
-  build: {
-    transpile: ['@vuepic/vue-datepicker'],
-  },
-
   css: [
-    '@vuepic/vue-datepicker/dist/main.css',
-    '@nd/assets/scss/global.scss',
+    "@nd/assets/scss/global.scss",
+    "@nd/assets/scss/components/table.scss",
+    "swiper/css",
+    "swiper/css/navigation",
+    "swiper/css/thumbs",
+    "swiper/css/effect-fade",
+    "swiper/css/pagination",
   ],
 
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "${scssVariablesPath}" as *;`,
+          additionalData: `@use "${scssVariablesPath}" as *; @use "${scssMixinsPath}" as *;`,
         },
       },
     },
   },
 
   nitro: {
-    preset: 'github-pages',
+    preset: "github-pages",
   },
 
   app: {
-    baseURL: '/claude-code-agent-ui-components-guide-vue/',
+    baseURL: "/claude-code-agent-ui-components-guide-vue/",
   },
 
   ssr: false,
@@ -71,4 +82,4 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: false,
   },
-})
+});

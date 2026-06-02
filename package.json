@@ -11,10 +11,13 @@
     "typecheck": "nuxi typecheck"
   },
   "dependencies": {
-    "@vuepic/vue-datepicker": "^11",
+    "@vant/touch-emulator": "^1.5.0",
+    "gsap": "^3.15.0",
     "nuxt": "3.10.3",
     "nuxt-svgo": "4.2.6",
     "radix-vue": "1.9.17",
+    "swiper": "^12.2.0",
+    "vant": "^4.9.24",
     "vue": "3.4.19"
   },
   "devDependencies": {
