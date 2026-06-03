@@ -8,20 +8,20 @@
       "Bash(git *)",
       "Bash(npm *)",
       "Bash(npx *)",
+      "Bash(curl -s *)",
       "Read(**)",
       "Write(**)"
     ],
     "deny": [
+      "Bash(git push *)",
       "Bash(rm -rf *)",
       "Bash(wget*)",
       "Bash(ssh*)",
-      "Bash(git push *)",
       "Write(./.env)",
       "Write(./.env.*)"
     ],
     "defaultMode": "plan"
   },
-  "model": "sonnet",
   "enabledMcpjsonServers": ["figma", "context7", "playwright"],
   "statusLine": {
     "type": "command",
@@ -31,5 +31,38 @@
     "figma@claude-plugins-official": true
   },
   "language": "korean",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/detect-claude-changes.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/format-on-edit.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/notify-docs-sync.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/typecheck.sh",
+            "timeout": 180
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -21,9 +21,14 @@
     "vue": "3.4.19"
   },
   "devDependencies": {
+    "@types/node": "^20.19.41",
     "sass": "1.85.0",
     "typescript": "6.0.3",
     "vite-svg-loader": "^5.1.1",
     "vue-tsc": "3.2.7"
+  },
+  "overrides": {
+    "chokidar": "3.6.0",
+    "vue-router": "4.3.0"
   }
 }
