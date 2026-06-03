@@ -2,6 +2,8 @@
 description: "design-tokens.json을 프로젝트 SCSS 변수 파일(_variables.scss)로 변환합니다."
 ---
 
+> 본 명령은 에이전트를 호출하지 않고 Claude 가 JSON 을 직접 파싱해 SCSS 변수 파일을 생성·병합한다.
+
 ## 사용법
 
 ```
@@ -17,7 +19,7 @@ description: "design-tokens.json을 프로젝트 SCSS 변수 파일(_variables.s
 ## 출력
 
 - 파일 경로: `assets/scss/abstracts/_variables.scss` (단일 파일, 고정)
-- 이 파일은 `nuxt.config.ts`의 `additionalData`로 모든 SCSS `<style>` 블록에 자동 주입된다
+- 이 파일은 `nuxt.config.ts`의 `additionalData`로 모든 SCSS `<style>` 블록에 자동 주입된다 (실제 주입 경로: `~/assets/scss/abstracts/variables`)
 - `@use`/`@import` 없이 컴포넌트에서 바로 변수 사용 가능
 
 ## 변환 규칙

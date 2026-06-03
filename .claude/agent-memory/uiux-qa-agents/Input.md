@@ -1,22 +1,25 @@
 # Input — QA 검수 메모
 
-- **검수일**: 2026-04-28
-- **검수 결과**: PASS (4회차)
-- **루프 횟수**: 4회차 — PASS 확정
+- **검수일**: 2026-05-29
+- **검수 결과**: PASS
+- **루프 횟수**: 1회 (hideClear/suffix/clear 이벤트 신규 추가 검수)
 - **발견한 BLOCKER 요약**: 없음
-- **WARN 요약**: 없음
-- **INFO 요약**:
-  - `useTemplateRef` 관련 콘솔 메시지가 dev session에서 여전히 관찰됨 (캐시 artifact). Input.vue에 `useTemplateRef` 사용 없음. Vue 3.5.33 업그레이드 후 dev server 재기동 시 해소 예상.
+- **WARN 요약**:
+  - 가이드 페이지 `Icon` import 경로 `@nd/components/icons/Icon.vue` 직접 import — barrel 우회 패턴 (가이드 페이지 기능 영향 없음)
+- **INFO 요약**: 없음
 
-## 수정 이력 확인
-- `Input.vue:78` — `rgba(17, 17, 17, 0.12)` → `rgba($border-input-focus, 0.12)` 정상 적용 확인
-- `package.json` — `"vue": "^3.5.0"` 적용, 실제 설치 버전 3.5.33 확인
-- `$border-input-focus` 토큰은 `_variables.scss` 91번째 줄에 `$_neutral-900`(#111111)으로 정의됨
+## 이번 검수 항목 (2026-05-29 신규)
+- `hideClear` prop: true 시 값 있어도 clear 버튼 미표시 — DOM에서 `.input__suffix` 자체 제거 확인
+- `suffix` named slot: border 안쪽 우측 표시, clear 버튼 왼쪽에 나란히 렌더 — 정상
+- `clear` 이벤트: 클릭 시 `update:modelValue('')` → `clear` 순서 발행, 이벤트 로그 표시 — 정상
+- clear 버튼 표시 조건 4가지 조합 (`hideClear=false` AND `disabled=false` AND `readonly=false` AND 값≥1자) — 모두 정상
+- `aria-invalid="true"` DOM 속성 실측 확인 (Playwright 접근성 트리에는 미노출, DOM 직접 확인)
+- `v-bind="$attrs"` → `<input>` 맨 앞 배치 확인 — 명시 바인딩 우선순위 정상
+- CSP 에러(Kakao SDK): 전역 인프라 이슈, Input 컴포넌트 무관
 
-## 재발 방지 메모
-- `useTemplateRef`는 Vue 3.5에서 추가된 API. Nuxt 3.21+ 는 이를 auto-import 목록에 포함하므로 Vue 3.4.x 사용 시 런타임 에러 발생. `"vue": "^3.5.0"` 유지 필수.
-- SCSS box-shadow에 rgba raw 값 사용 금지 — `rgba($token, opacity)` 형식으로 토큰 참조 (`rules/tokens.md` 준수)
-- uid 자동 생성 패턴(`Math.random`, `_uid`) 사용 금지 — id는 `v-bind="$attrs"` 위임으로 처리, 사용처에서 직접 `id="..."` 전달
-- 스펙 토큰명은 반드시 `_variables.scss` 실제 토큰명과 일치 확인 필요 (`$border-default` → `$line-200`, `$text-strong` → `$text-900`, `$text-secondary` → `$text-600`, `$text-disabled` → `$text-300` 오류 발생 이력)
-- FormField의 helper 요소 id는 `helper-{inputId}` 패턴 자동 생성 — `aria-describedby` 연결 시 이 패턴 준수 필수
-- `label[for]` ↔ `input[id]` 연결은 `v-bind="$attrs"`로 id를 `<input>`에 직접 전달함으로써 정상 작동 확인됨
+## 재발 방지 메모 (이전 이력 포함)
+- `hideClear`/`disabled`/`readonly` 조합 시 `v-if="showClear || $slots.suffix"`로 suffix div 자체 DOM 제거 패턴 — DOM 검증 필수
+- `v-bind="$attrs"` 위치: `<input>` 태그 명시 바인딩보다 항상 먼저 (순서 역전 시 외부 속성에 내부값 덮어씌워짐)
+- `aria-invalid="true"` Playwright 접근성 트리에서 별도 attr 미노출 — `browser_evaluate`로 DOM 직접 확인 필요
+- SCSS 토큰명 주의: `$border-default` → `$line-200`, `$text-strong` → `$text-900`, `$text-secondary` → `$text-600`, `$text-disabled` → `$text-300`
+- FormField helper id 패턴: `helper-{inputId}` — `aria-describedby` 연결 시 준수 필수

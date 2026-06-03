@@ -10,14 +10,13 @@
 
 ```
 components/icons/
-├── Icon.vue      ← Base 컴포넌트 (size/color/label/slot 처리)
-└── index.ts      ← makeIcon 헬퍼 + 아이콘 named export
+└── Icon.vue        ← Base 컴포넌트 (size/color/label/slot 처리)
 
 assets/
-└── icons/        ← SVG 파일 보관 폴더
+└── icons/          ← SVG 파일 보관 폴더
     ├── home.svg
     ├── close.svg
-    └── ...        (파일명: kebab-case)
+    └── ...          (파일명: camelCase, 예: smallChevronDown.svg)
 ```
 
 ```
@@ -46,7 +45,6 @@ components/types.ts  ← IconSize 타입 추가
 | `number` (정방형) | `:size="50"` | 50×50px |
 
 - 커스텀 크기는 CSS class가 아닌 inline style(`width` / `height`)로 처리한다
-- `makeIcon()`의 `defaultSize` 인수는 프리셋 문자열만 허용 — 커스텀 크기를 기본값으로 설정할 수 없다
 
 ---
 
@@ -142,140 +140,39 @@ $b: "icon";
 
 ---
 
-## index.ts 명세
-
-### 구조 원칙
-
-- `.ts` 파일 (`.vue` 아님) — named export만 담당
-- `makeIcon()` 헬퍼 함수로 일반 아이콘을 render function 기반으로 생성
-- CartIcon은 배지 처리를 위해 `defineComponent`로 별도 정의
-- CartIcon CSS는 별도 전역 스타일 블록에 작성 (scoped 미사용)
-
-### `makeIcon()` 헬퍼
-
-```typescript
-import type { Component } from "vue";
-
-function makeIcon(name: string, defaultSize: IconPresetSize, SvgComponent: Component);
-```
-
-| 인수           | 타입             | 설명                                        |
-| -------------- | ---------------- | ------------------------------------------- |
-| `name`         | `string`         | 컴포넌트 이름 (DevTools 표시용)             |
-| `defaultSize`  | `IconPresetSize` | 해당 아이콘의 Figma 기준 기본 크기 (프리셋만 허용) |
-| `SvgComponent` | `Component` | `vite-svg-loader`가 변환한 SVG Vue 컴포넌트 |
-
-render function 내부 구조:
-
-```typescript
-// 변경 전 (구 방식 — paths 문자열 embed)
-() => h('svg', { xmlns: '...', viewBox: '0 0 24 24', fill: 'none', innerHTML: svgPaths })
-
-// 변경 후 (현행 방식 — SVG 컴포넌트 위임)
-() => h(SvgComponent)
-```
-
-### 아이콘 컴포넌트 네이밍 규칙
-
-모든 아이콘 컴포넌트 이름은 반드시 `Icon` 접미사로 끝나야 한다.
-
-**이유**: `<Close>`, `<Tooltip>` 등 접미사 없는 이름은 일반 HTML 요소(`<input>`, `<select>`) 또는 Radix Vue 서브 컴포넌트(`<TooltipRoot>` 등)와 이름 충돌 위험이 있다.
-
-| 패턴                  | 예시                                                      |
-| --------------------- | --------------------------------------------------------- |
-| ✅ 올바른 이름        | `CloseIcon`, `CartIcon`, `TooltipIcon`, `ChevronDownIcon` |
-| ❌ 금지 — 접미사 없음 | `Close`, `Cart`, `Tooltip`, `ChevronDown`                 |
-
-### 아이콘 목록 및 기본 크기
-
-아이콘 목록은 사용자가 직접 추가한다. 각 size별 패턴 예시:
-
-| size          | 예시 컴포넌트 이름 | 용도           |
-| ------------- | ------------------ | -------------- |
-| `'md'` (24px) | `HomeIcon`         | 일반 UI 아이콘 |
-| `'sm'` (16px) | `ChevronUpIcon`    | 소형 UI 아이콘 |
-| `'lg'` (40px) | `WarningLargeIcon` | 대형/일러스트  |
-
-> **publisher 구현 범위**: `HomeIcon`(`'md'`) 1개를 예시로 구현한다. 나머지 아이콘은 사용자가 패턴을 참고해 직접 추가.
-
-### CartIcon Props
-
-| 이름    | 타입                  | 기본값      | 설명                                            |
-| ------- | --------------------- | ----------- | ----------------------------------------------- |
-| `size`  | `IconSize`            | `'md'`      | 아이콘 크기                                     |
-| `color` | `string \| undefined` | `undefined` | CSS color 값                                    |
-| `label` | `string \| undefined` | `undefined` | 접근성 라벨                                     |
-| `count` | `number \| undefined` | `undefined` | 배지 숫자. `undefined` 또는 `0`이면 배지 미표시 |
-
-### CartIcon 배지 동작
-
-- `count > 0` → 배지 표시
-- `count > 99` → `'99+'` 표시
-- 배지 위치: 아이콘 우상단 (absolute, top/right -4px)
-- 배지 색상: `#ff5146` (danger)
-- `aria-label`: "장바구니 {count}개"
-
-### CartIcon SCSS (전역)
-
-```css
-.cartIcon {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cartIcon__badge {
-  position: absolute;
-  top: -0.4rem;
-  right: -0.4rem;
-  min-width: 1.6rem;
-  height: 1.6rem;
-  padding: 0 0.4rem;
-  border-radius: 9999px;
-  background-color: #ff5146;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.6rem;
-  text-align: center;
-  white-space: nowrap;
-  pointer-events: none;
-  box-sizing: border-box;
-}
-```
-
-> scoped 없는 `<style>` 블록에서는 `additionalData` SCSS 변수 자동 주입이 작동하지 않아 raw 값을 사용합니다.
-
----
-
 ## nuxt.config.ts 설정
 
-`vite-svg-loader` 플러그인을 등록하고 SVGO `convertColors` 설정을 추가한다.
+`nuxt-svgo` 모듈을 사용한다. `defaultImport: 'url'`로 bare import는 URL 문자열로 반환되며, 인라인 SVG가 필요한 경우 `?component` 또는 `?skipsvgo` 쿼리를 명시한다.
 
 ```typescript
-import svgLoader from "vite-svg-loader";
-
 export default defineNuxtConfig({
-  vite: {
-    plugins: [
-      svgLoader({
-        svgoConfig: {
-          plugins: [
-            {
-              name: "convertColors",
-              params: { currentColor: true },
-            },
-          ],
-        },
-      }),
-    ],
-  },
-});
+  modules: [
+    ['nuxt-svgo', {
+      defaultImport: 'url',       // bare import → URL 문자열 (청크 비대화 방지)
+      svgoConfig: {
+        plugins: [
+          {
+            name: 'convertColors',
+            params: { currentColor: true },
+          },
+        ],
+      },
+    }],
+  ],
+})
 ```
 
-- `convertColors: true` → SVG 내 `fill="black"`, `stroke="black"` 등 색상값을 빌드 시 자동으로 `currentColor`로 변환
-- `fill="none"` 은 색상값이 아니므로 변환되지 않음 (그대로 유지됨)
+**쿼리 접미사별 동작**:
+
+| 쿼리          | 결과                         | 용도                                |
+| ------------- | ---------------------------- | ----------------------------------- |
+| 없음 (bare)   | URL 문자열                   | `<img :src>` 또는 CSS background    |
+| `?component`  | Vue 컴포넌트 (SVGO 적용)     | currentColor 색상 제어가 필요한 SVG |
+| `?skipsvgo`   | Vue 컴포넌트 (SVGO 건너뜀)   | 색상 고정이 필요한 SVG              |
+| `?url`        | URL 문자열 (명시적)          | bare import와 동일                  |
+
+- `convertColors: true` → `?component` import 시 `fill/stroke` 색상값을 빌드 시 자동으로 `currentColor`로 변환
+- `fill="none"` 은 색상값이 아니므로 변환되지 않음
 
 ---
 
@@ -287,34 +184,45 @@ export type IconPresetSize = "xs" | "sm" | "md" | "lg";
 export type IconSize = IconPresetSize | number;
 ```
 
-`IconPresetSize`를 별도 타입으로 분리하는 이유: `makeIcon()`의 `defaultSize` 인수 타입을 프리셋 문자열로만 제한하기 위함.
+`IconPresetSize`는 `Icon.vue` Props 타입에서 사용한다.
 
 ---
 
 ## 사용 방법
 
+배럴 export 없음. 사용처에서 필요한 SVG만 직접 import한다.
+
 ```typescript
 // Nuxt auto-import 미지원 — 명시적 import 필수
-import { HomeIcon, SearchIcon, CartIcon } from "@nd/components/icons";
+import Icon from '@nd/components/icons/Icon.vue'
+// @ts-ignore — vite-svg-loader ?component 모듈은 런타임에 정상 동작
+import HomeSvg from '@nd/assets/icons/home.svg?component'  // currentColor 필요
+// @ts-ignore
+import HeartSvg from '@nd/assets/icons/heart.svg?skipsvgo' // 색상 고정
 ```
 
 ```html
-<HomeIcon />                  <!-- 기본: 24px, currentColor 상속 -->
-<SearchIcon size="sm" />      <!-- 프리셋: 16px -->
-<SearchIcon color="#0CB5E2" /> <!-- 명시적 색상 -->
-<HomeIcon label="홈으로 이동" /> <!-- 의미있는 아이콘 (aria-label) -->
-<HomeIcon :size="50" />       <!-- 커스텀: 50×50px -->
-<CartIcon />                  <!-- 배지 없음 -->
-<CartIcon :count="3" />       <!-- 배지 '3' -->
-<CartIcon :count="100" />     <!-- 배지 '99+' -->
+<!-- 기본: md(24px), currentColor 상속 -->
+<Icon><HomeSvg /></Icon>
+
+<!-- 프리셋 크기 -->
+<Icon size="sm"><SmallCloseSvg /></Icon>
+
+<!-- 명시적 색상 -->
+<Icon color="#0CB5E2"><AlertSvg /></Icon>
+
+<!-- 의미있는 아이콘 (aria-label) -->
+<Icon label="홈으로 이동"><HomeSvg /></Icon>
+
+<!-- 커스텀 크기 -->
+<Icon :size="50"><HomeSvg /></Icon>
 ```
 
-부모 CSS로 색상 제어 (권장 방식):
+부모 CSS로 색상 제어 (currentColor 상속):
 
 ```html
 <span style="color: #0CB5E2;">
-  <HomeIcon />
-  <!-- currentColor = #0CB5E2 상속 -->
+  <Icon><HomeSvg /></Icon>
 </span>
 ```
 
@@ -326,57 +234,107 @@ import { HomeIcon, SearchIcon, CartIcon } from "@nd/components/icons";
 
 ```
 1. Figma에서 SVG Export
-2. assets/icons/ 에 저장 (파일명: kebab-case, 예: chevron-down.svg)
-3. components/icons/index.ts 에 import + makeIcon 한 줄 추가
+2. assets/icons/ 에 저장 (파일명: camelCase, 예: chevronDown.svg)
+3. 사용 파일에서 직접 import
 ```
 
 ```typescript
-// components/icons/index.ts
-import ChevronDownSvg from "@nd/assets/icons/chevron-down.svg?component";
-
-export const ChevronDownIcon = makeIcon(
-  "ChevronDownIcon",
-  "md",
-  ChevronDownSvg,
-);
+// 사용처 SFC의 <script setup>
+import Icon from '@nd/components/icons/Icon.vue'
+// @ts-ignore
+import ChevronDownSvg from '@nd/assets/icons/chevronDown.svg?component'
 ```
 
-- `?component` 쿼리: `vite-svg-loader`가 SVG 파일을 Vue 컴포넌트로 변환
-- 색상 처리: SVGO `convertColors`가 빌드 시 자동으로 `fill/stroke` 색상값 → `currentColor` 변환. 수동 치환 불필요.
+```html
+<Icon size="sm"><ChevronDownSvg /></Icon>
+```
+
+- `?component` 쿼리: nuxt-svgo가 SVG 파일을 Vue 컴포넌트로 변환
+- SVGO `convertColors`가 빌드 시 자동으로 `fill/stroke` 색상값 → `currentColor` 변환
 
 ### 예외 케이스 — SVGO 건너뛰기
 
-SVGO 전역 설정(`convertColors`)이 SVG 내 색상값을 `currentColor`로 변환하면서 의도치 않은 시각 결과가 생기는 경우, `?component&skipsvgo` 쿼리를 사용해 SVGO 처리를 건너뛴다.
+의도치 않은 색상 변환이 발생하는 SVG는 `?skipsvgo`를 사용한다.
 
 **skipsvgo 적용 아이콘 목록**
 
-| 아이콘 컴포넌트    | 이유                                                                                                                   |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `PlayIcon`         | `<filter>` drop-shadow + `fill="white"` 포함 — SVGO가 white를 currentColor로 변환하면 드롭섀도 시각이 깨짐             |
-| `TooltipIcon`      | 배경 fill 없이 라인(stroke)만 있는 구조 — SVGO가 stroke를 currentColor로 변환하면 배경이 검정색으로 표시되는 문제 발생 |
-| `CircularNoteIcon` | 배경 fill 없이 라인(stroke)만 있는 구조 — 동일 이유                                                                    |
+| SVG 파일            | 이유                                                                                                                   |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `play.svg`          | `<filter>` drop-shadow + `fill="white"` 포함 — SVGO가 white를 currentColor로 변환하면 드롭섀도 시각이 깨짐             |
+| `tooltip.svg`       | 배경 fill 없이 라인(stroke)만 있는 구조 — SVGO convertColors 오적용 방지                                               |
+| `circularNote.svg`  | 배경 fill 없이 라인(stroke)만 있는 구조 — 동일 이유                                                                    |
+
+**등록된 전체 아이콘 목록**
+
+| 파일명 | 권장 쿼리 | 용도/비고 |
+| --- | --- | --- |
+| `alert.svg` | `?component` | 경고 |
+| `bag.svg` | `?component` | 가방/쇼핑백 |
+| `bigCircularNoteIcon.svg` | `?component` | 대형 원형 안내 아이콘 |
+| `bigCircularNoteIconFilled.svg` | `?component` | 대형 원형 안내 아이콘 (채움) |
+| `calender.svg` | `?component` | 캘린더 |
+| `card.svg` | `?skipsvgo` | 신용카드/결제 — 고정 stroke 색상 (#838B92) |
+| `cart.svg` | `?component` | 장바구니 |
+| `category.svg` | `?component` | 카테고리 |
+| `chain.svg` | `?component` | 링크/체인 |
+| `chevronLeft.svg` | `?component` | 왼쪽 화살표 (크기 md) |
+| `chevronRight.svg` | `?component` | 오른쪽 화살표 (크기 md) |
+| `circularArrow.svg` | `?component` | 원형 새로고침 화살표 |
+| `circularNote.svg` | `?skipsvgo` | 원형 안내 아이콘 — stroke 전용 구조 |
+| `close.svg` | `?component` | 닫기 (크기 md) |
+| `coupon.svg` | `?component` | 쿠폰 |
+| `delete.svg` | `?component` | 삭제/휴지통 |
+| `download.svg` | `?component` | 다운로드 |
+| `document.svg` | `?component` | 문서 |
+| `gift.svg` | `?component` | 선물 |
+| `grid.svg` | `?component` | 그리드 보기 |
+| `heart.svg` | `?component` | 하트 (빈) |
+| `heartFull.svg` | `?component` | 하트 (채움) |
+| `heartLine.svg` | `?component` | 하트 (라인) |
+| `home.svg` | `?component` | 홈 |
+| `IcCheckCircle.svg` | `?component` | 체크 원형 |
+| `IcCircularNote.svg` | `?component` | 원형 안내 (IC 접두사 버전) |
+| `kakao.svg` | `?component` | 카카오 로고 |
+| `left.svg` | `?component` | 왼쪽 (단순 화살표) |
+| `list.svg` | `?component` | 목록 보기 |
+| `lock.svg` | `?component` | 잠금 |
+| `moreVertical.svg` | `?component` | 세로 점 3개 (더보기/케밥 메뉴) |
+| `logout.svg` | `?component` | 로그아웃 |
+| `notification.svg` | `?component` | 알림 |
+| `pencilFilled.svg` | `?component` | 수정/편집 |
+| `phoneSearch.svg` | `?skipsvgo` | 앱 검색 — 고정 색상 (#E9EBEB, #C4CDD7, #0CB5E2) |
+| `play.svg` | `?skipsvgo` | 재생 — drop-shadow + `fill="white"` 유지 |
+| `plus.svg` | `?component` | 플러스/추가 |
+| `right.svg` | `?component` | 오른쪽 (단순 화살표) |
+| `search.svg` | `?component` | 검색 |
+| `share.svg` | `?component` | 공유 |
+| `shoppingCart.svg` | `?component` | 쇼핑카트 |
+| `shoppingCartCheck.svg` | `?skipsvgo` | 쇼핑카트 체크 (주문 완료 등) |
+| `shoppingCartPlus.svg` | `?skipsvgo` | 쇼핑카트 플러스 (구독 플러스+ 아이콘) — 고정 stroke 색상 (#C4CDD7, #00ADDB) |
+| `smallBag.svg` | `?component` | 소형 가방 |
+| `smallChevronDown.svg` | `?component` | 소형 아래 화살표 |
+| `smallChevronLeft.svg` | `?component` | 소형 왼쪽 화살표 |
+| `smallChevronRight.svg` | `?component` | 소형 오른쪽 화살표 |
+| `smallChevronUp.svg` | `?component` | 소형 위 화살표 |
+| `smallClose.svg` | `?component` | 소형 닫기 |
+| `smallGreat.svg` | `?component` | 소형 엄지 |
+| `smallPlus.svg` | `?component` | 소형 플러스 |
+| `star.svg` | `?component` | 별점 |
+| `time.svg` | `?component` | 시간/시계 |
+| `tooltip.svg` | `?skipsvgo` | 툴팁 아이콘 — stroke 전용 구조 |
+| `truck.svg` | `?skipsvgo` | 배송 트럭 — 고정 stroke 색상 (#00ADDB) |
+| `user.svg` | `?component` | 사용자/마이페이지 |
 
 ```typescript
-// PlayIcon — <filter> drop-shadow + fill="white" 포함, SVGO 건너뜀
-import PlaySvg from "@nd/assets/icons/play.svg?component&skipsvgo";
-export const PlayIcon = makeIcon("PlayIcon", "lg", PlaySvg);
-
-// TooltipIcon — 라인(stroke)만 있는 SVG, SVGO convertColors 오적용 방지
-import TooltipSvg from "@nd/assets/icons/tooltip.svg?component&skipsvgo";
-export const TooltipIcon = makeIcon("TooltipIcon", "md", TooltipSvg);
-
-// CircularNoteIcon — 라인(stroke)만 있는 SVG, SVGO convertColors 오적용 방지
-import CircularNoteSvg from "@nd/assets/icons/circular-note.svg?component&skipsvgo";
-export const CircularNoteIcon = makeIcon(
-  "CircularNoteIcon",
-  "md",
-  CircularNoteSvg,
-);
+// 색상 고정이 필요한 경우 ?skipsvgo 사용
+// @ts-ignore
+import PlaySvg from '@nd/assets/icons/play.svg?skipsvgo'
+// @ts-ignore
+import TooltipSvg from '@nd/assets/icons/tooltip.svg?skipsvgo'
 ```
 
-- `skipsvgo` 사용 시: SVGO 자동 변환이 없으므로 SVG 파일 내에서 `stroke/fill` 값을 직접 `currentColor`로 수정해야 한다 (단, 디자인 의도로 유지해야 하는 색상값은 그대로 둔다)
-- PlayIcon의 `fill="white"`는 드롭섀도 효과를 위한 디자인 의도이므로 변환하지 않는다
-- TooltipIcon/CircularNoteIcon의 `stroke` 색상값은 `currentColor`로 직접 수정해 부모 color를 상속받도록 한다
+- `?skipsvgo` 사용 시: SVGO 자동 변환이 없으므로 SVG 파일 내에서 `stroke/fill` 값을 직접 `currentColor`로 수정해야 한다 (디자인 의도로 유지해야 하는 색상값 제외)
+- `play.svg`의 `fill="white"`는 드롭섀도 효과를 위한 디자인 의도이므로 변환하지 않는다
 
 ---
 

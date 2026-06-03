@@ -10,6 +10,8 @@ allowed-tools:
   ]
 ---
 
+> 본 명령은 에이전트를 호출하지 않고 Claude 가 git status/diff/log 를 직접 분석해 커밋 메시지를 작성하고 커밋한다.
+
 ## 사용법
 
 ```

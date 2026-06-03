@@ -1,41 +1,30 @@
 # Select — QA 검수 메모
 
-- **검수일**: 2026-04-29
+- **검수일**: 2026-05-20
 - **검수 결과**: PASS
-- **루프 횟수**: 3회차 (2회 루프백 후 최종 PASS)
-- **발견한 BLOCKER 요약**: 없음 (전 루프의 모든 BLOCKER 해결 확인)
+- **루프 횟수**: 이전 4회 루프 + 시니어리뷰 1회 + 재검수 3회(filter variant 오버플로우 수정 + 모듈스코프 UID 이동)
+- **발견한 BLOCKER 요약**: 없음
 
-## 루프 이력 요약
+- **이번 재검수(2026-05-20, 모듈스코프 UID 이동) 검증 내용**:
+  - id 고유성: 총 15개 SelectTrigger 중 자동생성 ID(`select-1`, `select-10`~`select-14`) 모두 고유, 중복 없음 ✅
+  - 외부 id prop 우선 적용: `demo-category`, `demo-region-helper` 등 외부 전달 id가 정확히 반영됨 ✅
+  - filter variant 드롭다운 오버플로우: min-width=100.469px, max-width=1212px, 뷰포트 미이탈 ✅
+  - filter 아이템 말줄임: overflow:hidden / white-space:nowrap / text-overflow:ellipsis 실측 확인 ✅
+  - Escape 닫힘: data-state="closed", aria-expanded="false" 정상 ✅
+  - 콘솔 에러: Kakao SDK CSP 1건 — 컴포넌트 무관 전역 이슈 ✅
 
-| 루프 | 이슈 | 결과 |
-|------|------|------|
-| 1회차 | BLOCKER 1: error 상태 border-color 미적용 / BLOCKER 2: Math.random() SSR Hydration Mismatch | FAIL |
-| 2회차 | BLOCKER 1 해결 / BLOCKER 2: 카운터 방식(++_selectUidCounter)으로 교체 시도했으나 mismatch 여전히 발생 | FAIL |
-| 3회차 | Nuxt `useId()` 적용 후 Hydration 경고 완전 해소 | PASS |
+- **Context7 API 검증 결과**:
+  - SelectContent `bodyLock` prop: 실제 존재 (기본값 true). `:body-lock="false"` 사용 정상 ✅ (node_modules 직접 타입 확인)
+  - SelectRoot props: `open`, `defaultOpen`, `defaultValue`, `modelValue`, `dir`, `name`, `autocomplete`, `disabled`, `required` — 모두 실제 존재 ✅
+  - SelectIcon `as-child`: PrimitiveProps 계열, `as-child` 사용 정상 ✅
+  - SelectRoot 이벤트: `@update:open="emit('open-change', $event)"` 올바름 ✅
 
-## 최종 검증 결과 (3회차)
+- **WARN (이전 이월)**:
+  - spec §9 토큰 표에 존재하지 않는 토큰 기재: `$border-default`(→ `$line-200`), `$text-strong`(→ `$text-900`), `$text-disabled`(→ `$text-400`), `$text-secondary`(→ `$text-600`) — 구현에서는 올바른 토큰 사용 중, spec 표 오기재만의 문제
 
-### 콘솔 에러
-- Vue 앱 관련 에러/경고 없음
-- `[Vue warn]: Hydration attribute mismatch` 없음
-- 전체 콘솔 에러는 HMR WebSocket(port 24678) 재연결 시도 — 앱 동작과 무관
-
-### Hydration Mismatch 해결 방법
-- `Math.random()` → 카운터(`++_selectUidCounter`) → **Nuxt `useId()`** 순서로 변경
-- Nuxt 3.9+ 내장 `useId()`는 Vue 3.5의 `useId()`와 다른 Nuxt 전용 composable
-- `data-n-ids` 속성으로 SSR-safe한 연속 ID 생성 확인: `"0FwZPdIu5p:0"` ~ `"0FwZPdIu5p:14"`
-- 프로젝트 Nuxt 버전(3.10.3)에서 정상 동작 확인
-
-### 동작 검증
-- Trigger 클릭 → 드롭다운 오픈: 정상
-- ArrowDown + Enter 키보드 선택: 정상 (하의 선택 후 드롭다운 닫힘)
-- Esc 키 닫힘: 정상
-- error 상태 border-color: `rgb(255, 81, 70)` — $color-danger 토큰 적용 확인
-- error 상태 aria-invalid: `"true"` — 정상
-- disabled Trigger 클릭 차단: 정상 (Playwright 클릭 시도 timeout — enabled 아님)
-- disabled 속성 전달: `disabled` 네이티브 속성 + `data-disabled=""` Radix Vue 속성 모두 확인
-
-## 재발 방지 메모
-- **Nuxt SSR + 내부 uid 생성**: `Math.random()`, 모듈 레벨 카운터 모두 SSR/CSR 불일치 유발. 반드시 Nuxt `useId()`(Nuxt 3.9+)를 사용할 것
-- **Vue 3.5 `useId()` vs Nuxt `useId()`**: 프로젝트는 Vue 3.4.19 사용 금지 대상이지만, Nuxt 3.10의 `useId()`는 별개 composable로 사용 가능
-- **border-color 에러 상태**: modifier(`--error`) 선언 시 반드시 `border-color` 포함 (1회차 BLOCKER 재발 방지)
+- **재발 방지 메모**:
+  - **Vue 3.4 호환 UID 패턴**: `useId()` 사용 금지(3.5+ API). 모듈 스코프 `<script lang="ts">` 블록에 카운터 선언 후 `<script setup>`에서 `ref(\`select-\${++_selectUid}\`)` 패턴. SSR 환경에서는 hydration 불일치 가능성 있으나 가이드 페이지 범위에서는 정상 동작 확인.
+  - **Radix Vue SelectValue 내부 span에 scoped CSS 적용 불가** — SelectValue 사용 금지, `v-if/v-else`로 직접 span 렌더링할 것.
+  - 말줄임 처리는 `flex: 1; min-width: 0 + @include truncate` 조합 필수.
+  - filter variant 드롭다운 CSS 변수: Context7보다 Playwright 실측이 신뢰성 높음.
+  - 콘솔 에러(Kakao SDK CSP): Select 컴포넌트와 무관한 전역 인프라 에러, 무시 가능.

@@ -125,8 +125,10 @@ Trigger 영역은 Input과 동일한 외형을 가지며, 클릭 시 드롭다�
 - 옵션 항목 클릭 시 해당 값이 선택되고 드롭다운이 자동으로 닫힘
 - 개별 옵션 항목에 `disabled`가 설정된 경우 해당 항목은 클릭되지 않음. 시각적으로 배경 `$bg-disabled`, 텍스트 `$text-disabled`, 커서 `not-allowed` 적용 (Trigger disabled 상태와 동일한 스타일)
 - placeholder는 선택값이 없을 때만 표시
+- Trigger 텍스트(placeholder / 선택값)는 1줄을 초과하면 말줄임(`…`) 처리. Trigger 너비는 100% 고정이므로, 텍스트 영역이 `flex: 1; min-width: 0`으로 수축해 아이콘 영역을 침범하지 않도록 한다
 - 드롭다운 패널은 Trigger 아래쪽에 우선 배치되며, 화면 하단 공간이 부족하면 위쪽으로 전환 (Radix Vue `position="popper"` 자동 처리)
-- 드롭다운 패널 너비는 Trigger 너비와 동일하게 맞춤
+- 드롭다운 패널 너비는 Trigger 너비와 동일하게 맞춤 (default variant)
+- filter variant 드롭다운 너비는 Trigger 너비를 최솟값으로 하되, 화면 가용 너비를 초과하지 않도록 제한함. 아이템 텍스트가 max-width를 초과하면 말줄임(`…`) 처리
 - 드롭다운 패널 최대 높이는 `50rem`. 아이템 목록이 이를 초과하면 내부 스크롤 활성화. 스크롤 위/아래 버튼(SelectScrollUpButton / SelectScrollDownButton) 자동 표시
 - 드롭다운 패널은 `<body>`에 Portal로 렌더링되어 z-index 충돌 방지 (`$z-dropdown` 레이어)
 - chevron 아이콘은 드롭다운 열림/닫힘 상태에 따라 방향이 전환됨 (CSS transform)
@@ -196,11 +198,12 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 |----------|------------|---------|
 | Trigger 배경 (default / filled / open) | `#ffffff` | `$bg-primary` |
 | Trigger 배경 (disabled) | `#f5f5f5` | `$bg-disabled` |
-| Trigger 테두리 (default / filled) | `#dddddd` | `$border-default` |
+| Trigger 테두리 (default / filled) | `#dddddd` | `$line-200` |
 | Trigger 테두리 (open / focus) | `#111111` | `$border-input-focus` |
-| placeholder 텍스트 | `#666666` | `$text-secondary` |
-| 선택값 텍스트 (filled) | `#111111` | `$text-strong` |
-| 비활성 텍스트 (disabled) | `#c0c0c0` | `$text-disabled` |
+| Trigger 테두리 (error) | `#ff5146` | `$color-danger` |
+| placeholder 텍스트 | `#666666` | `$text-600` |
+| 선택값 텍스트 (filled) | `#111111` | `$text-900` |
+| 비활성 텍스트 (disabled) | `#c0c0c0` | `$text-400` |
 | 에러 테두리 | `#ff5146` | `$color-danger` |
 
 #### 드롭다운 패널 색상
@@ -211,7 +214,7 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 | 패널 테두리 | `#dddddd` | `$border-default` |
 | 아이템 기본 배경 | `#ffffff` | `$bg-primary` |
 | 선택된 아이템 배경 (selected) | `#f5f5f5` | `$bg-disabled` |
-| 아이템 텍스트 | `#666666` | `$text-secondary` |
+| 아이템 텍스트 | `#666666` | `$text-600` |
 
 #### Trigger 형태 및 내부 여백 (Input과 동일)
 
@@ -221,6 +224,7 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 | Trigger 좌우 패딩 | 13px | `$spacing-input-x` |
 | Trigger 테두리 두께 | 1px | — (고정값) |
 | Trigger border-radius | 8px | `$radius-md` |
+| 텍스트 영역 말줄임 | 1줄 초과 시 `…` | `@include truncate` |
 
 #### 드롭다운 패널 형태 및 아이템 여백
 
@@ -248,10 +252,12 @@ Figma 노드: 닫힌 상태 `40004010:2461` / 열린 상태(드롭다운) `40004
 | 속성 | 수치 | 매핑 토큰 |
 |-----|------|---------|
 | 패널 border-radius | 6px | `0.6rem` (직접 사용, `$radius-sm`=4px 토큰 불일치) |
-| 패널 min-width | fit-content | `min-width: max-content` (아이템 텍스트가 trigger보다 길 경우 확장) |
+| 패널 min-width | Trigger 너비 기준 | `min-width: var(--radix-select-trigger-width)` (Trigger 너비 최소 보장) |
+| 패널 max-width | 화면 가용 너비 | `max-width: var(--radix-select-content-available-width)` (화면 경계 초과 방지) |
 | 각 아이템 높이 | 36px | `3.6rem` (직접 사용) |
 | 아이템 좌우 패딩 | 10px | `1.0rem` (직접 사용) |
 | 아이템 font-size | 14px | `$font-size-body4` |
+| 아이템 텍스트 말줄임 | max-width 초과 시 `…` | `@include truncate` (filter 아이템 텍스트) |
 
 #### 타이포그래피 (Input과 동일)
 
@@ -306,7 +312,7 @@ Radix Vue 구성요소 사용 목록:
 | 드롭다운 패널 최대 높이 (max-height) | `50rem`으로 고정. 초과 시 내부 스크롤 + SelectScrollUpButton / SelectScrollDownButton 표시 |
 | 아이템 그룹화 (SelectGroup / SelectLabel) | 현재 미구현. 추후 필요 시 별도 확장 예정 |
 | disabled 아이템 시각적 표현 | Trigger disabled 상태와 동일 — 배경 `$bg-disabled`, 텍스트 `$text-disabled`, 커서 `not-allowed` |
-| Chevron 아이콘 stroke 색상 | `#666666` → `$text-secondary`. SVG 경로는 위를 향하는 형태(∧), CSS rotate로 방향 전환 |
+| Chevron 아이콘 stroke 색상 | `#666666` → `$text-600`. SVG 경로는 위를 향하는 형태(∧), CSS rotate로 방향 전환 |
 | filter variant border-radius | `0.6rem` (6px) — `$radius-sm`(4px) 토큰 불일치로 직접 수치 사용. trigger · dropdown 패널 모두 동일 적용 |
-| filter dropdown 너비 | `var(--radix-select-trigger-width)` + `min-width: max-content` (아이템 텍스트가 더 길면 자동 확장) |
+| filter dropdown 너비 | `min-width: var(--radix-select-trigger-width)` + `max-width: var(--radix-select-content-available-width)` (Trigger 너비 최소 보장, 화면 가용 너비 초과 방지). 아이템 텍스트 max-width 초과 시 말줄임 처리 |
 | filter width 규칙 예외 | Figma `40004271:6839` 기준 fit-content 요구 — `style.md` 일반 규칙 예외, SCSS 주석으로 추적 관리 |

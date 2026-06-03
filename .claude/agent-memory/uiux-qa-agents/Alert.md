@@ -1,7 +1,7 @@
 # Alert — QA 검수 메모
 
-- **검수일**: 2026-04-29
-- **검수 결과**: PASS (WARN 포함)
-- **루프 횟수**: 1회
+- **검수일**: 2026-05-04
+- **검수 결과**: PASS (WARN 1건 포함)
+- **루프 횟수**: 1회 (이번 수정 범위 재검수)
 - **발견한 BLOCKER 요약**: 없음
-- **재발 방지 메모**: Alert.vue / Confirm.vue 모두 spec §2-1의 `description` prop을 Popup.vue에 전달하지 않아 DialogDescription이 빈 문자열로 마운트됨. aria-describedby는 연결되지만 내용이 없어 보조기기에 추가 설명을 제공하지 못함. 다음 Popup 계열 구현 시 `:description="message"` 전달 누락 여부 반드시 확인.
+- **재발 방지 메모**: title 표시 위치를 body → popup__header로 변경한 이후, 가이드 페이지(pages/guide/alert/index.vue) 설명 문구와 Props 표 `title` 설명이 "body에 표시"로 남아 있음(WARN). 구현·접근성·동작은 모두 정상. 다음 수정 시 가이드 페이지 문구도 함께 갱신할 것. DialogTitle 마운트 경로: title 없으면 VisuallyHidden("안내"), title 있으면 popup__header > DialogTitle — 두 경로 모두 정상 확인.

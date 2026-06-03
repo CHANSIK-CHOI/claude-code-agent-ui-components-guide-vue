@@ -1,0 +1,21 @@
+# RadioGroup — 구현 메모
+
+- **파일 경로**: components/atoms/RadioGroup.vue
+- **계층**: atoms
+- **구현 완료일**: 2026-05-13
+- **비표준 구현**:
+  - Radix Vue RadioGroupRoot + RadioGroupItem + RadioGroupIndicator 래핑
+  - RadioGroupItem이 `<button>`을 렌더하므로 Checkbox/Switch와 동일하게 부모 `<label>` 래퍼에 scope attribute가 붙고 내부는 `:deep()`으로 선택
+  - attrs 위임: 1단계(name, dir, loop, defaultValue) + 2단계(aria-*, tabindex, data-*) 모두 RadioGroupRoot 단일 목적지 → 단일 `rootAttrs` computed로 통합 (spec §4 3단계 위임 중 3단계 해당 없음)
+  - `groupId` = `attrs.id ?? 'radioGroup-${uid}'`로 label for + item id prefix 자동 생성
+  - 내부 원(RadioGroupIndicator) CSS: 8×8px 흰 원 (`$bg-primary`) — checked 배경(`$color-primary-hover`)과 대비
+  - `$text-secondary` 토큰 미존재 → `$text-600`으로 대체 (동일 값 #666666)
+  - `display: inline-flex` 예외 — `.radioGroup__item` (`<label>` 래퍼), Checkbox 예외 정책과 동일
+  - **`internalValue ref + watch` 패턴 (루프백 2차 최종 확정)**: Radix Vue 내부 `useVModel`이 초기 `modelValue === undefined`일 때 `passive: true`(uncontrolled)로 고정된다. `computed(get/set)`를 v-model로 넘기면 Vue 반응성은 동작하지만 Radix 내부 화살표 키 처리(`changeModelValue`)가 passive 판정 하에 외부 emit을 발화하지 않는다. 실제 `ref(internalValue)`를 `v-model`로 연결하면 Radix가 ref를 직접 변경하므로 controlled 모드가 안정적으로 유지된다. 외부↔내부 동기화는 `watch` 2개로 분리.
+- **BLOCKER 수정 이력**:
+  - 화살표 키 탐색 시 v-model 미반영 (1차 수정 2026-05-13): `v-model="proxyValue"` computed(get/set) 전환 → 여전히 passive 판정 문제로 미해결
+  - 화살표 키 탐색 시 v-model 미반영 (2차 수정 2026-05-13): `internalValue ref + watch` 패턴으로 완전 교체 → Radix controlled 모드 안정화
+- **개발자 핸드오프**:
+  - `items` prop — API 연동 필요 (목록 데이터)
+  - `required` prop — 폼 필수 여부 (API 연동 시 사용)
+  - `@change` emit — 개발자가 이 이벤트를 수신해 폼 처리

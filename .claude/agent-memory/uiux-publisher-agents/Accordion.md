@@ -1,0 +1,28 @@
+# Accordion — 구현 메모
+
+- **파일 경로**: `components/molecules/Accordion.vue` (단일 파일)
+- **계층**: molecules
+- **구현 완료일**: 2026-05-19
+- **비표준 구현**:
+  - AccordionItem / AccordionTrigger / AccordionContent를 별도 SFC가 아닌 **Accordion.vue 내부에 plain object 컴포넌트로 정의** (Collapsible.vue의 TriggerComponent/ContentComponent 패턴 동일 적용)
+  - 이유: 별도 SFC 방식은 Vue 3.4 + Nuxt 3.10 환경에서 `v-for` slot 경계 소실 문제(AccordionItem 내부에서 루프 변수 전파 불가)가 있어 사용 불가로 확인됨
+  - plain object setup 파라미터 타입: `props: { value: string; disabled?: boolean }` 등 명시적 TypeScript 타입으로 선언
+  - 스타일: plain object는 scoped 해시 미전달이므로 Accordion.vue의 `<style scoped>` 안에서 `:deep()` 선택자로 `accordion__content--animated` / `accordion__trigger--icon` / `accordion__trigger--head` 클래스를 타겟
+  - barrel export: `molecules/index.ts`에서 `export { default as Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './Accordion.vue'` 단일 라인으로 4개 동시 export
+  - Radix Vue 컴포넌트는 `Accordion.vue` script 내에서 직접 import — Nuxt auto-import 충돌 없음 (별도 SFC 아님)
+  - Icon + SmallChevronDownSvg import는 `<script lang="ts">` 블록 안에서 (plain object에서 사용)
+- **prop 변경 이력 (2026-05-19 revise)**:
+  - `triggerAnimation: boolean` 제거 → `headTrigger: boolean` (기본값 `false`) 로 교체
+  - CSS 클래스: `.accordion__trigger--animated` 삭제 → `.accordion__trigger--icon` (headTrigger=false), `.accordion__trigger--head` (headTrigger=true)
+- **headTrigger 동작**:
+  - `headTrigger: false`(기본): `accordion__trigger--icon` 클래스. 슬롯 비면 `<Icon size="sm"><SmallChevronDownSvg /></Icon>` 폴백. open 시 0deg, closed 시 180deg 회전
+  - `headTrigger: true`: `accordion__trigger--head` 클래스. 슬롯 콘텐츠 그대로. 회전 애니메이션 없음
+- **슬롯 비어있음 체크**: `!!slots.default?.().length` (Vue 3.4 기준)
+- **아이콘 import 경로**: `@nd/assets/icons/smallChevronDown.svg?skipsvgo`
+- **삭제된 파일**: `AccordionItem.vue`, `AccordionTrigger.vue`, `AccordionContent.vue` (v-for slot 경계 소실 문제로 폐기)
+- **aria-controls 초기 렌더링 수정 (2026-05-19 BLOCKER 대응)**:
+  - 원인: Radix Vue 1.9.17 구조적 문제. `CollapsibleRoot`가 `contentId: ""`를 non-reactive plain string으로 provide → `CollapsibleContent.setup()`에서 lazy 초기화(`e.contentId = ge(...)`)를 하지만 `CollapsibleTrigger`가 이미 렌더된 후라 반응형 추적이 안 됨
+  - 해결: `AccordionContent` plain object 컴포넌트의 `setup()`에서 `onMounted(() => instance?.parent?.update())` 호출 → Content 마운트 후 부모 컴포넌트를 강제 리렌더 → Trigger가 채워진 contentId로 재렌더됨
+  - 이 패턴은 마운트 시 1회만 실행되므로 성능 영향 최소화
+  - `headTrigger: true`(기존 변경 사항)와 무관하게 기존부터 존재했던 구조적 이슈
+- **개발자 핸드오프**: 없음 (v-model:value 지원, 나머지 전부 UI 제어용)

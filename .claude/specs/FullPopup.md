@@ -6,11 +6,9 @@
 - **배치 경로**: `components/popup/FullPopup.vue`
 - **카테고리 barrel**: `components/popup/index.ts`
 - **Base/Wrapper 분리**: Wrapper (`Popup.vue` 기반)
-- **함께 작성되는 파일**:
-  - `components/popup/useFullPopup.ts` — 열기/닫기 컨트롤러 훅
 
 > Popup.vue Base 명세: `.claude/specs/Popup.md`  
-> LayerPopup 명세 (훅 패턴 참조): `.claude/specs/LayerPopup.md`
+> LayerPopup 명세 (open 제어 패턴 참조): `.claude/specs/LayerPopup.md`
 
 ---
 
@@ -18,7 +16,7 @@
 
 화면 전체를 덮는 팝업. 모바일에서 상세 필터 설정, 이미지 뷰어, 긴 약관 전문 보기, 전체화면 폼 입력 등에 사용한다. 오른쪽에서 슬라이드 인 하는 애니메이션으로 네이티브 앱의 화면 전환 느낌을 준다.
 
-LayerPopup/BottomSheet와 동일하게 slot 기반 + 훅 컨트롤러 패턴을 사용한다.
+LayerPopup/BottomSheet와 동일하게 slot 기반 + `v-model:open` 제어 패턴을 사용한다.
 
 ---
 
@@ -46,8 +44,10 @@ Popup.vue Base 구조 사용. `type="full"` 고정으로 다음 시각적 특징
 | `cancelLabel` | `string` | `'취소'` | cancel 버튼 텍스트 |
 | `showCancel` | `boolean` | `false` | cancel 버튼 표시. 전체화면은 기본 숨김 |
 | `okDisabled` | `boolean` | `false` | ok 버튼 비활성 |
+| `footerLayout` | `'equal' \| 'wide'` | `'equal'` | footer 버튼 비율. `equal`: 50%/50%, `wide`: cancel max-width 12rem + cancel:120 / ok:200 비율. 내부적으로 Popup의 `narrowCancel` prop에 매핑되어 CSS 변수 방식으로 footer 자식에 적용됨 — `#footer` slot 커스텀 자식에도 동작 |
 | `closeOnOverlay` | `boolean` | `false` | dim이 있으나 전체화면 팝업은 헤더 뒤로가기로 닫는 패턴이 표준이므로 기본 false |
 | `closeOnEscape` | `boolean` | `true` | ESC 키 입력 시 닫기 |
+| `deferContent` | `boolean` | `false` | `true`이면 열림 애니메이션 완료 후에 default slot을 렌더한다. FullPopup의 슬라이드-인-라이트 중 무거운 콘텐츠가 있을 때 "슬라이드가 안 보이는" 현상을 회피한다. 동작 상세는 `Popup.md` §5-6 참조 |
 
 **내부 고정값**
 
@@ -69,46 +69,24 @@ Popup.vue Base 구조 사용. `type="full"` 고정으로 다음 시각적 특징
 
 ---
 
-## 4. useFullPopup 인터페이스
+## 4. 팝업 open 제어
 
-### 파일: `components/popup/useFullPopup.ts`
-
-`usePopupState`(internal 공통 composable, LayerPopup.md § 4-1 정의)를 래핑한 named export.
-
-```ts
-// components/popup/useFullPopup.ts
-import { usePopupState } from './usePopupState'
-
-export function useFullPopup() {
-  return usePopupState()
-}
-```
-
-### 인터페이스
-
-```ts
-const filterPopup = useFullPopup()
-filterPopup.isOpen     // Ref<boolean> — v-model:open에 바인딩
-filterPopup.open()     // 열기
-filterPopup.close()    // 닫기
-```
-
-> ⚠️ **`isOpen` mutable Ref 필수**: 자세한 이유는 LayerPopup.md § 4-1 참조.
+팝업 open 제어는 `defineModel('open')` + `v-model:open` 표준을 따른다. `useFullPopup` / `usePopupState` hook은 삭제됐다. 상세: `rules/popups.md §3`.
 
 ### 사용 패턴
 
 ```vue
 <script setup>
-const filterPopup = useFullPopup()
+const isFilterOpen = ref(false)
 </script>
 
 <template>
-  <Button @click="filterPopup.open()">상세 필터</Button>
+  <Button @click="isFilterOpen = true">상세 필터</Button>
 
-  <FullPopup v-model:open="filterPopup.isOpen" title="상세 필터">
+  <FullPopup v-model:open="isFilterOpen" title="상세 필터">
     <FilterForm />
     <template #footer>
-      <Button shape="line" color="gray" @click="filterPopup.close()">초기화</Button>
+      <Button shape="line" color="gray" @click="isFilterOpen = false">초기화</Button>
       <Button @click="applyFilter">적용</Button>
     </template>
   </FullPopup>
@@ -184,7 +162,7 @@ LayerPopup.md § 6-1과 동일한 패턴. FullPopup.vue가 `defineEmits`로 7개
 | 뒤로가기 vs ok 액션 분리 | 헤더 ← 버튼은 cancel(close) 의미, footer ok는 적용 의미 |
 
 **페이지 마크업 포인트**:
-- `useFullPopup()` 훅 + `<FullPopup v-model:open="filterPopup.isOpen" ...>` 패턴
+- `ref(false)` + `<FullPopup v-model:open="isXxxOpen" ...>` 패턴
 - 모바일 너비 시뮬레이션 컨테이너 권장
 - ⑥ Props/Slots/Events 섹션 HTML `<table>`
 - `__delegationNote` / `__radixNote` 추가
@@ -195,7 +173,6 @@ LayerPopup.md § 6-1과 동일한 패턴. FullPopup.vue가 `defineEmits`로 7개
 ## 구현 복잡도 신호
 
 - FullPopup.vue = Popup.vue + `type="full"` 고정 + 닫기 아이콘 교체
-- useFullPopup.ts = `usePopupState` 호출 한 줄 — useLayerPopup과 동일 매커니즘
 - SCSS 포인트:
   - Popup.vue: `v-if="type !== 'full'"` 조건 제거 → `DialogOverlay` 항상 렌더링
   - slideInRight from: `translate(100%, 0)` → `translate(50%, 0)` (레이아웃 오른쪽 끝에서 시작)

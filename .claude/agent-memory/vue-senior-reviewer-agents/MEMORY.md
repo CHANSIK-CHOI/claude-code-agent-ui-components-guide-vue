@@ -1,10 +1,29 @@
 # Vue 시니어 리뷰어 에이전트 메모리 인덱스
 
+- [FormField](FormField.md) — 2026-05-22 PASS(1차) / inputId 선택적 타입·v-if/v-else label/span 분기·early return 패턴 중점 검토. BLOCKER 없음. $attrs 루트 div 위임(레이아웃 래퍼 예외) WARN 1건
 - [Button](Button.md) — 리뷰 메모
 - [ButtonLink](ButtonLink.md) — 리뷰 메모
 - [Input](Input.md) — 리뷰 메모
-- [Tab](Tab.md) — 리뷰 메모
-- [Popup](Popup.md) — 2026-04-29 PASS(8차) / BottomSheet showClose 기본값 변경 + bottomSheet CSS 추가. BLOCKER/WARN 없음
-- [Select](Select.md) — 리뷰 메모
-- [ToastPopup](ToastPopup.md) — 리뷰 메모
+- [Tab](Tab.md) — 2026-05-04 FAIL / #actions 슬롯 교체 리뷰. withDefaults 반환값 미할당 BLOCKER
+- [Popup](Popup.md) — 2026-05-04 PASS(12차) / computed 3→2 단순화 + 닫기 버튼 Header 밖 이동. BLOCKER/WARN 없음, INFO 1건(template 인라인 조건 computed 추출 권고)
+- [Select](Select.md) — 2026-05-20 PASS(2차) / content--filter CSS 변수 교체 + item truncate 추가 리뷰. BLOCKER 없음. useId() thin re-export 확인(Nuxt→Vue core) WARN 1건. 전체 구조 정합 유지
+- [ToastPopup](ToastPopup.md) — 2026-05-29 PASS(7차) / markRaw+?skipsvgo 수정 확인. BLOCKER 없음. 타이머 언마운트 정리·hasIconSlot computed 단순화·remove() splice+clearTimeout WARN 3건
 - [Icon](Icon.md) — 2026-04-29 PASS / sizeStyle computed 빈 객체 체크 단순화 권고(INFO), typeof 분기 script 응집 권고(INFO)
+- [Collapsible](Collapsible.md) — 2026-05-11 PASS / isOpen controlled 모드 초기값 누락·:deep() 불필요 사용 WARN/INFO. BLOCKER 없음
+- [ButtonGroup](ButtonGroup.md) — 2026-05-11 PASS / withDefaults 반환값 미할당 WARN 1건. :deep() slot flex 제어 적절, 레이아웃 전용 패턴 준수
+- [Tooltip](Tooltip.md) — 2026-05-20 PASS(11차) / bgColor·textColor props 추가 리뷰. BLOCKER/WARN 없음. customStyle ...{} 스프레드·CSSProperties 미명시 INFO 2건. 10차 WARN(inline-flex→flex·ref 초기값) 해소 확인
+- [Pagination](Pagination.md) — 2026-05-11 PASS / aria-label 이중따옴표·rootAttrs deny list 변수명 불명확·v-model:page 미사용·indexOf key WARN. BLOCKER 없음
+- [PaginationSimple](PaginationSimple.md) — 2026-05-11 PASS / 컨테이너 div에 $attrs 위임(복합 구조상 적절), disabled pointer-events 부작용 INFO. BLOCKER 없음
+- [Popover](Popover.md) — 2026-05-11 PASS(3차) / onMounted startWrapperFix 누락·handleClose internalOpen 직접 세팅 WARN. BLOCKER 없음
+- [TextArea](TextArea.md) — 2026-05-11 PASS / BLOCKER/WARN 없음. --error modifier 카운터 색상 추가 패턴 준수 확인
+- [RadioGroup](RadioGroup.md) — 2026-05-13 PASS / uncontrolled 패턴 적합. watch 실질 무효·EXCLUDED_KEYS 주석 누락·Math.random() ID WARN 3건
+- [PinDatePicker](PinDatePicker.md) — 2026-05-13 PASS / handleCancel 복원 후 emit 순서·watch immediate 누락 WARN 2건. staged state 패턴·inheritAttrs·v-bind=$attrs 순서 모두 정합
+- [PinPicker](PinPicker.md) — 2026-05-14 PASS(1차) / BLOCKER 없음. PinDatePicker 3차 PASS 패턴 이식. handleCancel 순서·columnsFieldNames 기본값 INFO 2건
+- [Checkbox](Checkbox.md) — 2026-05-14 PASS / BLOCKER 없음. useId() Vue 3.5+ API·proxyValue 불필요 래핑·$attrs.class template 직접 참조 WARN 3건. $attrs.class→label 분리 패턴 정합 확인
+- [Accordion](Accordion.md) — 2026-05-19 PASS(1차) / headTrigger 교체 리뷰. BLOCKER/WARN 없음. hasSlot VNode edge case·defaultContent 분기 단순화 INFO 2건
+- [Progress](Progress.md) — 2026-05-20 PASS / BLOCKER 없음. ProgressRoot에 v-model 대신 :value 권고·onMounted 타이머+watch 경쟁 조건 WARN 2건. indicatorLeft CSS max() 우회 패턴·clearTimeout 정리·$attrs 순서 모두 정합
+- [OptionButtonGroup](OptionButtonGroup.md) — 2026-05-22 PASS(1차) / BLOCKER 없음. maxRows prop 선언 후 미사용·gridStyle 스프레드 단순화 WARN 2건. radio/checkbox 분기·v-model 시그니처·$attrs 순서·defineOptions 모두 정합
+- [TermsAgreement](TermsAgreement.md) — 리뷰 메모
+- [InputAuth](InputAuth.md) — 2026-05-29 PASS(1차) / BLOCKER 없음. active watch immediate 누락·stopAndReset timerState='expired' spec 불일치 WARN 2건. $attrs 이중위임·onUnmounted clearTimer·timerDisplay computed 모두 정합
+- [InputPassword](InputPassword.md) — 리뷰 메모
+- [Marquee](Marquee.md) — 2026-06-01 PASS(1차) / BLOCKER 없음. defineComponent+render function 예외 정합. WARN 3건(touchEnd 이중경로 취소 의도 불명확·prefers-reduced-motion 1회 평가·vnode.key 0 falsy 논리 오류 가능). INFO 3건

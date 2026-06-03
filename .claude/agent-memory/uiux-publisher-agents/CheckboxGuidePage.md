@@ -16,5 +16,5 @@ type: project
 - **radixNote**: 추가됨 (Radix Vue CheckboxRoot 기반)
 - **GuideSidebar**: ATOMS 그룹에 `{ label: 'Checkbox', to: '/guide/checkbox' }` 추가
 
-**Why:** Checkbox/Radio는 폼 내 인라인 배치가 기본 사용 패턴이어서 `width: 100%` 강제 시 레이아웃이 깨짐. `inline-flex` 예외를 팀 결정으로 확정.
+**Why:** Checkbox/Radio는 폼 내 인라인 배치가 기본 사용 패턴이어서 `width: 100%` 강제 시 레이아웃이 깨짐. `inline-flex` 예외를 사용자 결정으로 확정.
 **How to apply:** Radio 컴포넌트 구현 시 동일하게 `inline-flex` 예외 적용.

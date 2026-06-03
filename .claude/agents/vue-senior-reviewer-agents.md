@@ -258,9 +258,9 @@ const fullClass = computed(() => `button button--${variant.value} button--${size
 
 ---
 
-## 7. 팀 공유 메모리 기록
+## 7. 공유 메모리 기록
 
-검토 완료 시 `.claude/agent-memory/vue-senior-reviewer-agents/[ComponentName].md`에 아래 내용을 기록한다. git에 포함돼 팀원과 공유된다.
+검토 완료 시 `.claude/agent-memory/vue-senior-reviewer-agents/[ComponentName].md`에 아래 내용을 기록한다. git에 포함돼 공유된다.
 
 > **루프백 시 정책**: 동일 컴포넌트의 메모리 파일이 이미 존재하면 **최신본으로 덮어쓰기** (이력 누적 금지). 메모리는 "마지막 리뷰 결과"만 유지하며 변경 이력은 git history로 추적한다.
 

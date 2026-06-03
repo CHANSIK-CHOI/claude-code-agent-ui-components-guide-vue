@@ -2,7 +2,7 @@
 
 엔터프라이즈 프로젝트 안정성을 우선으로, 외부 UI 라이브러리 컴포넌트의 stability(안정성)에 따라 사용 가능 여부를 정의한다.
 
-> **확인일자**: 2026-04-27 / Radix Vue 1.x 기준
+> **확인일자**: 2026-05-13 / Radix Vue 1.x 기준
 > **재확인 필요 시점**: 분기 1회, 또는 신규 컴포넌트 도입 검토 시.
 > Radix Vue는 Alpha → Stable 전환이 활발하므로 **Context7 MCP로 최신 stability 재확인 후** 본 문서를 갱신한다.
 
@@ -33,7 +33,7 @@
 
 | Radix Vue Alpha 컴포넌트 | 대체 전략 | 비고 |
 |-------------------------|---------|------|
-| **Calendar** / **DatePicker** / **DateField** / **RangeCalendar** / **DateRangePicker** / **DateRangeField** | `@vuepic/vue-datepicker` 래핑 | 시간대·로케일·범위 선택 검증 완료 |
+| **Calendar** / **DatePicker** / **DateField** / **RangeCalendar** / **DateRangePicker** / **DateRangeField** | `vant DatePicker / Picker / PickerGroup` 래핑 | 온디맨드 import — `plugins/vant.ts`. 3개 컴포넌트만 허용 |
 | **Combobox** (검색형 Select) | (1) Stable `Select` + 검색 필터 자체 추가 (2) `@vueform/multiselect` 검토 | 도입 시점에 사용자와 협의 |
 | **Listbox** | Stable `Select`로 대체 | 다중선택 필요 시 자체 구현 |
 | **NumberField** | 네이티브 `<input type="number">` + 자체 step 컨트롤 | 단순 마크업 |
@@ -55,8 +55,10 @@
 
 | 라이브러리 | 버전 | 용도 | 정책 |
 |----------|------|------|------|
-| `@vuepic/vue-datepicker` | ^11 | DatePicker 전반 | 유지 — Radix Vue Alpha 회피용. 모든 날짜 선택 컴포넌트는 이 라이브러리 래핑 |
+| `vant` | ^4.9.24 | DatePicker, Picker, PickerGroup | 온디맨드 import (`plugins/vant.ts`) — 이 3개 컴포넌트만 허용. 전체 CSS(`vant/lib/index.css`) 사용 금지, 컴포넌트별 `vant/es/*/style/index` 로드 |
 | `radix-vue` | 1.9.17 | 헤드리스 UI | Stable 컴포넌트만 사용 |
+| `swiper` | ^12.2.0 | 슬라이드 (Marquee 래핑) | `Marquee` 컴포넌트가 래핑해 사용. 가이드 데모 등에서 `swiper/vue`의 `Swiper`/`SwiperSlide` 직접 import 허용. **모듈(`FreeMode` 등)은 v10+ 경로 `swiper/modules`에서 import** (구 `swiper` 경로 금지 — 런타임 에러). ⚠️ v12 호환 이슈로 Marquee 가이드 임시 숨김 중 (2026-06-03, GuideSidebar TODO 주석 참조) — 호환 작업 완료 후 복구 |
+| `gsap` | ^3.15.0 | 고급 애니메이션 | 현재 실사용 컴포넌트 없음 (예비 의존성). 신규 사용 시 본 표의 정책을 갱신하고, CSS 트랜지션으로 충분한 경우 도입하지 않는다 |
 
 ---
 

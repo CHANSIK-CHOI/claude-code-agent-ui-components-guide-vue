@@ -1,23 +1,34 @@
 ## 아키텍처 규칙
 
-### Atomic Design 계층
+### Atomic Design 계층 + 보조 카테고리
+
+본 프로젝트의 `components/`는 **Atomic 3계층 + 보조 1카테고리(popup)**로 구성되며, 가이드 전용 폴더(guide)와 아이콘 폴더(icons)가 별도로 존재한다. 컴포넌트 조합 시 import 가능한 카테고리는 atoms / molecules / organisms / popup 4개이며, 그 외 위치의 컴포넌트는 사용 금지.
 
 ```
 components/
-├── atoms/       — 최소 단위, 다른 컴포넌트에 의존하지 않음
-│                  예) Button, Input, Icon, Badge, Tag, Spinner, Avatar
-├── molecules/   — atoms만 조합
-│                  예) FormField, SearchBar, Pagination, CardItem
-└── organisms/   — atoms + molecules 조합, 독립적인 UI 블록
-                   예) Header, Footer, Modal, ProductCard, GNB
+├── atoms/       — 최소 단위, 다른 컴포넌트에 의존하지 않음 (Atomic)
+│                  예) Button, Input, Checkbox, Switch
+├── molecules/   — atoms만 조합 (Atomic)
+│                  예) FormField, Accordion, Pagination, ButtonGroup
+├── organisms/   — atoms + molecules 조합, 독립적인 UI 블록 (Atomic)
+│                  예) Tab
+├── popup/       — 팝업 기반 컴포넌트 + 제어 hooks (Atomic 외 보조 카테고리)
+│                  예) LayerPopup, BottomSheet, ToastPopup, useAlert, useConfirm
+├── guide/       — 컴포넌트 가이드 페이지 전용 (Atomic 계층 외)
+│                  예) GuideHeader, GuideSidebar
+└── icons/       — SVG 아이콘 시스템 (Atomic 계층 외 — `.claude/specs/Icon.md` 참조)
+                   예) Icon
 ```
 
-**계층 의존 규칙**
+**계층/카테고리 의존 규칙**
 
 - atoms → 외부 의존 없음
 - molecules → atoms만 import 가능
 - organisms → atoms + molecules import 가능
-- pages/, layouts/ → organisms를 조합해 화면 구성
+- **popup** → atoms + molecules + organisms 자유 import. 콘텐츠 팝업은 base 컴포넌트(`LayerPopup`, `BottomSheet` 등)를 래핑하고 `v-model:open` 으로 제어 — `rules/popups.md` 단일 출처 참조
+- pages/, layouts/ → 위 카테고리를 조합해 화면 구성. 어떤 카테고리든 자유롭게 import 가능
+
+> **popup이 Atomic 3계층과 분리된 이유**: UI 패턴(오버레이) 관점의 묶음으로, Atomic의 "구성 단위 단계"와는 분류 축이 다르다. 동일 폴더 구조 안에 두되 의존 규칙만 별도로 명시한다.
 
 ### 컴포넌트 파일 구조
 
@@ -37,7 +48,7 @@ components/
 │   ├── FormField.vue
 │   └── index.ts              ← molecules 카테고리 barrel
 ├── organisms/
-│   ├── Header.vue
+│   ├── Tab.vue
 │   └── index.ts              ← organisms 카테고리 barrel
 ├── guide/                    ← 가이드 페이지 전용 컴포넌트 (atomic 계층 외)
 │   ├── GuideHeader.vue
@@ -96,18 +107,20 @@ components/atoms/
 
 ### Pages 폴더 구조
 
-pages/는 Nuxt 파일 기반 라우팅을 따른다. 각 페이지는 폴더로 구성한다.
+pages/는 Nuxt 파일 기반 라우팅을 따른다. 본 프로젝트의 pages/는 **컴포넌트 가이드 페이지**(`pages/guide/[componentName]/`)가 중심이다. 각 페이지는 폴더로 구성한다.
 
 ```
 pages/
-└── productList/
-    ├── index.vue         ← 페이지 컴포넌트
-    └── productList.scss  ← 페이지 전용 스타일 (외부 분리)
+└── guide/
+    └── button/
+        ├── index.vue              ← 가이드 페이지 컴포넌트
+        └── buttonGuidePage.scss   ← 페이지 전용 스타일 (외부 분리)
 ```
 
 - 페이지 스타일은 SFC 인라인 대신 외부 `.scss` 파일로 분리
-- `<style lang="scss" scoped src="./productList.scss"></style>` 로 참조
+- `<style lang="scss" scoped src="./buttonGuidePage.scss"></style>` 로 참조
 - `scoped` 효과는 동일하게 적용됨
+- 가이드 페이지 작성 규칙은 `rules/guide-page.md` 참조
 
 ### TypeScript 타입 위치
 
@@ -134,7 +147,7 @@ types/
 ```ts
 // organisms/index.ts
 export { default as Tab } from "./Tab.vue";
-export type { TabItem, TabVariant, ViewType } from "./Tab.vue"; // ✅ .vue에서 직접 re-export
+export type { TabItem, TabVariant } from "./Tab.vue"; // ✅ .vue에서 직접 re-export
 ```
 
 ```ts
@@ -150,20 +163,21 @@ import type { TabItem } from "@nd/components/organisms"; // ✅ 카테고리 경
 
 ### Composables 위치
 
-| 종류                                                    | 위치                         | import 방식               |
-| ------------------------------------------------------- | ---------------------------- | ------------------------- |
-| 카테고리 내 공유 (특정 카테고리의 일부 컴포넌트만 사용) | `components/{layer}/use*.ts` | 명시적 import (상대 경로) |
-| 앱 전역 (어디서나 호출)                                 | `composables/use*.ts`        | Nuxt auto-import          |
+본 프로젝트의 모든 composable은 **`components/{layer}/use*.ts` (co-located)** 한 곳에 둔다. 별도의 루트 `composables/` 폴더는 사용하지 않고, 컴포넌트와 같은 카테고리 폴더에 함께 배치한다.
+
+| 종류                                                    | 위치                                       | import 방식               |
+| ------------------------------------------------------- | ------------------------------------------ | ------------------------- |
+| 카테고리 내 공유 (특정 카테고리의 일부 컴포넌트만 사용) | `components/{layer}/use*.ts`  | 명시적 import (상대 경로) |
 
 - 카테고리 내 공유 composable은 해당 카테고리 폴더에 평탄 배치한다 — 예: `useButtonVariant`는 atoms 내 Button/ButtonLink가 공유하므로 `components/atoms/useButtonVariant.ts`에 위치
 - 같은 카테고리 안의 .vue에서는 상대 경로로 명시적 import — `import { useButtonVariant } from './useButtonVariant'`
 - co-locate한 composable은 Nuxt auto-import 대상이 아니므로 사용처에서 명시적 `import`가 필요하다
-- `composables/`는 인증·카트·전역 상태 등 앱 어디서나 호출되는 composable 전용
+- popup 제어 hook(`useAlert`, `useConfirm`, `useToastPopup`, `usePopupNavigate` 등)은 `components/popup/`에 함께 위치하며 popup barrel(`@nd/components/popup`)로 export 된다 — 사용처는 `import { useAlert } from '@nd/components/popup'` (hook 별 사용 정책은 `rules/popups.md` §3-5 참조)
 
 ### Nuxt 라우팅 규칙
 
 - 파일 기반 라우팅 구조 유지 — `pages/` 디렉토리 구조가 곧 URL
-- `layouts/`는 페이지 공통 레이아웃만 담당 (Header/Footer 포함 여부 등)
+- `layouts/`는 페이지 공통 레이아웃만 담당 (가이드 페이지는 `layouts/guide.vue` 사용)
 - `ref`, `computed`, `watch` 등 Composition API는 Nuxt auto-import — import 불필요
 
 > React 비교: Next.js의 app/ 라우팅처럼 Nuxt도 pages/ 디렉토리 구조가 곧 URL이 됩니다.

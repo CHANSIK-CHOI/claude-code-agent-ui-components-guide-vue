@@ -25,21 +25,29 @@
 │  ① Overlay (Dim)                   │  DialogOverlay — 배경 어둠
 │  ┌──────────────────────────────┐  │
 │  │  ② Container                │  │  DialogContent — 팝업 박스
+│  │  [⑥ CloseBtn] (absolute)    │  │  position: absolute; top: 1rem; right: 1rem
 │  │  ────────────────────────── │  │
-│  │  ③ Header (선택)             │  │  title + 닫기 버튼
+│  │  ③ Header (선택)             │  │  title 텍스트만 담당 (닫기 버튼 없음)
 │  │  ────────────────────────── │  │
 │  │  ④ Body (스크롤 영역)        │  │  default slot
+│  │     └─ [bodyNote — Wrapper 전용] │  아이콘+텍스트 도움말 (slot 아래)
 │  │  ────────────────────────── │  │
 │  │  ⑤ Footer (선택)             │  │  cancel + ok 버튼 or #footer slot
 │  └──────────────────────────────┘  │
 └────────────────────────────────────┘
 ```
 
-- ① **Overlay** — `DialogOverlay`. dim 배경. `closeOnOverlay=true`면 클릭 시 닫힘
+- ① **Overlay** — `DialogOverlay`. dim 배경. `closeOnOverlay=true`면 **좌클릭(마우스 버튼 0)** 시 닫힘.
+  - `@click` 대신 `@pointerdown` 사용: 모바일 터치에서 Select 드롭다운 열기 시 synthetic click이 overlay에 도달하는 버그 회피.
+  - **좌클릭 전용**: `pointerdown` 이벤트의 `button === 0`인 경우에만 닫힘 처리. 우클릭(`button === 2`)·중간 버튼 클릭(`button === 1`)은 무시한다. 터치 이벤트(`pointerType === 'touch'`)는 `button === 0`으로 설정되므로 터치 닫힘에는 영향 없음.
+  - **드롭다운 열림 시 overlay 닫기 차단**: Select 등 Radix Vue 드롭다운(`role="listbox"`)이 열려 있는 동안에는 overlay를 클릭해도 팝업이 닫히지 않는다. 이유: Select 열림 중 Radix Vue가 `DialogContent`에 `pointer-events: none`을 인라인으로 적용해 dialog 영역 클릭이 overlay까지 투과된다. Select 닫힘 처리는 Select의 DismissableLayer에 위임. `handleOverlayPointerDown`에서 `document.querySelector('[role="listbox"][data-state="open"]')` 존재 여부로 감지.
 - ② **Container** — `DialogContent`. 팝업 본체. type에 따라 위치/크기/애니메이션 결정
-- ③ **Header** — `title` prop 또는 `#header` slot. `title`이 없고 `showClose=false`면 미렌더링
-- ④ **Body** — `default slot`. 내부 콘텐츠를 스크롤 가능하게 래핑
-- ⑤ **Footer** — `#footer` slot 제공 시 slot 사용. 없으면 `Button` 컴포넌트(size="lg")로 ok/cancel 버튼 렌더링. ok는 항상 `shape="solid" color="primary"`, cancel은 `shape="solid" :color="cancelColor"`. 버튼이 모두 숨겨지거나 slot이 비어 있으면 미렌더링
+- ③ **Header** — `title` prop 또는 `#header` slot. `title`이 없으면 미렌더링. **닫기 버튼은 ⑥으로 분리**. `<div class="popup__header">` 태그 사용 (`<header>` 아님)
+- ④ **Body** — `default slot`. 내부 콘텐츠를 스크롤 가능하게 래핑.
+  `bodyLabel` prop이 있으면 slot 위에 안내 레이블 텍스트를 렌더링 (가이드라인·주의문구·소제목 등 body 콘텐츠 머리에 붙는 고정 텍스트).
+  `bodyNote` prop(Wrapper 전용 — LayerPopup / BottomSheet / FullPopup에서만 노출)이 있으면 slot 아래에 아이콘(CircularNoteSvg, size="sm") + 텍스트 조합의 도움말 문구를 렌더링.
+- ⑤ **Footer** — `#footer` slot 제공 시 slot 사용. 없으면 `Button` 컴포넌트(size="lg")로 ok/cancel 버튼 렌더링. ok는 `shape="solid" :color="okColor"`, cancel은 `shape="solid" :color="cancelColor"`. 버튼이 모두 숨겨지거나 slot이 비어 있으면 미렌더링. `<div class="popup__footer">` 태그 사용 (`<footer>` 아님). **`narrowCancel=true` 시 footer `<div>`에 CSS 변수(`--footer-cancel-flex`, `--footer-cancel-max`, `--footer-ok-flex`)를 설정하여 SCSS `> :first-child / > :last-child` 선택자로 적용** — custom `#footer` slot 자식에도 동작함
+- ⑥ **CloseBtn** — `showClose=true`일 때 DialogContent 바로 안에 `position: absolute; top: 1rem; right: 1rem` 배치. 모든 type(layer / bottomSheet / full) 공통 적용. 크기 `width: 1.6rem; height: 1.6rem` 고정.
 
 ---
 
@@ -57,11 +65,16 @@
 | `showCancel` | `boolean` | `true` | cancel 버튼 표시 여부 |
 | `okDisabled` | `boolean` | `false` | ok 버튼 비활성. `Button` 컴포넌트의 `disabled` prop으로 위임 |
 | `cancelColor` | `'secondary' \| 'gray'` | `'gray'` | cancel 버튼 Button color prop |
-| `cancelFlex` | `number` | `1` | cancel 버튼 wrapper flex 값 (ok와의 너비 비율 조정) |
-| `okFlex` | `number` | `1` | ok 버튼 wrapper flex 값 (cancel과의 너비 비율 조정) |
+| `okColor` | `'secondary' \| 'primary' \| 'black'` | `'primary'` | ok 버튼 Button color prop |
+| `narrowCancel` | `boolean` | `false` | `true`이면 footer `<div>` 컨테이너에 CSS 변수(`--footer-cancel-flex: 120`, `--footer-cancel-max: 12rem`, `--footer-ok-flex: 200`)를 설정. SCSS `> :first-child / > :last-child` 선택자로 cancel/ok 모두에 비율 적용. **`#footer` slot 커스텀 자식에도 동작함.** 기본값(false)이면 양쪽 모두 `flex: 1` (50:50 균등) |
 | `closeOnOverlay` | `boolean` | `true` | dim(overlay) 클릭 시 팝업 닫기 여부 |
 | `closeOnEscape` | `boolean` | `true` | ESC 키 입력 시 팝업 닫기 여부 |
-| `showFooter` | `boolean` | `true` | footer 영역 표시 여부. `false`면 `<footer>` 태그 자체를 렌더링하지 않음. `#footer` slot·ok/cancel 버튼 모두 숨겨짐 |
+| `closeOnCloseBtn` | `boolean` | `true` | 닫기(×) 버튼 클릭 시 내부 자동 닫기 여부. `false`이면 `update:open(false)` 자동 호출을 막고 Radix `DialogClose` 래핑도 제거되어 부모가 `close` 이벤트 수신 후 직접 닫아야 함 |
+| `closeOnCancel` | `boolean` | `true` | cancel 버튼 클릭 시 내부 자동 닫기 여부. `false`이면 `update:open(false)` 자동 호출을 막고 부모가 `cancel` 이벤트 수신 후 직접 닫아야 함 |
+| `showFooter` | `boolean` | `true` | footer 영역 표시 여부. `false`면 `<div class="popup__footer">` 태그 자체를 렌더링하지 않음. `#footer` slot·ok/cancel 버튼 모두 숨겨짐 |
+| `bodyLabel` | `string` | — | body 콘텐츠 상단에 표시되는 안내 레이블 텍스트. slot 위에 렌더링되며, 없으면 미표시. 스타일은 Wrapper(LayerPopup 등)가 담당. **Alert / Confirm Wrapper는 이 prop을 외부에 노출하지 않는다** |
+| `bodyNote` | `string` | — | body 콘텐츠 하단에 표시되는 도움말 문구. `<Icon size="sm"><CircularNoteSvg /></Icon>` + 텍스트 조합으로 렌더링. slot 아래에 렌더링되며, 없으면 미표시. 스타일은 Wrapper가 담당. **Alert / Confirm Wrapper는 이 prop을 외부에 노출하지 않는다** |
+| `deferContent` | `boolean` | `false` | `true`이면 default slot(본문 콘텐츠)을 열림 애니메이션 완료 시점(`@after-enter`) 이후에만 렌더한다. 닫힘 완료(`@after-leave`) 시 내부 렌더 상태를 리셋한다. `title`·`bodyLabel`·footer 등 "셸"은 항상 즉시 렌더되고, **default slot만 지연**된다. 주로 `bottomSheet`·`full` slide 타입에서 사용. 상세 설명은 §5-6 참조 |
 
 > `title`이 비어 있어도 `DialogTitle`은 항상 마운트되며 시각적으로만 숨긴다 (Radix Vue가 dev 워닝을 띄우기 때문). `description`도 동일.  
 > `title`이 없고 `showClose=false`이면 시각적 Header 박스(`.popup__header`)는 렌더링하지 않되, `DialogTitle`은 `VisuallyHidden`으로 트리에 포함시킨다.
@@ -100,28 +113,32 @@
 |--------|------|-------------|------|
 | `open=true` prop | — | — (외부 제어) | — |
 | `open=false` prop | — | — (외부 제어) | — |
-| 닫기(×) 버튼 클릭 | `close` | ✅ 자동 | — |
+| 닫기(×) 버튼 클릭 | `close` | `closeOnCloseBtn=true`이면 ✅ 자동 / `false`이면 ❌ **부모 책임** | — |
 | **ok 버튼 클릭** | `ok` | ❌ **부모 책임** — 비동기 처리 후 부모가 명시적 close | `okDisabled=false` |
-| cancel 버튼 클릭 | `cancel` | ✅ 자동 | — |
-| dim 클릭 | `overlayClick` | ✅ 자동 | `closeOnOverlay=true` |
+| cancel 버튼 클릭 | `cancel` | `closeOnCancel=true`이면 ✅ 자동 / `false`이면 ❌ **부모 책임** | — |
+| dim 클릭 | `overlayClick` | ✅ 자동 | `closeOnOverlay=true` + **좌클릭(`pointerdown button === 0`)에 한함** |
 | ESC 키 | — (Radix Vue 자동 처리) | ✅ 자동 (Radix Vue → onOpenChange) | `closeOnEscape=true` |
 
-> **ok만 부모 책임**: `await deleteItem()` 같은 비동기 처리 후 성공 시에만 닫는 패턴(Confirm, LayerPopup)을 위해. 다른 모든 닫기 의도(취소/ESC/dim/×)는 사용자의 "닫기 의지"이므로 즉시 닫는다.
+> **ok + 조건부 × 가 부모 책임**: `await deleteItem()` 같은 비동기 처리 후 성공 시에만 닫는 패턴(Confirm, LayerPopup)을 위해 `ok`는 항상 부모 책임. `closeOnCloseBtn=false` 시 ×를 눌러도 `update:open(false)` 자동 호출 없음 — Radix Vue의 `DialogClose` 래핑도 제거되므로 부모가 `@close` 수신 후 명시적으로 닫아야 함.
 
 ### 5-2. `#footer` slot 우선순위 및 footer 렌더링 조건
 
-footer는 `showFooter` prop이 `true`(기본값)일 때만 렌더링된다. `showFooter=false`면 `#footer` slot 제공 여부와 무관하게 `<footer>` 태그 자체를 렌더링하지 않는다.
+footer는 `showFooter` prop이 `true`(기본값)일 때만 렌더링된다. `showFooter=false`면 `#footer` slot 제공 여부와 무관하게 `<div class="popup__footer">` 태그 자체를 렌더링하지 않는다.
 
 `#footer` slot이 제공되면 ok/cancel 기본 버튼 전체를 대체한다. 기본 버튼과 slot을 동시에 렌더링하지 않는다.
 
+`narrowCancel` prop은 footer `<div>` 컨테이너에 CSS 변수로 설정되므로, `#footer` slot을 사용해 커스텀 마크업을 넣더라도 slot의 첫 번째 자식(`:first-child`)과 마지막 자식(`:last-child`)에 비율이 동일하게 적용된다. slot의 각 자식이 `flex` 아이템이 되도록 마크업을 구성해야 한다.
+
 ### 5-3. Header 렌더링 조건
 
-| 조건 | 시각적 Header 박스 (`.popup__header`) | a11y용 DialogTitle |
-|------|--------------------------------------|--------------------|
-| `title` 있음 | ✅ | ✅ (visible) |
-| `title` 없음 + `showClose=true` | ✅ | ✅ (`VisuallyHidden`으로 hidden DialogTitle 별도 마운트) |
-| `title` 없음 + `showClose=false` | ❌ (미렌더링) | ✅ (`VisuallyHidden`으로 마운트 — Radix Vue dev 워닝 회피) |
-| `#header` slot 제공 | slot으로 교체 | ⚠️ slot 안에서 `<DialogTitle>` 처리 정책 — 아래 § 5-4 참조 |
+닫기 버튼은 Header 박스 외부(DialogContent 안 absolute)에 위치하므로, Header 박스 렌더링은 `title` 유무로만 결정한다.
+
+| 조건 | 시각적 Header 박스 (`.popup__header`) | a11y용 DialogTitle | 닫기 버튼 (absolute) |
+|------|--------------------------------------|--------------------|---------------------|
+| `title` 있음 | ✅ | ✅ (visible) | `showClose=true`면 렌더링 |
+| `title` 없음 + `showClose=true` | ❌ (미렌더링) | ✅ (`VisuallyHidden`으로 마운트) | 렌더링 (absolute 위치) |
+| `title` 없음 + `showClose=false` | ❌ (미렌더링) | ✅ (`VisuallyHidden`으로 마운트 — Radix Vue dev 워닝 회피) | 미렌더링 |
+| `#header` slot 제공 | slot으로 교체 | ⚠️ slot 안에서 `<DialogTitle>` 처리 정책 — 아래 § 5-4 참조 | 미렌더링 (`showClose` prop 무시 — slot에서 직접 구현) |
 
 ### 5-4. `#header` slot 사용 시 DialogTitle 처리
 
@@ -151,6 +168,35 @@ footer는 `showFooter` prop이 `true`(기본값)일 때만 렌더링된다. `sho
 
 > publisher가 slot 안에서 `<DialogTitle>`을 직접 래핑해야 하는 경우(예: 시각적 타이틀 텍스트를 DialogTitle 자체로 만들고 싶을 때): `title` prop도 함께 제공하거나, 별도 prop으로 "외부 DialogTitle 사용 모드" 플래그를 추가하는 것은 현재 명세에 포함하지 않는다. 필요 시 후속 명세에서 검토.
 
+### 5-5. 닫기 버튼 배치 규칙
+
+- 모든 type(layer / bottomSheet / full)에서 통일: DialogContent 바로 안에 `position: absolute; top: 1rem; right: 1rem` 배치
+- Header 박스(`.popup__header`) 안에 닫기 버튼을 인라인으로 두지 않는다 — Header는 타이틀 텍스트만 담당
+- 크기: `width: 1.6rem; height: 1.6rem` — Popup.vue SCSS `.popup__closeBtn`에 고정값 선언
+- `popup__closeBtn--absolute` modifier는 제거. 기본 `.popup__closeBtn`에 absolute 포지셔닝 통합
+- alert / confirm type은 닫기 버튼 없음 (`showClose` prop 기본값 무관)
+
+### 5-6. deferContent — 슬라이드 애니메이션 중 콘텐츠 지연 렌더
+
+**문제 상황**: 팝업 안에 Tab·이미지 등 노드가 많은 무거운 콘텐츠가 열림 슬라이드(`transform`) 애니메이션과 동시에 렌더되면, 브라우저가 transform 계산과 대규모 DOM 삽입을 한 프레임에 처리하지 못하고 최종 위치로 스냅한다 — "슬라이드가 안 보이는" 현상.
+
+**해결 방식**: `deferContent=true`이면 열림 애니메이션 완료(`@after-enter`) 전까지 default slot을 렌더링하지 않는다. 슬라이드 동안은 가벼운 셸(헤더·footer)만 움직이고, 완료 후 콘텐츠를 채워 넣는다.
+
+| 조건 | 렌더 대상 |
+|------|---------|
+| 팝업 열리는 중 (애니메이션 진행) | 셸(헤더 `title`, `bodyLabel`, footer)만 |
+| 열림 완료(`@after-enter`) 이후 | 셸 + default slot |
+| 닫힘 완료(`@after-leave`) 이후 | default slot 렌더 상태 리셋 |
+
+**트레이드오프**: 콘텐츠가 열림 완료 후 붙으므로 팝업 높이가 한 번 커지는 시각적 변화가 생긴다(셸 높이 → 콘텐츠 포함 높이). 스켈레톤·`min-height` 처리로 완화 가능하나 현재 명세에는 포함하지 않는다.
+
+**적용 권장 시나리오**:
+- `type="bottomSheet"` — 슬라이드업 중 무거운 리스트·Tab 콘텐츠가 있을 때 (주 사용처)
+- `type="full"` — 슬라이드-인-라이트 중 무거운 콘텐츠가 있을 때
+- `type="layer"` — fade+scale이므로 필요성은 낮으나 사용 자체는 가능
+
+**사용 예**: `<BottomSheet :defer-content="true">…무거운 콘텐츠…</BottomSheet>`
+
 ### 5-4. 중복 팝업
 
 여러 팝업이 동시에 열릴 수 있다. z-index는 `$z-modal(300)` 기준으로 마운트 순서에 따라 자동 쌓임.
@@ -164,9 +210,9 @@ footer는 `showFooter` prop이 `true`(기본값)일 때만 렌더링된다. `sho
 | `update:open` | open 상태 변경 시 (v-model 바인딩) | `boolean` |
 | `opened` | 열림 애니메이션 완료 후 | — |
 | `closed` | 닫힘 애니메이션 완료 후 | — |
-| `close` | 닫기(×) 버튼 클릭 | — |
+| `close` | 닫기(×) 버튼 클릭. `closeOnCloseBtn=false`이면 `update:open` 자동 호출 없음 — 부모가 직접 닫아야 함 | — |
 | `ok` | ok 버튼 클릭 | — |
-| `cancel` | cancel 버튼 클릭 | — |
+| `cancel` | cancel 버튼 클릭. `closeOnCancel=false`이면 `update:open` 자동 호출 없음 — 부모가 직접 닫아야 함 | — |
 | `overlayClick` | dim(overlay) 영역 클릭 | — |
 
 > `opened` / `closed`: `DialogContent`의 `animationend` 이벤트 + `data-state` 조합으로 감지.
@@ -210,16 +256,23 @@ z-index: $z-modal;
 ```
 DialogRoot (v-model:open, @update:open)
 └─ DialogPortal (to="#popup-container")
-   ├─ DialogOverlay  (.popup__overlay, data-state="open|closed")
+   ├─ DialogOverlay  (.popup__overlay, data-state="open|closed", @pointerdown="handleOverlayPointerDown")
+      └─ handleOverlayPointerDown(e: PointerEvent): button !== 0이면 early return (우클릭·중간 버튼 무시)
    └─ DialogContent  (.popup__content .popup--{type})
       │              data-state="open|closed"
-      │              @interact-outside  → overlayClick + update:open(false) (closeOnOverlay=true 한정)
+      │              @interact-outside  → 항상 event.preventDefault() — 다중 Dialog 영역·Select portal 등 외부 상호작용 차단
       │              @escape-key-down   → 자동 close (closeOnEscape=false면 .prevent)
       │              @open-auto-focus   → 필요 시 .prevent로 초기 포커스 커스터마이징
       │
-      ├─ header.popup__header (v-if="title || showClose")    ← title 비어도 showClose=true면 렌더링
-      │   ├─ DialogTitle       .popup__title (v-if="title")  ← 텍스트 표시
-      │   └─ DialogClose       .popup__closeBtn (v-if="showClose", as-child) — 닫기 버튼
+      ├─ DialogClose       .popup__closeBtn (v-if="showAbsoluteClose && closeOnCloseBtn !== false", as-child)
+      │                    position: absolute; top: 1rem; right: 1rem; width: 1.6rem; height: 1.6rem
+      │                    (DialogContent 바로 안 — Header 외부, closeOnCloseBtn=true일 때)
+      │
+      ├─ button            .popup__closeBtn (v-else-if="showAbsoluteClose")
+      │                    (closeOnCloseBtn=false → DialogClose 없이 순수 button, Radix Vue 자동 닫기 차단)
+      │
+      ├─ div.popup__header (v-if="title && !isAlertConfirm")  ← title 있을 때만 (태그: <div>, <header> 아님)
+      │   └─ DialogTitle       .popup__title                  ← 타이틀 텍스트만
       │
       ├─ VisuallyHidden v-if="!title"                        ← title 없을 때도 a11y 위해 항상 마운트
       │   └─ DialogTitle       (시각적으로 숨김)
@@ -227,12 +280,26 @@ DialogRoot (v-model:open, @update:open)
       ├─ VisuallyHidden                                       ← description 항상 마운트 (Radix Vue dev 워닝 회피)
       │   └─ DialogDescription                               ← description prop 텍스트 또는 빈 노드
       │
-      ├─ .popup__body                                         — default slot
-      └─ .popup__footer (v-if="showFooter")                   — #footer slot 또는 기본 버튼 영역
-            • cancel wrapper: <span class="popup__footerBtnWrap" :style="{ flex: cancelFlex }"> (v-if="showCancel")
+      ├─ .popup__body
+      │   ├─ div.popup__bodyLabel (v-if="bodyLabel")          — bodyLabel prop 텍스트 (slot 위)
+      │   ├─ <slot />                                         — default slot
+      │   └─ div.popup__bodyNote (v-if="bodyNote")            — bodyNote prop 아이콘+텍스트 (slot 아래)
+      │       ├─ Icon(size="sm", aria-hidden="true") > CircularNoteSvg
+      │       └─ span.popup__bodyNoteText
+      └─ div.popup__footer (v-if="showFooter")   ← 태그: <div>, <footer> 아님
+            :style="footerStyle"  — narrowCancel=true이면 CSS 변수 설정:
+                                     { '--footer-cancel-flex': '120', '--footer-cancel-max': '12rem', '--footer-ok-flex': '200' }
+                                    narrowCancel=false이면 undefined (style 미적용)
+            • (slot 사용 시) <slot name="footer" />
+                narrowCancel=true이면 SCSS > :first-child { flex: var(--footer-cancel-flex, 1); max-width: var(--footer-cancel-max, none) }
+                                             > :last-child  { flex: var(--footer-ok-flex, 1) }
+                로 slot 자식에도 비율 적용됨
+            • (slot 미사용 시) cancel wrapper: <span class="popup__footerBtnWrap"> (v-if="showCancel")
                 └─ Button shape="solid" :color="cancelColor" size="lg" @click="handleCancel"
-            • ok wrapper: <span class="popup__footerBtnWrap" :style="{ flex: okFlex }">
-                └─ Button shape="solid" color="primary" size="lg" :disabled="okDisabled" @click="handleOk"
+                   (handleCancel: emit('cancel') → closeOnCancel=true이면 emit('update:open', false) / false이면 자동 닫기 없음)
+              ok wrapper: <span class="popup__footerBtnWrap">
+                └─ Button shape="solid" :color="okColor" size="lg" :disabled="okDisabled" @click="handleOk"
+              (SCSS 기본) .popup__footerBtnWrap { flex: 1 } — CSS 변수로 override됨
 ```
 
 > **DialogTitle/DialogDescription 정책**: Radix Vue Dialog는 둘 다 없으면 dev 콘솔에 워닝을 띄운다. `title`/`description` prop 텍스트가 없어도 `VisuallyHidden`으로 감싸 항상 트리에 마운트한다. `radix-vue`에서 `VisuallyHidden` 컴포넌트가 제공된다 — 별도 sr-only 유틸리티를 만들 필요 없음.
@@ -243,8 +310,8 @@ DialogRoot (v-model:open, @update:open)
 
 ## 9. SCSS 토큰 매핑
 
-| 용도 | 토큰 |
-|------|------|
+| 용도 | 토큰 / 값 |
+|------|-----------|
 | Overlay 배경 | `rgba($text-900, 0.5)` (60rem 프레임 너비, 뷰포트 높이) |
 | 팝업 배경 | `$bg-primary` |
 | 타이틀 텍스트 | `$text-900` |
@@ -258,9 +325,11 @@ DialogRoot (v-model:open, @update:open)
 | body 최대 높이 | `calc(80vh - 헤더높이 - 푸터높이)` |
 | 열림/닫힘 — layer/bottomSheet | `$duration-base` |
 | 열림/닫힘 — full | `$duration-slow` |
+| **닫기 버튼 width / height** | **`1.6rem` (16px 고정값)** |
+| **닫기 버튼 top / right** | **`1rem` (10px 고정값)** |
 
 > **Footer 버튼 색상/크기 토큰은 `Button` 컴포넌트가 담당한다.**  
-> ok 버튼: `color="primary"` / cancel 버튼: `:color="cancelColor"` (기본 `'gray'`) / 공통: `size="lg"`, `shape="solid"`
+> ok 버튼: `:color="okColor"` (기본 `'primary'`) / cancel 버튼: `:color="cancelColor"` (기본 `'gray'`) / 공통: `size="lg"`, `shape="solid"`
 
 ### 9-1. SCSS 제거 대상 (Button 컴포넌트 교체로 불필요)
 
@@ -274,7 +343,17 @@ DialogRoot (v-model:open, @update:open)
 | `.popup--alert .popup__footerBtn--cancel`, `.popup--confirm .popup__footerBtn--cancel` | Button color prop으로 대체 |
 
 **유지되는 SCSS**: `.popup__footer` 레이아웃 (display:flex, gap, padding, border-top), type별 footer gap/padding 재정의  
-**신규 추가 SCSS**: `.popup__footerBtnWrap { flex: 1; }` (기본값. `:style="{ flex: n }"` 인라인으로 override)
+**신규 추가 SCSS**:
+```scss
+.popup__footerBtnWrap { flex: 1; }  // 기본 50:50
+
+// CSS 변수를 사용한 narrowCancel 제어 (footer <div> 컨테이너에 설정, 자식에 적용)
+.popup__footer {
+  > :first-child { flex: var(--footer-cancel-flex, 1); max-width: var(--footer-cancel-max, none); }
+  > :last-child  { flex: var(--footer-ok-flex, 1); }
+}
+```
+narrowCancel=true 시 footer `<div>`에 CSS 변수 인라인 스타일을 설정하면, 기본 버튼 wrapper와 `#footer` slot 커스텀 자식 모두에 동일하게 비율이 적용된다.
 
 ### 애니메이션 매커니즘 (Radix Vue Presence)
 
@@ -322,6 +401,12 @@ Radix Vue Dialog는 내부적으로 `Presence` 컴포넌트를 사용해 닫기 
 | body scroll lock | open 시 | Radix Vue 자동 처리 |
 | 닫기 버튼 | `showClose=true` | `aria-label="닫기"` 필수 (아이콘 버튼이므로) |
 | 색상 대비 | 항상 | 타이틀/본문 텍스트와 배경 대비 4.5:1 이상 |
+
+---
+
+## 11. Wrapper별 추가 Props
+
+> `bodyNote`는 Popup.vue(Base)에 직접 구현되므로 이 섹션의 Wrapper별 별도 정의는 없다. `bodyLabel`과 동일한 패턴으로 Base에서 관리하며, LayerPopup / BottomSheet / FullPopup은 prop을 pass-through하여 외부에 노출한다. **Alert / Confirm은 노출하지 않는다.**
 
 ---
 

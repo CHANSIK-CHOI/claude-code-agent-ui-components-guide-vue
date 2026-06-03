@@ -68,6 +68,9 @@
 > | `inheritAttrs: false` 선언 | `CheckboxRoot`에 `v-bind="$attrs"` 직접 위임 |
 > | `id` 예외 처리 | 내부 computed로 별도 관리 (`useAttrs()`에서 분리 후 `<label for>` 연결) |
 > | 나머지 attrs | `aria-*`, `tabindex`, `data-*` 등 `CheckboxRoot`에 자동 전달 |
+> | **`class` 예외 처리** | 외부 `class`는 `rootAttrs`에서 **제외** → 래퍼 `<label>`(최상위 요소)에 직접 바인딩 |
+>
+> **class 전달 동작**: 외부에서 전달한 `class`는 래퍼 `<label>`(`checkbox__wrapper`)에 적용됩니다. `CheckboxRoot`(내부 버튼)에는 전달되지 않습니다. 이를 위해 `rootAttrs` 필터에서 `id`와 함께 `class`도 제외하고, `<label>`에 `:class="$attrs.class"`를 명시적으로 바인딩합니다.
 
 > **Controlled 바인딩 구현 비고**: Radix Vue controlled mode에서 `v-model:checked + writable computed` 조합이 불안정한 경우가 확인되어, 최종 구현은 `:checked="proxyValue"` + `@update:checked="onCheckedChange"` 명시적 분리 방식을 사용한다.
 

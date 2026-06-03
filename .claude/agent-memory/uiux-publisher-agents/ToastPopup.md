@@ -5,13 +5,13 @@
   - `components/popup/ToastRenderer.vue`
   - `components/popup/useToastPopup.ts`
 - **계층**: organisms (popup/ 전용 폴더)
-- **구현 완료일**: 2026-04-29
+- **구현 완료일**: 2026-05-29 (시니어 리뷰 WARN 반영: 2026-05-29)
 - **비표준 구현**:
   - Radix Vue ToastRoot/ToastDescription/ToastClose/ToastProvider/ToastViewport 래핑
   - `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` → ToastRoot 단일 위임 (Trigger 없어 2단계 분리 불필요)
   - 모듈 레벨 싱글톤 `ref<ToastItem[]>` 패턴 (usePopupManager의 SSR용 `useState`와 달리 CSR 전용이므로 `ref` 직접 사용)
   - `handleAnimationEnd`: `event.target !== event.currentTarget` 버블링 차단 후 `data-state=closed` 시 `closed` emit
-  - `hasIconSlot`: `useSlots().icon` computed로 슬롯 유무 감지
+  - `!!$slots.icon` 직접 참조 — `useSlots()`/`hasIconSlot computed` 제거 (template에서 직접 체크)
   - Radix Vue는 `radix-vue/nuxt` auto-import이나 ToastRoot 등은 명시적 import로 작성 (안전성)
   - swipe CSS 변수: `--radix-toast-swipe-move-x`, `--radix-toast-swipe-end-x` Radix 제공
   - **[버그 수정] ToastViewport/ToastRootImpl 모두 `inheritAttrs: false`**:
@@ -25,10 +25,19 @@
     - Radix Vue 1.9.17 기준 `ToastProvider`/`ToastRoot` 모두 `pauseOnHover` prop 없음 (타입 정의 확인)
     - 해결: `ToastProvider :duration="Infinity"` 고정 → Radix 내장 타이머 완전 비활성화
     - `useToastPopup.ts`에서 모듈 레벨 `timers: Map<string, ReturnType<typeof setTimeout>>`으로 직접 타이머 관리
-    - `show()` 호출 시 `duration > 0`이면 `setTimeout(() => close(id), ms)` 등록
-    - `close()` / `remove()` 호출 시 `clearTimeout` + `timers.delete` 정리
-  - **[spec 변경] success/error 단축 메서드 제거**:
-    - `useToastPopup()` return: `{ instances, show, remove, close }` (success, error 없음)
+    - `close()` 호출 시 `clearTimeout` + `timers.delete` 정리
+    - `remove()`: filter immutable 처리 + `clearTimeout` 후 `timers.delete` (splice 직접 변이 제거)
+  - **[2026-05-29 WARN 반영]**:
+    - ToastRenderer: `onUnmounted` 추가 — HMR 환경 dangling 타이머 방지, unmount 시 열린 toast 전부 `remove()` 호출
+    - ToastPopup: `hasIconSlot computed` 제거 → template에서 `!!$slots.icon` 직접 참조
+    - useToastPopup: `remove()` splice → filter immutable + `clearTimeout` before `timers.delete`
+    - ToastPopup: 닫기 버튼 인라인 SVG → `@nd/assets/images/common/toastPopupIcon_closeBtn.svg?skipsvgo` 교체
+  - **[2026-05-29 spec 추가] iconComponent / forceMount / onClosed 지원**:
+    - `ToastItem` 인터페이스에 `forceMount?`, `iconComponent?: Component | null`, `onClosed?: () => void` 추가
+    - `ToastPopup.vue`: `iconComponent` prop 추가 (`import type { Component } from 'vue'`), 슬롯 fallback 안에서 `!!$slots.icon` 우선 → `iconComponent` → 기본 SVG 순서로 분기 (`v-if` / `v-else`)
+    - `ToastRenderer.vue`: `:force-mount="toast.forceMount"`, `:icon-component="toast.iconComponent"` 바인딩 추가. `@closed` 핸들러 → `toast.onClosed?.(); remove(toast.id)` 순서로 실행
 - **개발자 핸드오프**:
-  - `useToastPopup().show()` — API 응답 후 호출
-  - `show()` return값은 toast id (필요 시 `remove(id)`로 수동 제거 가능)
+  - `useToastPopup().open()` — API 응답 후 호출
+  - `open()` return값은 toast id (필요 시 `remove(id)`로 수동 제거 가능)
+  - `iconComponent`: `import StarIcon from '@nd/assets/icons/star.svg?skipsvgo'` 후 `iconComponent: StarIcon`으로 전달 가능
+  - `onClosed`: 닫힘 애니메이션 완료 후 실행할 콜백 (예: `navigateTo('/home')`)

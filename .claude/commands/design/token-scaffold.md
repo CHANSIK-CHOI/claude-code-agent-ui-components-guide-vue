@@ -2,6 +2,8 @@
 description: "피그마 두 링크에서 colors/typography 토큰을 추출해 design-tokens.json 생성"
 ---
 
+> 본 명령은 에이전트를 호출하지 않고 Claude 가 Figma MCP 를 직접 호출해 토큰을 추출·저장한다.
+
 ## 사용법
 
 /design:token-scaffold

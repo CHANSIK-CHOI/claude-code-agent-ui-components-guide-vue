@@ -38,6 +38,33 @@ memory: project
 - [항목명]: [이유] → 기획 명세에 추가 여부 확인 요청
 ```
 
+구현 중 spec과 **다르게** 구현해야 하는 상황이 생기면 다음 절차를 따른다.
+
+#### 이탈 보고 대상 판정 (단일 출처)
+
+이탈 보고 대상 / 비대상 케이스 매트릭스, 회색 지대 처리, 보고 형식은 **`.claude/rules/spec-scope.md` §3** 단일 출처에서 정의된다. publisher 는 그 매트릭스를 그대로 적용한다.
+
+요약:
+- 보고 대상: spec 의 props/emit 시그니처·동작 규칙·spec 에 명시된 마크업 구조/시각 포맷·a11y 처리 변경, spec 에 없는 props 신규 추가 등
+- 보고 비대상: 디자인 토큰 자동 대체, spec 미명시 마크업 골격, BEM·SCSS 디테일, 핸들러 함수명 등 publisher 자율 영역
+
+#### 처리 절차
+
+1. 임의로 spec 파일을 수정하지 않는다.
+2. 구현을 완료한다.
+3. 작업 완료 보고 시 **"Spec 이탈 항목"** 섹션을 반드시 포함한다 (형식은 `rules/spec-scope.md §3-3` 따름):
+
+```
+⚠️ Spec 이탈 항목 (호출자 spec 현행화 필요):
+| 항목 | spec 내용 | 실제 구현 | 이유 |
+|------|---------|---------|------|
+| [항목명] | [spec에 명시된 동작 또는 "없음 (신규 추가)"] | [실제 구현한 동작] | [이유] |
+```
+
+이탈이 없으면 `이탈 없음 — spec과 일치` 한 줄로 표기.
+
+> **spec 파일 수정 권한 없음**: publisher는 `.vue` 파일만 작성·수정한다. spec 현행화는 호출자(Claude 명령)가 직접 Edit 도구로 수행한다 (`rules/spec-scope.md §4`).
+
 ### STEP 1-B — Figma 디자인 확인 (링크 제공 시)
 
 Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 명세와 교차 확인. 명세에 없고 Figma에 있는 케이스, 또는 둘이 다른 항목은 구현 전에 사용자에게 보고. 링크가 없어도 `.claude/CLAUDE.md`의 **프로젝트 외부 리소스 → Figma** 섹션을 단일 출처로 참조해 디자인 의도를 파악할 수 있다.
@@ -67,10 +94,20 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 - `.claude/rules/tokens.md` — 토큰 카테고리, 2단계 구조 (시맨틱만 참조)
 - `.claude/rules/a11y.md` — 시맨틱 HTML, disabled/aria, label, focus-visible
 - `.claude/rules/libraries.md` — 외부 라이브러리 stability 매트릭스 (Radix Vue Stable/Alpha, 대체안)
+- `.claude/rules/spec-scope.md` — spec 영역 / publisher 자율 영역 경계 + 이탈 보고 매트릭스 (단일 출처)
 
 > **Radix Vue 래핑 구현 시 stability 사전 점검 (필수)**: 구현 직전 `.claude/rules/libraries.md` 매트릭스에서 해당 컴포넌트가 **Stable** 인지 확인한다. **Alpha** 컴포넌트(Calendar, DatePicker, Combobox, Pagination, Stepper, PinInput, TagsInput, Tree, Editable, NumberField, Splitter, Listbox 등)는 구현 중단 후 사용자에게 대체안(같은 문서 §2)을 안내하고 결정 후 진행한다. `libraries.md`의 확인일자가 3개월 이상 경과한 경우 Context7 MCP로 stability를 재확인한다.
 
-> **외부 라이브러리(Radix Vue Stable, @vuepic/vue-datepicker 등) 컴포넌트 작업 시 Context7 MCP로 해당 컴포넌트의 API(props, events, slots)를 반드시 먼저 확인한다.** 라이브러리 API 정확도가 구현에 결정적이기 때문이다. 단, Vue 3 / Nuxt 3 자체 문법은 학습 데이터로 충분하므로 호출하지 않는다.
+> **외부 라이브러리 작업 시 Context7 MCP로 해당 라이브러리의 import 경로·API(props, events, slots)를 반드시 먼저 확인한다.** 라이브러리 API 정확도가 구현에 결정적이며, 특히 import 경로(예: `from 'swiper'` vs `from 'swiper/modules'`)는 버전마다 바뀌므로 학습 데이터에 의존하면 빌드 오류로 이어진다.
+>
+> 대상 라이브러리:
+> - `radix-vue` (Stable 컴포넌트)
+> - `vant` (DatePicker/Picker/PickerGroup 3개만, `vant/es/*/style/index` 경로로 import)
+> - `swiper` / `swiper/vue` / `swiper/modules`
+> - `gsap` 및 GSAP 플러그인
+> - 그 외 npm 모듈 직접 import 시
+>
+> 단, Vue 3 / Nuxt 3 자체 문법(Composition API 등)은 학습 데이터로 충분하므로 호출하지 않는다.
 
 ---
 
@@ -81,7 +118,7 @@ Figma 링크가 함께 제공되면 `get_design_context`로 디자인을 읽고 
 추가 사항:
 
 - Radix Vue: `radix-vue/nuxt`로 auto-import 설정됨 → `import` 없이 바로 사용 가능
-- @vuepic/vue-datepicker: `.client.ts` 플러그인 등록됨
+- vant: `plugins/vant.ts`에서 온디맨드 등록 — DatePicker/Picker/PickerGroup 3개 컴포넌트만 허용 (전체 CSS 로드 금지, `vant/es/*/style/index`로 컴포넌트별 스타일만 로드)
 - 아이콘: `components/atoms/Icon*.vue` SVG 컴포넌트(평탄 배치). 해당 아이콘이 없으면 슬롯(`name="iconLeading"` 등)만 정의하고 사용 측에서 SVG 주입
 
 상세 코드 패턴은 `rules/components.md`, `rules/style.md` 참조.
@@ -297,11 +334,13 @@ const emit = defineEmits<{
     진행할까요?
     ```
 
-- 구현 완료 후 안내: "구현이 명세(`.claude/specs/[ComponentName].md`)와 일치하는지 사용자가 직접 확인해주세요. 명세 변경이 필요하면 `@uiux-planner-agents`로 명세를 먼저 갱신해야 합니다."
+- 구현 완료 후 안내:
+  - Spec 이탈 항목이 없는 경우: "구현이 명세(`.claude/specs/[ComponentName].md`)와 일치합니다."
+  - Spec 이탈 항목이 있는 경우: STEP 1의 "⚠️ Spec 이탈 항목" 표를 보고서에 포함하고, 호출자가 spec을 현행화해야 함을 명시한다. spec 파일은 직접 수정하지 않는다.
 
-### 팀 공유 메모리 기록
+### 공유 메모리 기록
 
-구현 완료 시 `.claude/agent-memory/uiux-publisher-agents/[ComponentName].md`에 아래 내용을 기록한다. git에 포함돼 팀원과 공유된다.
+구현 완료 시 `.claude/agent-memory/uiux-publisher-agents/[ComponentName].md`에 아래 내용을 기록한다. git에 포함돼 세션 간 공유된다.
 
 > **루프백 시 정책**: 동일 컴포넌트의 메모리 파일이 이미 존재하면 **최신본으로 덮어쓰기** (이력 누적 금지). 메모리는 "마지막 구현 결과"만 유지하며 변경 이력은 git history로 추적한다.
 

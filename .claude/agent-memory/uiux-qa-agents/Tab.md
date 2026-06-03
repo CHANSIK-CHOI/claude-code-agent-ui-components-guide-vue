@@ -1,13 +1,21 @@
 # Tab — QA 검수 메모
 
-- **검수일**: 2026-04-29
+- **검수일**: 2026-05-26
 - **검수 결과**: PASS
-- **루프 횟수**: 2회 (component-revise showViewToggle 범위 확장 후 재검수)
+- **루프 횟수**: 3회 (grow 추가 검수 이후 pill-vertical 신규 variant 검수)
 - **발견한 BLOCKER 요약**: 없음
 - **재발 방지 메모**:
-  - Nuxt dev server HMR이 가이드 페이지 변경을 즉시 반영하지 않는 경우 있음. Playwright 검증 시 page.goto 재호출로 최신 렌더링 강제 확인 필요. 초기 스냅샷이 구버전을 보여주더라도 re-navigate 후 재확인할 것.
-  - showViewToggle 동작 범위가 pill 전용에서 모든 variant로 확장(component-revise) — 컴포넌트 구현(`v-if="showViewToggle"`), spec, 가이드 페이지 3곳 모두 일치 확인됨.
-  - TabsRoot: `model-value` prop + `@update:model-value` 이벤트 패턴 사용 — Radix Vue Tabs API와 일치.
-  - TabsTrigger: `value` prop 필수 + `data-state="active"` CSS 훅 자동 적용 — 구현 코드와 일치.
-  - 콘솔 에러(카카오 SDK CSP 차단)는 Tab 컴포넌트 무관한 전역 에러이며 가이드 페이지 전체에서 공통 발생함 — 검수 대상 외.
-  - 뷰 토글 버튼 클릭 시 아이콘 전환(목록↔격자) + aria-label 전환 정상 동작 확인. 3개 variant(pill/underline-primary/underline-dark) 모두 showViewToggle 렌더링 확인됨.
+  - pill-vertical variant 신규 추가 검수 (2026-05-26):
+    - orientation="vertical" 자동 주입 정상: pill-vertical tablist에 `aria-orientation="vertical"` + `data-orientation="vertical"` 실측 확인.
+    - ArrowDown 키보드 탐색: q2→q3 전환 정상 (세로 방향키 동작).
+    - active 스타일: 두 번째 탭 클릭 시 `$color-primary-hover` 배경색(청록) 적용, 텍스트 흰색 확인.
+    - 세로 정렬: 탭 항목이 세로로 쌓이고 가로 스크롤 없음 확인.
+    - actions 슬롯 미렌더링: pill-vertical에서 `#actions` 슬롯이 렌더링되지 않음 — 구현에서 `variant !== 'pill-vertical'` 조건 정상 동작.
+    - Inactive 스타일: `$bg-primary` 배경 + `1px solid $line-200` 테두리 확인.
+  - Context7 orientation prop 팩트체크 (Radix Primitives):
+    - `TabsRoot`의 `orientation` prop: `"horizontal" | "vertical"` 지원 실제 문서 확인 (vertical 예시 코드 존재).
+    - `modelValue` → Radix Vue에서 `StringOrNumber` 타입으로 지원 (이전 검수 확인, 변경 없음).
+  - WARN 지속:
+    - `.tab__trigger`에 `display: inline-flex` 적용 → computed 실제 `flex` 로 최종 적용. rules/style.md "inline-flex 금지" 문언과 불일치 (기존 이월).
+    - Tab 컴포넌트 SCSS에 raw hex 2건: `background: #fff` (공통 블록), `#ffffff` (actions::before 그라데이션). tokens.md 규칙 위반이나 시각 이상 없음.
+  - 콘솔 에러(Kakao SDK CSP, oneclick SCSS MIME): Tab 컴포넌트 무관 전역 에러.

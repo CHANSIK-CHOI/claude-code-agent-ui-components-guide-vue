@@ -18,6 +18,8 @@
 | Nuxt 내부 페이지 이동 (`/products`, `/cart`) | ButtonLink (`to`) |
 | 외부 URL 이동 (`https://...`) | ButtonLink (`href`) |
 
+> **팝업 내부 예외 (`rules/pages.md §5-1`)**: 팝업 컴포넌트(`popups/`) 내부에서는 내부 페이지 이동에 `ButtonLink(to)`(내부적으로 NuxtLink 로 렌더)를 쓰지 않는다 — 클릭 즉시 라우트가 전환돼 팝업 닫힘 애니메이션이 잘린다. 대신 `<Button>` + `emit('navigate', path)` 로 hub 에 신호만 보내고, hub 가 팝업을 닫은 뒤 닫힘 완료(`@closed`) 후 `navigateTo()` 한다. 외부 링크 `ButtonLink(href)`(=`<a>` 렌더)는 새 탭으로 열려 팝업이 유지되므로 그대로 사용 가능.
+
 ---
 
 ## 2. 공유 레이어

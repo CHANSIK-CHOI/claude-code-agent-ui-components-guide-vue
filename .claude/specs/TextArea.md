@@ -125,6 +125,7 @@ Figma 노드 `40004240:6443` 기준 (default 상태).
 |----------|------------|---------|
 | 필드 배경 (default / filled / focus) | `#ffffff` | `$bg-primary` |
 | 테두리 (default / filled) | `#dddddd` | `$border-default` |
+| 테두리 (error) | — | `$color-danger` |
 | 입력 텍스트 (filled) | `#535e66` | `$text-body` |
 | 카운터 텍스트 (default / filled) | `#838b92` | `$text-secondary` |
 | 스크롤바 인디케이터 | `#c0c6cc` | `$border-light` |

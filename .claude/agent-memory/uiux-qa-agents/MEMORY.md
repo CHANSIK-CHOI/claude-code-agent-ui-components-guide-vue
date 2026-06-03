@@ -1,0 +1,28 @@
+# QA Agent Memory Index
+
+- [Tab](Tab.md) — 2026-05-18 PASS(재검수): grow prop 신규 추가 검수 완료. BLOCKER 없음. WARN 1건(trigger inline-flex rules 불일치)
+- [Button](Button.md) — 이전 검수 기록
+- [ButtonLink](ButtonLink.md) — 이전 검수 기록
+- [Input](Input.md) — 이전 검수 기록
+- [Select](Select.md) — 이전 검수 기록
+- [Icon](Icon.md) — 이전 검수 기록
+- [Alert](Alert.md) — 2026-05-04 PASS: title→popup__header 변경 검수 완료, WARN 1건(가이드 페이지 문구 미갱신)
+- [Confirm](Confirm.md) — 2026-05-04 PASS: title→popup__header 변경 검수 완료, WARN 1건(가이드 페이지 문구 미갱신)
+- [Popup](Popup.md) — 2026-05-06 PASS: @click→@pointerdown 버그수정 검수 완료, BLOCKER 없음. overlay·content·closeOnOverlay=false 모두 정상
+- [LayerPopup](LayerPopup.md) — 이전 검수 기록
+- [ToastPopup](ToastPopup.md) — 이전 검수 기록
+- [BottomSheet](BottomSheet.md) — 2026-05-04 FAIL: popup__overlay position:fixed로 phoneFrame 외부 전체화면 덮음 BLOCKER
+- [Collapsible](Collapsible.md) — 2026-05-11 FAIL(6차): scoped CSS 해시 불일치로 height 애니메이션 미적용 + 아이콘 트리거 aria-label 누락 BLOCKER 2건
+- [Tooltip](Tooltip.md) — 2026-05-20 PASS(24차): textColor 직접 바인딩 수정 완료. 분기A/B 모두 rgb(19,175,171) 실측 확인. BLOCKER 없음.
+- [Pagination](Pagination.md) — 2026-05-11 BLOCKED: Playwright MCP 브라우저 세션 점유. Context7+정적분석 BLOCKER 없음, WARN 1건(rootAttrs 변수명 가독성). Playwright 해제 후 재검수 필요
+- [Popover](Popover.md) — 2026-05-14 PASS(17차): __inner max-width:60rem+margin:0 auto 중앙정렬 확인. BLOCKER 없음. WARN 1건(spec §7 600px 표기 vs html:11px→660px)
+- [PaginationSimple](PaginationSimple.md) — 2026-05-11 BLOCKED: Playwright MCP 세션 점유. 정적분석 BLOCKER 없음, WARN 1건(spec §6 아이콘색 후보토큰 목록 부정확). Playwright 해제 후 재검수 필요
+- [Progress](Progress.md) — 2026-05-20 PASS(5차): $bg-tertiary 수정 완료 확인. 트랙 rgb(245,245,245) 실측 일치. BLOCKER 없음.
+- [RadioGroup](RadioGroup.md) — 2026-05-13 FAIL(1차): 화살표 키 이동 시 checked 상태 미변경 BLOCKER. controlled 모드 v-model 바인딩 방식 재검토 필요
+- [FormField](FormField.md) — 2026-05-21 PASS(재검수): class병합·우선순위·inheritAttrs 집중 검증 완료. BLOCKER 없음. WARN 2건(element modifier flat 패턴 style.md 예시 부재, $text-label 토큰 미정의)
+- [PinPicker](PinPicker.md) — 2026-05-14 PASS(1차): vant Picker API 전항목 일치. 단일/다중/cascading/loading/readonly/okDisabled 모두 정상. BLOCKER 없음.
+- [Accordion](Accordion.md) — 2026-05-19 FAIL(15차): onMounted parent.update() 보정 후에도 aria-controls="" 미해결. headTrigger=false 14개 중 13개 초기 빈값. Vue warn 20건 추가 확인. publisher 루프백 필요.
+- [OptionButtonGroup](OptionButtonGroup.md) — 2026-05-22 PASS(3차): @click.prevent 제거 + rowColumns+maxRows 가이드 예제 추가 검수 완료. BLOCKER 없음. WARN 1건 이월(화살표 키 Radix 타이밍 버그).
+- [TermsAgreement](TermsAgreement.md) — 2026-05-28 PASS(3차): 조건부 컨테이너 분기 중점 검증. accordion-open·popup-click·전체동의 전파 모두 정상. BLOCKER 없음.
+- [InputAuth](InputAuth.md) — 2026-05-29 PASS(1차): autoStart·active 제어·10초 timer-end·disabled 독립 타이머 모두 정상. BLOCKER 없음. WARN 1건(stopAndReset 내 timerState='expired' 세팅 vs spec "expired 상태 전환 없음" 기술 불일치)
+- [Marquee](Marquee.md) — 2026-06-01 PASS(2차): isVNode 판별 WARN-1·컴포넌트 자식 loop copy WARN-2·resolveComponent 1회조회 WARN-3·v-pre 컴파일 에러 전체 수정 완료. 컴포넌트 자식 18개 슬라이드 전원 정상 렌더 확인. BLOCKER 없음. (※ 당시 데모의 Badge는 2026-06-03 컴포넌트 제거로 Icon 데모로 교체됨)

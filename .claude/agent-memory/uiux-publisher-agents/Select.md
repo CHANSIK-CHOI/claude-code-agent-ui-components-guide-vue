@@ -14,7 +14,9 @@ type: project
   - `v-bind="$attrs"`는 SelectTrigger에 배치 (SelectRoot는 DOM 요소를 렌더링하지 않으므로)
   - SelectItemIndicator 미사용 (Figma에 체크마크 없음, 배경색 강조만 사용)
   - Chevron 아이콘: `$text-strong` 색상 사용 (Figma 명세 기준 #111111). 닫힌 상태 `rotate(180deg)` → 열린 상태 `rotate(0deg)`
-  - SelectValue placeholder: `[data-placeholder]` 속성 선택자 사용 (::placeholder 대신)
+  - SelectValue 미사용: QA 3회차에서 `:deep(.select__trigger[data-placeholder]) .select__value` 선택자가 Vue scoped 컴파일 구조 상 매칭 실패 확인 → `SelectValue` 컴포넌트 제거, `v-if/v-else`로 직접 `<span>` 렌더링으로 교체
+    - placeholder 상태: `<span class="select__placeholder">` → `color: $text-600` (일반 scoped 선택자, :deep 불필요)
+    - filled 상태: `<span class="select__value">` + `selectedLabel` computed (`options.find(o => o.value === proxyValue.value)?.label ?? ''`)
   - Trigger 열린 상태: `[data-state="open"]` 속성 선택자로 감지
   - 아이템 상태: `[data-highlighted]`, `[data-state="checked"]`, `[data-disabled]` 속성 선택자 활용
   - `proxyValue` computed를 통한 v-model 연동 (modelValue 기본값 undefined → get에서 '' 폴백)

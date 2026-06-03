@@ -1,14 +1,21 @@
 # ToastPopup — QA 검수 메모
 
-- **검수일**: 2026-04-29
-- **검수 결과**: PASS (WARN 1건)
-- **루프 횟수**: 최종 검수 완료 (Playwright 전 항목 PASS)
+- **검수일**: 2026-05-29
+- **검수 결과**: PASS
+- **루프 횟수**: 4회 (onUnmounted 타이머 정리 / hasIconSlot computed 제거 / remove() filter+clearTimeout 보완 / closeBtn SVG 교체 검수)
 - **발견한 BLOCKER 요약**: 없음
+- **금번 수정 사항 검수**:
+  - ToastRenderer.vue — onUnmounted 타이머 정리: `instances.value.slice().forEach(toast => remove(toast.id))` 정상 확인
+  - ToastPopup.vue — `!!$slots.icon` 직접 참조 (hasIconSlot computed 제거) 정상 동작 확인
+  - useToastPopup.ts — `remove()` filter + clearTimeout 보완: splice → filter 전환, timers.delete(id) 정상
+  - ToastPopup.vue — `toastPopupIcon_closeBtn.svg?skipsvgo` 렌더링 정상, 닫기 버튼 클릭 후 토스트 사라짐 확인
+  - lighting 아이콘(`toastPopupIcon_lighting.svg?skipsvgo`) 렌더링 정상
+  - onClosed 콜백 정상 동작 확인 (callbackLogVisible 파란색 메시지 표시)
+  - 콘솔 에러 1건(카카오 SDK CSP)·경고 2건(네이버페이·amplitude)은 프로젝트 공통 이슈로 컴포넌트 무관
 - **재발 방지 메모**:
-  - Playwright 스크린샷으로 `position: fixed` 토스트가 포착 안 될 수 있음 — `browser_evaluate`로 DOM 존재 + `getBoundingClientRect` 직접 폴링해 검증해야 함
-  - hover 무반응 핵심 동작: `ToastProvider duration=Infinity` + `useToastPopup.ts` 직접 `setTimeout` 관리 패턴으로 Radix의 `pauseOnHover` 우회. `mouseover/mouseenter` 이벤트 발생 시에도 3초 후 자동 닫힘 정상 동작.
-  - `duration: 0` 지정 시 타이머 미등록 — 4초 후에도 `data-state: open` 유지 확인됨
-  - [WARN] spec §6 Events에 `close` 이벤트 명시됐으나 구현에 미포함 — `update:open`과 `closed` 이벤트만 구현. `ToastRootEmits`에서 Omit 처리된 것으로 보임. 실동작에는 무영향(닫기 버튼은 `ToastClose as-child` Radix 기본 동작으로 처리됨).
-  - 가이드 페이지에 success/error 단축 메서드 버튼 없음 — 정상 (spec 미정의)
-  - HMR WebSocket 에러(`ws://localhost:24678`)는 빌드 서버 환경에서 정상 발생, 무시
-  - 콘솔 실제 앱 오류 없음
+  - `iconComponent`를 reactive 배열에 저장 시 `markRaw()` 래핑 필수 — Vue warn 방지
+  - `?skipsvgo` import SVG도 `markRaw()` 처리 필요
+  - `ToastPortal to="#toast-container"` 패턴 유효 API (TeleportProps 상속)
+  - `ToastProvider duration=Infinity` + 직접 setTimeout 타이머 관리 패턴은 이 프로젝트 표준
+  - Playwright 검증 시 자동 닫힘 토스트(3초)는 duration:0 시나리오(③번)로 확인할 것
+  - `ToastClose`는 PrimitiveProps 상속 — `as-child` 패턴 올바름. `as-child`로 내부 `<button>`에 닫기 동작 위임 정상

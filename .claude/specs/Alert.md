@@ -29,8 +29,8 @@ Popup.vue Base 구조를 그대로 사용하며, 다음 사항이 고정된다:
 
 - ① **Overlay**: 항상 표시
 - ② **Container**: `type="alert"` 고정 (중앙 위치, max-width 32.8rem)
-- ③ **Header**: **없음** — title/닫기 버튼 비표시. `DialogTitle`은 `VisuallyHidden`으로만 존재 (a11y)
-- ④ **Body**: `title` 텍스트 (굵게, 중앙 정렬, optional) + `message` 텍스트 (중앙 정렬), 섹션 간 gap: 2rem
+- ③ **Header**: `title` prop이 있을 때 Popup 헤더(`popup__header`)에 표시. `title` 없으면 비표시 (`DialogTitle`은 `VisuallyHidden`으로만 존재, a11y)
+- ④ **Body**: `message` 텍스트만 (중앙 정렬) — `title`은 Popup 헤더에서 처리
 - ⑤ **Footer**: ok 버튼 하나, full width, border-top 없음
 
 ---
@@ -39,21 +39,22 @@ Popup.vue Base 구조를 그대로 사용하며, 다음 사항이 고정된다:
 
 Popup.vue props 중 다음만 외부 노출한다.
 
-| prop | 타입 | 기본값 | 설명 |
-|------|------|--------|------|
-| `title` | `string` | — | 헤더 타이틀. 생략 가능 |
-| `message` | `string` | — (필수) | body 안내 메시지 텍스트 |
-| `okLabel` | `string` | `'확인'` | ok 버튼 텍스트 |
+| prop      | 타입                                  | 기본값      | 설명                               |
+| --------- | ------------------------------------- | ----------- | ---------------------------------- |
+| `title`   | `string`                              | — (필수)    | 헤더 타이틀                        |
+| `message` | `string`                              | —           | body 안내 메시지 텍스트. 생략 가능 |
+| `okLabel` | `string`                              | `'확인'`    | ok 버튼 텍스트                     |
+| `okColor` | `'secondary' \| 'primary' \| 'black'` | `'primary'` | ok 버튼 색상                       |
 
 **내부 고정값** (외부 노출 안 함)
 
-| prop | 고정값 |
-|------|--------|
-| `type` | `'alert'` |
-| `showClose` | `false` — 헤더 자체 비표시, 닫기 버튼 없음 |
-| `showCancel` | `false` |
-| `closeOnOverlay` | `true` |
-| `closeOnEscape` | `true` |
+| prop             | 고정값                                     |
+| ---------------- | ------------------------------------------ |
+| `type`           | `'alert'`                                  |
+| `showClose`      | `false` — 헤더 자체 비표시, 닫기 버튼 없음 |
+| `showCancel`     | `false`                                    |
+| `closeOnOverlay` | `true`                                     |
+| `closeOnEscape`  | `true`                                     |
 
 ### `message` 표시 구조
 
@@ -67,7 +68,7 @@ Alert.vue는 `message` prop을 body slot 안의 `alert__message` 단락으로 �
   <Popup
     type="alert"
     :open="true"
-    :title="title ?? '안내'"
+    :title="title"
     :ok-label="okLabel"
     :show-close="false"
     :show-cancel="false"
@@ -77,14 +78,13 @@ Alert.vue는 `message` prop을 body slot 안의 `alert__message` 단락으로 �
     @closed="handleClosed"
   >
     <div class="alert__body">
-      <p v-if="title" class="alert__title">{{ title }}</p>
       <p class="alert__message">{{ message }}</p>
     </div>
   </Popup>
 </template>
 ```
 
-> `title` prop은 `Popup`에 `title ?? '안내'`로 전달되지만, `type="alert"`이면 Popup.vue가 헤더를 렌더링하지 않고 `VisuallyHidden DialogTitle`로만 처리한다. 시각적 title은 body slot 안의 `alert__title`로 표시된다.
+> `title` prop이 있으면 Popup의 헤더(`popup__header`)에 직접 렌더링된다. `title` 없으면 Popup.vue가 `VisuallyHidden`에 `'안내'` 기본 텍스트를 주입하여 접근성 요건을 충족시킨다.
 
 ---
 
@@ -94,33 +94,33 @@ Alert.vue는 `message` prop을 body slot 안의 `alert__message` 단락으로 �
 
 ```ts
 interface AlertConfig {
-  title?: string
-  message: string
-  okLabel?: string
-  onClose?: () => void
+  title: string;
+  message?: string;
+  okLabel?: string;
+  onClose?: () => void;
 }
 
 export function useAlert() {
-  function open(config: AlertConfig): void
-  return { open }
+  function open(config: AlertConfig): void;
+  return { open };
 }
 ```
 
 ### 사용 패턴
 
 ```ts
-const { open } = useAlert()
+const { open } = useAlert();
 
 // fire-and-forget (가장 일반적)
-open({ message: '저장됐습니다.' })
-open({ title: '안내', message: '처리가 완료됐습니다.' })
+open({ title: '저장됐습니다.' });
+open({ title: '안내', message: '처리가 완료됐습니다.' });
 
 // 확인 후 처리 (onClose 콜백)
 open({
   title: '오류',
   message: '로그인이 필요합니다.',
   onClose: () => router.push('/login'),
-})
+});
 ```
 
 - `open()` 반환값: `void`
@@ -140,25 +140,25 @@ Alert과 Confirm이 공유하는 전역 인스턴스 관리 composable.
 
 ```ts
 interface PopupInstance {
-  id: string
-  component: 'alert' | 'confirm'
-  props: Record<string, unknown>
+  id: string;
+  component: 'alert' | 'confirm';
+  props: Record<string, unknown>;
 }
 
 export function usePopupManager() {
   // useState는 Nuxt가 자동 import. SSR에서 request-scoped, CSR에서 싱글턴.
-  const instances = useState<PopupInstance[]>('popup-instances', () => [])
+  const instances = useState<PopupInstance[]>('popup-instances', () => []);
 
   function mount(instance: PopupInstance): void {
-    instances.value.push(instance)
+    instances.value.push(instance);
   }
   function unmount(id: string): void {
-    const idx = instances.value.findIndex(i => i.id === id)
-    if (idx !== -1) instances.value.splice(idx, 1)
+    const idx = instances.value.findIndex((i) => i.id === id);
+    if (idx !== -1) instances.value.splice(idx, 1);
   }
 
   // readonly는 외부 직접 변형을 막기 위함. PopupRenderer는 이걸 v-for 순회.
-  return { instances: readonly(instances), mount, unmount }
+  return { instances: readonly(instances), mount, unmount };
 }
 ```
 
@@ -169,7 +169,7 @@ export function usePopupManager() {
 ```ts
 // useAlert.ts 내부 가드 패턴
 function open(config: AlertConfig): void {
-  if (import.meta.server) return  // 서버에서는 무시
+  if (import.meta.server) return; // 서버에서는 무시
   // ... mount 로직
 }
 ```
@@ -205,6 +205,7 @@ PopupRenderer 내부는 `<template v-for>` + 컴포넌트 분기 구조. Radix V
 ### 6-1. 닫기 조건
 
 다음 모두 팝업을 닫고 `onClose` 실행:
+
 - ok 버튼 클릭
 - ESC 키
 - dim 클릭
@@ -217,11 +218,11 @@ PopupRenderer 내부는 `<template v-for>` + 컴포넌트 분기 구조. Radix V
 
 ## 7. 상태(State) 정의
 
-| 상태 | 설명 |
-|------|------|
-| 대기 | `useAlert().open()` 호출 전. 팝업 없음 |
+| 상태 | 설명                                                        |
+| ---- | ----------------------------------------------------------- |
+| 대기 | `useAlert().open()` 호출 전. 팝업 없음                      |
 | 표시 | `instances`에 Alert 항목 존재. PopupRenderer가 Alert 렌더링 |
-| 닫힘 | ok/ESC/dim 클릭. `instances`에서 제거. `onClose` 호출 |
+| 닫힘 | ok/ESC/dim 클릭. `instances`에서 제거. `onClose` 호출       |
 
 ---
 
@@ -229,9 +230,9 @@ PopupRenderer 내부는 `<template v-for>` + 컴포넌트 분기 구조. Radix V
 
 useAlert의 `open()` 호출 시 제공하는 이벤트:
 
-| 이벤트 (콜백 prop) | 발생 시점 |
-|------------------|---------|
-| `onClose` | ok / ESC / dim 클릭 — 팝업이 닫히고 인스턴스 제거 후 호출 |
+| 이벤트 (콜백 prop) | 발생 시점                                                 |
+| ------------------ | --------------------------------------------------------- |
+| `onClose`          | ok / ESC / dim 클릭 — 팝업이 닫히고 인스턴스 제거 후 호출 |
 
 > 별도 emit 없음. Alert.vue는 내부적으로 Popup.vue의 emit을 처리한다.
 
@@ -241,12 +242,12 @@ useAlert의 `open()` 호출 시 제공하는 이벤트:
 
 Popup.vue Base 접근성 기준을 그대로 따른다 (`DialogTitle` / `DialogDescription` 항상 마운트 정책).
 
-| 항목 | 요구사항 |
-|------|---------|
-| `DialogTitle` | 항상 `VisuallyHidden`으로만 처리 (헤더 영역 자체 없음). `title` prop 값이 있으면 해당 텍스트, 없으면 기본 텍스트 `"안내"` 주입. Popup.vue의 `type="alert"` 분기가 자동 처리. |
-| `DialogDescription` | Alert는 `message`가 필수이므로 항상 텍스트 존재. `DialogDescription`으로 래핑하여 `aria-describedby` 자동 연결 |
-| 포커스 초기화 | open 시 ok 버튼에 포커스 이동 권장 (`@open-auto-focus.prevent` 후 nextTick에서 ref.focus()) |
-| 색상 대비 | message 텍스트와 팝업 배경 대비 4.5:1 이상 |
+| 항목                | 요구사항                                                                                                                                                   |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DialogTitle`       | `title` prop 있으면 `popup__header`에 직접 렌더링. `title` 없으면 `VisuallyHidden`으로 기본 텍스트 `"안내"` 주입 (Popup.vue가 `type="alert"` 분기로 처리). |
+| `DialogDescription` | Alert는 `message`가 필수이므로 항상 텍스트 존재. `DialogDescription`으로 래핑하여 `aria-describedby` 자동 연결                                             |
+| 포커스 초기화       | open 시 ok 버튼에 포커스 이동 권장 (`@open-auto-focus.prevent` 후 nextTick에서 ref.focus())                                                                |
+| 색상 대비           | message 텍스트와 팝업 배경 대비 4.5:1 이상                                                                                                                 |
 
 ---
 
@@ -256,14 +257,15 @@ Popup.vue Base 접근성 기준을 그대로 따른다 (`DialogTitle` / `DialogD
 
 `rules/guide-page.md`의 가이드 페이지 작성 규칙을 따른다. 아래 시연 시나리오를 포함한다:
 
-| 시나리오 | 설명 |
-|---------|------|
-| 기본 호출 | `useAlert().open({ message: '저장됐습니다.' })` 트리거 버튼 |
-| 타이틀 포함 | `open({ title: '안내', message: '처리가 완료됐습니다.' })` |
-| onClose 콜백 | `open({ message: '닫으면 콘솔 로그' , onClose: () => console.log('dismissed') })` — 콜백 동작 시연 |
-| 다중 표시 | 버튼 연속 클릭 시 여러 Alert이 z-index 순으로 쌓이는 모습 |
+| 시나리오     | 설명                                                                                                             |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| 기본 호출    | `useAlert().open({ title: '저장됐습니다.' })` 트리거 버튼                                                        |
+| 메시지 포함  | `open({ title: '안내', message: '처리가 완료됐습니다.' })`                                                       |
+| onClose 콜백 | `open({ title: '알림', message: '닫으면 콘솔 로그', onClose: () => console.log('dismissed') })` — 콜백 동작 시연 |
+| 다중 표시    | 버튼 연속 클릭 시 여러 Alert이 z-index 순으로 쌓이는 모습                                                        |
 
 **페이지 마크업 포인트**:
+
 - `<Alert />`를 직접 마크업하지 않고 `useAlert` 훅 호출만 페이지에 작성
 - `<PopupRenderer />`가 app.vue에 이미 삽입되어 있어 별도 작업 불필요
 - ⑥ Props 섹션은 useAlert config 인터페이스를 표로 작성 (`rules/guide-page.md` HTML `<table>` 형식 따름)

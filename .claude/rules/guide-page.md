@@ -143,7 +143,7 @@
   border-left: 3px solid $color-primary;
   border-radius: $radius-sm;
   font-size: $font-size-body3;
-  color: $text-secondary;
+  color: $text-600;
   line-height: $line-height-base;
 
   code {
@@ -178,10 +178,10 @@ Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 본 가이드�
   margin-top: $spacing-md;
   padding: $spacing-sm $spacing-md;
   background-color: $bg-secondary;
-  border-left: 3px solid $border-default;
+  border-left: 3px solid $line-200;
   border-radius: $radius-sm;
   font-size: $font-size-body3;
-  color: $text-secondary;
+  color: $text-600;
   line-height: $line-height-base;
 
   a { color: $color-primary; }

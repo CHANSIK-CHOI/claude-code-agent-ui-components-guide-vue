@@ -10,7 +10,7 @@
 `size` prop에 `number` 타입 추가 변경 검수
 - `IconPresetSize` / `IconSize` 타입 분리
 - `sizeStyle` computed — string/number 분기 처리
-- `makeIcon()` / `CartIcon` Vue prop 타입 선언 방식
+- `makeIcon()` Vue prop 타입 선언 방식
 
 ## 검증 결과 요약
 
@@ -23,7 +23,6 @@
 | size가 string → color만 반영, style 없으면 `undefined` | PASS |
 | size가 number → `{ width, height }` + color 병합 | PASS |
 | `makeIcon()` props 선언 `[String, Number] as unknown as () => IconSize` | PASS |
-| `CartIcon` size prop 동일 선언 | PASS |
 
 ### Playwright 검증
 

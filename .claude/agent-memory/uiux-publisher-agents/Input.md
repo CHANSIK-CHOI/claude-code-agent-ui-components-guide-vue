@@ -2,24 +2,22 @@
 
 - **파일 경로**: components/atoms/Input.vue
 - **계층**: atoms
-- **구현 완료일**: 2026-04-25
+- **구현 완료일**: 2026-05-29
 - **비표준 구현**: 없음
-- **개발자 핸드오프**: 없음 (UI 제어 prop만 존재)
-
-## 신규 토큰 추가 내역 (assets/scss/abstracts/_variables.scss)
-
-| 토큰 | 값 | 위치 |
-|------|-----|------|
-| `$text-label` | `$_neutral-500` (#777) | text 카테고리 끝 |
-| `$text-helper` | `$_neutral-500` (#777) | text 카테고리 끝 |
-| `$line-height-snug` | `1.3` | line-height 카테고리 (tight와 base 사이) |
-| `$spacing-input-x` | `1.3rem` (13px) | spacing 카테고리 끝 |
+  - `?skipsvgo` 패턴으로 InputClearSvg import (SVGO stroke/fill 제거 방지 — Icon 메모리 동일 패턴)
+  - 루트 `.input`에 `display: flex; align-items: center` — 가로 방향이므로 `flex-direction: column + gap` 금지 규칙과 무관
+  - `input__field`는 `flex: 1` (기존 `width: 100%` 대체)
+  - `v-if="showClear || $slots.suffix"` 조건으로 suffix div 렌더 여부 제어 — 빈 suffix 영역이 공간 차지하지 않음
+- **개발자 핸드오프**: 없음 (퍼블리셔 담당 props만)
 
 ## 구조 요약
 
-- 라벨 영역(`showLabel`), 툴팁 버튼(`showTooltip`), 도움말 텍스트(`showHelperText`) 모두 조건부 렌더링
 - `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"` → `<input>` 요소에 배치
-- 고유 ID(`uid`)로 `<label for>` + `<input id>` 연결, `aria-describedby` 연결
 - `aria-invalid="true"` — error 상태에서만 적용
-- 툴팁 버튼에 SVG 정보 아이콘(원 + i) 인라인 삽입
-- `input__helper--error` modifier로 도움말 색상 분기
+- `hideClear` prop (기본 false): true이면 clear 버튼 항상 미표시
+- `suffix` named slot: clear 버튼 오른쪽에 Wrapper가 요소 삽입 (비밀번호 토글, 타이머 등)
+- `showClear` computed: hideClear=false + disabled=false + readonly=false + modelValue.length>0 모두 충족 시 true
+- clear 버튼 클릭: update:modelValue('') + clear emit 발행
+- `input__clearBtn`: border/background none, 1.6rem×1.6rem, InputClearSvg 렌더
+- 라벨/툴팁/도움말은 FormField (molecules) 담당 — Input 자체에는 없음
+- id 자동 생성 없음 — 사용처에서 $attrs로 직접 전달

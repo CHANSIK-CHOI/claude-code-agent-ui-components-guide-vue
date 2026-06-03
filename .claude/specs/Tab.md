@@ -4,6 +4,7 @@
 > - underline-dark: `40004019:2417` (상세_depth)
 > - underline-primary: `40004010:2337` (Tap_1depth)
 > - pill: `40004010:2348` (Tap_2depth)
+> - pill-vertical: `40005066:2374` (03_Tap 체험팩)
 >
 > (fileKey는 `.claude/CLAUDE.md` "프로젝트 외부 리소스 → Figma" 단일 출처 참조)
 
@@ -15,7 +16,7 @@
 - **배치 경로**: `components/organisms/Tab.vue`
 - **barrel**: `components/organisms/index.ts`에 `export { default as Tab } from './Tab.vue'` 추가
 
-계층 판단 근거: 외부 라이브러리(Radix Vue Tabs)를 래핑하고 복잡한 탐색 상태를 관리하는 독립 UI 블록. Select가 atoms인 것과 달리 Tab은 여러 인터랙티브 요소(TabsTrigger × N, 뷰 토글 버튼)를 조합하므로 organisms로 분류.
+계층 판단 근거: 외부 라이브러리(Radix Vue Tabs)를 래핑하고 복잡한 탐색 상태를 관리하는 독립 UI 블록. Select가 atoms인 것과 달리 Tab은 여러 인터랙티브 요소(TabsTrigger × N)를 조합하므로 organisms로 분류.
 
 ---
 
@@ -31,12 +32,21 @@
 <ShippingInfo       v-else-if="activeTab === 'shipping'" />
 ```
 
+```vue
+<!-- actions 슬롯 사용 예시 — Button 조합 -->
+<Tab v-model="activeTab" :items="tabs" variant="pill">
+  <template #actions>
+    <Button shape="text" size="xs" @click="reset">초기화</Button>
+  </template>
+</Tab>
+```
+
 **기능 분류**
 
 | 기능 | 설명 |
 |------|------|
 | 기본 tablist | 탭 목록 렌더링 + 선택 상태 v-model |
-| 뷰 토글 (pill 전용) | `showViewToggle=true` 시 우측에 격자/목록 전환 버튼 표시 |
+| actions 슬롯 | 탭 목록 우측 영역에 Button 등 외부 컨텐츠 배치 가능 |
 
 ---
 
@@ -49,16 +59,16 @@ tab (TabsRoot)
     │   └── tab__trigger (TabsTrigger × items.length)   ← 필수
     │       ├── tab__label                               ← 필수 (탭 텍스트)
     │       └── tab__badge                               ← 조건부 (badge prop 있을 때만)
-    └── tab__view-toggle                                 ← 조건부 (showViewToggle=true)
-        └── tab__view-btn (단일 버튼: viewType='grid'이면 목록 아이콘, 'list'이면 격자 아이콘)
+    └── tab__actions                                     ← 조건부 ($slots.actions 있을 때만)
+        └── <slot name="actions" />                      ← Button 등 외부 컨텐츠
 ```
 
 - `tab__badge`: badge prop이 있을 때만 렌더링. 의미 있는 텍스트이므로 `aria-hidden` 미적용.
-- `tab__view-toggle`: `showViewToggle=true`일 때 모든 variant에서 렌더링.
+- `tab__actions`: `$slots.actions`가 존재할 때만 렌더링. 스크롤 영역 밖 고정 배치.
 
 ---
 
-### 2-1. Props 목록
+### 2-1. Props / Slots 목록
 
 ```typescript
 interface TabItem {
@@ -67,17 +77,25 @@ interface TabItem {
   badge?: string    // 라벨 뒤 배지 텍스트 (예: "9,999"). 포맷은 호출자가 결정
 }
 
-type TabVariant = 'underline-dark' | 'underline-primary' | 'pill'
-type ViewType = 'grid' | 'list'
+type TabVariant = 'underline-dark' | 'underline-primary' | 'pill' | 'pill-vertical'
 ```
+
+**Props**
 
 | 항목 | 설명 | 기본값 |
 |------|------|--------|
-| `variant` | 디자인 3가지 (`underline-dark` / `underline-primary` / `pill`) | `'underline-primary'` |
+| `variant` | 디자인 4가지 (`underline-dark` / `underline-primary` / `pill` / `pill-vertical`) | `'underline-primary'` |
 | `items` | 탭 항목 배열 (`TabItem[]`) | — (필수) |
 | `modelValue` | 현재 선택된 탭 value (v-model) | `items[0].value` |
-| `showViewToggle` | 격자/목록 전환 버튼 표시 여부. 모든 variant에서 사용 가능 | `false` |
-| `viewType` | 현재 뷰 타입 (`'grid'` / `'list'`) (v-model:viewType) | `'grid'` |
+| `grow` | **`underline-dark` variant에서만 사용 가능**. 켜면 탭 버튼이 리스트 너비를 균등하게 나눠 꽉 채움 (`flex: 1`). 켜면 가로 스크롤 비활성화됨 | `false` |
+
+- `pill-vertical` 적용 시 `grow` prop 무효, `actions` 슬롯 미렌더링
+
+**Slots**
+
+| 이름 | 필수 | 설명 |
+|------|------|------|
+| `actions` | 선택 | 탭 목록 우측에 고정 배치되는 액션 슬롯. `Button` 등 외부 컨텐츠 삽입에 사용 |
 
 > **attrs 위임**: `defineOptions({ inheritAttrs: false })` + `TabsRoot`에 `v-bind="$attrs"` 적용. `aria-label`, `aria-labelledby` 등 외부 접근성 속성을 TabsRoot에 전달 가능.
 
@@ -89,7 +107,7 @@ type ViewType = 'grid' | 'list'
 |---------|------|-----------|
 | `activeIndex: number` | value 기반 식별이 더 명확 | `modelValue: string` (value로 탭 식별) |
 | `defaultValue` 별도 제공 | v-model 하나로 제어 통일 | `modelValue`의 `withDefaults` 기본값으로 처리 |
-| `isGridView: boolean` | viewType 한 prop으로 통합 | `viewType: 'grid' \| 'list'` |
+| `showViewToggle: boolean` | 뷰 토글류 기능은 독립 컴포넌트로 분리 | `#actions` 슬롯에 외부 컴포넌트 삽입 |
 
 ---
 
@@ -100,20 +118,23 @@ type ViewType = 'grid' | 'list'
 | `underline-dark` | 상세_depth | 52px | 상품 상세 탭 (상품설명/리뷰/배송안내/문의) | ✅ |
 | `underline-primary` | Tap_1depth | 48px | 카테고리 메뉴 탭 (전체/프로모션/…) | ✅ |
 | `pill` | Tap_2depth | 36px | 정렬/필터 탭 (최신순/판매순/…) | ✅ |
+| `pill-vertical` | 03_Tap(체험팩) | 41px (py 1.2rem) | 세로 질문형 선택 탭 (체험팩 추천 등) | ❌ 없음 |
 
-**3종 variant 시각 규칙**
+**4종 variant 시각 규칙**
 
-| 항목 | underline-dark | underline-primary | pill |
-|------|---------------|------------------|------|
-| Active 배경 | — | — | `$color-primary-hover` |
-| Active 인디케이터 | `$text-800` 하단 2px | `$color-primary` 하단 2px | — |
-| Active 텍스트 | `$text-800` | `$text-800` | 흰색 |
-| Active 폰트 굵기 | Medium(500) | Bold(700) | Medium(500) |
-| Inactive 텍스트 | `$text-400` | `$text-700` | `$text-700` |
-| Inactive 폰트 굵기 | Medium(500) | Regular(400) | Regular(400) |
-| Inactive 배경 | — | — | `$bg-tertiary` |
-| 폰트 크기 | 15px | 14px | 14px |
-| border-radius | — | — | `$radius-full` (pill) |
+| 항목 | underline-dark | underline-primary | pill | pill-vertical |
+|------|---------------|------------------|------|---------------|
+| Active 배경 | — | — | `$color-primary-hover` | `$color-primary-hover` |
+| Active 인디케이터 | `$text-800` 하단 2px | `$color-primary` 하단 2px | — | — |
+| Active 텍스트 | `$text-800` | `$text-800` | `$text-white` | `$text-white` |
+| Active 폰트 굵기 | Medium(500) | Bold(700) | Medium(500) | Bold(700) |
+| Active 테두리 | — | — | — | 없음 |
+| Inactive 텍스트 | `$text-400` | `$text-700` | `$text-700` | `$text-800` |
+| Inactive 폰트 굵기 | Medium(500) | Regular(400) | Regular(400) | Medium(500) |
+| Inactive 배경 | — | — | `$bg-tertiary` | `$bg-primary` |
+| Inactive 테두리 | — | — | — | 1px solid `$line-200` |
+| 폰트 크기 | 15px | 14px | 14px | 14px (`$font-size-body4`) |
+| border-radius | — | — | `$radius-full` | `$radius-full` |
 
 ---
 
@@ -127,12 +148,6 @@ type ViewType = 'grid' | 'list'
 | active | Variant별 활성 스타일 (인디케이터 또는 배경 변경) | 선택 상태 유지 |
 | hover | 텍스트 색 진하게 | — |
 | focus-visible | 포커스 링 표시 | 키보드 탐색 중 |
-
-**뷰 토글 버튼 상태** (`showViewToggle=true` 시)
-
-| 상태 | 시각적 변화 | 기능적 변화 |
-|------|-----------|-----------|
-| 표시 중 (단일 버튼) | 아이콘 색 `$text-900` | 클릭 시 반대 viewType으로 전환 |
 
 ---
 
@@ -160,16 +175,28 @@ type ViewType = 'grid' | 'list'
 }
 ```
 
-**뷰 토글** (`showViewToggle=true`)
-- 탭 목록 우측에 단일 버튼으로 고정 배치 (스크롤 영역 밖)
-- `viewType === 'grid'`이면 "목록 보기" 버튼(list 아이콘)만 표시 → 클릭 시 `update:viewType` emit with `'list'`
-- `viewType === 'list'`이면 "격자 보기" 버튼(grid 아이콘)만 표시 → 클릭 시 `update:viewType` emit with `'grid'`
-- 버튼은 항상 `$text-900` 단일 색상 (active/inactive 구분 없음)
+**grow 모드 — `underline-dark` 전용, 스크롤과 상호 배타**
+- `grow` prop은 `variant="underline-dark"`일 때만 유효하다. 다른 variant에서 `grow: true`를 전달하면 무시된다
+- `grow: true`이면 각 `TabsTrigger`에 `flex: 1`이 적용되어 탭 버튼이 리스트 너비를 균등하게 나눠 채움
+- `grow: true`이면 탭 항목이 리스트를 초과할 수 없으므로 가로 스크롤은 비활성화
+- `grow: false`(기본)이면 기존 스크롤 동작 그대로 유지
+
+**actions 슬롯**
+- `$slots.actions`가 있을 때만 `.tab__actions` 래퍼를 렌더링 (스크롤 영역 밖 고정 배치)
+- `<Button>` 등 어떤 컨텐츠도 삽입 가능
 
 **badge 표시**
 - `badge` prop이 있으면 라벨 뒤에 공백 없이 이어서 렌더링: `label + badge`
 - 예: `label="리뷰"`, `badge="(9,999)"` → 렌더링: `리뷰(9,999)`
 - 포맷(괄호 포함 여부 등)은 호출자가 결정해서 문자열로 전달
+
+**pill-vertical 모드**
+- `tab__list`가 `flex-direction: column; align-items: flex-start`로 세로 정렬됨
+- 가로 스크롤 없음 (`overflow-x: visible`)
+- `tab__header` 좌우 padding: 0 (외부 컨테이너가 여백을 담당)
+- 트리거 너비: 콘텐츠 맞춤 (`width: auto`, `flex-shrink: 0`)
+- `grow` prop 무효, `actions` 슬롯 미렌더링
+- Radix Vue `TabsRoot`에 `orientation="vertical"` 내부 자동 주입 — 키보드 위/아래 방향키로 탭 이동
 
 **Navigation only**
 - `TabsContent` 미사용. 콘텐츠 패널은 부모가 `v-if` / `v-else-if`로 전환
@@ -182,7 +209,6 @@ type ViewType = 'grid' | 'list'
 | 이벤트 | 발생 시점 | 전달 정보 |
 |--------|---------|---------|
 | `update:modelValue` | 탭 클릭 시 | 선택된 탭의 `value` (string) |
-| `update:viewType` | 뷰 토글 버튼 클릭 시 | `'grid'` 또는 `'list'` |
 
 ---
 
@@ -203,7 +229,6 @@ type ViewType = 'grid' | 'list'
 | 항목 | 조건 | 요구사항 |
 |------|------|---------|
 | 포커스 표시 | 키보드 포커스 시 | `:focus-visible` 외곽선 표시, `outline: none` 단독 사용 금지 |
-| 뷰 토글 레이블 | `showViewToggle=true` | 표시 중인 단일 버튼에 `aria-label="목록 보기"` 또는 `aria-label="격자 보기"` 적용 (aria-pressed 제거) |
 | 외부 레이블 연결 | 필요 시 | `aria-label` 또는 `aria-labelledby`를 `$attrs`로 TabsRoot에 전달 |
 | `TabsContent` 미사용 | Navigation only | `aria-controls` 미연결 상태 허용. 보조기기는 `aria-selected`로 탭 상태 파악 가능 |
 
@@ -253,6 +278,27 @@ type ViewType = 'grid' | 'list'
 | Inactive 폰트 크기 | 14px | `$font-size-body4` |
 | Inactive 폰트 굵기 | Regular(400) | `$font-weight-regular` |
 
+#### pill-vertical (03_Tap 체험팩, 노드: 40005066:2374)
+
+| 적용 위치 | Figma 색상값 | 매핑 토큰 |
+|----------|------------|---------|
+| Active 배경 | `#00A1CE` | `$color-primary-hover` |
+| Active 텍스트 | `#ffffff` | `$text-white` |
+| Inactive 배경 | `#ffffff` | `$bg-primary` |
+| Inactive 텍스트 | `#333333` | `$text-800` |
+| Inactive 테두리 | `#dddddd` | `$line-200` |
+
+| 속성 | Figma 수치 | rem / 토큰 값 |
+|------|----------|------------|
+| 컨테이너 헤더 패딩 | 0 | 0 |
+| 탭 상하 패딩 | 12px | 1.2rem |
+| 탭 좌우 패딩 | 14px | 1.4rem |
+| 탭 간격 (세로 gap) | 8px | `$spacing-sm` |
+| border-radius | ~30px | `$radius-full` |
+| 폰트 크기 | 14px | `$font-size-body4` |
+| Active 폰트 굵기 | Bold(700) | `$font-weight-bold` |
+| Inactive 폰트 굵기 | Medium(500) | `$font-weight-medium` |
+
 #### pill (Tap_2depth, 노드: 40004010:2348)
 
 | 적용 위치 | Figma 색상값 | 매핑 토큰 |
@@ -275,40 +321,6 @@ type ViewType = 'grid' | 'list'
 | Active 폰트 굵기 | Medium(500) | `$font-weight-medium` |
 | Inactive 폰트 굵기 | Regular(400) | `$font-weight-regular` |
 
-#### 뷰 토글 버튼 아이콘 색상
-
-| 상태 | 색상값 | 매핑 토큰 |
-|------|-------|---------|
-| 표시 중 | `#333333` (추정) | `$text-900` |
-
-#### 뷰 토글 SVG 아이콘
-
-**격자 보기 (Grid)**
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <rect width="24" height="24" fill="white"/>
-  <rect x="5.2" y="5.2" width="5.45019" height="5.56501" rx="1.3" stroke="currentColor" stroke-width="1.4"/>
-  <rect x="13.3499" y="5.2" width="5.45019" height="5.56501" rx="1.3" stroke="currentColor" stroke-width="1.4"/>
-  <rect x="13.3499" y="13.2366" width="5.45019" height="5.56501" rx="1.3" stroke="currentColor" stroke-width="1.4"/>
-  <rect x="5.2" y="13.2367" width="5.45019" height="5.56501" rx="1.3" stroke="currentColor" stroke-width="1.4"/>
-</svg>
-```
-
-**목록 보기 (List)**
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <rect width="24" height="24" fill="white"/>
-  <path d="M19 7L10.5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-  <path d="M7.5 7L5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-  <path d="M19 12L10.5 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-  <path d="M7.5 12L5 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-  <path d="M19 17L10.5 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-  <path d="M7.5 17L5 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-</svg>
-```
-
-> SVG stroke 색상은 하드코딩 대신 `currentColor`로 교체. 부모 요소의 `color` 속성으로 제어.
-
 ---
 
 ### 9. Radix Vue 구성요소 사용 목록
@@ -318,6 +330,8 @@ type ViewType = 'grid' | 'list'
 > `TabsContent` 미사용 — Navigation only 설계.
 
 ⚠️ Radix Vue 래핑 패턴 적용. `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"`를 `TabsRoot`에 위임.
+
+`pill-vertical` variant 사용 시 `TabsRoot`에 `orientation="vertical"` 컴포넌트 내부 자동 주입. 미전달 시 기본값 `"horizontal"`(좌우 방향키)로 동작하므로, 세로 탭에서 방향키 탐색 정합성을 위해 자동 설정한다.
 
 ---
 
@@ -329,6 +343,6 @@ type ViewType = 'grid' | 'list'
 | badge 타입 | `string` 단일. 포맷(괄호 등)은 호출자가 결정해서 전달 |
 | 가로 스크롤 | 3가지 variant 모두 적용. PC: 스크롤바 표시 / 모바일: 스크롤바 숨김 |
 | pill active 색상 | `$color-primary-hover` (#00addb) — `$color-primary` (#0cb5e2) 아님 |
-| showViewToggle 동작 범위 | 모든 variant에서 사용 가능. `showViewToggle=true`이면 variant에 관계없이 렌더링 |
-| viewToggle 렌더링 방식 | `v-if`/`v-else`로 단일 버튼 렌더링. 현재 viewType의 반대 상태 버튼만 DOM에 존재 |
-| SVG currentColor | 뷰 토글 아이콘 stroke를 `currentColor`로 교체하여 CSS color로 색상 제어 |
+| actions 슬롯 | `$slots.actions` 조건부 래퍼. Button 등 외부 컴포넌트를 탭 우측에 배치 |
+| grow | `underline-dark` variant 전용. `grow: true`이면 flex: 1로 탭 버튼 균등 분배. 스크롤과 상호 배타 — 동시 사용 불가 |
+| `pill-vertical` variant | 세로 정렬 탭. `flex-direction: column`. 가로 스크롤 없음. 헤더 패딩 0. `orientation="vertical"` 내부 자동 주입. `grow`, `actions` 슬롯 무효 |

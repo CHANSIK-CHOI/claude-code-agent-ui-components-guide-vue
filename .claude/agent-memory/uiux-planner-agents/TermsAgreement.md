@@ -1,0 +1,24 @@
+# TermsAgreement — 기획 메모
+
+- **계층**: molecules
+- **작성일**: 2026-05-28
+- **주요 결정**:
+  - Base만 (Wrapper 분리 없음)
+  - 배치 경로: `components/molecules/TermsAgreement.vue`
+  - 사용 컴포넌트: Checkbox(atoms) + Accordion/AccordionItem/AccordionTrigger/AccordionContent(organisms)
+  - accordion 타입 항목은 각각 개별 `<Accordion type="multiple">` 인스턴스로 감싸짐 (공통 단일 Accordion 아님)
+  - AccordionTrigger는 `headTrigger: true` — 체크박스와 분리된 별도 트리거 버튼 패턴
+  - item type 3종: `checkbox` / `popup` / `accordion`
+  - v-model:allChecked + update:checked(단일 항목 변경) + popup-click emit 구조
+  - `allCheckText` prop 추가 — 전체 동의 체크박스 레이블 텍스트, default: `'전체 동의'`
+  - 전체 동의 ↔ 개별 항목 양방향 동기화 로직 컴포넌트 내부 담당
+  - items prop 변경 시 기존 체크 상태 유지 (신규 항목만 false 초기화 — 이전 "전체 초기화"에서 변경됨)
+  - allChecked prop 변경 시 모든 항목 일괄 동기화
+  - 필수 표시: checkbox/popup 타입은 `[필수]`, accordion 타입은 `(필수)` — `<em aria-hidden="true">` 태그 사용
+  - popup type 팝업 열기 자체는 사용처(hub) 담당 — emit만
+- **미확정 항목**:
+  - 전체 동의 indeterminate 상태 디자인 존재 여부 (Figma 미확인)
+  - 필수 항목 미동의 시 에러 상태 시각 처리 여부 (Figma 미확인)
+  - `[필수]` / `(필수)` 포맷 차이 통일 여부 (구현 코드 기준 반영, 디자인 확인 권장)
+  - accordion content 슬롯화 필요 여부 (현재 문자열 prop, HTML 포함 시 확장 필요)
+- **디자인 토큰 매핑**: Figma 인증 필요 — 추정값으로 명세 작성됨. 인증 후 갱신 필요

@@ -58,6 +58,39 @@ const emit = defineEmits<{
 > React 비교: React의 `interface ButtonProps` + `defaultProps`를
 > Vue에서는 `defineProps`(타입) + `withDefaults`(기본값)으로 처리합니다.
 
+### v-model 양방향 바인딩 — `defineModel` 사용 (Vue 3.4+, 단일 출처)
+
+부모와 양방향으로 동기화하는 값(`open`, `modelValue`, `value` 등)은 **`defineModel` 매크로**로 선언한다. `defineProps` + `defineEmits('update:xxx')` + 수동 이벤트 포워딩(`@update:xxx="emit('update:xxx', $event)"`) 3종 세트를 **ref 한 줄**로 대체하는 것이 Vue 3.4 정석이다.
+
+- **Vue 3.4 정식(stable) 매크로** — 프로젝트는 Vue 3.4.19이므로 사용 가능하다. (CLAUDE.md가 금지한 건 `useTemplateRef`·`useId` 같은 **3.5+** API이며 `defineModel`은 3.4라 해당 없음)
+- `const model = defineModel<T>('name', { required: true })` → **`Ref<T>` 반환**. `model.value = x` 로 변경하면 Vue가 자동으로 `update:name` 이벤트를 emit한다.
+- 부모가 **항상** 값을 주입하는 경우(팝업의 `open` 등) `{ required: true }` 로 선언해 타입에서 `undefined` 를 제거한다. 선택적이면 `{ default: ... }`.
+- `update:name` 은 `defineModel` 이 내부적으로 선언하므로 `defineEmits` 에 **다시 적지 않는다**. 그 외 이벤트(`navigate`, `closed` 등)만 `defineEmits` 에 남긴다.
+
+```vue
+<!-- ✅ defineModel — Vue 3.4 정석 -->
+<script setup lang="ts">
+const open = defineModel<boolean>('open', { required: true })
+// 닫기: open.value = false  →  자동으로 update:open emit
+</script>
+<template>
+  <!-- 부모가 v-model:open 으로 연결 -->
+</template>
+
+<!-- ❌ Before — 보일러플레이트 3종 + 포워딩 누락 시 양방향 끊김 -->
+<script setup lang="ts">
+defineProps<{ open: boolean }>()
+const emit = defineEmits<{ 'update:open': [value: boolean] }>()
+// 자식 컴포넌트에 :open + @update:open="emit('update:open', $event)" 를 손으로 연결해야 함
+</script>
+```
+
+> **왜 수동 포워딩보다 나은가 (함정 회피)**: `update:open` 을 `defineEmits` 로 선언하는 순간, 부모가 `v-model` 로 주입한 `onUpdate:open` 리스너는 **`$attrs` 에서 제외**된다 (Vue 공식 — "declared emits are excluded from fallthrough attributes"). 따라서 `v-bind="$attrs"` 로도 자동 전달되지 않아, 중간 래퍼마다 `@update:open="emit('update:open', $event)"` 한 줄을 **빠짐없이** 적어야 양방향이 이어진다. 한 곳이라도 빠지면 dim 클릭·ESC 닫힘 신호가 거기서 끊긴다. `defineModel` 은 이 연결을 컴파일러가 자동 생성하므로 누락 자체가 구조적으로 불가능하다.
+
+> React 비교: 부모가 `[open, setOpen]=useState` 를 들고 자식엔 `value`/`onChange` 를 내려주던 걸, **자식이 `open` 양방향 ref 를 직접 들고** 부모의 `v-model` 과 자동 동기화하는 것. 중간에서 `onChange={v => onChange(v)}` 로 콜백을 손으로 포워딩할 필요가 사라진다.
+
+> **팝업 적용**: 팝업 래퍼(`popups/*`)의 `open` 제어는 본 메커니즘을 그대로 적용하며, 팝업 특화 규칙(금지 패턴·부모 연결·`v-if` 마운트 금지 등)은 `rules/popups.md §3` 단일 출처를 따른다.
+
 ### 네이티브 속성 위임 (Props Delegation)
 
 **모든 컴포넌트**는 Wrapper 여부와 관계없이, 핵심 HTML 요소에 `defineOptions({ inheritAttrs: false })` + `v-bind="$attrs"`를 반드시 적용한다.
