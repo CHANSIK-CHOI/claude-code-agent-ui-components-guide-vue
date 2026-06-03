@@ -126,6 +126,8 @@
     margin-bottom: $spacing-sm;
   }
 
+  &__propsTableWrap { overflow-x: auto; }
+
   &__propsTable {
     width: 100%;
     border-collapse: collapse;
@@ -147,6 +149,7 @@
 
     td {
       color: $text-900;
+      min-width: 8rem;
     }
 
     code {
@@ -206,6 +209,7 @@
 
     td {
       color: $text-900;
+      min-width: 8rem;
     }
 
     code {

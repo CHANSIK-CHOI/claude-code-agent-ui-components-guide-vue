@@ -198,6 +198,7 @@ const isEnabled = ref(false)
       <h2 class="switchGuidePage__sectionTitle">⑥ Props / Events</h2>
 
       <h3 class="switchGuidePage__tableTitle">Props</h3>
+      <div class="switchGuidePage__propsTableWrap">
       <table class="switchGuidePage__propsTable">
         <thead>
           <tr>
@@ -250,8 +251,10 @@ const isEnabled = ref(false)
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h3 class="switchGuidePage__tableTitle">Events</h3>
+      <div class="switchGuidePage__propsTableWrap">
       <table class="switchGuidePage__propsTable">
         <thead>
           <tr>
@@ -271,6 +274,7 @@ const isEnabled = ref(false)
           </tr>
         </tbody>
       </table>
+      </div>
 
       <p class="switchGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: 이 컴포넌트는

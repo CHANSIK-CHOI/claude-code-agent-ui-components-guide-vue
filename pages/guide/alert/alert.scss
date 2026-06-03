@@ -138,6 +138,21 @@ $b: "alertGuidePage";
   margin-top: $spacing-sm;
 }
 
+.#{$b}__commonNote {
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-body3;
+  color: $text-600;
+  line-height: $line-height-base;
+
+  code {
+    background-color: $bg-tertiary;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+  }
+}
+
 .#{$b}__tableTitle {
   font-size: $font-size-body2;
   font-weight: $font-weight-bold;
@@ -145,6 +160,8 @@ $b: "alertGuidePage";
   margin-top: $spacing-lg;
   margin-bottom: $spacing-sm;
 }
+
+.#{$b}__propsTableWrap { overflow-x: auto; }
 
 .#{$b}__propsTable {
   width: 100%;
@@ -168,6 +185,7 @@ $b: "alertGuidePage";
 
   td {
     color: $text-900;
+    min-width: 8rem;
   }
 
   code {

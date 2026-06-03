@@ -1,6 +1,6 @@
 <template>
   <header class="guideHeader" v-bind="$attrs">
-    <h1 class="guideHeader__title">UI 컴포넌트 가이드</h1>
+    <h1 class="guideHeader__title">Vue 3.4.19 & Nuxt 3.10.3 컴포넌트 가이드</h1>
   </header>
 </template>
 

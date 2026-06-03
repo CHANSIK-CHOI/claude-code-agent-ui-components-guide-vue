@@ -1,0 +1,65 @@
+// ─── 브레이크포인트 변수 ──────────────────────────────────────
+// additionalData(@use ... as *)로 주입되므로 모든 SCSS 블록에서
+// $bp-mobile, $bp-tiny 를 @media 직접 참조에도 사용 가능하다.
+$bp-tiny:   320px;
+$bp-mobile: 600px;
+
+// ─── 반응형 미디어 쿼리 Mixin ─────────────────────────────────
+//
+// @include mobile  { ... }   → max-width: 600px   (모바일)
+// @include desktop { ... }   → min-width: 601px   (데스크톱)
+// @include tiny    { ... }   → max-width: 320px   (초소형 모바일)
+//
+// 예시:
+//   .button {
+//     padding: $spacing-md $spacing-lg;
+//
+//     @include mobile {
+//       padding: $spacing-sm $spacing-md;
+//     }
+//   }
+
+@mixin mobile {
+  @media (max-width: $bp-mobile) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$bp-mobile + 1px}) {
+    @content;
+  }
+}
+
+@mixin tiny {
+  @media (max-width: $bp-tiny) {
+    @content;
+  }
+}
+
+// ─── 말줄임(Text Truncation) Mixin ────────────────────────────
+//
+// @include truncate      → 1줄 말줄임 (기본값)
+// @include truncate(3)   → 3줄 말줄임
+//
+// 예시:
+//   .card__title {
+//     @include truncate;       // 1줄
+//   }
+//
+//   .card__description {
+//     @include truncate(2);    // 2줄
+//   }
+
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  } @else {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+  }
+}

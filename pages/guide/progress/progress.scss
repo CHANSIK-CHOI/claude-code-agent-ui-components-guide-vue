@@ -1,0 +1,280 @@
+.progressGuidePage {
+  padding: $spacing-lg;
+  max-width: 100%;
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    background-color: $bg-accent-sky-blue;
+    color: $color-primary;
+  }
+
+  &__desc {
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__sectionTitle {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $line-200;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    width: 100%;
+  }
+
+  &__itemLabel {
+    font-size: $font-size-caption1;
+    color: $text-400;
+    font-weight: $font-weight-medium;
+  }
+
+  &__code {
+    background-color: $bg-tertiary;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    font-size: 1.1rem;
+    color: $text-600;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: $line-height-base;
+  }
+
+  &__note {
+    margin-bottom: $spacing-md;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  // ── 인터랙티브 데모 ──────────────────────────────────────────────────────────
+  &__interactive {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    background-color: $bg-secondary;
+    border: 1px solid $line-200;
+    border-radius: $radius-md;
+  }
+
+  &__interactivePreview {
+    width: 100%;
+  }
+
+  &__interactiveControls {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__sliderLabel {
+    font-size: $font-size-body3;
+    color: $text-600;
+
+    strong {
+      color: $color-primary;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  &__slider {
+    width: 100%;
+    accent-color: $color-primary;
+    cursor: pointer;
+  }
+
+  // ── indicator 슬롯 데모 ──────────────────────────────────────────────────────
+  // 커스텀 말풍선이 Progress 트랙 위로 표시되므로 상단 여백 확보
+  &__indicatorSlotBox {
+    width: 100%;
+    padding-top: $spacing-xl;
+  }
+
+  &__bubble {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: calc(-2rem + 20px);
+    padding: 0.4rem 1rem;
+    border-radius: $radius-full;
+    white-space: nowrap;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-bold;
+  }
+
+  &__bubbleArrow {
+    position: absolute;
+    bottom: -0.6rem;
+    right: 2rem;
+    transform: rotate(180deg);
+  }
+
+  // ── Tooltip 통합 데모 ────────────────────────────────────────────────────────
+  &__tooltipDemo {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    background-color: $bg-secondary;
+    border: 1px solid $line-200;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-md;
+  }
+
+  // 인터랙티브 Tooltip 데모 — 상단 여백으로 말풍선 잘림 방지
+  &__tooltipDemoBox {
+    width: 100%;
+    padding-top: $spacing-xl;
+
+    &--bottom {
+      padding-top: 0;
+      padding-bottom: $spacing-xl;
+    }
+  }
+
+  &__tooltipVariantList {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    margin-top: $spacing-md;
+  }
+
+  &__tooltipVariantItem {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  // ── Props 테이블 ─────────────────────────────────────────────────────────────
+  &__tableTitle {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__propsTableWrap {
+    overflow-x: auto;
+  }
+
+  &__propsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-body3;
+
+    th, td {
+      border: 1px solid $line-200;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: $bg-secondary;
+      font-weight: $font-weight-medium;
+      color: $text-600;
+      white-space: nowrap;
+    }
+
+    td {
+      color: $text-900;
+      min-width: 8rem;
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+      white-space: nowrap;
+    }
+  }
+
+  &__emptyCell {
+    color: $text-400;
+    font-style: italic;
+    text-align: center !important;
+  }
+
+  &__delegationNote {
+    margin-top: $spacing-lg;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-left: 3px solid $color-primary;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+
+  &__radixNote {
+    margin-top: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-secondary;
+    border-left: 3px solid $line-200;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    a {
+      color: $color-primary;
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+}

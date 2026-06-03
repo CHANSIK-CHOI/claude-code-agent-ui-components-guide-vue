@@ -1,9 +1,9 @@
 <template>
-  <div class="GuideLayout">
-    <GuideHeader class="GuideLayout__header" />
-    <div class="GuideLayout__body">
-      <GuideSidebar class="GuideLayout__sidebar" />
-      <main class="GuideLayout__main">
+  <div class="guideLayout">
+    <GuideHeader class="guideLayout__header" />
+    <div class="guideLayout__body">
+      <GuideSidebar class="guideLayout__sidebar" />
+      <main class="guideLayout__main">
         <slot />
       </main>
     </div>
@@ -15,18 +15,18 @@ import { GuideHeader, GuideSidebar } from "@nd/components/guide";
 </script>
 
 <style lang="scss" scoped>
-$b: "GuideLayout";
-$header-height: 6rem;
-$sidebar-width: 24rem;
+$b: "guideLayout";
+$header-height: 60px;
+$sidebar-width: 240px;
 
 .#{$b} {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-width: 120rem;
 
   &__header {
     position: sticky;
+    left: 0;
     top: 0;
     z-index: $z-sticky;
   }
@@ -40,18 +40,16 @@ $sidebar-width: 24rem;
     flex-shrink: 0;
     width: $sidebar-width;
     position: sticky;
+    left: 0;
     top: $header-height;
     align-self: flex-start;
     height: calc(100vh - #{$header-height});
     overflow-y: auto;
-    width: 24rem !important;
   }
 
   &__main {
     flex: 1;
     min-width: 0;
-    overflow-x: auto;
-    width: calc(100vw - 24rem);
   }
 }
 </style>

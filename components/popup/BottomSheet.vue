@@ -8,11 +8,19 @@
     :show-close="showClose"
     :ok-label="okLabel"
     :cancel-label="cancelLabel"
+    :cancel-color="cancelColor"
+    :ok-color="okColor"
     :show-cancel="showCancel"
     :ok-disabled="okDisabled"
     :close-on-overlay="closeOnOverlay"
     :close-on-escape="closeOnEscape"
+    :close-on-close-btn="closeOnCloseBtn"
+    :close-on-cancel="closeOnCancel"
     :show-footer="showFooter"
+    :body-label="bodyLabel"
+    :body-label-align="bodyLabelAlign"
+    :body-note="bodyNote"
+    :narrow-cancel="footerLayout === 'wide'"
     @update:open="(v) => emit('update:open', v)"
     @opened="emit('opened')"
     @closed="emit('closed')"
@@ -22,49 +30,65 @@
     @overlay-click="emit('overlayClick')"
   >
     <template v-if="$slots.header" #header><slot name="header" /></template>
+    <template v-if="$slots['body-label-icon']" #body-label-icon><slot name="body-label-icon" /></template>
     <slot />
     <template v-if="$slots.footer" #footer><slot name="footer" /></template>
   </Popup>
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+  defineOptions({ inheritAttrs: false })
 
-import Popup from './Popup.vue'
+  import Popup from './Popup.vue'
 
-const props = withDefaults(
-  defineProps<{
-    open: boolean
-    title?: string
-    description?: string
-    showClose?: boolean
-    okLabel?: string
-    cancelLabel?: string
-    showCancel?: boolean
-    okDisabled?: boolean
-    closeOnOverlay?: boolean
-    closeOnEscape?: boolean
-    showFooter?: boolean
-  }>(),
-  {
-    showClose: false,
-    okLabel: '확인',
-    cancelLabel: '취소',
-    showCancel: true,
-    okDisabled: false,
-    closeOnOverlay: true,
-    closeOnEscape: true,
-    showFooter: true,
-  },
-)
+  type FooterLayout = 'equal' | 'wide'
 
-const emit = defineEmits<{
-  'update:open': [value: boolean]
-  opened: []
-  closed: []
-  close: []
-  ok: []
-  cancel: []
-  overlayClick: []
-}>()
+  const props = withDefaults(
+    defineProps<{
+      open: boolean
+      title?: string
+      description?: string
+      showClose?: boolean
+      okLabel?: string
+      cancelLabel?: string
+      cancelColor?: 'secondary' | 'gray'
+      okColor?: 'secondary' | 'primary' | 'black'
+      showCancel?: boolean
+      okDisabled?: boolean
+      closeOnOverlay?: boolean
+      closeOnEscape?: boolean
+      closeOnCloseBtn?: boolean
+      closeOnCancel?: boolean
+      showFooter?: boolean
+      bodyLabel?: string
+      bodyLabelAlign?: 'left' | 'center'
+      bodyNote?: string
+      footerLayout?: FooterLayout
+    }>(),
+    {
+      showClose: true,
+      okLabel: '확인',
+      cancelLabel: '취소',
+      cancelColor: 'gray',
+      okColor: 'primary',
+      showCancel: true,
+      okDisabled: false,
+      closeOnOverlay: true,
+      closeOnEscape: true,
+      closeOnCloseBtn: true,
+      closeOnCancel: true,
+      showFooter: true,
+      footerLayout: 'equal',
+    }
+  )
+
+  const emit = defineEmits<{
+    'update:open': [value: boolean]
+    opened: []
+    closed: []
+    close: []
+    ok: []
+    cancel: []
+    overlayClick: []
+  }>()
 </script>

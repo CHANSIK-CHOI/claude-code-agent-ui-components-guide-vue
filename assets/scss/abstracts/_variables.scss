@@ -4,118 +4,121 @@
 // nuxt.config.ts의 additionalData로 모든 SCSS 블록에 자동 주입됨
 // ============================================
 
-
 // ────────────────────────────────────────────
 // 1단계: 원시 토큰 (raw — 컴포넌트에서 직접 사용 금지)
 // ────────────────────────────────────────────
 
 // brand
-$_brand-cyan:        #00a1ff;
-$_brand-cyan-dark:   #0090e8;
-$_brand-cyan-light:  #80cfff;
+$_brand-cyan: #0cb5e2;
+$_brand-cyan-dark: #00addb;
+$_brand-cyan-light: #8ad9ee;
 
 // neutral (gray scale)
-$_neutral-100: #f7f9fa;
+$_neutral-100: #f6f7f9;
 $_neutral-200: #f5f5f5;
-$_neutral-300: #c2c8cc;
-$_neutral-400: #828c94;
-$_neutral-500: #656e75;
-$_neutral-600: #525b61;
-$_neutral-700: #3f474d;
-$_neutral-800: #2f3438;
-$_neutral-900: #131517;
+$_neutral-300: #c0c0c0;
+$_neutral-400: #838b92;
+$_neutral-500: #777777;
+$_neutral-600: #666666;
+$_neutral-700: #535e66;
+$_neutral-800: #333333;
+$_neutral-900: #111111;
 
 // line (border-only neutral scale)
-$_line-100: #c2c8cc;
-$_line-200: #e0e0e0;
-$_line-300: #ededed;
+$_line-100: #c4cdd7;
+$_line-200: #dddddd;
+$_line-300: #e9ebeb;
 
 // accent
-$_accent-red:         #f05656;
-$_accent-yellow:      #ffcc33;
-$_accent-green:       #34c691;
-$_accent-light-gray:  #c2c8cc;
-$_accent-purple:      #f1eeff;
-$_accent-sky-blue:    #dff0ff;
-$_accent-light-blue:  #e5f4ff;
-$_accent-orange:      #ffefe0;
-$_accent-light-pink:  #ffd9d9;
-$_accent-beige:       #f8e2df;
-$_accent-pink:        #ffeded;
-
+$_accent-red: #ff5146;
+$_accent-yellow: #ffcc33;
+$_accent-green: #34c691;
+$_accent-light-gray: #beccd2;
+$_accent-purple: #f1eeff;
+$_accent-sky-blue: #dff6ff;
+$_accent-light-blue: #e9f9ff;
+$_accent-orange: #ffefe0;
+$_accent-light-pink: #f2cfcd;
+$_accent-beige: #f8e2df;
+$_accent-pink: #fff0f0;
 
 // ────────────────────────────────────────────
 // 2단계: 시맨틱 토큰 (컴포넌트에서 이것만 참조)
 // ────────────────────────────────────────────
 
 // color — 브랜드/상태
-$color-primary:        $_brand-cyan;
-$color-primary-hover:  $_brand-cyan-dark;
-$color-primary-soft:   $_brand-cyan-light;
-$color-danger:         $_accent-red;
-$color-warning:        $_accent-yellow;
-$color-success:        $_accent-green;
+$color-primary: $_brand-cyan;
+$color-primary-hover: $_brand-cyan-dark;
+$color-primary-soft: $_brand-cyan-light;
+$color-danger: $_accent-red;
+$color-warning: $_accent-yellow;
+$color-success: $_accent-green;
 
 // text
-$text-900:    $_neutral-900;  // #131517
-$text-800:    $_neutral-800;  // #2f3438
-$text-700:    $_neutral-700;  // #3f474d
-$text-600:    $_neutral-600;  // #525b61
-$text-500:    $_neutral-500;  // #656e75
-$text-400:    $_neutral-400;  // #828c94
-$text-300:    $_neutral-300;  // #c2c8cc
-$text-200:    $_neutral-200;  // #f5f5f5
-$text-100:    $_neutral-100;  // #f7f9fa
-$text-white:  #ffffff;        // primary 배경 위 텍스트
+$text-900: $_neutral-900; // #111111
+$text-800: $_neutral-800; // #333333
+$text-700: $_neutral-700; // #535e66
+$text-600: $_neutral-600; // #666666
+$text-500: $_neutral-500; // #777777
+$text-400: $_neutral-400; // #838b92
+$text-300: $_neutral-300; // #c0c0c0
+$text-200: $_neutral-200; // #f5f5f5
+$text-100: $_neutral-100; // #f6f7f9
+$text-white: #ffffff; // primary 배경 위 텍스트
 
 // bg
-$bg-primary:    #ffffff;
-$bg-secondary:  $_neutral-100;    // 카드/섹션 보조 배경 (#F7F9FA)
-$bg-tertiary:   $_neutral-200;    // 더 어두운 보조 배경 (#F5F5F5)
-$bg-disabled:   $_neutral-200;    // disabled 배경
+$bg-primary: #ffffff;
+$bg-secondary: $_neutral-100; // 카드/섹션 보조 배경 (#F6F7F9)
+$bg-tertiary: $_neutral-200; // 더 어두운 보조 배경 (#F5F5F5)
+$bg-disabled: $_neutral-200; // disabled 배경
 
 // bg — accent (배경 톤 전용, 컬러 라벨 그대로)
-$bg-accent-purple:      $_accent-purple;
-$bg-accent-sky-blue:    $_accent-sky-blue;
-$bg-accent-light-blue:  $_accent-light-blue;
-$bg-accent-orange:      $_accent-orange;
-$bg-accent-light-pink:  $_accent-light-pink;
-$bg-accent-beige:       $_accent-beige;
-$bg-accent-pink:        $_accent-pink;
+$bg-accent-purple: $_accent-purple;
+$bg-accent-sky-blue: $_accent-sky-blue;
+$bg-accent-light-blue: $_accent-light-blue;
+$bg-accent-orange: $_accent-orange;
+$bg-accent-light-pink: $_accent-light-pink;
+$bg-accent-beige: $_accent-beige;
+$bg-accent-pink: $_accent-pink;
 
 // border — line 스케일
-$line-100:  $_line-100;  // #c2c8cc
-$line-200:  $_line-200;  // #e0e0e0
-$line-300:  $_line-300;  // #ededed
-$border-focus:        $_brand-cyan;
-$border-input-focus:  $_neutral-900;   // Input focus 전용 — #131517
-$border-disabled: $_accent-light-gray;  // (#C2C8CC)
-
+$line-100: $_line-100; // #c4cdd7
+$line-200: $_line-200; // #dddddd
+$line-300: $_line-300; // #e9ebeb
+$border-focus: $_brand-cyan;
+$border-input-focus: $_neutral-900; // Input focus 전용 — #111111
+$border-disabled: $_accent-light-gray; // (#BECCD2)
 
 // ────────────────────────────────────────────
 // typography
 // ────────────────────────────────────────────
 
-$font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-family-base:
+  'Pretendard',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  sans-serif;
 
 // font-size — heading
-$font-size-h1: 3.2rem;   // 32px
-$font-size-h2: 2.4rem;   // 24px
-$font-size-h3: 2.0rem;   // 20px
-$font-size-h4: 1.8rem;   // 18px
-$font-size-h5: 1.7rem;   // 17px
+$font-size-h1: 2.6rem; // 26px
+$font-size-h2: 2.2rem; // 22px
+$font-size-h3: 2rem; // 20px
+$font-size-h4: 1.8rem; // 18px
+$font-size-h5: 1.6rem; // 16px
 
 // font-size — body
-$font-size-body1: 1.6rem;  // 16px
-$font-size-body2: 1.5rem;  // 15px
-$font-size-body3: 1.4rem;  // 14px (bold)
-$font-size-body4: 1.4rem;  // 14px (regular)
-$font-size-body5: 1.3rem;  // 13px
+$font-size-body1: 1.6rem; // 16px
+$font-size-body2: 1.5rem; // 15px
+$font-size-body3: 1.4rem; // 14px (bold)
+$font-size-body4: 1.4rem; // 14px (regular)
+$font-size-body5: 1.3rem; // 13px
 
 // font-size — caption
-$font-size-caption1: 1.2rem;  // 12px (bold)
-$font-size-caption2: 1.2rem;  // 12px (regular)
-$font-size-caption3: 1.1rem;  // 11px
+$font-size-caption1: 1.2rem; // 12px (bold)
+$font-size-caption2: 1.2rem; // 12px (regular)
+$font-size-caption3: 1.1rem; // 11px
 
 // font-size — 별칭 (편의용)
 $font-size-md: $font-size-body1;
@@ -124,50 +127,49 @@ $font-size-xs: $font-size-caption2;
 
 // font-weight
 $font-weight-regular: 400;
-$font-weight-medium:  500;
-$font-weight-bold:    700;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
 
 // line-height
 $line-height-tight: 1.2;
-$line-height-snug:  1.3;  // tight(1.2)과 base(1.5) 사이
-$line-height-base:  1.5;
-$line-height-loose: 1.75;
-
+$line-height-snug: 1.3; // tight(1.2)과 base(1.5) 사이
+$line-height-base: 1.5;
+$line-height-loose: 1.8;
 
 // ────────────────────────────────────────────
 // spacing (rem 기준 — html { font-size: 10px })
 // ────────────────────────────────────────────
 
-$spacing-xs: 0.4rem;   // 4px
-$spacing-sm: 0.8rem;   // 8px
-$spacing-md: 1.6rem;   // 16px
-$spacing-lg: 2.4rem;   // 24px
-$spacing-xl: 3.2rem;   // 32px
-$spacing-2xl: 4.8rem;  // 48px
-$spacing-input-x: 1.3rem;  // 13px — input 좌우 패딩 전용
-
+$spacing-xs: 0.4rem; // 4px
+$spacing-sm: 0.8rem; // 8px
+$spacing-md: 1.6rem; // 16px
+$spacing-lg: 2.4rem; // 24px
+$spacing-xl: 3.2rem; // 32px
+$spacing-2xl: 4.8rem; // 48px
+$spacing-input-x: 1.3rem; // 13px — input 좌우 패딩 전용
 
 // ────────────────────────────────────────────
 // radius
 // ────────────────────────────────────────────
 
-$radius-sm:   0.4rem;   // 4px
-$radius-md:   0.8rem;   // 8px
-$radius-lg:   1.6rem;   // 16px
+$radius-sm: 0.4rem; // 4px
+$radius-md: 0.8rem; // 8px
+$radius-lg: 1.6rem; // 16px
 $radius-full: 9999px;
-
 
 // ────────────────────────────────────────────
 // z-index (rules/tokens.md 기준)
 // ────────────────────────────────────────────
 
-$z-base:     0;
+$z-base: 0;
+$z-tooltip: 10;
+$z-quickmenu: 50;
 $z-dropdown: 100;
-$z-sticky:   200;
-$z-modal:    300;
-$z-toast:    400;
-$z-tooltip:  500;
 
+$z-sticky: 200;
+$z-fixedBtn: 250;
+$z-modal: 300;
+$z-toast: 400;
 
 // ────────────────────────────────────────────
 // duration (애니메이션)
@@ -176,3 +178,10 @@ $z-tooltip:  500;
 $duration-fast: 150ms;
 $duration-base: 250ms;
 $duration-slow: 400ms;
+
+// ────────────────────────────────────────────
+// screen (레이아웃)
+// ────────────────────────────────────────────
+$screen-padding-x: 1.6rem; // 16px — 화면 좌우 기본 패딩
+$screen-max-widht: 60rem; // 600px - body의 최대 width
+$header-height: 80rem; // 800px - header의 높이

@@ -1,6 +1,7 @@
 // 모듈 레벨 싱글톤 — Toast는 CSR 전용이므로 useState 대신 ref 사용
 // (usePopupManager의 SSR 고려 useState와 다름)
-import { ref } from 'vue'
+import { ref, markRaw } from 'vue'
+import type { Component } from 'vue'
 
 export interface ToastItem {
   id: string
@@ -10,6 +11,9 @@ export interface ToastItem {
   showClose?: boolean
   showIcon?: boolean
   type?: 'foreground' | 'background'
+  forceMount?: boolean
+  iconComponent?: Component | null
+  onClosed?: () => void
 }
 
 const instances = ref<ToastItem[]>([])
@@ -19,9 +23,14 @@ const instances = ref<ToastItem[]>([])
 const timers = new Map<string, ReturnType<typeof setTimeout>>()
 
 export function useToastPopup() {
-  function show(options: Omit<ToastItem, 'id' | 'open'>): string {
+  function open(options: Omit<ToastItem, 'id' | 'open'>): string {
     const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2)}`
-    instances.value.push({ ...options, id, open: true })
+    instances.value.push({
+      ...options,
+      id,
+      open: true,
+      iconComponent: options.iconComponent ? markRaw(options.iconComponent) : options.iconComponent,
+    })
 
     // duration이 0이면 수동 닫기 전용 — 타이머 미등록
     const ms = options.duration ?? 3000
@@ -34,8 +43,9 @@ export function useToastPopup() {
   }
 
   function remove(id: string): void {
-    const idx = instances.value.findIndex(t => t.id === id)
-    if (idx !== -1) instances.value.splice(idx, 1)
+    instances.value = instances.value.filter(t => t.id !== id)
+    const timer = timers.get(id)
+    if (timer !== undefined) clearTimeout(timer)
     timers.delete(id)
   }
 
@@ -49,5 +59,5 @@ export function useToastPopup() {
     }
   }
 
-  return { instances, show, remove, close }
+  return { instances, open, remove, close }
 }

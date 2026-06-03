@@ -1,12 +1,12 @@
-export type Variant = "primary" | "secondary" | "ghost" | "danger";
-export type Size = "sm" | "md" | "lg";
-export type Status = "default" | "error" | "success" | "warning";
+export type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
+export type Size = 'sm' | 'md' | 'lg'
+export type Status = 'default' | 'error' | 'success' | 'warning'
 
 // Button / ButtonLink 공유 타입
-export type ButtonShape = "solid" | "line" | "text";
-export type ButtonColor = "primary" | "secondary" | "black" | "gray";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonShape = 'solid' | 'line' | 'text'
+export type ButtonColor = 'primary' | 'secondary' | 'black' | 'gray'
+export type ButtonSize = 'xs' | 'sm' | 'md-s' | 'md' | 'lg'
 
 // Icon 공유 타입
-export type IconPresetSize = "xs" | "sm" | "md" | "lg";
-export type IconSize = IconPresetSize | number;
+export type IconPresetSize = 'xs' | 'sm' | 'md' | 'lg'
+export type IconSize = IconPresetSize | number

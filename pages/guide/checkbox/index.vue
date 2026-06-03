@@ -283,6 +283,7 @@ const smsChecked = ref(true)
       <h2 class="checkboxGuidePage__sectionTitle">⑥ Props</h2>
 
       <h3 class="checkboxGuidePage__tableTitle">Props</h3>
+      <div class="checkboxGuidePage__propsTableWrap">
       <table class="checkboxGuidePage__propsTable">
         <thead>
           <tr>
@@ -341,8 +342,10 @@ const smsChecked = ref(true)
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h3 class="checkboxGuidePage__tableTitle">Slots</h3>
+      <div class="checkboxGuidePage__propsTableWrap">
       <table class="checkboxGuidePage__propsTable">
         <thead>
           <tr>
@@ -362,8 +365,10 @@ const smsChecked = ref(true)
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h3 class="checkboxGuidePage__tableTitle">Events</h3>
+      <div class="checkboxGuidePage__propsTableWrap">
       <table class="checkboxGuidePage__propsTable">
         <thead>
           <tr>
@@ -383,14 +388,21 @@ const smsChecked = ref(true)
           </tr>
         </tbody>
       </table>
+      </div>
 
       <p class="checkboxGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: 이 컴포넌트는
-        <code>v-bind="$attrs"</code>를 사용하므로 위 Props 외에도
-        <code>&lt;CheckboxRoot&gt;</code> (Radix Vue 버튼 요소)의 모든 네이티브
-        HTML 속성 (<code>aria-label</code>, <code>aria-describedby</code>,
-        <code>tabindex</code>, <code>data-*</code> 등)을 그대로 전달할 수
-        있습니다.<br />
+        <code>v-bind="$attrs"</code>를 사용하며 attrs가 두 경로로 분산됩니다.<br />
+        <br />
+        <strong><code>class</code></strong> — 래퍼 <code>&lt;label&gt;</code> 요소(최상위)에 적용됩니다.<br />
+        <strong>나머지 attrs</strong> (<code>aria-label</code>, <code>aria-describedby</code>,
+        <code>tabindex</code>, <code>data-*</code> 등) — <code>&lt;CheckboxRoot&gt;</code>
+        (Radix Vue 버튼 요소)에 전달됩니다.<br />
+        <br />
+        예시: 외부에서 <code>class="my-checkbox"</code>를 전달하면 래퍼 <code>&lt;label&gt;</code>에,
+        <code>aria-label="동의"</code>를 전달하면 <code>&lt;CheckboxRoot&gt;</code>에 각각 적용됩니다.
+        <br />
+        <br />
         React의 <code>{...rest}</code> props spreading과 동일한 동작입니다.
       </p>
 

@@ -13,10 +13,10 @@
     border-radius: $radius-md;
     font-family: $font-family-base;
     font-weight: $font-weight-medium;
-    line-height: 1;
+    line-height: $line-height-snug;
+    background-color: $bg-primary;
     cursor: pointer;
     text-decoration: none;
-    white-space: nowrap;
     box-sizing: border-box;
     transition:
       background-color $duration-fast ease,
@@ -43,24 +43,37 @@
   .#{$b}__label {
     display: flex;
     align-items: center;
+    text-align: center;
   }
 
   // ── Size ──────────────────────────────────────
   .#{$b}--lg {
-    height: 5.6rem;
-    padding: 0 $spacing-lg;
+    height: 5.4rem;
+    padding: 0 1rem;
     font-size: $font-size-body1;
   }
 
   .#{$b}--md {
-    height: 4.4rem;
-    padding: 0 2rem;
+    height: 4.6rem;
+    padding: 0 1rem;
+    font-size: $font-size-body3;
+  }
+
+  .#{$b}--md-s {
+    height: 4.2rem;
+    padding: 0 1.4rem;
     font-size: $font-size-body3;
   }
 
   .#{$b}--sm {
     height: 3.2rem;
-    padding: 0 1.4rem;
+    padding: 0 1.2rem;
+    font-size: $font-size-body5;
+  }
+
+  .#{$b}--xs {
+    height: 2.6rem;
+    padding: 0 1rem;
     font-size: $font-size-caption1;
   }
 
@@ -162,7 +175,7 @@
   }
 
   .#{$b}--line.#{$b}--gray {
-    background-color: transparent;
+    // background-color: transparent;
     border-color: $line-200;
     color: $text-800;
 
@@ -194,7 +207,7 @@
   .#{$b}--text {
     display: inline-flex;
     width: fit-content;
-    height: 3rem;
+    height: 2.6rem;
     background-color: transparent;
     border-color: transparent;
     padding-left: 2rem;

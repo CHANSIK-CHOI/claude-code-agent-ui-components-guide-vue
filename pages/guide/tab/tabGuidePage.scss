@@ -103,6 +103,8 @@
     margin-bottom: $spacing-sm;
   }
 
+  &__propsTableWrap { overflow-x: auto; }
+
   &__propsTable {
     width: 100%;
     border-collapse: collapse;
@@ -124,6 +126,7 @@
 
     td {
       color: $text-900;
+      min-width: 8rem;
     }
 
     code {
@@ -132,6 +135,24 @@
       border-radius: $radius-sm;
       font-size: $font-size-caption1;
       white-space: nowrap;
+    }
+  }
+
+  &__delegationNote {
+    margin-top: $spacing-lg;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-left: 3px solid $color-primary;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
     }
   }
 

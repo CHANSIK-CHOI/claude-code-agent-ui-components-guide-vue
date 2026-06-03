@@ -43,7 +43,7 @@ interface GuideNavGroup {
 const navigation: GuideNavGroup[] = [
   {
     label: "OVERVIEW",
-    items: [{ label: "Claude 워크플로우", to: "/guide" }],
+    items: [{ label: "Home", to: "/guide" }],
   },
   {
     label: "ATOMS",
@@ -51,27 +51,60 @@ const navigation: GuideNavGroup[] = [
       { label: "Button", to: "/guide/button" },
       { label: "ButtonLink", to: "/guide/button-link" },
       { label: "Input", to: "/guide/input" },
+      { label: "InputAuth", to: "/guide/input-auth" },
+      { label: "InputPassword", to: "/guide/inputPassword" },
       { label: "Select", to: "/guide/select" },
       { label: "TextArea", to: "/guide/textarea" },
       { label: "Stepper", to: "/guide/stepper" },
       { label: "Checkbox", to: "/guide/checkbox" },
       { label: "Switch", to: "/guide/switch" },
+      { label: "Popover", to: "/guide/popover" },
+      { label: "Tooltip", to: "/guide/tooltip" },
+      { label: "Progress", to: "/guide/progress" },
+      { label: "RadioGroup", to: "/guide/radioGroup" },
     ],
   },
   {
-    label: "ICONS",
-    items: [{ label: "Icon", to: "/guide/icon" }],
+    label: "MOLECULES",
+    items: [
+      { label: "FormField", to: "/guide/form-field" },
+      { label: "ButtonGroup", to: "/guide/buttonGroup" },
+      { label: "Accordion", to: "/guide/accordion" },
+      { label: "Collapsible", to: "/guide/collapsible" },
+      // { label: "Pagination", to: "/guide/pagination" },
+      // { label: "PaginationSimple", to: "/guide/pagination-simple" },
+      // { label: "OptionButtonGroup", to: "/guide/optionButtonGroup" },
+      // { label: "TermsAgreement", to: "/guide/termsAgreement" },
+      // TODO: swiper v12 호환 작업 완료 후 복구 — Marquee 동작 불안정으로 임시 숨김 (2026-06-03)
+      // { label: "Marquee", to: "/guide/marquee" },
+    ],
   },
+  // {
+  //   label: "ICONS",
+  //   items: [{ label: "Icon", to: "/guide/icon" }],
+  // },
   {
     label: "ORGANISMS",
+    items: [{ label: "Tab", to: "/guide/tab" }],
+  },
+  {
+    label: "POPUP",
     items: [
-      { label: "Tab", to: "/guide/tab" },
       { label: "Alert", to: "/guide/alert" },
       { label: "Confirm", to: "/guide/confirm" },
       { label: "LayerPopup", to: "/guide/layerPopup" },
       { label: "BottomSheet", to: "/guide/bottomSheet" },
       { label: "FullPopup", to: "/guide/fullPopup" },
       { label: "ToastPopup", to: "/guide/toastPopup" },
+      { label: "PinDatePicker", to: "/guide/pinDatePicker" },
+      { label: "PinPicker", to: "/guide/pinPicker" },
+    ],
+  },
+  {
+    label: "GLOBALS",
+    items: [
+      { label: "Table", to: "/guide/table" },
+      { label: "Skeleton", to: "/guide/skeleton" },
     ],
   },
   {

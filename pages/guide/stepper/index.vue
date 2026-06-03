@@ -177,6 +177,7 @@
       <h2 class="stepperGuidePage__sectionTitle">⑦ Props</h2>
 
       <h3 class="stepperGuidePage__tableTitle">Stepper Props</h3>
+      <div class="stepperGuidePage__propsTableWrap">
       <table class="stepperGuidePage__propsTable">
         <thead>
           <tr>
@@ -237,8 +238,10 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h3 class="stepperGuidePage__tableTitle">Events</h3>
+      <div class="stepperGuidePage__propsTableWrap">
       <table class="stepperGuidePage__propsTable">
         <thead>
           <tr>
@@ -260,8 +263,10 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h3 class="stepperGuidePage__tableTitle">$attrs 위임 전략</h3>
+      <div class="stepperGuidePage__propsTableWrap">
       <table class="stepperGuidePage__propsTable">
         <thead>
           <tr>
@@ -288,6 +293,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
       <p class="stepperGuidePage__delegationNote">
         <strong>네이티브 속성 위임</strong>: 이 컴포넌트는
         <code>v-bind="$attrs"</code>를 사용하므로 위 Props 외에도

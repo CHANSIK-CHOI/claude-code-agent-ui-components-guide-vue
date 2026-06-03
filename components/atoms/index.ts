@@ -1,8 +1,15 @@
-export { default as Button } from './Button.vue'
-export { default as ButtonLink } from './ButtonLink.vue'
-export { default as Checkbox } from './Checkbox.vue'
-export { default as Input } from './Input.vue'
-export { default as Select } from './Select.vue'
-export { default as Stepper } from './Stepper.vue'
-export { default as Switch } from './Switch.vue'
-export { default as TextArea } from './TextArea.vue'
+export { default as Button } from "./Button.vue";
+export { default as ButtonLink } from "./ButtonLink.vue";
+export { default as Checkbox } from "./Checkbox.vue";
+export { default as Input } from "./Input.vue";
+export { default as InputPassword } from "./InputPassword.vue";
+export { default as InputAuth } from "./InputAuth.vue";
+export { default as Select } from "./Select.vue";
+export { default as Stepper } from "./Stepper.vue";
+export { default as Switch } from "./Switch.vue";
+export { default as TextArea } from "./TextArea.vue";
+export { default as Popover } from "./Popover.vue";
+export { default as Tooltip } from "./Tooltip.vue";
+export { default as Progress } from "./Progress.vue";
+export { default as RadioGroup } from "./RadioGroup.vue";
+export type { RadioGroupItem } from "./RadioGroup.vue";

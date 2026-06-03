@@ -264,6 +264,7 @@
       <h2 class="textAreaGuidePage__sectionTitle">③ Props</h2>
 
       <h3 class="textAreaGuidePage__tableTitle">TextArea Props</h3>
+      <div class="textAreaGuidePage__propsTableWrap">
       <table class="textAreaGuidePage__propsTable">
         <thead>
           <tr>
@@ -309,7 +310,8 @@
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>
-              <code>aria-invalid="true"</code> 전달. 시각적 에러 표시는 FormField 담당
+              테두리 색상(<code>$color-danger</code>)·카운터 색상 에러 색상으로 변경.
+              <code>aria-invalid="true"</code> 자동 적용. 에러 메시지 텍스트는 FormField 담당
             </td>
           </tr>
           <tr>
@@ -326,8 +328,10 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h3 class="textAreaGuidePage__tableTitle">TextArea Events</h3>
+      <div class="textAreaGuidePage__propsTableWrap">
       <table class="textAreaGuidePage__propsTable">
         <thead>
           <tr>
@@ -359,6 +363,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
       <p class="textAreaGuidePage__delegationNote">
         <strong>카운터 접근성</strong>: 카운터 요소에 <code>aria-live="polite"</code>가 적용되어

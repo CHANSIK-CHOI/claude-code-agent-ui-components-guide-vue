@@ -1,0 +1,25 @@
+@use '../abstracts/variables' as *;
+
+//  커스터마이징 스와이퍼 (페이지네이션 있는 경우만 사용)
+.swiper.dm-swiper {
+  padding-bottom: 1.4rem;
+  .swiper-pagination {
+    bottom: 0;
+    font-size: 0;
+  }
+
+  .swiper-pagination-bullet {
+    width: 0.8rem;
+    height: 0.8rem;
+    margin: 0 0.3rem !important;
+    background-color: $line-300;
+    opacity: 1;
+    transition: all 0.25s ease;
+  }
+
+  .swiper-pagination-bullet-active {
+    width: 1.8rem;
+    border-radius: 0.4rem;
+    background-color: $color-primary;
+  }
+}

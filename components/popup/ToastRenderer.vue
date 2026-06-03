@@ -10,44 +10,54 @@
         :show-close="toast.showClose"
         :show-icon="toast.showIcon"
         :type="toast.type"
+        :force-mount="toast.forceMount"
+        :icon-component="toast.iconComponent"
         @update:open="!$event && close(toast.id)"
-        @closed="remove(toast.id)"
+        @closed="toast.onClosed?.(); remove(toast.id)"
       />
     </template>
 
-    <ToastViewport class="toastRenderer__viewport" label="알림" />
+    <ToastPortal to="#toast-container">
+      <ToastViewport class="toastRenderer__viewport" label="알림" />
+    </ToastPortal>
   </ToastProvider>
 </template>
 
 <script setup lang="ts">
-import { ToastProvider, ToastViewport } from 'radix-vue'
-import ToastPopup from './ToastPopup.vue'
-import { useToastPopup } from './useToastPopup'
+  import { onUnmounted } from 'vue'
+  import { ToastProvider, ToastPortal, ToastViewport } from 'radix-vue'
+  import ToastPopup from './ToastPopup.vue'
+  import { useToastPopup } from './useToastPopup'
 
-const { instances, remove, close } = useToastPopup()
+  const { instances, remove, close } = useToastPopup()
+
+  // HMR 환경에서 dangling 타이머 방지 — unmount 시 열려있는 toast 전부 정리
+  onUnmounted(() => {
+    instances.value.slice().forEach(toast => remove(toast.id))
+  })
 </script>
 
 <style lang="scss">
-// ToastViewport는 내부적으로 inheritAttrs: false를 사용하므로
-// scoped CSS의 data-v-xxxxx 속성이 실제 <ol> DOM까지 전달되지 않습니다.
-// ToastRenderer는 app.vue에 1회만 마운트되는 전역 싱글톤이므로
-// non-scoped 전역 CSS를 사용합니다. BEM 고유 네이밍으로 전역 충돌을 방지합니다.
-$b: 'toastRenderer';
+  // ToastViewport는 내부적으로 inheritAttrs: false를 사용하므로
+  // scoped CSS의 data-v-xxxxx 속성이 실제 <ol> DOM까지 전달되지 않습니다.
+  // ToastRenderer는 app.vue에 1회만 마운트되는 전역 싱글톤이므로
+  // non-scoped 전역 CSS를 사용합니다. BEM 고유 네이밍으로 전역 충돌을 방지합니다.
+  $b: 'toastRenderer';
 
-.#{$b}__viewport {
-  position: fixed;
-  bottom: $spacing-lg;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 3.2rem);
-  max-width: 36rem;
-  z-index: $z-toast;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  outline: none;
-}
+  .#{$b}__viewport {
+    position: fixed;
+    bottom: $spacing-lg;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 3.2rem);
+    max-width: 36rem;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+  }
 </style>

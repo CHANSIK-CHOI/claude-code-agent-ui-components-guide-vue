@@ -1,13 +1,2 @@
-export { default as GuideSidebar } from "./GuideSidebar.vue";
-export { default as GuideHeader } from "./GuideHeader.vue";
-export { default as LayerPopupDemoBasic } from "./LayerPopupDemoBasic.vue";
-export { default as LayerPopupDemoFooter } from "./LayerPopupDemoFooter.vue";
-export { default as LayerPopupDemoHeader } from "./LayerPopupDemoHeader.vue";
-export { default as LayerPopupDemoNoCancel } from "./LayerPopupDemoNoCancel.vue";
-export { default as LayerPopupDemoNoOverlay } from "./LayerPopupDemoNoOverlay.vue";
-export { default as BottomSheetDemoBasic } from "./BottomSheetDemoBasic.vue";
-export { default as BottomSheetDemoLongContent } from "./BottomSheetDemoLongContent.vue";
-export { default as BottomSheetDemoFilter } from "./BottomSheetDemoFilter.vue";
-export { default as FullPopupDemoBasic } from "./FullPopupDemoBasic.vue";
-export { default as FullPopupDemoFilter } from "./FullPopupDemoFilter.vue";
-export { default as FullPopupDemoNoFooter } from "./FullPopupDemoNoFooter.vue";
+export { default as GuideSidebar } from './GuideSidebar.vue'
+export { default as GuideHeader } from './GuideHeader.vue'

@@ -9,6 +9,9 @@
 
 html {
   font-size: 10px; // 1rem = 10px (style.md 단위 규칙: px ÷ 10 = rem)
+  @include desktop {
+    font-size: 11px;
+  }
 }
 
 body {
@@ -17,17 +20,20 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     Roboto,
-    sans-serif;
-  font-size: $font-size-md;
+    sans-serif !important;
+  font-size: $font-size-body3;
   font-weight: $font-weight-regular;
-  line-height: $line-height-base;
+  line-height: $line-height-snug;
   color: $text-900;
   background-color: $bg-primary;
+  word-break: keep-all;
+  padding-right: 0 !important;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 button {
@@ -40,6 +46,7 @@ img,
 video {
   max-width: 100%;
   display: block;
+  width: 100%;
 }
 
 ul,
@@ -47,45 +54,80 @@ ol {
   list-style: none;
 }
 
-// ---------------------------------------------------------------------------
-// CartIcon — 배지 전역 스타일
-// scoped 없는 블록에서는 additionalData SCSS 변수 자동 주입이 미작동
-// → 배지 색상(danger) 및 흰색 텍스트는 raw 값 사용
-// ---------------------------------------------------------------------------
+em {
+  font-style: normal;
+}
+hr {
+  border: 0;
+  height: 1px;
+  background: $line-200;
+  margin: 2rem 0;
+}
 // ---------------------------------------------------------------------------
 // Popup Container — 팝업 전용 teleport 대상
-// inset:0으로 뷰포트 전체 커버. overflow:hidden으로 slideInRight/slideDown 시작 위치 숨김
+// transform이 있으면 하위 position:fixed가 뷰포트가 아닌 이 컨테이너 기준으로 배치됨
+// overflow:hidden으로 slideInRight/slideDown 애니메이션 시작 위치를 레이아웃 밖에서 숨김
 // ---------------------------------------------------------------------------
 #popup-container {
   position: fixed;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: $z-modal;
 }
 
-.cartIcon {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+// ---------------------------------------------------------------------------
+// Toast Container — 토스트 전용 teleport 대상
+// popup-container($z-modal: 300)보다 상위 레이어($z-toast: 400)에 위치
+// pointer-events: none으로 컨테이너 자체는 이벤트를 통과시킴
+// ---------------------------------------------------------------------------
+#toast-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(600px, 100%);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: $z-toast;
 }
 
-.cartIcon__badge {
-  position: absolute;
-  bottom: -0.4rem;
-  left: 1rem;
-  min-width: 1.6rem;
-  height: 1.6rem;
-  padding: 0 0.4rem;
-  border-radius: 9999px;
-  background-color: #00a1ff;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.6rem;
-  text-align: center;
-  white-space: nowrap;
-  pointer-events: none;
-  box-sizing: border-box;
+.inner {
+  padding-left: $screen-padding-x;
+  padding-right: $screen-padding-x;
+}
+
+.wideScreen {
+  margin-left: -($screen-padding-x) !important;
+  margin-right: -($screen-padding-x) !important;
+  padding-left: $screen-padding-x !important;
+  padding-right: $screen-padding-x !important;
+}
+
+// ---------------------------------------------------------------------------
+// Skeleton — 콘텐츠 로딩 전 shimmer 유틸 클래스
+// Vue 컴포넌트가 아닌 전역 CSS 클래스. 별도 import 없이 어디서나 사용 가능.
+// ---------------------------------------------------------------------------
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    $bg-secondary 25%,
+    $bg-primary 50%,
+    $bg-secondary 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
 }

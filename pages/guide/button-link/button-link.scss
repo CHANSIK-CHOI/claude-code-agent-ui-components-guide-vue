@@ -121,6 +121,8 @@ $b: 'buttonLinkGuidePage';
     margin-bottom: $spacing-sm;
   }
 
+  &__propsTableWrap { overflow-x: auto; }
+
   &__propsTable {
     width: 100%;
     border-collapse: collapse;
@@ -142,6 +144,7 @@ $b: 'buttonLinkGuidePage';
 
     td {
       color: $text-900;
+      min-width: 8rem;
     }
 
     code {

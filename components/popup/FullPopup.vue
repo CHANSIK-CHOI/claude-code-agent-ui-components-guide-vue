@@ -8,11 +8,18 @@
     :show-close="showClose"
     :ok-label="okLabel"
     :cancel-label="cancelLabel"
+    :cancel-color="cancelColor"
+    :ok-color="okColor"
     :show-cancel="showCancel"
     :ok-disabled="okDisabled"
     :close-on-overlay="false"
     :close-on-escape="closeOnEscape"
+    :close-on-close-btn="closeOnCloseBtn"
+    :close-on-cancel="closeOnCancel"
     :show-footer="showFooter"
+    :body-label="bodyLabel"
+    :body-note="bodyNote"
+    :narrow-cancel="footerLayout === 'wide' || narrowFirst"
     @update:open="(v) => emit('update:open', v)"
     @opened="emit('opened')"
     @closed="emit('closed')"
@@ -32,6 +39,8 @@ defineOptions({ inheritAttrs: false })
 
 import Popup from './Popup.vue'
 
+type FooterLayout = 'equal' | 'wide'
+
 const props = withDefaults(
   defineProps<{
     open: boolean
@@ -40,19 +49,33 @@ const props = withDefaults(
     showClose?: boolean
     okLabel?: string
     cancelLabel?: string
+    cancelColor?: 'secondary' | 'gray'
+    okColor?: 'secondary' | 'primary' | 'black'
     showCancel?: boolean
     okDisabled?: boolean
     closeOnEscape?: boolean
+    closeOnCloseBtn?: boolean
+    closeOnCancel?: boolean
     showFooter?: boolean
+    bodyLabel?: string
+    bodyNote?: string
+    footerLayout?: FooterLayout
+    narrowFirst?: boolean
   }>(),
   {
     showClose: true,
     okLabel: '확인',
     cancelLabel: '취소',
+    cancelColor: 'gray',
+    okColor: 'primary',
     showCancel: false,
     okDisabled: false,
     closeOnEscape: true,
+    closeOnCloseBtn: true,
+    closeOnCancel: true,
     showFooter: true,
+    footerLayout: 'equal',
+    narrowFirst: false,
   },
 )
 

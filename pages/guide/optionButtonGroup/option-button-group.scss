@@ -1,0 +1,235 @@
+$b: 'optionButtonGroupGuidePage';
+
+.#{$b} {
+  padding: $spacing-lg;
+  max-width: 100%;
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    font-weight: $font-weight-medium;
+    background-color: $bg-accent-orange;
+    color: $text-900;
+  }
+
+  &__desc {
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__sectionTitle {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $line-200;
+  }
+
+  &__note {
+    margin-bottom: $spacing-md;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+  }
+
+  &__demo {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    padding: $spacing-lg;
+    background-color: $bg-secondary;
+    border-radius: $radius-md;
+    border: 1px solid $line-200;
+  }
+
+  &__stateLabel {
+    font-size: $font-size-caption1;
+    color: $text-500;
+    line-height: $line-height-base;
+  }
+
+  &__code {
+    background-color: $bg-tertiary;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    font-size: 1.1rem;
+    color: $text-600;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: $line-height-base;
+  }
+
+  // ── content slot 내부 커스텀 콘텐츠 ──────────────────────────────────
+  &__slotContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  &__slotEmoji {
+    display: block;
+    font-size: $font-size-body1;
+    line-height: 1;
+  }
+
+  &__slotText {
+    display: block;
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+    color: inherit;
+  }
+
+  // ── rowColumns + maxRows 조합 데모 컨트롤 ────────────────────────────
+  &__controls {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__controlBtn {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem $spacing-md;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    background-color: $bg-primary;
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+    color: $text-800;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $bg-secondary;
+      border-color: $line-300;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 0.2rem $color-primary;
+    }
+  }
+
+  // ── selected-content slot 내부 커스텀 콘텐츠 ─────────────────────────
+  &__selectedContent {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: $font-size-body3;
+    font-weight: $font-weight-medium;
+  }
+
+  // ── Props 테이블 ─────────────────────────────────────────────────────
+  &__tableTitle {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-bold;
+    color: $text-900;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__propsTableWrap {
+    overflow-x: auto;
+  }
+
+  &__propsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-body3;
+
+    th, td {
+      border: 1px solid $line-200;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: $bg-secondary;
+      font-weight: $font-weight-medium;
+      color: $text-600;
+      white-space: nowrap;
+    }
+
+    td {
+      color: $text-900;
+      min-width: 8rem;
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+      white-space: nowrap;
+    }
+  }
+
+  &__delegationNote {
+    margin-top: $spacing-lg;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-left: 3px solid $color-primary;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+
+  &__radixNote {
+    margin-top: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-secondary;
+    border-left: 3px solid $line-200;
+    border-radius: $radius-sm;
+    font-size: $font-size-body3;
+    color: $text-600;
+    line-height: $line-height-base;
+
+    a {
+      color: $color-primary;
+    }
+
+    code {
+      background-color: $bg-tertiary;
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-caption1;
+    }
+  }
+}

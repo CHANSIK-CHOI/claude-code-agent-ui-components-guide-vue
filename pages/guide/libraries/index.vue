@@ -14,7 +14,7 @@
     </header>
 
     <div class="LibrariesGuidePage__notice">
-      <strong>확인일자:</strong> 2026-04-27 / Radix Vue 1.x 기준 ·
+      <strong>확인일자:</strong> 2026-06-01 / Radix Vue 1.x 기준 ·
       <strong>재확인 시점:</strong> 분기 1회, 또는 신규 컴포넌트 도입 검토 시
     </div>
 
@@ -35,6 +35,7 @@
         React Radix UI에서 포팅된 검증된 컴포넌트. 본 프로젝트에서 자유롭게 사용합니다.
       </p>
 
+      <div class="LibrariesGuidePage__tableWrap">
       <table class="LibrariesGuidePage__table">
         <thead>
           <tr>
@@ -75,6 +76,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </section>
 
     <!-- ③ Alpha 그룹 -->
@@ -85,6 +87,7 @@
         아래 대체 전략을 따르세요.
       </p>
 
+      <div class="LibrariesGuidePage__tableWrap">
       <table class="LibrariesGuidePage__table">
         <thead>
           <tr>
@@ -99,8 +102,8 @@
               <code>Calendar</code>, <code>DatePicker</code>, <code>DateField</code>,<br />
               <code>RangeCalendar</code>, <code>DateRangePicker</code>, <code>DateRangeField</code>
             </td>
-            <td><code>@vuepic/vue-datepicker</code> 래핑</td>
-            <td>시간대·로케일·범위 선택 검증 완료</td>
+            <td><code>vant DatePicker / Picker / PickerGroup</code> 래핑</td>
+            <td>온디맨드 import — <code>plugins/vant.ts</code>. 3개 컴포넌트만 허용</td>
           </tr>
           <tr>
             <td><code>Combobox</code> (검색형 Select)</td>
@@ -154,6 +157,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
       <p class="LibrariesGuidePage__sub">
         <strong>대체안이 "자체 구현"인 항목:</strong> 컴포넌트 명세를
@@ -167,6 +171,7 @@
     <section class="LibrariesGuidePage__section">
       <h2 class="LibrariesGuidePage__sectionTitle">④ 비-Radix 외부 라이브러리</h2>
 
+      <div class="LibrariesGuidePage__tableWrap">
       <table class="LibrariesGuidePage__table">
         <thead>
           <tr>
@@ -178,10 +183,10 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>@vuepic/vue-datepicker</code></td>
-            <td><code>^11</code></td>
-            <td>DatePicker 전반</td>
-            <td>유지 — Radix Vue Alpha 회피용. 모든 날짜 선택은 이 라이브러리 래핑</td>
+            <td><code>vant</code></td>
+            <td><code>^4.9.24</code></td>
+            <td>DatePicker, Picker, PickerGroup</td>
+            <td>온디맨드 import (<code>plugins/vant.ts</code>) — 이 3개 컴포넌트만 허용. 전체 CSS 사용 금지, 컴포넌트별 스타일 로드</td>
           </tr>
           <tr>
             <td><code>radix-vue</code></td>
@@ -191,6 +196,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </section>
 
     <!-- ⑤ 신규 도입 절차 -->

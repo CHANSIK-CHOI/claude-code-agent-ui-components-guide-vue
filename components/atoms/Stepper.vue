@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="stepper"
-    :class="{ 'stepper--disabled': props.disabled }"
-  >
+  <div class="stepper" :class="{ 'stepper--disabled': props.disabled }">
     <!-- 제거 버튼 -->
     <button
       v-bind="props.decrementAttrs"
@@ -55,215 +52,214 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ inheritAttrs: false })
+  defineOptions({ inheritAttrs: false });
 
-const props = withDefaults(
-  defineProps<{
-    modelValue?: number
-    min?: number
-    max?: number | undefined
-    step?: number
-    readonly?: boolean
-    disabled?: boolean
-    decrementAttrs?: Record<string, unknown>
-    incrementAttrs?: Record<string, unknown>
-  }>(),
-  {
-    modelValue: 1,
-    min: 1,
-    max: undefined,
-    step: 1,
-    readonly: true,
-    disabled: false,
-    decrementAttrs: () => ({}),
-    incrementAttrs: () => ({}),
-  }
-)
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: number;
+      min?: number;
+      max?: number | undefined;
+      step?: number;
+      readonly?: boolean;
+      disabled?: boolean;
+      decrementAttrs?: Record<string, unknown>;
+      incrementAttrs?: Record<string, unknown>;
+    }>(),
+    {
+      modelValue: 1,
+      min: 1,
+      max: undefined,
+      step: 1,
+      readonly: true,
+      disabled: false,
+      decrementAttrs: () => ({}),
+      incrementAttrs: () => ({}),
+    }
+  );
 
-const emit = defineEmits<{
-  'update:modelValue': [value: number]
-  change: [value: number]
-}>()
+  const emit = defineEmits<{
+    'update:modelValue': [value: number];
+    change: [value: number];
+  }>();
 
-// 직접 입력 중 표시용 임시 값 (readonly=false 시에만 사용)
-const inputBuffer = ref<string | null>(null)
+  // 직접 입력 중 표시용 임시 값 (readonly=false 시에만 사용)
+  const inputBuffer = ref<string | null>(null);
 
-const displayValue = computed(() => {
-  if (inputBuffer.value !== null) return inputBuffer.value
-  return String(props.modelValue)
-})
+  const displayValue = computed(() => {
+    if (inputBuffer.value !== null) return inputBuffer.value;
+    return String(props.modelValue);
+  });
 
-const isAtMin = computed(() => props.modelValue <= props.min)
+  const isAtMin = computed(() => props.modelValue <= props.min);
 
-const isAtMax = computed(() => {
-  if (props.max === undefined) return false
-  return props.modelValue >= props.max
-})
+  const isAtMax = computed(() => {
+    if (props.max === undefined) return false;
+    return props.modelValue >= props.max;
+  });
 
-function clamp(value: number): number {
-  const clamped = Math.max(props.min, value)
-  if (props.max !== undefined) return Math.min(props.max, clamped)
-  return clamped
-}
-
-function emitValue(value: number): void {
-  emit('update:modelValue', value)
-  emit('change', value)
-}
-
-function handleDecrement(): void {
-  if (props.disabled || isAtMin.value) return
-  const next = clamp(props.modelValue - props.step)
-  emitValue(next)
-}
-
-function handleIncrement(): void {
-  if (props.disabled || isAtMax.value) return
-  const next = clamp(props.modelValue + props.step)
-  emitValue(next)
-}
-
-// readonly=false 시 직접 입력 처리
-function handleInput(e: Event): void {
-  if (props.readonly) return
-  const raw = (e.target as HTMLInputElement).value
-  // 숫자와 마이너스 부호만 허용
-  const numeric = raw.replace(/[^0-9]/g, '')
-  inputBuffer.value = numeric
-  ;(e.target as HTMLInputElement).value = numeric
-}
-
-function handleBlur(e: Event): void {
-  if (props.readonly) return
-  const raw = (e.target as HTMLInputElement).value
-  inputBuffer.value = null
-
-  if (raw === '' || raw === undefined) {
-    emitValue(props.min)
-    return
+  function clamp(value: number): number {
+    const clamped = Math.max(props.min, value);
+    if (props.max !== undefined) return Math.min(props.max, clamped);
+    return clamped;
   }
 
-  const parsed = parseInt(raw, 10)
-  if (isNaN(parsed)) {
-    emitValue(props.min)
-    return
+  function emitValue(value: number): void {
+    emit('update:modelValue', value);
+    emit('change', value);
   }
 
-  const next = clamp(parsed)
-  emitValue(next)
-}
-
-function handleKeydown(e: KeyboardEvent): void {
-  if (props.readonly || props.disabled) return
-
-  if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    handleIncrement()
-  } else if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    handleDecrement()
-  } else if (e.key === 'Enter') {
-    e.preventDefault()
-    ;(e.target as HTMLInputElement).blur()
+  function handleDecrement(): void {
+    if (props.disabled || isAtMin.value) return;
+    const next = clamp(props.modelValue - props.step);
+    emitValue(next);
   }
-}
+
+  function handleIncrement(): void {
+    if (props.disabled || isAtMax.value) return;
+    const next = clamp(props.modelValue + props.step);
+    emitValue(next);
+  }
+
+  // readonly=false 시 직접 입력 처리
+  function handleInput(e: Event): void {
+    if (props.readonly) return;
+    const raw = (e.target as HTMLInputElement).value;
+    // 숫자와 마이너스 부호만 허용
+    const numeric = raw.replace(/[^0-9]/g, '');
+    inputBuffer.value = numeric;
+    (e.target as HTMLInputElement).value = numeric;
+  }
+
+  function handleBlur(e: Event): void {
+    if (props.readonly) return;
+    const raw = (e.target as HTMLInputElement).value;
+    inputBuffer.value = null;
+
+    if (raw === '' || raw === undefined) {
+      emitValue(props.min);
+      return;
+    }
+
+    const parsed = parseInt(raw, 10);
+    if (isNaN(parsed)) {
+      emitValue(props.min);
+      return;
+    }
+
+    const next = clamp(parsed);
+    emitValue(next);
+  }
+
+  function handleKeydown(e: KeyboardEvent): void {
+    if (props.readonly || props.disabled) return;
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      handleIncrement();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      handleDecrement();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      (e.target as HTMLInputElement).blur();
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
-$b: 'stepper';
+  $b: 'stepper';
 
-.#{$b} {
-  display: flex;
-  width: 100%;
-  height: 3.0rem;
-  align-items: center;
-
-  &__btn {
+  .#{$b} {
     display: flex;
-    flex-shrink: 0;
+    width: 100%;
+    height: 3rem;
     align-items: center;
-    justify-content: center;
-    width: 3.0rem;
-    height: 3.0rem;
-    padding: 0;
-    border: 1px solid $line-100;
-    border-radius: $radius-md;
-    background-color: $bg-primary;
-    color: $text-800;
-    cursor: pointer;
-    transition: background-color $duration-fast ease;
-    outline: none;
 
-    &:hover:not(:disabled) {
-      background-color: $bg-secondary;
-    }
-
-    &:active:not(:disabled) {
-      background-color: $bg-tertiary;
-    }
-
-    &:focus-visible {
+    &__btn {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      border: 1px solid $line-100;
+      border-radius: $radius-md;
+      background-color: $bg-primary;
+      color: $text-800;
+      cursor: pointer;
+      transition: background-color $duration-fast ease;
       outline: none;
-      box-shadow: 0 0 0 3px rgba($color-primary, 0.3);
+
+      &:hover:not(:disabled) {
+        background-color: $bg-secondary;
+      }
+
+      &:active:not(:disabled) {
+        background-color: $bg-tertiary;
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.3);
+      }
+
+      &:disabled {
+        color: $text-300;
+        cursor: not-allowed;
+      }
     }
 
-    &:disabled {
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    &__value {
+      flex: 1;
+      min-width: 4.2rem;
+      max-width: 4.2rem;
+      height: 3rem;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      font-size: $font-size-body3;
+      font-weight: $font-weight-medium;
+      line-height: $line-height-snug;
+      color: $text-800;
+      text-align: center;
+      outline: none;
+      appearance: none;
+
+      &[readonly] {
+        cursor: default;
+      }
+
+      &:focus-visible {
+        outline: none;
+        // box-shadow: inset 0 0 0 2px $color-primary;
+      }
+
+      &:disabled {
+        // color: $text-300;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // disabled 전체 상태
+  .#{$b}--disabled {
+    .#{$b}__btn {
       color: $text-300;
       cursor: not-allowed;
     }
-  }
 
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  &__value {
-    flex: 1;
-    min-width: 4.2rem;
-    max-width: 4.2rem;
-    height: 3.0rem;
-    padding: 0;
-    border: none;
-    background-color: $bg-primary;
-    font-size: $font-size-body3;
-    font-weight: $font-weight-medium;
-    line-height: $line-height-snug;
-    color: $text-800;
-    text-align: center;
-    outline: none;
-    appearance: none;
-
-    &[readonly] {
-      cursor: default;
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: inset 0 0 0 2px $color-primary;
-    }
-
-    &:disabled {
-      color: $text-300;
+    .#{$b}__value {
+      // color: $text-300;
       cursor: not-allowed;
     }
   }
-}
-
-// disabled 전체 상태
-.#{$b}--disabled {
-  .#{$b}__btn {
-    background-color: $bg-disabled;
-    color: $text-300;
-    cursor: not-allowed;
-  }
-
-  .#{$b}__value {
-    color: $text-300;
-    cursor: not-allowed;
-  }
-}
 </style>

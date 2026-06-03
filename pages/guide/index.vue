@@ -1,8 +1,10 @@
 <template>
   <div class="claudeGuide">
     <header class="claudeGuide__hero">
-      <p class="claudeGuide__heroEyebrow">Frameout Pub</p>
-      <h1 class="claudeGuide__heroTitle">Claude 컴포넌트 제작 워크플로우</h1>
+      <p class="claudeGuide__heroEyebrow">Vue UI Components Guide</p>
+      <h1 class="claudeGuide__heroTitle">
+        Claude Code 컴포넌트 제작·검수 워크플로우
+      </h1>
       <p class="claudeGuide__heroDesc">
         이 페이지는 Claude Code(Anthropic의 터미널 기반 코딩 어시스턴트)를
         활용해 구축한 컴포넌트 자동화 워크플로우를 정리한 가이드입니다. React
@@ -18,6 +20,7 @@
         <li>TypeScript</li>
         <li>SCSS / Atomic Design</li>
         <li>Radix Vue (Stable only)</li>
+        <li>vant (DatePicker 온디맨드)</li>
       </ul>
     </header>
 
@@ -164,7 +167,10 @@
           슬래시 커맨드(<code>/</code>로 시작하는 단축 명령)는 4개 에이전트와
           사용자 승인 절차를 한 줄로 묶어 호출합니다. 사용자가 4개 에이전트를
           직접 순서대로 호출할 필요 없이, 커맨드 한 번으로 전체
-          워크플로우(루프백 포함)가 실행됩니다.
+          워크플로우(루프백 포함)가 실행됩니다. 이 외에 에이전트 위임 없이
+          동작하는 유틸 명령 — 문서 동기화(<code>/sync-docs</code>), Figma 토큰
+          추출(<code>/design:token-*</code>), 커밋 생성(<code>/git:commit</code>)
+          — 도 함께 운영합니다.
         </p>
       </div>
 
@@ -429,6 +435,7 @@ const principles: Principle[] = [
     desc: '컴포넌트는 역할만큼만 존재한다. atoms는 어떤 다른 컴포넌트에도 의존하지 않는다. Flat 구조는 "이 파일은 어디 있지?"라는 질문을 없앤다 — 파일은 항상 카테고리 바로 아래, 단 한 단계 깊이에 있다.',
     items: [
       "atoms → molecules → organisms 단방향",
+      "오버레이 패턴은 보조 카테고리 popup으로 분리",
       "컴포넌트별 하위 폴더 없이 .vue 평탄 배치",
       "카테고리 단위 index.ts barrel만",
       "Base·Wrapper 분리는 다음 원칙 참조",
@@ -482,7 +489,7 @@ const principles: Principle[] = [
     desc: "Alpha는 쓰지 않는다. 기반이 흔들리는 위에 무언가를 짓지 않는다. API를 기억으로 쓰지 않는다 — 기억은 틀리고, Context7은 현재 문서를 읽는다. 잘 모를 때 확인하는 것이 자신감 있는 개발이다.",
     items: [
       "Radix Vue Stable만 (Alpha 금지)",
-      "날짜는 @vuepic/vue-datepicker",
+      "날짜는 vant DatePicker/Picker 래핑 (온디맨드)",
       "3단계 위임 (Root / Trigger / Content)",
       "사용 전 Context7 MCP로 사실 확인",
     ],

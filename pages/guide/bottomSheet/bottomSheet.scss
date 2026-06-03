@@ -79,17 +79,16 @@ $b: "bottomSheetGuidePage";
   }
 }
 
-.#{$b}__phoneFrame {
-  max-width: 36rem;
-  padding: $spacing-md;
-  border: 1px solid $line-200;
-  border-radius: $radius-lg;
-  background-color: $bg-secondary;
+.#{$b}__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
 }
 
 .#{$b}__demoBtn {
-  width: 100%;
-  height: 4.4rem;
+  padding: 0 $spacing-md;
+  height: 3.6rem;
   background-color: $color-primary;
   color: $text-white;
   border: none;
@@ -103,6 +102,21 @@ $b: "bottomSheetGuidePage";
   }
 }
 
+.#{$b}__commonNote {
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-body3;
+  color: $text-600;
+  line-height: $line-height-base;
+
+  code {
+    background-color: $bg-tertiary;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+  }
+}
+
 .#{$b}__tableTitle {
   font-size: $font-size-body2;
   font-weight: $font-weight-bold;
@@ -110,6 +124,8 @@ $b: "bottomSheetGuidePage";
   margin-top: $spacing-lg;
   margin-bottom: $spacing-sm;
 }
+
+.#{$b}__propsTableWrap { overflow-x: auto; }
 
 .#{$b}__propsTable {
   width: 100%;
@@ -133,6 +149,7 @@ $b: "bottomSheetGuidePage";
 
   td {
     color: $text-900;
+    min-width: 8rem;
   }
 
   code {
@@ -175,4 +192,18 @@ $b: "bottomSheetGuidePage";
     border-radius: $radius-sm;
     font-size: $font-size-caption1;
   }
+}
+
+.#{$b}__code {
+  display: block;
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background-color: $bg-tertiary;
+  border-radius: $radius-sm;
+  font-size: $font-size-caption1;
+  line-height: $line-height-loose;
+  color: $text-800;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-x: auto;
 }

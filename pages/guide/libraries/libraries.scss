@@ -120,6 +120,13 @@
     }
   }
 
+  &__inlineLink {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+
+  &__tableWrap { overflow-x: auto; }
+
   &__table {
     width: 100%;
     border-collapse: collapse;

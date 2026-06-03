@@ -82,7 +82,7 @@
     flex-direction: column;
     align-items: center;
     gap: $spacing-xs;
-    width: 12rem;
+    width: 20rem;
   }
 
   &__emptyNote {
@@ -112,6 +112,21 @@
     color: $text-400;
     text-align: center;
     word-break: break-all;
+  }
+
+  &__iconCode {
+    background-color: $bg-tertiary;
+    border: 1px solid $line-200;
+    border-radius: $radius-sm;
+    padding: $spacing-xs $spacing-sm;
+    font-size: 1.0rem;
+    color: $text-600;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: $line-height-base;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   // 일반 행 레이아웃
@@ -166,6 +181,8 @@
     margin-top: $spacing-lg;
     margin-bottom: $spacing-sm;
   }
+
+  &__propsTableWrap { overflow-x: auto; }
 
   &__propsTable {
     width: 100%;

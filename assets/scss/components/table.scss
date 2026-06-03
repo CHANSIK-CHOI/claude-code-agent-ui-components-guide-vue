@@ -1,0 +1,109 @@
+// ============================================================
+// table.scss — 순수 HTML 테이블 전역 스타일
+// Figma: 4hhLCzE3QlJughv3UqIzAH / node 40005346:8973
+// nuxt.config.ts css: 배열로 전역 로드
+// ============================================================
+//
+// border-collapse: separate + border-spacing: 0 전략
+// → overflow: hidden 이 table 요소에서 작동하여 border-radius 클리핑 가능
+// → cell 에는 right + bottom border 만 적용, last-child / last-tr 에서 제거
+//   → doubled border 없이 collapse 와 동일한 시각 결과
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid $line-300;
+  border-bottom: 1px solid $line-300;
+  overflow: hidden;
+  font-family: $font-family-base;
+  word-break: keep-all;
+}
+
+// ── thead ──────────────────────────────────────────────────
+thead {
+  th {
+    background-color: $bg-tertiary;
+    color: $text-800;
+    font-size: $font-size-caption2;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-snug;
+    text-align: center;
+    padding: $spacing-md 1.2rem;
+    border-right: 1px solid $line-300;
+    border-bottom: 1px solid $line-300;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+// ── tbody ──────────────────────────────────────────────────
+tbody {
+  td {
+    background-color: $bg-primary;
+    color: $text-600;
+    font-size: $font-size-caption3;
+    font-weight: $font-weight-regular;
+    line-height: 1.8rem;
+    text-align: left;
+    padding: $spacing-md 1rem;
+    border-right: 1px solid $line-300;
+    border-bottom: 1px solid $line-300;
+    vertical-align: middle;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+  td.center {
+    text-align: center;
+  }
+}
+
+// ── tfoot ──────────────────────────────────────────────────
+tfoot {
+  td,
+  th {
+    background-color: $bg-tertiary;
+    color: $text-600;
+    font-size: $font-size-caption3;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-snug;
+    text-align: center;
+    padding: $spacing-md 1.2rem;
+    border-right: 1px solid $line-300;
+    border-top: 1px solid $line-300;
+    vertical-align: middle;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+// ── caption ────────────────────────────────────────────────
+caption {
+  caption-side: bottom;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-caption3;
+  font-weight: $font-weight-regular;
+  color: $text-400;
+  text-align: center;
+  line-height: $line-height-base;
+}
+
+// ── 텍스트 정렬 유틸리티 ────────────────────────────────────
+// table 내부의 th, td 에 직접 클래스 적용
+table .text-left {
+  text-align: left !important;
+}
+table .text-center {
+  text-align: center !important;
+}
+table .text-right {
+  text-align: right !important;
+}

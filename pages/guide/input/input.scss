@@ -109,6 +109,8 @@
     margin-bottom: $spacing-sm;
   }
 
+  &__propsTableWrap { overflow-x: auto; }
+
   &__propsTable {
     width: 100%;
     border-collapse: collapse;
@@ -130,6 +132,7 @@
 
     td {
       color: $text-900;
+      min-width: 8rem;
     }
 
     code {
@@ -158,6 +161,25 @@
       box-shadow: 0 0 0 2px $border-focus;
       border-radius: $radius-sm;
     }
+  }
+
+  &__eventLog {
+    display: block;
+    margin-top: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-accent-light-blue;
+    border-radius: $radius-sm;
+    font-size: $font-size-caption1;
+    color: $color-primary;
+    font-weight: $font-weight-medium;
+  }
+
+  &__suffixText {
+    display: flex;
+    align-items: center;
+    font-size: $font-size-caption1;
+    color: $text-600;
+    white-space: nowrap;
   }
 
   &__delegationNote {
