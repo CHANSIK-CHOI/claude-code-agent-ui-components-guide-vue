@@ -203,6 +203,8 @@ Radix Vue를 래핑한 컴포넌트의 가이드 페이지에는, 본 가이드�
 
 ```html
 <p class="[componentName]GuidePage__note">
-  FormField Props/Slots 상세 설명은 <a href="/guide/input">Input 가이드 페이지</a>를 참조하세요.
+  FormField Props/Slots 상세 설명은 <NuxtLink to="/guide/input">Input 가이드 페이지</NuxtLink>를 참조하세요.
 </p>
 ```
+
+> 내부 라우팅 링크는 반드시 `<NuxtLink to>` 를 사용한다 — `<a href="/...">` 는 `app.baseURL`(GitHub Pages 하위 경로)이 적용되지 않아 배포 환경에서 404 가 난다.

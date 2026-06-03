@@ -27,7 +27,7 @@
 
 ```bash
 npm install
-npm run dev       # http://localhost:5000
+npm run dev       # http://localhost:5000/claude-code-agent-ui-components-guide-vue/
 ```
 
 ```bash

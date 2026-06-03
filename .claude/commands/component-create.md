@@ -166,7 +166,8 @@ QA Agent를 호출하기 전에 **명령(Claude) 자체가** 다음을 수행한
 
 ```bash
 # Bash 도구로 실행
-curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/claude-code-agent-ui-components-guide-vue/
+# 비-2xx면 포트 3000으로 동일 경로 재시도 (5000 점유 시 Nuxt 폴백)
 ```
 
 응답 처리:

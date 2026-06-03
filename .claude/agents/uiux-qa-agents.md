@@ -95,13 +95,21 @@ Context7 검증과 Playwright 검증은 **서로 의존성이 없으므로 병�
 
 ### 2-2. Playwright 검증 — 실제 화면 동작 검증
 
+**dev server URL (단일 출처)**: `app.baseURL`(`/claude-code-agent-ui-components-guide-vue/`)이 dev 에도 적용된다. 기본 포트는 5000(`nuxt.config.ts devServer.port`)이며, 점유 시(macOS AirPlay 등) Nuxt 가 3000 으로 폴백한다 — dev 로그의 `Local:` URL 을 기준으로 한다.
+
+```
+BASE = http://localhost:5000/claude-code-agent-ui-components-guide-vue/
+       (5000 비-2xx 시 3000 으로 재시도)
+```
+
 **사전 체크 (필수, 절대 스킵 금지)**:
 
 ```bash
-curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/claude-code-agent-ui-components-guide-vue/
+# 비-2xx면 포트 3000으로 동일 경로 재시도
 ```
 
-응답이 `000` 또는 비-2xx인 경우 — 다음 두 가지 중 하나로 처리한다:
+두 포트 모두 응답이 `000` 또는 비-2xx인 경우 — 다음 두 가지 중 하나로 처리한다:
 
 **(a) 호출자(슬래시 명령)가 사전 체크를 이미 수행한 경우**:
 호출자 prompt에 "dev server 사전 체크 완료 — 기동됨"이 명시되어 있으면 본 단계 진행. 명시되지 않은 경우 (b)로 처리.
@@ -125,7 +133,7 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
 **검증 시나리오**:
 
 1. **페이지 진입**:
-   - `mcp__playwright__browser_navigate`로 `http://localhost:3000/guide/[componentName]` 접근
+   - `mcp__playwright__browser_navigate`로 `{BASE}guide/[componentName]` 접근 (BASE = 위 사전 체크에서 확인한 dev server URL — baseURL 경로 포함)
    - `mcp__playwright__browser_console_messages`로 콘솔 에러/경고 수집 (페이지 로드 직후)
 
 2. **접근성 트리 확인**:
