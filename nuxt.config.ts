@@ -85,9 +85,9 @@ export default defineNuxtConfig({
     preset: "github-pages",
   },
 
-  // app: {
-  //   baseURL: "/claude-code-agent-ui-components-guide-vue/",
-  // },
+  app: {
+    baseURL: "/claude-code-agent-ui-components-guide-vue/",
+  },
 
   ssr: false,
 

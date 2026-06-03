@@ -577,7 +577,7 @@
 
       <p class="selectGuidePage__note selectGuidePage__note--formfield">
         FormField Props/Slots 상세 설명은
-        <a href="/guide/input">Input 가이드 페이지</a>를 참조하세요.
+        <NuxtLink to="/guide/input">Input 가이드 페이지</NuxtLink>를 참조하세요.
       </p>
 
       <div class="selectGuidePage__delegationNote">
