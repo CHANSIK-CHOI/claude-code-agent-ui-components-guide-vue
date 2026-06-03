@@ -12,10 +12,10 @@ const scssMixinsPath = join(
 ).replace(/\\/g, "/");
 
 export default defineNuxtConfig({
+  compatibilityDate: "2026-06-03",
   alias: {
     "@nd": rootDir,
   },
-  compatibilityDate: "2024-04-03",
   telemetry: false,
 
   devServer: {
@@ -49,8 +49,8 @@ export default defineNuxtConfig({
   ],
 
   css: [
-    "@nd/assets/scss/global.scss",
-    "@nd/assets/scss/components/table.scss",
+    `${rootDir}/assets/scss/global.scss`,
+    `${rootDir}/assets/scss/components/table.scss`,
     "swiper/css",
     "swiper/css/navigation",
     "swiper/css/thumbs",
@@ -59,9 +59,22 @@ export default defineNuxtConfig({
   ],
 
   vite: {
+    server: {
+      watch: {
+        ignored: [
+          "**/node_modules/**",
+          "**/.git/**",
+          "**/.nuxt/**",
+          "**/.output/**",
+          "**/dist/**",
+          "**/*.log",
+        ],
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {
+          api: "modern",
           additionalData: `@use "${scssVariablesPath}" as *; @use "${scssMixinsPath}" as *;`,
         },
       },
@@ -72,9 +85,9 @@ export default defineNuxtConfig({
     preset: "github-pages",
   },
 
-  app: {
-    baseURL: "/claude-code-agent-ui-components-guide-vue/",
-  },
+  // app: {
+  //   baseURL: "/claude-code-agent-ui-components-guide-vue/",
+  // },
 
   ssr: false,
 
