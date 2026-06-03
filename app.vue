@@ -5,9 +5,10 @@
     </div>
   </NuxtLayout>
   <ClientOnly>
+    <div id="popup-container" />
+    <div id="toast-container" />
     <PopupRenderer />
     <ToastRenderer />
-    <div id="popup-container" />
   </ClientOnly>
 </template>
 
