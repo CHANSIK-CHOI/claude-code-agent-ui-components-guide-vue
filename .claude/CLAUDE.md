@@ -192,6 +192,6 @@
 컴포넌트 작업 후 타입 에러·포맷 누락을 hook 으로 자동 검증한다 (`.claude/settings.json` 의 `hooks`, 스크립트는 `.claude/hooks/*.sh` — bash). 상세는 `rules/hooks.md` 단일 출처 참조.
 
 - **Prettier 자동 포맷** (`format-on-edit.sh`, PostToolUse, **항상 ON**): 편집한 `.vue`/`.ts` 등을 `prettier --write` 로 즉시 포맷. 비차단.
-- **타입체크** (`typecheck.sh`, Stop, **기본 OFF 토글**): `.claude/hooks/.typecheck-on` 플래그가 있을 때만 종료 시 `vue-tsc --noEmit` 실행 → git 변경된 `**/*.{ts,tsx,vue}` 파일의 에러만 필터 → 있으면 `exit 2` 로 수정 유도 (최대 3회 가드).
-  - **켜기**: "타입체크 켜줘" → Claude 가 `.typecheck-on` 생성 / **끄기**: "타입체크 꺼줘" → 삭제. `npm run typecheck` 로 수동 전체 검사도 가능.
+- **타입체크** (`typecheck.sh`, Stop, **기본 ON / opt-out**): 종료 시 항상 `vue-tsc --noEmit` 실행 → git 변경된 `**/*.{ts,tsx,vue}` 파일의 에러만 필터 → 있으면 `exit 2` 로 수정 유도 (최대 3회 가드). `.claude/hooks/.typecheck-off` 플래그가 있을 때만 건너뛴다. ("자동 품질 검증" 실효성을 위해 기본 강제)
+  - **끄기**: "타입체크 꺼줘" → Claude 가 `.typecheck-off` 생성 / **켜기**: "타입체크 켜줘" → 삭제(기본 복귀). `npm run typecheck` 로 수동 전체 검사도 가능.
 - **문서 동기화 안내** (`detect-claude-changes.sh` + `notify-docs-sync.sh`): `.claude/rules|agents|commands/*.md` 변경 시 종료 시점에 `/sync-docs` 실행을 안내.

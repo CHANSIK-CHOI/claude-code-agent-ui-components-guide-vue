@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Stop hook — 이번에 변경된 파일의 타입 에러만 vue-tsc 로 검사한다.
 #
-# 동작 조건:
-#   - 토글 플래그(.claude/hooks/.typecheck-on) 가 존재할 때만 검사. 없으면 즉시 통과(종료).
+# 동작 조건 (기본 ON / opt-out):
+#   - 기본적으로 항상 검사한다. opt-out 플래그(.claude/hooks/.typecheck-off) 가 존재할 때만 건너뛴다.
+#     ("자동 품질 검증" 파이프라인의 실효성을 위해 기본 ON. off 플래그는 .gitignore 처리되는 로컬 전용 스위치)
 #   - git working tree 에서 변경된 **/*.{ts,tsx,vue} 파일만 대상.
 #   - vue-tsc 는 프로젝트 전체를 컴파일하지만, 출력에서 "이번에 변경된 파일" 경로의
 #     에러만 필터링한다. 작업과 무관한 기존 에러는 무시.
@@ -13,12 +14,12 @@
 # Output : exit 2 (타입 에러 발견, 종료 차단) / exit 0 (그 외)
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-FLAG_FILE="$SCRIPT_DIR/.typecheck-on"
+OFF_FLAG_FILE="$SCRIPT_DIR/.typecheck-off"
 ATTEMPT_FILE="$SCRIPT_DIR/.typecheck-attempts"
 MAX_ATTEMPTS=3
 
-# 1) 토글 OFF → 검사 없이 즉시 통과
-if [ ! -f "$FLAG_FILE" ]; then
+# 1) opt-out (.typecheck-off 존재) → 검사 없이 즉시 통과
+if [ -f "$OFF_FLAG_FILE" ]; then
   rm -f "$ATTEMPT_FILE"
   exit 0
 fi
@@ -106,5 +107,5 @@ fi
 
 # 9) 차단 — 카운터 증가 후 exit 2 + stderr
 printf '%s' "$((n + 1))" > "$ATTEMPT_FILE"
-printf '[typecheck] 변경한 파일에 타입 에러가 있습니다. 종료 전에 수정하세요:\n\n%s\n\n(이 검사를 끄려면: .claude/hooks/.typecheck-on 파일 삭제 또는 "타입체크 꺼줘" 요청)\n' "$collected" >&2
+printf '[typecheck] 변경한 파일에 타입 에러가 있습니다. 종료 전에 수정하세요:\n\n%s\n\n(이 검사를 끄려면: .claude/hooks/.typecheck-off 파일 생성 또는 "타입체크 꺼줘" 요청)\n' "$collected" >&2
 exit 2

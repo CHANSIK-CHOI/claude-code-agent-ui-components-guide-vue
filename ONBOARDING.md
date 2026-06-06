@@ -33,7 +33,7 @@ assets/       SCSS 토큰·믹스인, 이미지·아이콘
 | `style.md` | SCSS·BEM·`$b` 변수, 단위(rem), 중첩 규칙, flex/gap 정책 |
 | `a11y.md` | 시맨틱 HTML, role 우회 금지, 폼 라벨, 이미지 placeholder 패턴 |
 | `tokens.md` | 디자인 토큰 네이밍·전체 토큰 참조표 (목록 외 토큰 사용 금지) |
-| `libraries.md` | Radix Vue Stable/Alpha 매트릭스, vant·swiper·gsap 정책 |
+| `libraries.md` | Radix Vue Stable/Alpha 매트릭스, vant 정책 |
 | `guide-page.md` | 가이드 페이지 작성 규칙 (Props 테이블, delegationNote, radixNote) |
 | `popups.md` | 팝업 SSOT — open 제어(defineModel), 비중첩, 내부 라우팅 |
 | `spec-scope.md` | spec 영역 / publisher 자율 영역 경계 + 이탈 보고 매트릭스 |
@@ -146,7 +146,7 @@ publisher 구현 완료
 
 - **Vue 3.4.19 고정** — `useTemplateRef`, `useId` 등 **3.5+ API 금지** (`defineModel`은 3.4 정식이라 허용)
 - **Radix Vue Stable만** — Alpha(DatePicker 등)는 vant 또는 자체 구현으로 대체 (`rules/libraries.md`)
-- **swiper 모듈 import는 `swiper/modules` 경로** — 구 `swiper` 경로는 v12에서 런타임 에러. ⚠️ Marquee 가이드는 v12 호환 작업까지 사이드바 임시 숨김 중 (GuideSidebar TODO 주석)
+- **SVG는 `?component`로 import 시 번들에 인라인됨** — `<img :src>`로 쓸 이미지나 base64가 내장된 대용량 SVG는 `?url`로 import해 별도 에셋으로 분리 (번들 청크 비대화 방지)
 - **raw hex·임의 토큰 금지** — `rules/tokens.md` 참조표에 있는 토큰만 사용
 - **팝업 open 제어는 `defineModel('open')` + `v-model:open` 표준** — 수동 포워딩·`defineExpose({open})`·`v-if` 마운트 제어 금지 (`rules/popups.md §3`)
 - **카테고리 barrel import만 허용** — 개별 `.vue` 직접 import 금지 (`@nd/components/atoms` 등)

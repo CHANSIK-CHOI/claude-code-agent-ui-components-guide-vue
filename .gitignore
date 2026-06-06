@@ -29,5 +29,5 @@ logs
 # Claude Code 로컬 설정·hook 일시 플래그
 .claude/settings.local.json
 .claude/hooks/.docs-dirty
-.claude/hooks/.typecheck-on
+.claude/hooks/.typecheck-off
 .claude/hooks/.typecheck-attempts

@@ -27,7 +27,9 @@
     <section class="claudeGuide__section">
       <div class="claudeGuide__sectionHead">
         <span class="claudeGuide__sectionIndex">01</span>
-        <h2 class="claudeGuide__sectionTitle">컴포넌트 제작 9대 원칙</h2>
+        <h2 class="claudeGuide__sectionTitle">
+          컴포넌트 제작 {{ principles.length }}대 원칙
+        </h2>
         <p class="claudeGuide__sectionDesc">
           컴포넌트를 어떻게 만들어야 하는가에 대한 저의 개인적인 철학입니다.
           Claude는 이 원칙들을 일관되게 실행하는 도구입니다 — 무엇을 만들지는
@@ -169,8 +171,8 @@
           직접 순서대로 호출할 필요 없이, 커맨드 한 번으로 전체
           워크플로우(루프백 포함)가 실행됩니다. 이 외에 에이전트 위임 없이
           동작하는 유틸 명령 — 문서 동기화(<code>/sync-docs</code>), Figma 토큰
-          추출(<code>/design:token-*</code>), 커밋 생성(<code>/git:commit</code>)
-          — 도 함께 운영합니다.
+          추출(<code>/design:token-*</code>), 커밋
+          생성(<code>/git:commit</code>) — 도 함께 운영합니다.
         </p>
       </div>
 
@@ -221,6 +223,35 @@
         </article>
       </div>
     </section>
+
+    <section class="claudeGuide__section">
+      <div class="claudeGuide__sectionHead">
+        <span class="claudeGuide__sectionIndex">06</span>
+        <h2 class="claudeGuide__sectionTitle">자동화 품질 게이트</h2>
+        <p class="claudeGuide__sectionDesc">
+          사람이 잊어도 시스템이 강제합니다. Claude Code hook이 편집·종료 시점에
+          포맷·타입·문서 동기화를 자동 검사합니다 — 설계가 문서로만 존재하지
+          않고 실제로 실행되도록 만드는 계층입니다.
+        </p>
+      </div>
+
+      <div class="claudeGuide__commandGrid">
+        <article
+          v-for="gate in gates"
+          :key="gate.name"
+          class="claudeGuide__commandCard"
+        >
+          <header class="claudeGuide__commandHead">
+            <code class="claudeGuide__commandName">{{ gate.name }}</code>
+            <span class="claudeGuide__commandPurpose">{{ gate.status }}</span>
+          </header>
+          <p class="claudeGuide__commandDesc">{{ gate.desc }}</p>
+          <ol class="claudeGuide__commandSteps">
+            <li v-for="step in gate.steps" :key="step">{{ step }}</li>
+          </ol>
+        </article>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -263,6 +294,13 @@ interface Severity {
   action: string;
   desc: string;
   examples: string[];
+}
+
+interface Gate {
+  name: string;
+  status: string;
+  desc: string;
+  steps: string[];
 }
 
 const agents: Agent[] = [
@@ -558,6 +596,39 @@ const severities: Severity[] = [
       "명명 / 가독성 제안",
       "마이크로 스타일 최적화",
       "composable 추출 후보 (1회만 발생)",
+    ],
+  },
+];
+
+const gates: Gate[] = [
+  {
+    name: "format-on-edit.sh",
+    status: "PostToolUse · 항상 ON",
+    desc: "파일을 편집·생성할 때마다 Prettier로 즉시 포맷합니다. 비차단(항상 통과)이라 작업 흐름을 막지 않으면서 코드 스타일을 균일하게 유지합니다.",
+    steps: [
+      "대상: 편집된 .vue / .ts / .scss / .json 등",
+      "prettier --write 즉시 실행",
+      "exit 0 — 작업을 막지 않음",
+    ],
+  },
+  {
+    name: "typecheck.sh",
+    status: "Stop · 기본 ON (opt-out)",
+    desc: "작업 종료 시 vue-tsc로 타입을 검사합니다. opt-in(기본 OFF)에서 기본 ON으로 전환해, clone·검수 환경에서도 타입 검증이 강제되도록 했습니다 — '자동 품질 검증' 표방과 실제 동작을 일치시키는 핵심 게이트입니다.",
+    steps: [
+      "git 변경된 .ts/.tsx/.vue 파일의 에러만 필터",
+      "에러 발견 시 exit 2로 종료 차단 → 수정 유도",
+      "무한 루프 가드(최대 3회) · .typecheck-off로만 해제",
+    ],
+  },
+  {
+    name: "detect + notify-docs-sync.sh",
+    status: "PostToolUse + Stop · 안내",
+    desc: ".claude/rules·agents·commands 문서가 바뀌면 종료 시점에 /sync-docs 실행을 안내합니다. 규칙(SSOT)과 CLAUDE.md·ONBOARDING.md 사이의 정합성이 어긋나지 않도록 리마인드합니다.",
+    steps: [
+      "문서 변경 감지 → .docs-dirty 플래그 기록",
+      "종료 시 변경 목록 + /sync-docs 안내 출력",
+      "비차단 — 동기화 여부는 사용자 판단",
     ],
   },
 ];

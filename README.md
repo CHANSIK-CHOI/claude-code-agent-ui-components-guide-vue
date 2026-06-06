@@ -9,7 +9,7 @@
 
 1. **에이전트 기반 제작 파이프라인** — 역할이 격리된 4개 에이전트(기획·퍼블·QA·리뷰)가 슬래시 명령 한 줄로 협업. 검수 실패 시 결함 영역의 에이전트만 자동 루프백
 2. **규칙 기반 품질 시스템** — `.claude/rules/` 10개 문서가 아키텍처·BEM·토큰·접근성·팝업 패턴의 단일 출처(SSOT). 에이전트와 사람이 같은 규칙을 참조
-3. **검증 자동화** — Context7 MCP로 라이브러리 API 사실 체크, Playwright MCP로 실제 브라우저 동작 검증, bash hook으로 포맷·타입체크 자동화
+3. **검증 자동화** — Context7 MCP로 라이브러리 API 사실 체크, Playwright MCP로 실제 브라우저 동작 검증, bash hook으로 Prettier 포맷·타입체크(기본 ON, 변경 파일 단위 `vue-tsc`) 자동 강제
 
 ## 스택
 
@@ -20,7 +20,6 @@
 | TypeScript | 6.x |
 | Radix Vue | 1.9.17 (헤드리스, Stable만) |
 | vant | ^4.9.24 (DatePicker/Picker/PickerGroup 온디맨드) |
-| swiper | ^12.2.0 (Marquee 래핑) |
 | sass | 1.85.0 |
 
 ## 시작하기
@@ -95,11 +94,6 @@ architecture(Atomic+barrel) · components(SFC·defineModel·$attrs 위임) · st
 | molecules | ButtonGroup | `/guide/buttonGroup` |
 | molecules | Accordion | `/guide/accordion` |
 | molecules | Collapsible | `/guide/collapsible` |
-| molecules | Pagination | `/guide/pagination` |
-| molecules | PaginationSimple | `/guide/pagination-simple` |
-| molecules | OptionButtonGroup | `/guide/optionButtonGroup` |
-| molecules | TermsAgreement | `/guide/termsAgreement` |
-| molecules | Marquee | `/guide/marquee` (swiper v12 호환 작업 중 — 사이드바 임시 숨김) |
 | icons | Icon | `/guide/icon` |
 | organisms | Tab | `/guide/tab` |
 | popup | Alert | `/guide/alert` |
@@ -118,7 +112,7 @@ architecture(Atomic+barrel) · components(SFC·defineModel·$attrs 위임) · st
 ```
 components/
 ├── atoms/          # 최소 단위 컴포넌트 (Button, Input, Select 등)
-├── molecules/      # atoms 조합 (FormField, Accordion, Pagination 등)
+├── molecules/      # atoms 조합 (FormField, ButtonGroup, Accordion, Collapsible)
 ├── organisms/      # atoms + molecules 조합 (Tab)
 ├── popup/          # 팝업 계열 전체 + composable API
 ├── icons/          # Icon.vue (nuxt-svgo 기반 SVG 래퍼)
@@ -135,7 +129,7 @@ assets/scss/abstracts/_variables.scss   # 디자인 토큰 (모든 SCSS에 자�
 ├── agents/         # 에이전트 4개 정의
 ├── commands/       # 슬래시 명령
 ├── specs/          # 컴포넌트 명세 (planner 산출물)
-└── hooks/          # bash 자동화 (prettier 포맷·타입체크 토글)
+└── hooks/          # bash 자동화 (prettier 포맷 항상 ON·타입체크 기본 ON)
 ```
 
 ## 팝업 시스템
