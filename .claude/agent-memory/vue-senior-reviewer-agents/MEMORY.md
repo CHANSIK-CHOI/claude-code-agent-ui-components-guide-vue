@@ -1,5 +1,7 @@
 # Vue 시니어 리뷰어 에이전트 메모리 인덱스
 
+> ⚠️ **이력 문서** — 아래는 리뷰 당시(상당수 Vue 3.4 시점)의 메모입니다. 현행 작업 규칙은 `.claude/rules/`·`CLAUDE.md`가 단일 출처이며, "useId 3.5+ API 사용 / 버전 핀 위반" 류 지적은 **Vue 3.5.33 통일(2026-06-06) 이후 무효**입니다.
+
 - [FormField](FormField.md) — 2026-05-22 PASS(1차) / inputId 선택적 타입·v-if/v-else label/span 분기·early return 패턴 중점 검토. BLOCKER 없음. $attrs 루트 div 위임(레이아웃 래퍼 예외) WARN 1건
 - [Button](Button.md) — 리뷰 메모
 - [ButtonLink](ButtonLink.md) — 리뷰 메모

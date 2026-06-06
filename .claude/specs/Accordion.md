@@ -9,7 +9,7 @@
   - `components/molecules/Accordion.vue` — dual script block 구조
     - `<script lang="ts">` 블록: `AccordionItem`, `AccordionTrigger`, `AccordionContent` plain object named exports
     - `<script setup lang="ts">` 블록: AccordionRoot 래핑 로직 (rootAttrs 분리, emit)
-  - 이유: Vue 3.4 + Nuxt 3.10 SSR 환경에서 `v-for` 루프 변수가 별도 SFC 슬롯 경계를 넘어 전파되지 않는 문제로 단일 파일 패턴 채택 (Collapsible.vue와 동일)
+  - 이유: Vue 3 + Nuxt 3.10 SSR 환경에서 `v-for` 루프 변수가 별도 SFC 슬롯 경계를 넘어 전파되지 않는 문제로 단일 파일 패턴 채택 (Collapsible.vue와 동일)
 - **Barrel export**: `components/molecules/index.ts` — `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent` 4개 모두 named export
 - **라이브러리**: Radix Vue `AccordionRoot`, `AccordionItem`, `AccordionTrigger`, `AccordionContent` (Stable)
 
@@ -240,7 +240,7 @@ Radix Vue AccordionRoot가 WAI-ARIA Accordion 패턴 내장 지원:
 | `<script lang="ts">` | `AccordionItem`, `AccordionTrigger`, `AccordionContent` plain object 컴포넌트를 named export. `h()` 렌더 함수로 Radix Vue 서브 컴포넌트를 직접 래핑. |
 | `<script setup lang="ts">` | AccordionRoot 래핑. `defineOptions({ inheritAttrs: false })`, rootAttrs 분리 위임, `emit('update:modelValue', ...)` + `emit('update:value', ...)` 동시 emit. |
 
-> **이 패턴을 선택한 이유**: Vue 3.4 + Nuxt 3.10 SSR 환경에서 별도 SFC로 분리하면 `v-for` 루프 변수가 슬롯 경계를 넘어 전파되지 않아 AccordionItem의 `:value` 바인딩이 undefined가 된다. plain object 컴포넌트는 슬롯 경계가 없어 이 문제가 발생하지 않는다. (Collapsible.vue와 동일한 패턴)
+> **이 패턴을 선택한 이유**: Vue 3 + Nuxt 3.10 SSR 환경에서 별도 SFC로 분리하면 `v-for` 루프 변수가 슬롯 경계를 넘어 전파되지 않아 AccordionItem의 `:value` 바인딩이 undefined가 된다. plain object 컴포넌트는 슬롯 경계가 없어 이 문제가 발생하지 않는다. (Collapsible.vue와 동일한 패턴)
 
 ### AccordionRoot v-model 연결 (이벤트명 주의)
 

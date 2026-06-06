@@ -151,7 +151,7 @@ const triggerAttrs = computed(() =>
 );
 
 // ── 유니크 패널 ID — aria-controls / aria-expanded 연결용 ────────────
-// Vue 3.4 이하: useId() 미지원 → 모듈 스코프 카운터로 대체
+// 모듈 스코프 카운터로 생성 (Vue 3.5의 useId()로 대체 가능하나 기존 패턴 유지)
 // React의 useId()와 동일한 용도
 const panelId = `popover-panel-${++_popoverCount}`;
 

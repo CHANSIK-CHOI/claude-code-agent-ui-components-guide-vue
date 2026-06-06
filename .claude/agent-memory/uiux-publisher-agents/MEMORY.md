@@ -1,5 +1,7 @@
 # Publisher 구현 메모리 인덱스
 
+> ⚠️ **이력 문서** — 아래는 작성 당시(상당수 Vue 3.4 시점)의 구현 메모입니다. 현행 작업 규칙은 `.claude/rules/`·`CLAUDE.md`가 단일 출처이며, "useId 3.5+ 금지 / Vue 3.4 미지원" 류 기록은 **Vue 3.5.33 통일(2026-06-06) 이후 무효**입니다.
+
 - [ButtonLink](ButtonLink.md) — atoms 계층, NuxtLink/a 동적 태그, rel 자동 보완, Button mixin/composable/타입 공유
 - [Checkbox](Checkbox.md) — atoms 계층, Radix Vue CheckboxRoot 래핑, :deep() 필수(Radix inheritAttrs:false로 scope attr 미전달), :checked+@update:checked 명시 분리, $slots.default?.().length 체크
 - [Input](Input.md) — atoms 계층, Base만, defineOptions inheritAttrs:false, 자동 id 생성 패턴

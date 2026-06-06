@@ -1,5 +1,7 @@
 # QA Agent Memory Index
 
+> ⚠️ **이력 문서** — 아래는 검수 당시(상당수 Vue 3.4 시점)의 메모입니다. 현행 작업 규칙은 `.claude/rules/`·`CLAUDE.md`가 단일 출처이며, "useId 3.5+ 금지 / Vue 3.4 미지원" 류 기록은 **Vue 3.5.33 통일(2026-06-06) 이후 무효**입니다.
+
 - [Tab](Tab.md) — 2026-05-18 PASS(재검수): grow prop 신규 추가 검수 완료. BLOCKER 없음. WARN 1건(trigger inline-flex rules 불일치)
 - [Button](Button.md) — 이전 검수 기록
 - [ButtonLink](ButtonLink.md) — 이전 검수 기록
