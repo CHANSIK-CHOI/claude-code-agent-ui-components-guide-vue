@@ -57,8 +57,8 @@
 |----------|------|------|------|
 | `vant` | ^4.9.24 | DatePicker, Picker, PickerGroup | 온디맨드 import (`plugins/vant.ts`) — 이 3개 컴포넌트만 허용. 전체 CSS(`vant/lib/index.css`) 사용 금지, 컴포넌트별 `vant/es/*/style/index` 로드 |
 | `radix-vue` | 1.9.17 | 헤드리스 UI | Stable 컴포넌트만 사용 |
-| `swiper` | ^12.2.0 | 슬라이드 (Marquee 래핑) | `Marquee` 컴포넌트가 래핑해 사용. 가이드 데모 등에서 `swiper/vue`의 `Swiper`/`SwiperSlide` 직접 import 허용. **모듈(`FreeMode` 등)은 v10+ 경로 `swiper/modules`에서 import** (구 `swiper` 경로 금지 — 런타임 에러). ⚠️ v12 호환 이슈로 Marquee 가이드 임시 숨김 중 (2026-06-03, GuideSidebar TODO 주석 참조) — 호환 작업 완료 후 복구 |
-| `gsap` | ^3.15.0 | 고급 애니메이션 | 현재 실사용 컴포넌트 없음 (예비 의존성). 신규 사용 시 본 표의 정책을 갱신하고, CSS 트랜지션으로 충분한 경우 도입하지 않는다 |
+
+> **(2026-06-06) `swiper`·`gsap` 제거됨**: `swiper`는 `Marquee` 컴포넌트 전용이었으나 v12 호환 이슈로 `Marquee`를 삭제하면서 함께 제거했다. `gsap`은 실사용 컴포넌트가 없는 예비 의존성이라 제거했다. 슬라이드/캐러셀이 다시 필요하면 도입 시점에 본 §4 절차를 따라 재검토한다.
 
 ---
 

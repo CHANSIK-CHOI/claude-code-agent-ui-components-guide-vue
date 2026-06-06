@@ -19,7 +19,6 @@
 - [PopupGuidePageRevise](PopupGuidePageRevise.md) — 팝업 5종 가이드 공통/전용 Props 분리, LayerPopup cancelColor·narrowCancel 유령행 삭제, __commonNote 클래스 추가
 - [Popover](Popover.md) — atoms 계층, PopoverPortal 복원(Portal 없이 인라인 시 triggerX 위치 BLOCKER), position:fixed+left:0+width:100vw, attrs 2단계 분리(modal→Root/나머지→Trigger)
 - [Tooltip](Tooltip.md) — atoms 계층, alwaysOpen 분기 A(Radix)/B(자체 absolute), :deep()+:global() 이중 선언, bgColor/textColor customStyle computed로 인라인 override
-- [MarqueeGuidePage](MarqueeGuidePage.md) — Marquee 가이드 페이지, 5섹션, __swiperNote 추가(Radix 미사용), GuideSidebar MOLECULES TermsAgreement 다음에 추가
 - [Accordion](Accordion.md) — molecules 계층 구현 메모
 - [AccordionGuidePage](AccordionGuidePage.md) — Accordion 가이드 페이지 구현 메모
 - [ButtonGroup](ButtonGroup.md) — molecules 계층 구현 메모
@@ -33,12 +32,6 @@
 - [InputPassword](InputPassword.md) — atoms 계층, Input Wrapper 구현 메모
 - [InputPasswordGuidePage](InputPasswordGuidePage.md) — InputPassword 가이드 페이지 구현 메모
 - [LayerPopup](LayerPopup.md) — popup 계층 구현 메모
-- [Marquee](Marquee.md) — molecules 계층 구현 메모
-- [OptionButtonGroup](OptionButtonGroup.md) — molecules 계층 구현 메모
-- [OptionButtonGroupGuidePage](OptionButtonGroupGuidePage.md) — OptionButtonGroup 가이드 페이지 구현 메모
-- [Pagination](Pagination.md) — molecules 계층 구현 메모
-- [PaginationGuidePage](PaginationGuidePage.md) — Pagination 가이드 페이지 구현 메모
-- [PaginationSimple](PaginationSimple.md) — molecules 계층 구현 메모
 - [PinDatePicker](PinDatePicker.md) — popup 계층 구현 메모
 - [PinDatePickerGuidePage](PinDatePickerGuidePage.md) — PinDatePicker 가이드 페이지 구현 메모
 - [PinPicker](PinPicker.md) — popup 계층 구현 메모
@@ -47,6 +40,4 @@
 - [ProgressGuidePage](ProgressGuidePage.md) — Progress 가이드 페이지 구현 메모
 - [RadioGroup](RadioGroup.md) — atoms 계층 구현 메모
 - [RadioGroupGuidePage](RadioGroupGuidePage.md) — RadioGroup 가이드 페이지 구현 메모
-- [TermsAgreement](TermsAgreement.md) — molecules 계층 구현 메모
-- [TermsAgreementGuidePage](TermsAgreementGuidePage.md) — TermsAgreement 가이드 페이지 구현 메모
 - [TooltipGuidePage](TooltipGuidePage.md) — Tooltip 가이드 페이지 구현 메모

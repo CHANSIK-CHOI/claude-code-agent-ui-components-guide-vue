@@ -1,11 +1,9 @@
-export { default as FormField } from './FormField.vue'
-export { default as Collapsible } from './Collapsible.vue'
-export { default as ButtonGroup } from './ButtonGroup.vue'
-export { default as Pagination } from './Pagination.vue'
-export { default as PaginationSimple } from './PaginationSimple.vue'
-export { default as Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './Accordion.vue'
-export { default as OptionButtonGroup } from './OptionButtonGroup.vue'
-export type { OptionButtonItem, OptionButtonGroupType } from './OptionButtonGroup.vue'
-export { default as TermsAgreement } from './TermsAgreement.vue'
-export type { TermsItem, CheckedChangePayload } from './TermsAgreement.vue'
-export { default as Marquee } from './Marquee.vue'
+export { default as FormField } from "./FormField.vue";
+export { default as Collapsible } from "./Collapsible.vue";
+export { default as ButtonGroup } from "./ButtonGroup.vue";
+export {
+  default as Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./Accordion.vue";

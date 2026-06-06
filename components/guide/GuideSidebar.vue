@@ -71,12 +71,6 @@ const navigation: GuideNavGroup[] = [
       { label: "ButtonGroup", to: "/guide/buttonGroup" },
       { label: "Accordion", to: "/guide/accordion" },
       { label: "Collapsible", to: "/guide/collapsible" },
-      // { label: "Pagination", to: "/guide/pagination" },
-      // { label: "PaginationSimple", to: "/guide/pagination-simple" },
-      // { label: "OptionButtonGroup", to: "/guide/optionButtonGroup" },
-      // { label: "TermsAgreement", to: "/guide/termsAgreement" },
-      // TODO: swiper v12 호환 작업 완료 후 복구 — Marquee 동작 불안정으로 임시 숨김 (2026-06-03)
-      // { label: "Marquee", to: "/guide/marquee" },
     ],
   },
   // {

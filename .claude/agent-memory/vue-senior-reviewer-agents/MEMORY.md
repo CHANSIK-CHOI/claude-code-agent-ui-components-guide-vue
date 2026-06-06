@@ -12,8 +12,6 @@
 - [Collapsible](Collapsible.md) — 2026-05-11 PASS / isOpen controlled 모드 초기값 누락·:deep() 불필요 사용 WARN/INFO. BLOCKER 없음
 - [ButtonGroup](ButtonGroup.md) — 2026-05-11 PASS / withDefaults 반환값 미할당 WARN 1건. :deep() slot flex 제어 적절, 레이아웃 전용 패턴 준수
 - [Tooltip](Tooltip.md) — 2026-05-20 PASS(11차) / bgColor·textColor props 추가 리뷰. BLOCKER/WARN 없음. customStyle ...{} 스프레드·CSSProperties 미명시 INFO 2건. 10차 WARN(inline-flex→flex·ref 초기값) 해소 확인
-- [Pagination](Pagination.md) — 2026-05-11 PASS / aria-label 이중따옴표·rootAttrs deny list 변수명 불명확·v-model:page 미사용·indexOf key WARN. BLOCKER 없음
-- [PaginationSimple](PaginationSimple.md) — 2026-05-11 PASS / 컨테이너 div에 $attrs 위임(복합 구조상 적절), disabled pointer-events 부작용 INFO. BLOCKER 없음
 - [Popover](Popover.md) — 2026-05-11 PASS(3차) / onMounted startWrapperFix 누락·handleClose internalOpen 직접 세팅 WARN. BLOCKER 없음
 - [TextArea](TextArea.md) — 2026-05-11 PASS / BLOCKER/WARN 없음. --error modifier 카운터 색상 추가 패턴 준수 확인
 - [RadioGroup](RadioGroup.md) — 2026-05-13 PASS / uncontrolled 패턴 적합. watch 실질 무효·EXCLUDED_KEYS 주석 누락·Math.random() ID WARN 3건
@@ -22,8 +20,5 @@
 - [Checkbox](Checkbox.md) — 2026-05-14 PASS / BLOCKER 없음. useId() Vue 3.5+ API·proxyValue 불필요 래핑·$attrs.class template 직접 참조 WARN 3건. $attrs.class→label 분리 패턴 정합 확인
 - [Accordion](Accordion.md) — 2026-05-19 PASS(1차) / headTrigger 교체 리뷰. BLOCKER/WARN 없음. hasSlot VNode edge case·defaultContent 분기 단순화 INFO 2건
 - [Progress](Progress.md) — 2026-05-20 PASS / BLOCKER 없음. ProgressRoot에 v-model 대신 :value 권고·onMounted 타이머+watch 경쟁 조건 WARN 2건. indicatorLeft CSS max() 우회 패턴·clearTimeout 정리·$attrs 순서 모두 정합
-- [OptionButtonGroup](OptionButtonGroup.md) — 2026-05-22 PASS(1차) / BLOCKER 없음. maxRows prop 선언 후 미사용·gridStyle 스프레드 단순화 WARN 2건. radio/checkbox 분기·v-model 시그니처·$attrs 순서·defineOptions 모두 정합
-- [TermsAgreement](TermsAgreement.md) — 리뷰 메모
 - [InputAuth](InputAuth.md) — 2026-05-29 PASS(1차) / BLOCKER 없음. active watch immediate 누락·stopAndReset timerState='expired' spec 불일치 WARN 2건. $attrs 이중위임·onUnmounted clearTimer·timerDisplay computed 모두 정합
 - [InputPassword](InputPassword.md) — 리뷰 메모
-- [Marquee](Marquee.md) — 2026-06-01 PASS(1차) / BLOCKER 없음. defineComponent+render function 예외 정합. WARN 3건(touchEnd 이중경로 취소 의도 불명확·prefers-reduced-motion 1회 평가·vnode.key 0 falsy 논리 오류 가능). INFO 3건
