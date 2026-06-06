@@ -9,13 +9,13 @@
 
 1. **에이전트 기반 제작 파이프라인** — 역할이 격리된 4개 에이전트(기획·퍼블·QA·리뷰)가 슬래시 명령 한 줄로 협업. 검수 실패 시 결함 영역의 에이전트만 자동 루프백
 2. **규칙 기반 품질 시스템** — `.claude/rules/` 10개 문서가 아키텍처·BEM·토큰·접근성·팝업 패턴의 단일 출처(SSOT). 에이전트와 사람이 같은 규칙을 참조
-3. **검증 자동화** — Context7 MCP로 라이브러리 API 사실 체크, Playwright MCP로 실제 브라우저 동작 검증, bash hook으로 Prettier 포맷·타입체크(기본 ON, 변경 파일 단위 `vue-tsc`) 자동 강제
+3. **검증 자동화** — Context7 MCP로 라이브러리 API 사실 체크, Playwright MCP로 실제 브라우저 동작 검증, bash hook으로 Prettier 포맷·타입체크 자동 강제. 타입체크 hook은 기본 ON이되 **변경 파일 단위 가드**(기존 커밋 오류는 미검출)이며, 전체 검증은 `npm run typecheck`로 보완
 
 ## 스택
 
 | 항목 | 버전 |
 |------|------|
-| Vue | 3.4.19 |
+| Vue | 3.5.33 (overrides로 단일화) |
 | Nuxt | 3.10.3 |
 | TypeScript | 6.x |
 | Radix Vue | 1.9.17 (헤드리스, Stable만) |

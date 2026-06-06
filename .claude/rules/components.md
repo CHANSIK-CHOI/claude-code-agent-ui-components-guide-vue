@@ -62,7 +62,7 @@ const emit = defineEmits<{
 
 부모와 양방향으로 동기화하는 값(`open`, `modelValue`, `value` 등)은 **`defineModel` 매크로**로 선언한다. `defineProps` + `defineEmits('update:xxx')` + 수동 이벤트 포워딩(`@update:xxx="emit('update:xxx', $event)"`) 3종 세트를 **ref 한 줄**로 대체하는 것이 Vue 3.4 정석이다.
 
-- **Vue 3.4 정식(stable) 매크로** — 프로젝트는 Vue 3.4.19이므로 사용 가능하다. (CLAUDE.md가 금지한 건 `useTemplateRef`·`useId` 같은 **3.5+** API이며 `defineModel`은 3.4라 해당 없음)
+- **Vue 3.4+ 정식(stable) 매크로** — 프로젝트는 Vue 3.5.33이므로 당연히 사용 가능하다. (`useId`·`useTemplateRef` 등 3.5 API도 사용 가능 — 과거 3.4 고정 제약은 해제됨)
 - `const model = defineModel<T>('name', { required: true })` → **`Ref<T>` 반환**. `model.value = x` 로 변경하면 Vue가 자동으로 `update:name` 이벤트를 emit한다.
 - 부모가 **항상** 값을 주입하는 경우(팝업의 `open` 등) `{ required: true }` 로 선언해 타입에서 `undefined` 를 제거한다. 선택적이면 `{ default: ... }`.
 - `update:name` 은 `defineModel` 이 내부적으로 선언하므로 `defineEmits` 에 **다시 적지 않는다**. 그 외 이벤트(`navigate`, `closed` 등)만 `defineEmits` 에 남긴다.

@@ -15,7 +15,7 @@
         루프백으로 결함이 발생한 영역의 에이전트만 재실행해 보정합니다.
       </p>
       <ul class="claudeGuide__heroStack">
-        <li>Vue 3.4</li>
+        <li>Vue 3.5</li>
         <li>Nuxt 3.10</li>
         <li>TypeScript</li>
         <li>SCSS / Atomic Design</li>
@@ -614,11 +614,12 @@ const gates: Gate[] = [
   {
     name: "typecheck.sh",
     status: "Stop · 기본 ON (opt-out)",
-    desc: "작업 종료 시 vue-tsc로 타입을 검사합니다. opt-in(기본 OFF)에서 기본 ON으로 전환해, clone·검수 환경에서도 타입 검증이 강제되도록 했습니다 — '자동 품질 검증' 표방과 실제 동작을 일치시키는 핵심 게이트입니다.",
+    desc: "작업 종료 시 vue-tsc로 타입을 검사합니다. opt-in(기본 OFF)에서 기본 ON으로 전환해, clone·검수 환경에서도 타입 검증이 강제되도록 했습니다. 단 git 변경 파일 단위 가드이므로 기존 커밋된 오류는 잡지 못합니다 — 전체 품질 게이트(CI 수준)는 npm run typecheck로 보완합니다.",
     steps: [
-      "git 변경된 .ts/.tsx/.vue 파일의 에러만 필터",
+      "git 변경된 .ts/.tsx/.vue 파일의 에러만 필터 (기존 커밋 오류 미검출)",
       "에러 발견 시 exit 2로 종료 차단 → 수정 유도",
       "무한 루프 가드(최대 3회) · .typecheck-off로만 해제",
+      "전체 검증은 npm run typecheck — hook은 작업 단위 가드",
     ],
   },
   {

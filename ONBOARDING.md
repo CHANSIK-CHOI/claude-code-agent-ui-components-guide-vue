@@ -56,7 +56,7 @@ assets/       SCSS 토큰·믹스인, 이미지·아이콘
 | 스크립트 | 타입 | 동작 |
 |---|---|---|
 | `format-on-edit.sh` | PostToolUse (Edit\|Write) | 편집 파일 즉시 `prettier --write`. **항상 ON**, 비차단 |
-| `typecheck.sh` | Stop | `.typecheck-on` 플래그 존재 시에만 `vue-tsc --noEmit` → git 변경 파일 에러만 필터 → 있으면 exit 2 (최대 3회 가드). **기본 OFF** — "타입체크 켜줘/꺼줘"로 토글 |
+| `typecheck.sh` | Stop | **기본 ON** — `vue-tsc --noEmit` → git 변경 파일 에러만 필터 → 있으면 exit 2 (최대 3회 가드). `.typecheck-off` 플래그 존재 시에만 건너뜀(opt-out). "타입체크 꺼줘/켜줘"로 토글 |
 | `detect-claude-changes.sh` | PostToolUse | `.claude/rules\|agents\|commands/*.md` 변경 시 `.docs-dirty` 기록 |
 | `notify-docs-sync.sh` | Stop | `.docs-dirty` 존재 시 `/sync-docs` 실행 안내 출력 |
 
@@ -144,7 +144,7 @@ publisher 구현 완료
 
 ## 9. 주의사항
 
-- **Vue 3.4.19 고정** — `useTemplateRef`, `useId` 등 **3.5+ API 금지** (`defineModel`은 3.4 정식이라 허용)
+- **Vue 3.5.33** — `package.json` `overrides`로 단일화(nuxt 내부 중첩 vue 제거). `defineModel`·`useId`·`useTemplateRef` 등 3.5 API 사용 가능 (과거 3.4 고정 제약 해제)
 - **Radix Vue Stable만** — Alpha(DatePicker 등)는 vant 또는 자체 구현으로 대체 (`rules/libraries.md`)
 - **SVG는 `?component`로 import 시 번들에 인라인됨** — `<img :src>`로 쓸 이미지나 base64가 내장된 대용량 SVG는 `?url`로 import해 별도 에셋으로 분리 (번들 청크 비대화 방지)
 - **raw hex·임의 토큰 금지** — `rules/tokens.md` 참조표에 있는 토큰만 사용
@@ -152,4 +152,4 @@ publisher 구현 완료
 - **카테고리 barrel import만 허용** — 개별 `.vue` 직접 import 금지 (`@nd/components/atoms` 등)
 - 워크플로우 명령에서 **Claude가 직접 spec/SFC를 작성하는 것 금지** — 반드시 에이전트 위임 (CLAUDE.md BLOCKING 원칙)
 - prettier hook이 저장 직후 파일을 포맷하므로, 직후 Edit에서 "file modified" 발생 시 재 Read 후 진행 (정상 동작)
-- 기존 타입 에러 약 10건(PopupRenderer·Select·Accordion 등) 존재 — Stop hook 타입체크는 git 변경 파일만 보므로 작업을 막지 않음
+- 타입 에러는 전부 해소됨 (`npm run typecheck` 통과) — 단 Stop hook 타입체크는 git 변경 파일만 보는 작업 단위 가드라 이미 커밋된 기존 오류는 못 잡으므로, 전체 검증은 `npm run typecheck`로 수행

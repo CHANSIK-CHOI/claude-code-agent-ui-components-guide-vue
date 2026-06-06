@@ -16,7 +16,7 @@
 
 ## 개발 환경
 
-- 스택: Vue 3.4.19 / Nuxt 3.10.3 / TypeScript
+- 스택: Vue 3.5.33 / Nuxt 3.10.3 / TypeScript
 - 역할: 퍼블리셔 (React 경력 → Vue 첫 프로젝트)
 - 스타일: SCSS / Atomic Design
 - UI 라이브러리: Radix Vue (헤드리스), vant (DatePicker/Picker/PickerGroup 온디맨드)
@@ -26,7 +26,7 @@
 
 | 패키지          | 버전   | 비고                                                    |
 | --------------- | ------ | ------------------------------------------------------- |
-| vue             | 3.4.19 | Vue 3.5+ API(`useTemplateRef`, `useId` 등) 사용 금지    |
+| vue             | 3.5.33 | `overrides`로 단일화(nuxt 내부 중첩 제거). `useId`·`useTemplateRef` 등 3.5 API 사용 가능 |
 | nuxt            | 3.10.3 | Vite 5.x 기반 — `scss.api: 'modern-compiler'` 사용 불가 |
 | radix-vue       | 1.9.17 | Stable 컴포넌트만 사용                                  |
 | nuxt-svgo       | 4.2.6  |                                                         |
@@ -48,7 +48,7 @@
 - Vuetify 사용 금지 — 자체 디자인 시스템으로 대체
 - 복잡한 UI (Dialog, Dropdown 등): Radix Vue **Stable** 컴포넌트만 래핑
 - DatePicker: `vant` DatePicker/Picker/PickerGroup 사용 — Radix Vue Alpha 회피용. `plugins/vant.ts`에서 온디맨드 등록, 3개 컴포넌트만 허용
-- v-model 양방향 바인딩: **`defineModel` 매크로 사용** (Vue 3.4 정식 — 3.5+ 금지 대상 아님). 팝업 래퍼 open 제어는 `defineModel<boolean>('open', { required: true })` + base에 `v-model:open` 표준 (`defineProps`+`defineEmits('update:open')`+수동 포워딩 금지 — 한 곳만 빠져도 dim·ESC 닫힘 끊김). 단일 출처: `rules/components.md` §"v-model 양방향 바인딩" + `rules/popups.md` §3
+- v-model 양방향 바인딩: **`defineModel` 매크로 사용** (Vue 3.4+ 정식 매크로). 팝업 래퍼 open 제어는 `defineModel<boolean>('open', { required: true })` + base에 `v-model:open` 표준 (`defineProps`+`defineEmits('update:open')`+수동 포워딩 금지 — 한 곳만 빠져도 dim·ESC 닫힘 끊김). 단일 출처: `rules/components.md` §"v-model 양방향 바인딩" + `rules/popups.md` §3
 - Radix Vue 컴포넌트 stability 매트릭스 및 외부 라이브러리 정책: `rules/libraries.md` 참조
 
 ## 슬래시 명령 실행 원칙 (필수, BLOCKING)
@@ -184,7 +184,7 @@
 ## MCP 사용 정책
 
 - **Figma MCP**: `/design:token-*` 명령 및 planner의 명세 작성 시 디자인 시각 참조에 사용. 인증 안 됐으면 사용자에게 `"Figma 인증해줘"` 입력 안내.
-- **Context7 MCP**: 외부 라이브러리(Radix Vue, vant DatePicker/Picker/PickerGroup 등)의 props/events/slots 정확도가 결정적인 경우에는 컴포넌트 제작·수정 시 반드시 확인한다. `uiux-qa-agents`의 라이브러리 사실 체크에서도 사용. Vue 3.4 / Nuxt 3.10 자체 문법 등 학습 데이터로 충분한 내용은 호출하지 않는다.
+- **Context7 MCP**: 외부 라이브러리(Radix Vue, vant DatePicker/Picker/PickerGroup 등)의 props/events/slots 정확도가 결정적인 경우에는 컴포넌트 제작·수정 시 반드시 확인한다. `uiux-qa-agents`의 라이브러리 사실 체크에서도 사용. Vue 3.5 / Nuxt 3.10 자체 문법 등 학습 데이터로 충분한 내용은 호출하지 않는다.
 - **Playwright MCP**: `uiux-qa-agents`의 가이드 페이지(`pages/guide/[componentName]/index.vue`) 실제 동작 검증 전용. dev server는 사용자가 사전에 `npm run dev`로 기동해야 한다 — 에이전트 자체 기동 금지. 미기동 감지 시 사용자에게 안내 후 대기.
 
 ## 자동화 hook (타입체크 / Prettier 포맷)

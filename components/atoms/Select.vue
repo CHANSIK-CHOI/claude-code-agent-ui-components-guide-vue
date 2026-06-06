@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-// Vue 3.4 호환 ID 생성 — useId()는 Vue 3.5+ API이므로 모듈 스코프 카운터로 대체
+// SSR-safe ID 생성 — 모듈 스코프 카운터. (Vue 3.5의 useId()로 대체 가능하나 기존 동작 패턴 유지)
 // 모듈 스코프: 파일이 한 번 로드될 때 초기화, 인스턴스 간 공유
 let _selectUid = 0;
 </script>
