@@ -16,7 +16,7 @@
     "nuxt-svgo": "4.2.6",
     "radix-vue": "1.9.17",
     "vant": "^4.9.24",
-    "vue": "3.4.19"
+    "vue": "3.5.33"
   },
   "devDependencies": {
     "@types/node": "^20.19.41",
@@ -27,6 +27,6 @@
   },
   "overrides": {
     "chokidar": "3.6.0",
-    "vue-router": "4.3.0"
+    "vue": "3.5.33"
   }
 }
